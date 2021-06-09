@@ -1,0 +1,13 @@
+{
+  "name": "demotemplate",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:windows": "cd DevExtreme && npm i && npm run build && xcopy /E .\\artifacts ..\\src\\artifacts\\",
+    "build:linux": "cd DevExtreme && npm i && npm run build && cp artifacts ../src",
+    "build": "run-script-os",
+    "run-demo": ""
+  },
+  "author": "",
+  "license": "ISC"
+}
