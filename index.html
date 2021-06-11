@@ -513,6 +513,7 @@ span.CodeMirror-selectedtext { background: none; }
 
 <div class="editor">
     <h2 class="title text-center border-bottom">HTML Editor</h2>
+    <button id="updatePreview">update preview</button>
     <textarea id="editor"></textarea>
 </div>
 
@@ -521,10 +522,15 @@ span.CodeMirror-selectedtext { background: none; }
 
 var editor = document.getElementById('editor');
 var preview = document.getElementById('preview');
+var buttonUpdatePreview = document.getElementById('updatePreview');
 var previewWrapper = document.getElementsByClassName('preview')[0];
 var editorWrapper = document.getElementsByClassName('editor')[0];
 var onCmUpdate = null;
 var cm;
+
+buttonUpdatePreview.onclick = function() {
+  updatePreview(cm.getValue());
+}
 
 function updatePreview(content) {
     previewWrapper.removeChild(preview);
@@ -549,12 +555,6 @@ window.addEventListener('DOMContentLoaded', async(e) => {
   let request = await fetch('demo/index.html');
   let text = await request.text();
   cm.setValue(text);
-
-  onCmUpdate = function() {
-    updatePreview(cm.getValue());
-  };
-
-  cm.on('change', onCmUpdate);
 
   updatePreview(cm.getValue());
 });
