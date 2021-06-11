@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build:windows": "cd DevExtreme && npm i && npm run build && xcopy /E .\\artifacts ..\\src\\artifacts\\",
-    "build:linux": "cd DevExtreme && npm i && npm run build && cp artifacts ../src",
+    "build:linux": "cd DevExtreme && npm i && npm run build && cp artifacts ../src -r",
     "build": "npx run-script-os",
     "run-demo": ""
   },
