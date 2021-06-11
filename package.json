@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build:windows": "cd DevExtreme && npm i && npm run build && xcopy /E .\\artifacts ..\\src\\artifacts\\",
-    "build:linux": "cd DevExtreme && npm i && npm run build && cp artifacts ../src -r",
+    "build:windows": "cd DevExtreme && npm i && npm run build && cd .. && npm run build-copy-files",
+    "build:linux": "cd DevExtreme && npm i && npm run build && ",
     "build": "npx run-script-os",
-    "run-demo": ""
+    "build-copy-files": "npx run-script-os",
+    "build-copy-files:windows": "cd DevExtreme && xcopy /E /Y .\\artifacts ..\\public\\artifacts\\ && cd .. && npm run build-copy-files-demo",
+    "build-copy-files:linux": "cd DevExtreme && cp artifacts ../public -r && cd .. && npm run build-copy-files-demo",
+    "build-copy-files-demo": "npx run-script-os",
+    "build-copy-files-demo:windows": "xcopy /E /Y .\\demo .\\public\\demo\\",
+    "build-copy-files-demo:linux": "cp demo public -r"
   },
   "author": "",
   "license": "ISC"
