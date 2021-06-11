@@ -1,7 +1,7 @@
 /*!
  * DevExpress Diagram (dx-diagram)
- * Version: 2.1.16
- * Build date: Fri May 28 2021
+ * Version: 2.1.18
+ * Build date: Fri Jun 11 2021
  * 
  * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
@@ -36714,6 +36714,7 @@ var DataSource = /** @class */ (function () {
                 layoutShapes.push(connector.endItem);
         });
         ModelUtils_1.ModelUtils.deleteItems(history, model, selection, connectorsToRemove, true);
+        layoutShapes = this.purgeLayoutShapes(layoutShapes, shapesToRemove); // remove deleted shapes and duplicates from layoutShapes
         var nodeKeysToUpdate = updateDataKeys || [];
         nodeKeysToUpdate.forEach(function (dataKey) {
             if (changes.nodes.remained.indexOf(dataKey) === -1)
@@ -36795,6 +36796,16 @@ var DataSource = /** @class */ (function () {
         history.endTransaction(!addNewHistoryItem);
         this.endChangesNotification(false);
     };
+    DataSource.prototype.purgeLayoutShapes = function (layoutShapes, shapesToRemove) {
+        var shapesToRemoveKeySet = shapesToRemove.reduce(function (acc, shape) { return (acc[shape.key] = true) && acc; }, {});
+        return layoutShapes.reduce(function (acc, shape) {
+            if (acc.keySet[shape.key] === undefined && shapesToRemoveKeySet[shape.key] === undefined) {
+                acc.uniqueShapes.push(shape);
+                acc.keySet[shape.key] = true;
+            }
+            return acc;
+        }, { uniqueShapes: [], keySet: {} }).uniqueShapes;
+    };
     DataSource.prototype.applyShapeAutoSize = function (history, measurer, shapeSizeSettings, shape, snapToGrid, gridSize) {
         if (!shape.description.enableText)
             return;
@@ -36831,7 +36842,7 @@ var DataSource = /** @class */ (function () {
             for (var key in dataItem.style) {
                 if (!Object.prototype.hasOwnProperty.call(dataItem.style, key))
                     continue;
-                var value = Svg_1.isColorProperty(key) ? color_1.ColorUtils.stringToHash(dataItem.style[key]) : dataItem.style[key];
+                var value = this.getPreparedStyleValue(dataItem.style[key], Svg_1.isColorProperty(key));
                 if (value !== item.style[key])
                     history.addAndRedo(new ChangeStyleHistoryItem_1.ChangeStyleHistoryItem(item.key, key, value));
             }
@@ -36839,12 +36850,20 @@ var DataSource = /** @class */ (function () {
             for (var key in dataItem.styleText) {
                 if (!Object.prototype.hasOwnProperty.call(dataItem.styleText, key))
                     continue;
-                var value = Svg_1.isColorProperty(key) ? color_1.ColorUtils.stringToHash(dataItem.styleText[key]) : dataItem.styleText[key];
+                var value = this.getPreparedStyleValue(dataItem.styleText[key], Svg_1.isColorProperty(key));
                 if (value !== item.styleText[key])
                     history.addAndRedo(new ChangeStyleTextHistoryItem_1.ChangeStyleTextHistoryItem(item.key, key, value));
             }
         if (dataItem.locked !== undefined && dataItem.locked !== item.locked)
             history.addAndRedo(new ChangeLockedHistoryItem_1.ChangeLockedHistoryItem(item, dataItem.locked));
+    };
+    DataSource.prototype.getPreparedStyleValue = function (value, isColorProperty) {
+        if (isColorProperty) {
+            var colorValue = color_1.ColorUtils.stringToHash(value);
+            if (colorValue !== null)
+                value = colorValue;
+        }
+        return value;
     };
     DataSource.prototype.createShapeByNode = function (history, model, selection, shapeDescriptionManager, node, point, layoutParameters, snapToGrid, gridSize, measurer) {
         var insert = new AddShapeHistoryItem_1.AddShapeHistoryItem(shapeDescriptionManager.get(node.type), point, "", node.key);

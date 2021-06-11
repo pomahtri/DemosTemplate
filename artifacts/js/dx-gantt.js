@@ -1,7 +1,7 @@
 /*!
  * DevExpress Gantt (dx-gantt)
- * Version: 2.1.35
- * Build date: Fri May 28 2021
+ * Version: 2.1.27
+ * Build date: Fri Apr 23 2021
  * 
  * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
@@ -2058,13 +2058,6 @@ var Dependency = (function (_super) {
         _this.type = null;
         return _this;
     }
-    Object.defineProperty(Dependency.prototype, "isStartDependency", {
-        get: function () {
-            return this.type === DependencyType.SS || this.type === DependencyType.SF;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Dependency.prototype.assignFromObject = function (sourceObj) {
         if (common_1.isDefined(sourceObj)) {
             _super.prototype.assignFromObject.call(this, sourceObj);
@@ -2907,11 +2900,8 @@ exports.CompositionHistoryItem = exports.HistoryItem = void 0;
 var tslib_1 = __webpack_require__(0);
 var HistoryItem = (function () {
     function HistoryItem(modelManipulator) {
-        this.setModelManipulator(modelManipulator);
-    }
-    HistoryItem.prototype.setModelManipulator = function (modelManipulator) {
         this.modelManipulator = modelManipulator;
-    };
+    }
     return HistoryItem;
 }());
 exports.HistoryItem = HistoryItem;
@@ -2939,11 +2929,6 @@ var CompositionHistoryItem = (function (_super) {
     };
     CompositionHistoryItem.prototype.undoItemsQuery = function () {
         this.undo();
-    };
-    CompositionHistoryItem.prototype.setModelManipulator = function (modelManipulator) {
-        if (this.historyItems)
-            for (var i = 0; i < this.historyItems.length - 1; i++)
-                this.historyItems[i].setModelManipulator(modelManipulator);
     };
     return CompositionHistoryItem;
 }(HistoryItem));
@@ -5268,10 +5253,7 @@ var GanttPdfExportProps = (function () {
     GanttPdfExportProps.prototype.assign = function (source) {
         if (!source)
             return;
-        if (common_1.isDefined(source["pdfDocument"]))
-            this.pdfDoc = source["pdfDocument"];
-        if (common_1.isDefined(source.pdfDoc))
-            this.pdfDoc = source.pdfDoc;
+        this.pdfDoc = source.pdfDoc;
         this.docCreateMethod = source.docCreateMethod;
         if (common_1.isDefined(source.fileName))
             this.fileName = source.fileName;
@@ -6338,14 +6320,7 @@ var TaskEditController = (function () {
     });
     Object.defineProperty(TaskEditController.prototype, "task", {
         get: function () {
-            return this.viewItem.task;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(TaskEditController.prototype, "viewItem", {
-        get: function () {
-            return this.gantt.viewModel.items[this.taskIndex];
+            return this.gantt.viewModel.items[this.taskIndex].task;
         },
         enumerable: false,
         configurable: true
@@ -6357,39 +6332,27 @@ var TaskEditController = (function () {
         this.taskIndex = taskIndex;
         this.hide();
         this.changeWrapInfo();
+        var viewItem = this.gantt.viewModel.items[taskIndex];
         this.baseElement.className = TaskEditController.CLASSNAMES.TASK_EDIT_BOX;
         this.displayDependency();
-        if (this.task.isMilestone() && !this.viewItem.isCustom)
+        if (this.task.isMilestone() && !viewItem.isCustom)
             this.baseElement.className = this.baseElement.className + " milestone";
         else {
             var isHideTaskEditBox = !this.gantt.settings.editing.enabled || !this.gantt.settings.editing.allowTaskUpdate;
             if (isHideTaskEditBox)
                 this.baseElement.className = this.baseElement.className + " hide-updating";
-            if (this.viewItem.isCustom) {
+            if (viewItem.isCustom) {
                 this.baseElement.classList.add(TaskEditController.CLASSNAMES.TASK_EDIT_BOX_CUSTOM);
                 delay = this.showInfoDelay;
             }
         }
         this.taskDateRange = new DateRange_1.DateRange(this.task.start, this.task.end);
         this.displayTaskEditBox(delay);
-        this.displayProgressEdit();
-        this.displayStartEndEditElements();
+        this.displayProgressEdit(viewItem);
     };
-    TaskEditController.prototype.displayStartEndEditElements = function () {
-        if (!this.canUpdateTask()) {
-            this.startEdit.style.display = "none";
-            this.endEdit.style.display = "none";
-        }
-        else {
-            this.startEdit.style.display = "block";
-            this.endEdit.style.display = "block";
-        }
-    };
-    TaskEditController.prototype.displayProgressEdit = function () {
-        if (!this.viewItem.isCustom && this.canUpdateTask()) {
-            this.progressEdit.style.display = "block";
+    TaskEditController.prototype.displayProgressEdit = function (viewItem) {
+        if (!viewItem.isCustom && this.canUpdateTask())
             this.progressEdit.style.left = ((this.task.progress / 100) * this.wrapInfo.size.width - (this.progressEdit.offsetWidth / 2)) + "px";
-        }
         else
             this.progressEdit.style.display = "none";
     };
@@ -6433,14 +6396,8 @@ var TaskEditController = (function () {
         this.wrapInfo = this.getTaskWrapperElementInfo(this.taskIndex);
         this.wrapInfo.position.x--;
     };
-    TaskEditController.prototype.isAllowedToConnectTasks = function (taskIndex) {
-        var isAnotherTask = this.successorIndex !== taskIndex && this.taskIndex !== taskIndex;
-        var successorViewItem = this.gantt.viewModel.items[taskIndex];
-        var isChild = this.viewItem.children.some(function (c) { return c.task.internalId === successorViewItem.task.internalId; });
-        return isAnotherTask && !isChild;
-    };
     TaskEditController.prototype.showDependencySuccessor = function (taskIndex) {
-        if (this.isAllowedToConnectTasks(taskIndex)) {
+        if (this.successorIndex !== taskIndex && this.taskIndex !== taskIndex) {
             this.successorIndex = taskIndex;
             var wrapInfo = this.getTaskWrapperElementInfo(taskIndex);
             wrapInfo.assignPosition(this.dependencySuccessorBaseElement);
@@ -6485,7 +6442,7 @@ var TaskEditController = (function () {
         if (date < startDate || width < 1)
             this.taskDateRange.end.setTime(startDate.getTime());
         else
-            this.taskDateRange.end = this.getCorrectedDate(this.task.end, date);
+            this.taskDateRange.end = this.getNewDate(this.task.end, date);
         this.tooltip.showTime(startDate, this.taskDateRange.end, dom_1.DomUtils.getAbsolutePositionX(this.baseElement) + this.baseElement.clientWidth);
     };
     TaskEditController.prototype.confirmEnd = function () {
@@ -6508,7 +6465,7 @@ var TaskEditController = (function () {
         if (date > endDate || width < 1)
             this.taskDateRange.start.setTime(endDate.getTime());
         else
-            this.taskDateRange.start = this.getCorrectedDate(this.task.start, date);
+            this.taskDateRange.start = this.getNewDate(this.task.start, date);
         this.tooltip.showTime(this.taskDateRange.start, endDate, dom_1.DomUtils.getAbsolutePositionX(this.baseElement));
     };
     TaskEditController.prototype.confirmStart = function () {
@@ -6523,11 +6480,11 @@ var TaskEditController = (function () {
             this.baseElement.className = this.baseElement.className + " move";
             var left = this.baseElement.offsetLeft + delta;
             this.baseElement.style.left = left + "px";
-            var startDate = this.gantt.gridLayoutCalculator.getDateByPos(left);
-            this.taskDateRange.start = this.getCorrectedDate(this.task.start, startDate);
+            var date = this.gantt.gridLayoutCalculator.getDateByPos(left);
+            this.taskDateRange.start = this.getNewDate(this.task.start, date);
             var dateDiff = this.task.start.getTime() - this.taskDateRange.start.getTime();
             var endDate = new Date(this.task.end.getTime() - dateDiff);
-            this.taskDateRange.end = endDate;
+            this.taskDateRange.end = this.getNewDate(this.task.end, endDate);
             this.isEditingInProgress = this.gantt.modelManipulator.dispatcher.raiseTaskMoving(this.task, this.taskDateRange.start, this.taskDateRange.end, this.onTaskMovingCallback.bind(this));
             if (this.isEditingInProgress)
                 this.tooltip.showTime(this.taskDateRange.start, this.taskDateRange.end, dom_1.DomUtils.getAbsolutePositionX(this.baseElement));
@@ -6559,7 +6516,7 @@ var TaskEditController = (function () {
             }
         }
     };
-    TaskEditController.prototype.getCorrectedDate = function (referenceDate, newDate) {
+    TaskEditController.prototype.getNewDate = function (referenceDate, newDate) {
         if (this.gantt.settings.viewType > Enums_1.ViewType.SixHours) {
             var year = newDate.getFullYear();
             var month = newDate.getMonth();
@@ -7055,7 +7012,6 @@ var RemoveTaskHistoryItem = (function (_super) {
         var _this = _super.call(this) || this;
         _this.taskIds = [];
         _this.tasks = [];
-        _this.pendingCallbacks = 0;
         _this.modelManipulator = modelManipulator;
         return _this;
     }
@@ -7068,18 +7024,13 @@ var RemoveTaskHistoryItem = (function (_super) {
     };
     RemoveTaskHistoryItem.prototype.undo = function () {
         var _this = this;
-        var viewModel = this.modelManipulator.task.viewModel;
-        viewModel.lockChangesProcessing = this.tasks.length > 0;
         if (this.tasks.length) {
             var task_1 = this.tasks.shift();
-            this.pendingCallbacks++;
             this.modelManipulator.task.create(task_1, task_1.internalId, function () {
                 _this.modelManipulator.task.properties.progress.setValue(task_1.internalId, task_1.progress);
                 if (task_1.color)
                     _this.modelManipulator.task.properties.color.setValue(task_1.internalId, task_1.color);
                 _this.tasks.length ? _this.undo() : _super.prototype.undo.call(_this);
-                _this.pendingCallbacks--;
-                viewModel.lockChangesProcessing = _this.pendingCallbacks > 0;
             });
         }
     };
@@ -7091,8 +7042,6 @@ var RemoveTaskHistoryItem = (function (_super) {
             if (task.color)
                 this.modelManipulator.task.properties.color.setValue(task.internalId, task.color);
         }
-        this.modelManipulator.task.viewModel.lockChangesProcessing = false;
-        this.pendingCallbacks = 0;
         _super.prototype.undo.call(this);
     };
     RemoveTaskHistoryItem.prototype.addTask = function (taskId) {
@@ -7624,8 +7573,7 @@ var GanttView = (function () {
         return item === null || item === void 0 ? void 0 : item.task;
     };
     GanttView.prototype.getViewItem = function (index) {
-        var _a;
-        return (_a = this.viewModel) === null || _a === void 0 ? void 0 : _a.items[index];
+        return this.viewModel.items[index];
     };
     GanttView.prototype.createMainElement = function (parent) {
         this.mainElement = document.createElement("DIV");
@@ -7822,9 +7770,9 @@ var GanttView = (function () {
             this.removeTaskElement(index);
             this.createTaskElement(index, this.settings.taskContentTemplate);
         }
-        var dependencies = this.getTaskDependencies(task.internalId);
+        var dependencies = this.getTaskDependencies(task.id);
         if (dependencies.length)
-            dependencies.forEach(function (d) { return _this.recreateConnectorLineElement(d.internalId, true); });
+            dependencies.forEach(function (d) { return _this.recreateConnectorLineElement(d.internalId); });
     };
     GanttView.prototype.recreateConnectorLineElement = function (dependencyId, forceRender) {
         var _this = this;
@@ -7990,7 +7938,7 @@ var GanttView = (function () {
             this.taskAreaManager.attachEventsOnTask(this.taskElements[taskIndex]);
         }
         else {
-            var taskDependencies = this.getTaskDependencies(viewItem.task.internalId);
+            var taskDependencies = this.getTaskDependencies(viewItem.task.id);
             if (taskDependencies.length) {
                 this.addInvalidTaskDependencies(taskDependencies);
                 taskDependencies.forEach(function (d) { return _this.recreateConnectorLineElement(d.internalId, true); });
@@ -8042,15 +7990,15 @@ var GanttView = (function () {
         if (viewItem.selected)
             this.createTaskSelectionElement(index);
         if (!viewItem.task.isValid() || !viewItem.visible) {
-            var taskDependencies = this.getTaskDependencies(viewItem.task.internalId);
+            var taskDependencies = this.getTaskDependencies(viewItem.task.id);
             this.addInvalidTaskDependencies(taskDependencies);
             return;
         }
         if (!viewItem.isCustom)
             this.createDefaultTaskElement(index);
     };
-    GanttView.prototype.getTaskDependencies = function (taskInternalId) {
-        return this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId == taskInternalId || d.successorId == taskInternalId; });
+    GanttView.prototype.getTaskDependencies = function (taskId) {
+        return this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId == taskId || d.successorId == taskId; });
     };
     GanttView.prototype.addInvalidTaskDependencies = function (taskDependencies) {
         this.invalidTaskDependencies = this.invalidTaskDependencies.concat(taskDependencies);
@@ -8233,8 +8181,6 @@ var GanttView = (function () {
         }
     };
     GanttView.prototype.loadOptionsFromGanttOwner = function () {
-        var _this = this;
-        var _a;
         this.tickSize.height = this.ganttOwner.getRowHeight();
         var tasksData = this.ganttOwner.getGanttTasksData();
         this.dataRange = new DateRange_1.DateRange(this.getGanttViewStartDate(tasksData), this.getGanttViewEndDate(tasksData));
@@ -8248,7 +8194,6 @@ var GanttView = (function () {
             this.dispatcher.onModelChanged.add(modelChangesListener);
         this.viewModel = new VisualModel_1.ViewVisualModel(this, tasksData, this.ganttOwner.getGanttDependenciesData(), this.ganttOwner.getGanttResourcesData(), this.ganttOwner.getGanttResourceAssignmentsData(), this.range, this.ganttOwner.getGanttWorkTimeRules());
         this.modelManipulator = new ModelManipulator_1.ModelManipulator(this.viewModel, this.dispatcher);
-        (_a = this.history) === null || _a === void 0 ? void 0 : _a.historyItems.forEach(function (i) { return i.setModelManipulator(_this.modelManipulator); });
     };
     GanttView.prototype.resetAndUpdate = function () {
         this.reset();
@@ -8265,15 +8210,7 @@ var GanttView = (function () {
         this.taskAreaManager.detachEvents();
         this.taskEditController.detachEvents();
         window.removeEventListener("resize", this.onWindowResizelHandler);
-        this.clearStripLinesUpdater();
         this.reset();
-    };
-    GanttView.prototype.checkAndProcessModelChanges = function () {
-        var tasks = this.ganttOwner.getGanttTasksData();
-        var changed = this.viewModel.refreshTaskDataIfRequires(tasks);
-        if (changed)
-            this.resetAndUpdate();
-        return changed;
     };
     GanttView.prototype.updateRowHeights = function (height) {
         if (this.tickSize.height !== height) {
@@ -8337,17 +8274,16 @@ var GanttView = (function () {
     GanttView.prototype.deleteTask = function (key) {
         var task = this.getTaskByPublicId(key.toString());
         if (task)
-            this.commandManager.removeTaskCommand.execute(task.internalId, false, true);
+            this.commandManager.removeTaskCommand.execute(task.internalId);
     };
     GanttView.prototype.insertTask = function (data) {
         if (data) {
             var parentId = data.parentId != null ? String(data.parentId) : null;
             var parent_1 = this.getTaskByPublicId(parentId);
-            var rootId = this.viewModel.getRootTaskId();
             var start = typeof data.start === "string" ? new Date(data.start) : data.start;
             var end = typeof data.end === "string" ? new Date(data.end) : data.end;
             var taskData = {
-                parentId: rootId && parentId === rootId ? parentId : parent_1 === null || parent_1 === void 0 ? void 0 : parent_1.internalId,
+                parentId: parent_1 === null || parent_1 === void 0 ? void 0 : parent_1.internalId,
                 title: data.title,
                 start: start,
                 end: end,
@@ -8370,15 +8306,12 @@ var GanttView = (function () {
             return this.viewModel.getTaskObjectForDataSource(task);
     };
     GanttView.prototype.insertDependency = function (data) {
-        if (!data)
-            return;
-        var predecessorId = String(data.predecessorId);
-        var predecessor = this.getTaskByPublicId(predecessorId);
-        var successorId = String(data.successorId);
-        var successor = this.getTaskByPublicId(successorId);
-        var type = data.type;
-        if (predecessor && successor)
-            this.commandManager.createDependencyCommand.execute(predecessor.internalId, successor.internalId, type);
+        if (data) {
+            var predecessorId = String(data.predecessorId);
+            var successorId = String(data.successorId);
+            var type = data.type;
+            this.commandManager.createDependencyCommand.execute(predecessorId, successorId, type);
+        }
     };
     GanttView.prototype.deleteDependency = function (key) {
         var internalKey = this.viewModel.convertPublicToInternalKey("dependency", key);
@@ -8600,7 +8533,6 @@ var ResourceAssignment_1 = __webpack_require__(45);
 var ViewVisualModel = (function () {
     function ViewVisualModel(owner, tasks, dependencies, resources, assignments, dateRange, workTimeRules) {
         this._fLockCount = 0;
-        this.lockChangesProcessing = false;
         this.owner = owner;
         this.tasks = new TaskCollection_1.TaskCollection();
         this.tasks.importFromObject(tasks);
@@ -8668,15 +8600,13 @@ var ViewVisualModel = (function () {
     };
     ViewVisualModel.prototype.getTaskObjectForDataSource = function (task) {
         var parentTask = task.parentId && this.tasks.getItemById(task.parentId);
-        var rootId = this.getRootTaskId();
-        var parentId = rootId && task.parentId === rootId ? task.parentId : parentTask === null || parentTask === void 0 ? void 0 : parentTask.id;
-        var taskObject = {
+        return {
             id: task.id,
             start: task.start,
             end: task.end,
             duration: task.duration,
             description: task.description,
-            parentId: parentId,
+            parentId: parentTask && parentTask.id,
             progress: task.progress,
             color: task.color,
             taskType: task.taskType,
@@ -8684,7 +8614,6 @@ var ViewVisualModel = (function () {
             customFields: task.customFields,
             expanded: task.expanded
         };
-        return taskObject;
     };
     ViewVisualModel.prototype.getDependencyObjectForDataSource = function (key) {
         var dependency = key instanceof Dependency_1.Dependency ? key : this.getItemByPublicId("dependency", key);
@@ -8798,45 +8727,6 @@ var ViewVisualModel = (function () {
         this._fLockCount--;
         if (this._fLockCount == 0)
             this.changed();
-    };
-    ViewVisualModel.prototype.compareTaskOrder = function (taskModel) {
-        var newTasks = new TaskCollection_1.TaskCollection();
-        newTasks.importFromObject(taskModel);
-        var newItems = newTasks.items;
-        var oldItems = this.tasks.items;
-        if (newItems.length !== oldItems.length)
-            return false;
-        for (var i = 0; i < newItems.length; i++) {
-            var newTask = newItems[i];
-            var oldTask = oldItems[i];
-            if (newTask.id !== oldTask.id)
-                return false;
-        }
-        return true;
-    };
-    ViewVisualModel.prototype.refreshTaskDataIfRequires = function (tasks) {
-        var changed = !this.lockChangesProcessing && !this.compareTaskOrder(tasks);
-        if (changed) {
-            var hash = this.saveTaskInternalIds();
-            this.tasks.importFromObject(tasks);
-            this.restoreTaskInternalIds(hash);
-            this.updateModel();
-        }
-        return changed;
-    };
-    ViewVisualModel.prototype.saveTaskInternalIds = function () {
-        var hash = {};
-        this.tasks.items.map(function (t) { return hash[t.id] = t.internalId; });
-        return hash;
-    };
-    ViewVisualModel.prototype.restoreTaskInternalIds = function (hash) {
-        for (var id in hash) {
-            if (!Object.prototype.hasOwnProperty.call(hash, id))
-                continue;
-            var task = this.tasks.getItemByPublicId(id);
-            if (task)
-                task.internalId = hash[id];
-        }
     };
     ViewVisualModel.prototype.changed = function () {
         if (this._fLockCount !== 0)
@@ -8965,19 +8855,6 @@ var ViewVisualModel = (function () {
                 visibleResources.push(resource);
         }
         return visibleResources;
-    };
-    ViewVisualModel.prototype.getRootTaskId = function () {
-        var _a;
-        (_a = this.rootTaskId) !== null && _a !== void 0 ? _a : (this.rootTaskId = this.calculateRootTaskId());
-        return this.rootTaskId;
-    };
-    ViewVisualModel.prototype.calculateRootTaskId = function () {
-        var item = this.items[0];
-        if (!item)
-            return null;
-        while (item.parent && item.task)
-            item = item.parent;
-        return item.children[0].task.parentId;
     };
     return ViewVisualModel;
 }());
@@ -9621,7 +9498,7 @@ var Task = (function (_super) {
         _this.end = null;
         _this.duration = null;
         _this.description = "";
-        _this.parentId = null;
+        _this.parentId = "";
         _this.title = "";
         _this.owner = null;
         _this.progress = 0;
@@ -9635,7 +9512,7 @@ var Task = (function (_super) {
         if (common_1.isDefined(sourceObj)) {
             _super.prototype.assignFromObject.call(this, sourceObj);
             this.owner = sourceObj.owner;
-            this.parentId = common_1.isDefined(sourceObj.parentId) ? String(sourceObj.parentId) : null;
+            this.parentId = common_1.isDefined(sourceObj.parentId) ? String(sourceObj.parentId) : "";
             this.description = sourceObj.description;
             this.title = sourceObj.title;
             this.start = typeof sourceObj.start === "string" ? new Date(sourceObj.start) : sourceObj.start || new Date(0);
@@ -10731,15 +10608,12 @@ var TaskDependencyManipulator = (function (_super) {
         return dependency;
     };
     TaskDependencyManipulator.prototype.getObjectForDataSource = function (dependency) {
-        var predecessor = this.viewModel.tasks.getItemById(dependency.predecessorId);
-        var successor = this.viewModel.tasks.getItemById(dependency.successorId);
-        var dependencyObject = {
+        return {
             id: dependency.id,
-            predecessorId: predecessor.id,
-            successorId: successor.id,
+            predecessorId: this.viewModel.tasks.getItemById(dependency.predecessorId).id,
+            successorId: this.viewModel.tasks.getItemById(dependency.successorId).id,
             type: dependency.type
         };
-        return dependencyObject;
     };
     return TaskDependencyManipulator;
 }(TaskPropertiesManipulator_1.BaseManipulator));
@@ -12322,10 +12196,6 @@ var ModelChangesDispatcher = (function () {
         if (!this.isLocked)
             this.onModelChanged.raise("NotifyTaskColorChanged", taskID, newValue, errorCallback);
     };
-    ModelChangesDispatcher.prototype.notifyParentTaskUpdated = function (task, errorCallback) {
-        if (!this.isLocked)
-            this.onModelChanged.raise("NotifyParentTaskUpdated", task, errorCallback);
-    };
     ModelChangesDispatcher.prototype.notifyDependencyInserting = function (args) {
         if (!this.isLocked)
             this.onModelChanged.raise("NotifyDependencyInserting", args);
@@ -12698,24 +12568,12 @@ var common_1 = __webpack_require__(1);
 var TaskCommandBase = (function (_super) {
     tslib_1.__extends(TaskCommandBase, _super);
     function TaskCommandBase() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.isApiCall = false;
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     TaskCommandBase.prototype.getState = function () {
         var state = new CommandBase_1.SimpleCommandState(this.isEnabled());
         state.visible = this.control.settings.editing.enabled && !this.control.taskEditController.dependencyId;
         return state;
-    };
-    TaskCommandBase.prototype.updateParent = function (parent) {
-        var isAutoUpdateParentTask = this.validationController._parentAutoCalc;
-        if (isAutoUpdateParentTask && parent && parent.children.length > 0) {
-            this.control.validationController.updateParentsIfRequired(parent.children[0].task.internalId);
-            while (!!parent && !!parent.task) {
-                this.modelManipulator.dispatcher.notifyParentTaskUpdated(parent.task, this.control.viewModel.getDataUpdateErrorCallback());
-                parent = parent.parent;
-            }
-        }
     };
     return TaskCommandBase;
 }(CommandBase_1.CommandBase));
@@ -12729,7 +12587,7 @@ var CreateTaskCommand = (function (_super) {
         return _super.prototype.execute.call(this, data);
     };
     CreateTaskCommand.prototype.executeInternal = function (data) {
-        var _a, _b;
+        var _a;
         data !== null && data !== void 0 ? data : (data = {});
         if (!data.parentId) {
             var item = this.control.viewModel.findItem(this.control.currentSelectedTaskID);
@@ -12744,14 +12602,10 @@ var CreateTaskCommand = (function (_super) {
         if (!data.end)
             data.end = referenceTask ? new Date(referenceTask.end.getTime()) : new Date(this.control.range.end.getTime());
         (_a = data.title) !== null && _a !== void 0 ? _a : (data.title = "New task");
-        (_b = data.progress) !== null && _b !== void 0 ? _b : (data.progress = 0);
         var args = new TaskArguments_1.TaskInsertingArguments(null, data);
         this.modelManipulator.dispatcher.notifyTaskCreating(args);
-        if (!args.cancel) {
+        if (!args.cancel)
             this.history.addAndRedo(new TaskHistoryItem_1.CreateTaskHistoryItem(this.modelManipulator, args));
-            var parentItem = this.control.viewModel.findItem(data.parentId);
-            this.updateParent(parentItem);
-        }
         return !args.cancel;
     };
     CreateTaskCommand.prototype.getState = function () {
@@ -12783,11 +12637,8 @@ var CreateSubTaskCommand = (function (_super) {
             };
             var args = new TaskArguments_1.TaskInsertingArguments(null, data);
             this.modelManipulator.dispatcher.notifyTaskCreating(args);
-            if (!args.cancel) {
+            if (!args.cancel)
                 this.history.addAndRedo(new TaskHistoryItem_1.CreateTaskHistoryItem(this.modelManipulator, args));
-                var parentItem = this.control.viewModel.findItem(data.parentId);
-                this.updateParent(parentItem);
-            }
             return !args.cancel;
         }
         return false;
@@ -12811,13 +12662,9 @@ var RemoveTaskCommand = (function (_super) {
     function RemoveTaskCommand() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    RemoveTaskCommand.prototype.execute = function (id, confirmRequired, isApiCall, isUpdateParentTaskRequired, historyItem) {
+    RemoveTaskCommand.prototype.execute = function (id, confirmRequired, historyItem) {
         var _this = this;
         if (confirmRequired === void 0) { confirmRequired = true; }
-        if (isApiCall === void 0) { isApiCall = false; }
-        if (isUpdateParentTaskRequired === void 0) { isUpdateParentTaskRequired = true; }
-        this.isApiCall = isApiCall;
-        this.isUpdateParentTaskRequired = isUpdateParentTaskRequired;
         if (confirmRequired) {
             this.control.commandManager.showConfirmationDialog.execute(new ConfirmationDialog_1.ConfirmationDialogParameters(ConfirmationDialog_1.ConfirmationType.TaskDelete, function () { _this.executeInternal(id, historyItem); }));
             return false;
@@ -12837,7 +12684,7 @@ var RemoveTaskCommand = (function (_super) {
         var removeTaskHistoryItem = historyItem || new TaskHistoryItem_1.RemoveTaskHistoryItem(this.modelManipulator);
         removeTaskHistoryItem.addTask(id);
         var childTasks = this.control.viewModel.tasks.items.filter(function (t) { return t.parentId == id; });
-        childTasks.forEach(function (t) { return new RemoveTaskCommand(_this.control).execute(t.internalId, false, true, false, removeTaskHistoryItem); });
+        childTasks.forEach(function (t) { return new RemoveTaskCommand(_this.control).execute(t.internalId, false, removeTaskHistoryItem); });
         var parent = item && item.parent;
         var dependencies = this.control.viewModel.dependencies.items.filter(function (d) { return d.predecessorId == id || d.successorId == id; });
         if (dependencies.length)
@@ -12854,15 +12701,18 @@ var RemoveTaskCommand = (function (_super) {
         });
         if (!historyItem)
             this.history.addAndRedo(removeTaskHistoryItem);
-        if (this.isUpdateParentTaskRequired)
-            this.updateParent(parent);
+        this.updateParent(parent);
         this.control.viewModel.endUpdate();
         return true;
+    };
+    RemoveTaskCommand.prototype.updateParent = function (parent) {
+        if (parent && parent.children.length > 0)
+            this.control.validationController.updateParentsIfRequired(parent.children[0].task.internalId);
     };
     RemoveTaskCommand.prototype.isEnabled = function () {
         var gantt = this.control;
         var selectedItem = gantt.viewModel.findItem(gantt.currentSelectedTaskID);
-        var result = _super.prototype.isEnabled.call(this) && (!!selectedItem && selectedItem.selected || this.isApiCall);
+        var result = _super.prototype.isEnabled.call(this) && !!selectedItem && selectedItem.selected;
         return result;
     };
     RemoveTaskCommand.prototype.getState = function () {
@@ -13181,7 +13031,7 @@ var TaskMoveCommand = (function (_super) {
         var oldDateRange = new DateRange_1.DateRange(new Date(task.start.getTime()), new Date(task.end.getTime()));
         this.control.history.beginTransaction();
         this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(this.modelManipulator, id, new DateRange_1.DateRange(start, end)));
-        this.validationController.correctParentsOnChildMoving(id, start.getTime() - oldDateRange.start.getTime());
+        this.validationController.correctOnMoving(id, start.getTime() - oldDateRange.start.getTime());
         if (this.control.settings.validation.validateDependencies) {
             this.control.validationController.moveStartDependTasks(id, oldDateRange.start);
             this.control.validationController.moveEndDependTasks(id, oldDateRange.end);
@@ -14168,14 +14018,13 @@ var ValidationController = (function () {
         var _this = this;
         var result = [];
         var task = this.gantt.viewModel.tasks.getItemById(taskId);
-        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.successorId === taskId; });
+        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.successorId == taskId; });
         dependencies.forEach(function (dep) {
             var predecessorTask = _this.gantt.viewModel.tasks.getItemById(dep.predecessorId);
-            if (dep.type === Dependency_1.DependencyType.FS && predecessorTask.end > date
-                || dep.type === Dependency_1.DependencyType.SS && predecessorTask.start > date)
+            if (dep.type == Dependency_1.DependencyType.FS && predecessorTask.end > date || dep.type == Dependency_1.DependencyType.SS && predecessorTask.start > date)
                 result.push(new ValidationError(dep.internalId, true));
-            if (dep.type === Dependency_1.DependencyType.FS && predecessorTask.end.valueOf() === task.start.valueOf() && date > predecessorTask.end ||
-                dep.type === Dependency_1.DependencyType.SS && predecessorTask.start.valueOf() === task.start.valueOf() && date > predecessorTask.start)
+            if (dep.type == Dependency_1.DependencyType.FS && predecessorTask.end.valueOf() == task.start.valueOf() && date > predecessorTask.end ||
+                dep.type == Dependency_1.DependencyType.SS && predecessorTask.start.valueOf() == task.start.valueOf() && date > predecessorTask.start)
                 result.push(new ValidationError(dep.internalId));
         });
         return result;
@@ -14184,85 +14033,84 @@ var ValidationController = (function () {
         var _this = this;
         var result = [];
         var task = this.gantt.viewModel.tasks.getItemById(taskId);
-        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.successorId === taskId; });
+        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.successorId == taskId; });
         dependencies.forEach(function (dep) {
             var predecessorTask = _this.gantt.viewModel.tasks.getItemById(dep.predecessorId);
-            if (dep.type === Dependency_1.DependencyType.SF && predecessorTask.start > date
-                || dep.type === Dependency_1.DependencyType.FF && predecessorTask.end > date)
+            if (dep.type == Dependency_1.DependencyType.SF && predecessorTask.start > date || dep.type == Dependency_1.DependencyType.FF && predecessorTask.end > date)
                 result.push(new ValidationError(dep.internalId, true));
-            if ((dep.type === Dependency_1.DependencyType.SF && predecessorTask.start.valueOf() === task.end.valueOf() && date > predecessorTask.start) ||
-                (dep.type === Dependency_1.DependencyType.FF && predecessorTask.end.valueOf() === task.end.valueOf() && date > predecessorTask.end))
+            if (dep.type == Dependency_1.DependencyType.SF && predecessorTask.start.valueOf() == task.end.valueOf() && date > predecessorTask.start ||
+                dep.type == Dependency_1.DependencyType.FF && predecessorTask.end.valueOf() == task.end.valueOf() && date > predecessorTask.end)
                 result.push(new ValidationError(dep.internalId));
         });
         return result;
     };
-    ValidationController.prototype.moveEndDependTasks = function (predecessorTaskId, predecessorPreviousEndDate, isAfterCorrectParents) {
+    ValidationController.prototype.moveEndDependTasks = function (taskId, previousEndDate) {
         var _this = this;
-        if (isAfterCorrectParents === void 0) { isAfterCorrectParents = false; }
-        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId === predecessorTaskId && !d.isStartDependency; });
-        var predecessorTask = this.gantt.viewModel.tasks.getItemById(predecessorTaskId);
-        dependencies.forEach(function (dependency) {
-            var successorTask = _this.gantt.viewModel.tasks.getItemById(dependency.successorId);
-            var isMoveNotRequired = !successorTask || (isAfterCorrectParents && predecessorTask.parentId === successorTask.parentId) || (successorTask.parentId == predecessorTask.id);
-            if (isMoveNotRequired)
-                return;
-            var successorRangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
-            var validTaskRange = new DateRange_1.DateRange(new Date(), new Date());
-            var delta = predecessorTask.end.getTime() - predecessorPreviousEndDate.getTime();
-            if (dependency.type === Dependency_1.DependencyType.FS && (successorTask.start < predecessorPreviousEndDate)) {
-                validTaskRange.start.setTime(predecessorTask.end.getTime());
-                validTaskRange.end.setTime(validTaskRange.start.getTime() + (successorTask.end.getTime() - successorTask.start.getTime()));
-                _this.correctMoving(successorTask.internalId, validTaskRange);
+        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId == taskId; });
+        dependencies.forEach(function (dep) {
+            var task = _this.gantt.viewModel.tasks.getItemById(taskId);
+            var successorTask = _this.gantt.viewModel.tasks.getItemById(dep.successorId);
+            var rangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
+            var validRange = new DateRange_1.DateRange(new Date(), new Date());
+            if (dep.type == Dependency_1.DependencyType.FS && (successorTask.start < task.end || successorTask.start.valueOf() === previousEndDate.valueOf() && successorTask.start > task.end)) {
+                validRange.start.setTime(task.end.getTime());
+                validRange.end.setTime(validRange.start.getTime() + (successorTask.end.getTime() - successorTask.start.getTime()));
+                _this.correctMoving(successorTask.internalId, validRange);
+                _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dep.successorId, validRange));
+                if (_this._parentAutoCalc) {
+                    var delta = validRange.start.getTime() - rangeBeforeMove.start.getTime();
+                    _this.correctOnMoving(successorTask.internalId, delta);
+                }
+                _this.moveStartDependTasks(dep.successorId, rangeBeforeMove.start);
+                _this.moveEndDependTasks(dep.successorId, rangeBeforeMove.end);
             }
-            else if (dependency.type === Dependency_1.DependencyType.FF && (successorTask.end < predecessorPreviousEndDate)) {
-                validTaskRange.start.setTime(predecessorTask.end.getTime() - (successorTask.end.getTime() - successorTask.start.getTime()));
-                validTaskRange.end.setTime(predecessorTask.end.getTime());
-                _this.correctMoving(successorTask.internalId, validTaskRange);
+            if (dep.type == Dependency_1.DependencyType.FF && (successorTask.end < task.end || successorTask.end.valueOf() === previousEndDate.valueOf() && successorTask.end > task.end)) {
+                validRange.start.setTime(task.end.getTime() - (successorTask.end.getTime() - successorTask.start.getTime()));
+                validRange.end.setTime(task.end.getTime());
+                _this.correctMoving(successorTask.internalId, validRange);
+                _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dep.successorId, validRange));
+                if (_this._parentAutoCalc) {
+                    var delta = validRange.start.getTime() - rangeBeforeMove.start.getTime();
+                    _this.correctOnMoving(successorTask.internalId, delta);
+                }
+                _this.moveStartDependTasks(dep.successorId, rangeBeforeMove.start);
+                _this.moveEndDependTasks(dep.successorId, rangeBeforeMove.end);
             }
-            else {
-                validTaskRange.start.setTime(successorTask.start.getTime() + delta);
-                validTaskRange.end.setTime(successorTask.end.getTime() + delta);
-            }
-            _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dependency.successorId, validTaskRange));
-            _this.moveRelatedTasks(dependency, successorRangeBeforeMove, successorTask, validTaskRange);
         });
     };
-    ValidationController.prototype.moveStartDependTasks = function (predecessorTaskId, predecessorPreviousStartDate, isAfterCorrectParents) {
+    ValidationController.prototype.moveStartDependTasks = function (taskId, previousStartDate) {
         var _this = this;
-        if (isAfterCorrectParents === void 0) { isAfterCorrectParents = false; }
-        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId === predecessorTaskId && d.isStartDependency; });
-        var predecessorTask = this.gantt.viewModel.tasks.getItemById(predecessorTaskId);
-        dependencies.forEach(function (dependency) {
-            var successorTask = _this.gantt.viewModel.tasks.getItemById(dependency.successorId);
-            var isMoveNotRequired = !successorTask || (isAfterCorrectParents && predecessorTask.parentId === successorTask.parentId) || (successorTask.parentId == predecessorTask.id);
-            if (isMoveNotRequired)
-                return;
-            var successorRangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
-            var validTaskRange = new DateRange_1.DateRange(new Date(), new Date());
-            var delta = predecessorTask.start.getTime() - predecessorPreviousStartDate.getTime();
-            if (dependency.type === Dependency_1.DependencyType.SF && (successorTask.end < predecessorPreviousStartDate)) {
-                validTaskRange.start.setTime(predecessorTask.start.getTime() - (successorTask.end.getTime() - successorTask.start.getTime()));
-                validTaskRange.end.setTime(predecessorTask.start.getTime());
-                _this.correctMoving(successorTask.internalId, validTaskRange);
+        var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId == taskId; });
+        dependencies.forEach(function (dep) {
+            var task = _this.gantt.viewModel.tasks.getItemById(taskId);
+            var successorTask = _this.gantt.viewModel.tasks.getItemById(dep.successorId);
+            var rangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
+            var validRange = new DateRange_1.DateRange(new Date(), new Date());
+            if (dep.type == Dependency_1.DependencyType.SF && (successorTask.end < task.start || successorTask.end.valueOf() === previousStartDate.valueOf() && successorTask.end > task.start)) {
+                validRange.start.setTime(task.start.getTime() - (successorTask.end.getTime() - successorTask.start.getTime()));
+                validRange.end.setTime(task.start.getTime());
+                _this.correctMoving(successorTask.internalId, validRange);
+                _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dep.successorId, validRange));
+                if (_this._parentAutoCalc) {
+                    var delta = validRange.start.getTime() - rangeBeforeMove.start.getTime();
+                    _this.correctOnMoving(successorTask.internalId, delta);
+                }
+                _this.moveStartDependTasks(dep.successorId, rangeBeforeMove.start);
+                _this.moveEndDependTasks(dep.successorId, rangeBeforeMove.end);
             }
-            else if (dependency.type === Dependency_1.DependencyType.SS && (successorTask.start < predecessorPreviousStartDate)) {
-                validTaskRange.start.setTime(predecessorTask.start.getTime());
-                validTaskRange.end.setTime(predecessorTask.start.getTime() + (successorTask.end.getTime() - successorTask.start.getTime()));
-                _this.correctMoving(successorTask.internalId, validTaskRange);
+            if (dep.type == Dependency_1.DependencyType.SS && (successorTask.start < task.start || successorTask.start.valueOf() === previousStartDate.valueOf() && successorTask.start > task.start)) {
+                validRange.start.setTime(task.start.getTime());
+                validRange.end.setTime(task.start.getTime() + (successorTask.end.getTime() - successorTask.start.getTime()));
+                _this.correctMoving(successorTask.internalId, validRange);
+                _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dep.successorId, validRange));
+                if (_this._parentAutoCalc) {
+                    var delta = validRange.start.getTime() - rangeBeforeMove.start.getTime();
+                    _this.correctOnMoving(successorTask.internalId, delta);
+                }
+                _this.moveStartDependTasks(dep.successorId, rangeBeforeMove.start);
+                _this.moveEndDependTasks(dep.successorId, rangeBeforeMove.end);
             }
-            else {
-                validTaskRange.start.setTime(successorTask.start.getTime() + delta);
-                validTaskRange.end.setTime(successorTask.end.getTime() + delta);
-            }
-            _this.history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskMoveHistoryItem(_this.gantt.modelManipulator, dependency.successorId, validTaskRange));
-            _this.moveRelatedTasks(dependency, successorRangeBeforeMove, successorTask, validTaskRange);
         });
-    };
-    ValidationController.prototype.moveRelatedTasks = function (dependency, successorRangeBeforeMove, successorTask, validTaskRange) {
-        var delta = validTaskRange.start.getTime() - successorRangeBeforeMove.start.getTime();
-        this.correctParentsOnChildMoving(successorTask.internalId, delta);
-        this.moveStartDependTasks(dependency.successorId, successorRangeBeforeMove.start);
-        this.moveEndDependTasks(dependency.successorId, successorRangeBeforeMove.end);
     };
     ValidationController.prototype.correctMoving = function (taskId, dateRange) {
         var _this = this;
@@ -14272,22 +14120,22 @@ var ValidationController = (function () {
         criticalErrors.forEach(function (error) {
             var dependency = _this.gantt.viewModel.dependencies.getItemById(error.dependencyId);
             var predecessorTask = _this.gantt.viewModel.tasks.getItemById(dependency.predecessorId);
-            if (dependency.type === Dependency_1.DependencyType.FS)
+            if (dependency.type == Dependency_1.DependencyType.FS)
                 if (dateRange.start < predecessorTask.end) {
                     dateRange.start.setTime(predecessorTask.end.getTime());
                     dateRange.end.setTime(dateRange.start.getTime() + deltaDate);
                 }
-            if (dependency.type === Dependency_1.DependencyType.SS)
+            if (dependency.type == Dependency_1.DependencyType.SS)
                 if (dateRange.start < predecessorTask.start) {
                     dateRange.start.setTime(predecessorTask.start.getTime());
                     dateRange.end.setTime(dateRange.start.getTime() + deltaDate);
                 }
-            if (dependency.type === Dependency_1.DependencyType.FF)
+            if (dependency.type == Dependency_1.DependencyType.FF)
                 if (dateRange.end < predecessorTask.end) {
                     dateRange.end.setTime(predecessorTask.end.getTime());
                     dateRange.start.setTime(dateRange.end.getTime() - deltaDate);
                 }
-            if (dependency.type === Dependency_1.DependencyType.SF)
+            if (dependency.type == Dependency_1.DependencyType.SF)
                 if (dateRange.end < predecessorTask.start) {
                     dateRange.end.setTime(predecessorTask.start.getTime());
                     dateRange.start.setTime(dateRange.end.getTime() - deltaDate);
@@ -14318,8 +14166,6 @@ var ValidationController = (function () {
                 data["start"] = start;
             if (!DateTimeUtils_1.DateTimeUtils.areDatesEqual(parent.task.end, end))
                 data["end"] = end;
-            data["oldStart"] = parent.task.start;
-            data["oldEnd"] = parent.task.end;
             progress = Math.ceil(progress / totalDuration);
             if (progress !== parent.task.progress)
                 data["progress"] = progress;
@@ -14334,14 +14180,10 @@ var ValidationController = (function () {
                 return;
             var history = _this.history;
             var manipulator = _this.gantt.modelManipulator;
-            if (common_1.isDefined(data.start)) {
+            if (common_1.isDefined(data.start))
                 history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskStartHistoryItem(manipulator, data.id, data.start));
-                _this.moveStartDependTasks(data.id, data.oldStart);
-            }
-            if (common_1.isDefined(data.end)) {
+            if (common_1.isDefined(data.end))
                 history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskEndHistoryItem(manipulator, data.id, data.end));
-                _this.moveEndDependTasks(data.id, data.oldEnd);
-            }
             if (common_1.isDefined(data.progress))
                 history.addAndRedo(new TaskPropertiesHistoryItem_1.TaskProgressHistoryItem(manipulator, data.id, data.progress));
         });
@@ -14373,7 +14215,7 @@ var ValidationController = (function () {
             this.gantt.updateOwnerInAutoParentMode();
         }
     };
-    ValidationController.prototype.correctParentsOnChildMoving = function (taskId, delta) {
+    ValidationController.prototype.correctOnMoving = function (taskId, delta) {
         var _this = this;
         if (this._parentAutoCalc && delta !== 0) {
             this.updateParentsRangeByChild(taskId);
@@ -14381,8 +14223,8 @@ var ValidationController = (function () {
             this.updateChildRangeByParent(taskId, delta, changedTasks);
             if (this.gantt.settings.validation.validateDependencies)
                 changedTasks.forEach(function (i) {
-                    _this.moveStartDependTasks(i.id, i.start, true);
-                    _this.moveEndDependTasks(i.id, i.end, true);
+                    _this.moveStartDependTasks(i.id, i.start);
+                    _this.moveEndDependTasks(i.id, i.end);
                 });
             this.gantt.updateOwnerInAutoParentMode();
         }

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/drawer/ui.drawer.rendering.strategy.overlap.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,7 @@ import { animation } from './ui.drawer.animation';
 import DrawerStrategy from './ui.drawer.rendering.strategy';
 import $ from '../../core/renderer';
 import { move } from '../../animation/translator';
-import Overlay from '../overlay';
+import Overlay from '../overlay/ui.overlay';
 import { ensureDefined } from '../../core/utils/common';
 import { camelize } from '../../core/utils/inflector';
 

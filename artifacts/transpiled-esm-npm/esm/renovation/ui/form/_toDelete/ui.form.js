@@ -14,7 +14,7 @@ import { getPublicElement } from '../../core/element';
 import messageLocalization from '../../localization/message';
 import Widget from '../widget/ui.widget';
 import Editor from '../editor/editor';
-import { defaultScreenFactorFunc, getCurrentScreenFactor, hasWindow } from '../../core/utils/window';
+import { getCurrentScreenFactor, hasWindow } from '../../core/utils/window';
 import ValidationEngine from '../validation_engine';
 import { default as FormItemsRunTimeInfo } from './ui.form.items_runtime_info';
 import TabPanel from '../tab_panel';
@@ -45,7 +45,6 @@ var Form = Widget.inherit({
       formID: 'dx-' + new Guid(),
       formData: {},
       colCount: 1,
-      screenByWidth: defaultScreenFactorFunc,
 
       /**
       * _pseudo ColCountResponsibleType
@@ -404,7 +403,6 @@ var Form = Widget.inherit({
       isRoot: true,
       colCount: that.option('colCount'),
       alignItemLabels: that.option('alignItemLabels'),
-      screenByWidth: this.option('screenByWidth'),
       colCountByScreen: this.option('colCountByScreen'),
       onLayoutChanged: function onLayoutChanged(inOneColumn) {
         that._alignLabels.bind(that)(that._rootLayoutManager, inOneColumn);

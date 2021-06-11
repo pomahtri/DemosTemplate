@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/component_wrapper/data_grid.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,11 +10,11 @@
 
 exports.default = void 0;
 
-var _component = _interopRequireDefault(require("./component"));
+var _component = _interopRequireDefault(require("./common/component"));
 
 var _uiData_grid = _interopRequireDefault(require("../../ui/data_grid/ui.data_grid.core"));
 
-var _utils = require("./utils");
+var _update_props_immutable = require("./utils/update_props_immutable");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,80 +28,92 @@ var DataGridWrapper = /*#__PURE__*/function (_Component) {
   _inheritsLoose(DataGridWrapper, _Component);
 
   function DataGridWrapper() {
-    return _Component.apply(this, arguments) || this;
+    var _this;
+
+    _this = _Component.apply(this, arguments) || this;
+    _this._skipInvalidate = false;
+    return _this;
   }
 
   var _proto = DataGridWrapper.prototype;
 
-  _proto.beginUpdate = function beginUpdate() {
-    var _this$viewRef;
+  _proto.state = function state(_state) {
+    var internalInstance = this._getInternalInstance();
 
-    var gridInstance = (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.getComponentInstance();
+    if (internalInstance) {
+      if (_state === undefined) {
+        return internalInstance.state();
+      }
 
-    _Component.prototype.beginUpdate.call(this);
+      internalInstance.state(_state);
+    }
 
-    gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.beginUpdate();
-  };
-
-  _proto.endUpdate = function endUpdate() {
-    var _this$viewRef2;
-
-    var gridInstance = (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : _this$viewRef2.getComponentInstance();
-
-    _Component.prototype.endUpdate.call(this);
-
-    gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.endUpdate();
-  };
-
-  _proto.isReady = function isReady() {
-    var _this$viewRef3;
-
-    var gridInstance = (_this$viewRef3 = this.viewRef) === null || _this$viewRef3 === void 0 ? void 0 : _this$viewRef3.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.isReady();
-  };
-
-  _proto.getView = function getView(name) {
-    var _this$viewRef4;
-
-    var gridInstance = (_this$viewRef4 = this.viewRef) === null || _this$viewRef4 === void 0 ? void 0 : _this$viewRef4.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.getView(name);
+    return undefined;
   };
 
   _proto.getController = function getController(name) {
-    var _this$viewRef5;
+    var _this$_getInternalIns;
 
-    var gridInstance = (_this$viewRef5 = this.viewRef) === null || _this$viewRef5 === void 0 ? void 0 : _this$viewRef5.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.getController(name);
+    return (_this$_getInternalIns = this._getInternalInstance()) === null || _this$_getInternalIns === void 0 ? void 0 : _this$_getInternalIns.getController(name);
   };
 
-  _proto.state = function state(_state) {
-    var _this$viewRef6;
+  _proto.getView = function getView(name) {
+    var _this$_getInternalIns2;
 
-    var gridInstance = (_this$viewRef6 = this.viewRef) === null || _this$viewRef6 === void 0 ? void 0 : _this$viewRef6.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.state(_state);
+    return (_this$_getInternalIns2 = this._getInternalInstance()) === null || _this$_getInternalIns2 === void 0 ? void 0 : _this$_getInternalIns2.getView(name);
   };
+
+  _proto.beginUpdate = function beginUpdate() {
+    var _this$_getInternalIns3;
+
+    _Component.prototype.beginUpdate.call(this);
+
+    (_this$_getInternalIns3 = this._getInternalInstance()) === null || _this$_getInternalIns3 === void 0 ? void 0 : _this$_getInternalIns3.beginUpdate();
+  };
+
+  _proto.endUpdate = function endUpdate() {
+    var _this$_getInternalIns4;
+
+    _Component.prototype.endUpdate.call(this);
+
+    (_this$_getInternalIns4 = this._getInternalInstance()) === null || _this$_getInternalIns4 === void 0 ? void 0 : _this$_getInternalIns4.endUpdate();
+  };
+
+  _proto.isReady = function isReady() {
+    var _this$_getInternalIns5;
+
+    return (_this$_getInternalIns5 = this._getInternalInstance()) === null || _this$_getInternalIns5 === void 0 ? void 0 : _this$_getInternalIns5.isReady();
+  };
+
+  _proto._getInternalInstance = function _getInternalInstance() {
+    var _this$viewRef;
+
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.getComponentInstance();
+  };
+
+  _proto._fireContentReady = function _fireContentReady() {};
 
   _proto._wrapKeyDownHandler = function _wrapKeyDownHandler(handler) {
     return handler;
   };
 
-  _proto._optionChanging = function _optionChanging(fullName, value, prevValue) {
-    _Component.prototype._optionChanging.call(this, fullName, value, prevValue);
+  _proto._optionChanging = function _optionChanging(fullName, prevValue, value) {
+    _Component.prototype._optionChanging.call(this, fullName, prevValue, value);
 
-    if (this.viewRef) {
+    if (this.viewRef && prevValue !== value) {
       var name = fullName.split(/[.[]/)[0];
 
       var prevProps = _extends({}, this.viewRef.prevProps);
 
-      (0, _utils.updatePropsImmutable)(prevProps, this.option(), name, fullName);
+      (0, _update_props_immutable.updatePropsImmutable)(prevProps, this.option(), name, fullName);
       this.viewRef.prevProps = prevProps;
     }
   };
 
   _proto._optionChanged = function _optionChanged(e) {
-    var _this$viewRef7, _this$viewRef7$getCom;
+    var _this$viewRef2, _this$viewRef2$getCom;
 
-    var gridInstance = (_this$viewRef7 = this.viewRef) === null || _this$viewRef7 === void 0 ? void 0 : (_this$viewRef7$getCom = _this$viewRef7.getComponentInstance) === null || _this$viewRef7$getCom === void 0 ? void 0 : _this$viewRef7$getCom.call(_this$viewRef7);
+    var gridInstance = (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : (_this$viewRef2$getCom = _this$viewRef2.getComponentInstance) === null || _this$viewRef2$getCom === void 0 ? void 0 : _this$viewRef2$getCom.call(_this$viewRef2);
 
     if (e.fullName === "dataSource" && e.value === (gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.option("dataSource"))) {
       gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.option("dataSource", e.value);
@@ -127,6 +139,45 @@ var DataGridWrapper = /*#__PURE__*/function (_Component) {
     return _Component.prototype._patchOptionValues.call(this, options);
   };
 
+  _proto._renderWrapper = function _renderWrapper(props) {
+    var isFirstRender = !this._isNodeReplaced;
+
+    _Component.prototype._renderWrapper.call(this, props);
+
+    if (isFirstRender) {
+      this._getInternalInstance().on("optionChanged", this._internalOptionChangedHandler.bind(this));
+    }
+  };
+
+  _proto._internalOptionChangedHandler = function _internalOptionChangedHandler(e) {
+    var isSecondLevelOption = e.name !== e.fullName;
+
+    if (isSecondLevelOption && e.value !== e.previousValue) {
+      if (e.fullName.startsWith("columns[")) {
+        if (this.option(e.fullName) !== e.value) {
+          this._skipInvalidate = true;
+
+          this._notifyOptionChanged(e.fullName, e.value, e.previousValue);
+
+          this._skipInvalidate = false;
+        }
+      } else {
+        this._skipInvalidate = true;
+
+        this._options.silent(e.fullName, e.previousValue);
+
+        this.option(e.fullName, e.value);
+        this._skipInvalidate = false;
+      }
+    }
+  };
+
+  _proto._invalidate = function _invalidate() {
+    if (this._skipInvalidate) return;
+
+    _Component.prototype._invalidate.call(this);
+  };
+
   _proto._setOptionsByReference = function _setOptionsByReference() {
     _Component.prototype._setOptionsByReference.call(this);
 
@@ -142,6 +193,10 @@ var DataGridWrapper = /*#__PURE__*/function (_Component) {
       since: "19.2",
       alias: "keyboardNavigation.enabled"
     };
+  };
+
+  _proto._getAdditionalProps = function _getAdditionalProps() {
+    return _Component.prototype._getAdditionalProps.call(this).concat(["onInitialized", "onColumnsChanging", "integrationOptions", "adaptColumnWidthByRatio", "useLegacyKeyboardNavigation", "templatesRenderAsynchronously", "forceApplyBindings", "nestedComponentOptions"]);
   };
 
   return DataGridWrapper;

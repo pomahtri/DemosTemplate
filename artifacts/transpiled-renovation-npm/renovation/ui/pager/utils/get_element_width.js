@@ -11,7 +11,9 @@ var _type_conversion = require("../../../utils/type_conversion");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getElementStyle(name, element) {
-  var computedStyle = (0, _get_computed_style.default)(element) || {};
+  var _getElementComputedSt;
+
+  var computedStyle = (_getElementComputedSt = (0, _get_computed_style.default)(element)) !== null && _getElementComputedSt !== void 0 ? _getElementComputedSt : {};
   return (0, _type_conversion.toNumber)(computedStyle[name]);
 }
 

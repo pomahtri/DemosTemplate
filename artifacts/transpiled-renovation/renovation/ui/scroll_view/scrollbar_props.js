@@ -19,10 +19,12 @@ var ScrollbarProps = {
   forceVisibility: false,
   forceUpdateScrollbarLocation: false,
   scrollLocation: 0,
+  pocketState: _consts.TopPocketState.STATE_RELEASED,
   onAnimatorCancel: _noop.default,
   onPullDown: _noop.default,
   onReachBottom: _noop.default,
   onRelease: _noop.default,
-  defaultPocketState: _consts.TopPocketState.STATE_RELEASED
+  onScroll: _noop.default,
+  onEnd: _noop.default
 };
 exports.ScrollbarProps = ScrollbarProps;

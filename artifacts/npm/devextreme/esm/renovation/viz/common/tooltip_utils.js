@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/viz/common/tooltip_utils.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -118,8 +118,8 @@ export function getCloudPoints(size, coordinates, rotationAngle, options, bounde
   var arrowBaseTop = max(arrowY - halfArrowWidth, yt);
   var arrowBaseLeft = max(arrowX - halfArrowWidth, xl);
   var cornerRadius = Math.min(halfWidth, halfHeight, options.cornerRadius);
-  var points;
-  var arrowArc;
+  var points = "";
+  var arrowArc = "";
   leftTopCorner[1] += cornerRadius;
   rightTopCorner[0] -= cornerRadius;
   rightBottomCorner[1] -= cornerRadius;
@@ -211,13 +211,13 @@ export function getCloudPoints(size, coordinates, rotationAngle, options, bounde
   return buildPath("M", points, "Z");
 }
 export function getCanvas(container) {
-  var _getWindow, _getWindow2;
+  var _ref4, _getWindow, _ref5, _getWindow2;
 
   var containerBox = container.getBoundingClientRect();
   var html = domAdapter.getDocumentElement();
   var body = domAdapter.getBody();
-  var left = ((_getWindow = getWindow()) === null || _getWindow === void 0 ? void 0 : _getWindow.pageXOffset) || html.scrollLeft || 0;
-  var top = ((_getWindow2 = getWindow()) === null || _getWindow2 === void 0 ? void 0 : _getWindow2.pageYOffset) || html.scrollTop || 0;
+  var left = (_ref4 = Number((_getWindow = getWindow()) === null || _getWindow === void 0 ? void 0 : _getWindow.pageXOffset) || html.scrollLeft) !== null && _ref4 !== void 0 ? _ref4 : 0;
+  var top = (_ref5 = Number((_getWindow2 = getWindow()) === null || _getWindow2 === void 0 ? void 0 : _getWindow2.pageYOffset) || html.scrollTop) !== null && _ref5 !== void 0 ? _ref5 : 0;
   var box = {
     left,
     top,
@@ -238,7 +238,7 @@ export function getCanvas(container) {
 
   return box;
 }
-export function recalculateCoordinates(_ref4) {
+export function recalculateCoordinates(_ref6) {
   var {
     anchorX,
     anchorY,
@@ -246,7 +246,7 @@ export function recalculateCoordinates(_ref4) {
     canvas,
     offset,
     size
-  } = _ref4;
+  } = _ref6;
   var bounds = {
     xl: canvas.left,
     xr: canvas.width - canvas.right,
@@ -260,8 +260,8 @@ export function recalculateCoordinates(_ref4) {
     return false;
   }
 
-  var x;
-  var y;
+  var x = Number.NaN;
+  var y = Number.NaN;
   var correctedAnchorY = anchorY;
 
   if (bounds.width < size.width) {
@@ -295,17 +295,17 @@ export function recalculateCoordinates(_ref4) {
     anchorY: correctedAnchorY
   };
 }
-export function getCloudAngle(_ref5, _ref6) {
+export function getCloudAngle(_ref7, _ref8) {
   var {
     height,
     width
-  } = _ref5;
+  } = _ref7;
   var {
     anchorX,
     anchorY,
     x,
     y
-  } = _ref6;
+  } = _ref8;
   var halfWidth = width / 2;
   var halfHeight = height / 2;
   var xr = Math.ceil(x + halfWidth);
@@ -329,6 +329,8 @@ export function getCloudAngle(_ref5, _ref6) {
   return angle;
 }
 export function prepareData(data, color, border, font, customizeTooltip) {
+  var _customize$color, _customize$borderColo, _customize$fontColor;
+
   var customize = {};
 
   if (isFunction(customizeTooltip)) {
@@ -345,18 +347,20 @@ export function prepareData(data, color, border, font, customizeTooltip) {
   }
 
   if (!("text" in customize) && !("html" in customize)) {
-    customize.text = data.valueText || data.description || "";
+    var _data$valueText, _data$description;
+
+    customize.text = ((_data$valueText = data.valueText) !== null && _data$valueText !== void 0 ? _data$valueText : "") || ((_data$description = data.description) !== null && _data$description !== void 0 ? _data$description : "");
   }
 
-  customize.color = customize.color || color;
-  customize.borderColor = customize.borderColor || border.color;
-  customize.fontColor = customize.fontColor || font.color;
+  customize.color = ((_customize$color = customize.color) !== null && _customize$color !== void 0 ? _customize$color : "") || color;
+  customize.borderColor = ((_customize$borderColo = customize.borderColor) !== null && _customize$borderColo !== void 0 ? _customize$borderColo : "") || border.color;
+  customize.fontColor = ((_customize$fontColor = customize.fontColor) !== null && _customize$fontColor !== void 0 ? _customize$fontColor : "") || font.color;
   return customize;
 }
-export function isTextEmpty(_ref7) {
+export function isTextEmpty(_ref9) {
   var {
     html,
     text
-  } = _ref7;
+  } = _ref9;
   return text === null || text === "" || html === "" || html === null;
 }

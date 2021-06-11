@@ -10,8 +10,6 @@ var _sortable = _interopRequireDefault(require("../sortable"));
 
 var _uiGrid_core = _interopRequireDefault(require("./ui.grid_core.utils"));
 
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var COMMAND_HANDLE_CLASS = 'dx-command-drag';
@@ -99,7 +97,7 @@ var RowDraggingExtender = {
           togglePointerEventsStyle(false);
           (_rowDragging$onDragEn = rowDragging.onDragEnd) === null || _rowDragging$onDragEn === void 0 ? void 0 : _rowDragging$onDragEn.call(rowDragging, e);
         },
-        dropFeedbackMode: _browser.default.msie ? 'indicate' : rowDragging.dropFeedbackMode,
+        dropFeedbackMode: rowDragging.dropFeedbackMode,
         onOptionChanged: function onOptionChanged(e) {
           var hasFixedSortable = _this[sortableFixedName];
 

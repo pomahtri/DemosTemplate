@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/toast.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ import { extend } from '../core/utils/extend';
 import { inArray } from '../core/utils/array';
 import pointerEvents from '../events/pointer';
 import registerComponent from '../core/component_registrator';
-import Overlay from './overlay';
+import Overlay from './overlay/ui.overlay';
 import { isMaterial } from './themes';
 var ready = readyCallbacks.add; // STYLE toast
 

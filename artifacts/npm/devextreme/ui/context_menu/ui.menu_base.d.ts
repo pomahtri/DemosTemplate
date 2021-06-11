@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/context_menu/ui.menu_base.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -9,10 +9,6 @@
 import {
     animationConfig
 } from '../../animation/fx';
-
-import {
-    UserDefinedElement
-} from '../../core/element';
 
 import DataSource, {
     DataSourceOptions
@@ -29,7 +25,7 @@ import {
 } from '../menu';
 
 /** @namespace DevExpress.ui */
-export interface dxMenuBaseOptions<T = dxMenuBase> extends HierarchicalCollectionWidgetOptions<T> {
+export interface dxMenuBaseOptions<TComponent> extends HierarchicalCollectionWidgetOptions<TComponent> {
     /**
      * @docid
      * @default true
@@ -121,8 +117,7 @@ export interface dxMenuBaseOptions<T = dxMenuBase> extends HierarchicalCollectio
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxMenuBase extends HierarchicalCollectionWidget {
-    constructor(element: UserDefinedElement, options?: dxMenuBaseOptions)
+export default class dxMenuBase<TProperties> extends HierarchicalCollectionWidget<TProperties> {
     /**
      * @docid
      * @publicName selectItem(itemElement)

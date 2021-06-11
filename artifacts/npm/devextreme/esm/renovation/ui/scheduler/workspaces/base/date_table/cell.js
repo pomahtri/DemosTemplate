@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/base/date_table/cell.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -65,7 +65,7 @@ export class DateTableCellBase extends BaseInfernoComponent {
         groups,
         groupIndex: groups ? groupIndex : undefined,
         text: "",
-        allDay: allDay || undefined
+        allDay: !!allDay || undefined
       }, contentTemplateProps.data),
       index
     };

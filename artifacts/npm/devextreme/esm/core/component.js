@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/core/component.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -28,7 +28,7 @@ var isInnerOption = optionName => {
   return optionName.indexOf('_', 0) === 0;
 };
 
-var Component = Class.inherit({
+export var Component = Class.inherit({
   _setDeprecatedOptions() {
     this._deprecatedOptions = {};
   },
@@ -419,4 +419,11 @@ var Component = Class.inherit({
   }
 
 });
-export default Component;
+/**
+ * @name Component
+ * @module core/component
+ * @export Component
+ * @namespace DevExpress
+ * @hidden
+ * @wrappable
+ */

@@ -1,13 +1,13 @@
 /**
 * DevExtreme (esm/ui/diagram/diagram.items_option.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import { extend } from '../../core/utils/extend';
-import Component from '../../core/component';
+import { Component } from '../../core/component';
 import DataHelperMixin from '../../data_helper';
 var ItemsOptionBase = Component.inherit({}).include(DataHelperMixin);
 

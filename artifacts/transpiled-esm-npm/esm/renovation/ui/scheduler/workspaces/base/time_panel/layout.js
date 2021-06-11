@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["allDayPanelVisible", "className", "groupOrientation", "timeCellTemplate", "timePanelData"];
+var _excluded = ["groupOrientation", "timeCellTemplate", "timePanelData"];
 import { createFragment, createComponentVNode, normalizeProps } from "inferno";
 import { Fragment } from "inferno";
 import { InfernoWrapperComponent } from "@devextreme/vdom";
@@ -68,8 +68,6 @@ export var viewFunction = _ref => {
   })));
 };
 export var TimePanelTableLayoutProps = {
-  className: "",
-  allDayPanelVisible: false,
   timePanelData: {
     groupedData: [],
     cellCountInGroupRow: 0,
@@ -79,6 +77,7 @@ export var TimePanelTableLayoutProps = {
     bottomVirtualRowCount: 0
   }
 };
+import { createReRenderEffect } from "@devextreme/vdom";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
 
@@ -88,12 +87,20 @@ export class TimePanelTableLayout extends InfernoWrapperComponent {
     this.state = {};
   }
 
+  createEffects() {
+    return [createReRenderEffect()];
+  }
+
   get topVirtualRowHeight() {
-    return this.props.timePanelData.topVirtualRowHeight || 0;
+    var _this$props$timePanel;
+
+    return (_this$props$timePanel = this.props.timePanelData.topVirtualRowHeight) !== null && _this$props$timePanel !== void 0 ? _this$props$timePanel : 0;
   }
 
   get bottomVirtualRowHeight() {
-    return this.props.timePanelData.bottomVirtualRowHeight || 0;
+    var _this$props$timePanel2;
+
+    return (_this$props$timePanel2 = this.props.timePanelData.bottomVirtualRowHeight) !== null && _this$props$timePanel2 !== void 0 ? _this$props$timePanel2 : 0;
   }
 
   get isVerticalGroupOrientation() {

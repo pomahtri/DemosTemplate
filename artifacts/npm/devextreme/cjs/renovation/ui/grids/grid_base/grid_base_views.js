@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/grids/grid_base/grid_base_views.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -20,7 +20,7 @@ var _grid_base_view_wrapper = require("./grid_base_view_wrapper");
 
 var _data_grid_props = require("../data_grid/common/data_grid_props");
 
-var _excluded = ["className", "role", "showBorders", "views"];
+var _excluded = ["className", "onRendered", "role", "showBorders", "views"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -34,6 +34,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -45,12 +47,14 @@ var viewFunction = function viewFunction(_ref) {
   var className = _ref.className,
       _ref$props = _ref.props,
       role = _ref$props.role,
-      views = _ref$props.views;
+      views = _ref$props.views,
+      viewRendered = _ref.viewRendered;
   return (0, _inferno.createVNode)(1, "div", className, views.map(function (_ref2) {
     var name = _ref2.name,
         view = _ref2.view;
     return (0, _inferno.createComponentVNode)(2, _grid_base_view_wrapper.GridBaseViewWrapper, {
-      "view": view
+      "view": view,
+      "onRendered": viewRendered
     }, name);
   }), 0, {
     "role": role
@@ -70,16 +74,29 @@ var GridBaseViews = /*#__PURE__*/function (_BaseInfernoComponent) {
 
     _this = _BaseInfernoComponent.call(this, props) || this;
     _this.state = {};
+    _this.viewRenderedCount = 0;
+    _this.viewRendered = _this.viewRendered.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   var _proto = GridBaseViews.prototype;
+
+  _proto.viewRendered = function viewRendered() {
+    this.viewRenderedCount += 1;
+
+    if (this.viewRenderedCount === this.props.views.length) {
+      var _this$props$onRendere, _this$props;
+
+      (_this$props$onRendere = (_this$props = this.props).onRendered) === null || _this$props$onRendere === void 0 ? void 0 : _this$props$onRendere.call(_this$props);
+    }
+  };
 
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
       className: this.className,
+      viewRendered: this.viewRendered,
       restAttributes: this.restAttributes
     });
   };
@@ -95,12 +112,13 @@ var GridBaseViews = /*#__PURE__*/function (_BaseInfernoComponent) {
   }, {
     key: "restAttributes",
     get: function get() {
-      var _this$props = this.props,
-          className = _this$props.className,
-          role = _this$props.role,
-          showBorders = _this$props.showBorders,
-          views = _this$props.views,
-          restProps = _objectWithoutProperties(_this$props, _excluded);
+      var _this$props2 = this.props,
+          className = _this$props2.className,
+          onRendered = _this$props2.onRendered,
+          role = _this$props2.role,
+          showBorders = _this$props2.showBorders,
+          views = _this$props2.views,
+          restProps = _objectWithoutProperties(_this$props2, _excluded);
 
       return restProps;
     }

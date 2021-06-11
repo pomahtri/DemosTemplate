@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/base/time_panel/layout.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -26,7 +26,7 @@ var _table = require("../table");
 
 var _title = require("../date_table/all_day_panel/title");
 
-var _excluded = ["allDayPanelVisible", "className", "groupOrientation", "timeCellTemplate", "timePanelData"];
+var _excluded = ["groupOrientation", "timeCellTemplate", "timePanelData"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -93,8 +93,6 @@ var viewFunction = function viewFunction(_ref) {
 
 exports.viewFunction = viewFunction;
 var TimePanelTableLayoutProps = {
-  className: "",
-  allDayPanelVisible: false,
   timePanelData: {
     groupedData: [],
     cellCountInGroupRow: 0,
@@ -125,6 +123,10 @@ var TimePanelTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
 
   var _proto = TimePanelTableLayout.prototype;
 
+  _proto.createEffects = function createEffects() {
+    return [(0, _vdom.createReRenderEffect)()];
+  };
+
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
@@ -141,12 +143,16 @@ var TimePanelTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
   _createClass(TimePanelTableLayout, [{
     key: "topVirtualRowHeight",
     get: function get() {
-      return this.props.timePanelData.topVirtualRowHeight || 0;
+      var _this$props$timePanel;
+
+      return (_this$props$timePanel = this.props.timePanelData.topVirtualRowHeight) !== null && _this$props$timePanel !== void 0 ? _this$props$timePanel : 0;
     }
   }, {
     key: "bottomVirtualRowHeight",
     get: function get() {
-      return this.props.timePanelData.bottomVirtualRowHeight || 0;
+      var _this$props$timePanel2;
+
+      return (_this$props$timePanel2 = this.props.timePanelData.bottomVirtualRowHeight) !== null && _this$props$timePanel2 !== void 0 ? _this$props$timePanel2 : 0;
     }
   }, {
     key: "isVerticalGroupOrientation",
@@ -158,8 +164,6 @@ var TimePanelTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "restAttributes",
     get: function get() {
       var _this$props = this.props,
-          allDayPanelVisible = _this$props.allDayPanelVisible,
-          className = _this$props.className,
           groupOrientation = _this$props.groupOrientation,
           timeCellTemplate = _this$props.timeCellTemplate,
           timePanelData = _this$props.timePanelData,

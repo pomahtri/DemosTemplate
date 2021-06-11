@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/gantt/ui.gantt.export_helper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -159,7 +159,7 @@ export class GanttExportHelper {
   _getDataCell(rowIndex, colIndex) {
     var treeList = this._treeList;
     var cellElement = treeList.getCellElement(rowIndex, colIndex);
-    return cellElement && cellElement.length ? cellElement[0] : cellElement;
+    return cellElement && cellElement[0];
   }
 
   _getHeaderElement(index) {

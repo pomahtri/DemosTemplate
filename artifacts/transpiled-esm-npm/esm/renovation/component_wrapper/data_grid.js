@@ -1,60 +1,75 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
-import Component from "./component";
+import Component from "./common/component";
 import gridCore from "../../ui/data_grid/ui.data_grid.core";
-import { updatePropsImmutable } from "./utils";
+import { updatePropsImmutable } from "./utils/update_props_immutable";
 export default class DataGridWrapper extends Component {
-  beginUpdate() {
-    var _this$viewRef;
-
-    var gridInstance = (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.getComponentInstance();
-    super.beginUpdate();
-    gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.beginUpdate();
-  }
-
-  endUpdate() {
-    var _this$viewRef2;
-
-    var gridInstance = (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : _this$viewRef2.getComponentInstance();
-    super.endUpdate();
-    gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.endUpdate();
-  }
-
-  isReady() {
-    var _this$viewRef3;
-
-    var gridInstance = (_this$viewRef3 = this.viewRef) === null || _this$viewRef3 === void 0 ? void 0 : _this$viewRef3.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.isReady();
-  }
-
-  getView(name) {
-    var _this$viewRef4;
-
-    var gridInstance = (_this$viewRef4 = this.viewRef) === null || _this$viewRef4 === void 0 ? void 0 : _this$viewRef4.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.getView(name);
-  }
-
-  getController(name) {
-    var _this$viewRef5;
-
-    var gridInstance = (_this$viewRef5 = this.viewRef) === null || _this$viewRef5 === void 0 ? void 0 : _this$viewRef5.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.getController(name);
+  constructor() {
+    super(...arguments);
+    this._skipInvalidate = false;
   }
 
   state(state) {
-    var _this$viewRef6;
+    var internalInstance = this._getInternalInstance();
 
-    var gridInstance = (_this$viewRef6 = this.viewRef) === null || _this$viewRef6 === void 0 ? void 0 : _this$viewRef6.getComponentInstance();
-    return gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.state(state);
+    if (internalInstance) {
+      if (state === undefined) {
+        return internalInstance.state();
+      }
+
+      internalInstance.state(state);
+    }
+
+    return undefined;
   }
+
+  getController(name) {
+    var _this$_getInternalIns;
+
+    return (_this$_getInternalIns = this._getInternalInstance()) === null || _this$_getInternalIns === void 0 ? void 0 : _this$_getInternalIns.getController(name);
+  }
+
+  getView(name) {
+    var _this$_getInternalIns2;
+
+    return (_this$_getInternalIns2 = this._getInternalInstance()) === null || _this$_getInternalIns2 === void 0 ? void 0 : _this$_getInternalIns2.getView(name);
+  }
+
+  beginUpdate() {
+    var _this$_getInternalIns3;
+
+    super.beginUpdate();
+    (_this$_getInternalIns3 = this._getInternalInstance()) === null || _this$_getInternalIns3 === void 0 ? void 0 : _this$_getInternalIns3.beginUpdate();
+  }
+
+  endUpdate() {
+    var _this$_getInternalIns4;
+
+    super.endUpdate();
+    (_this$_getInternalIns4 = this._getInternalInstance()) === null || _this$_getInternalIns4 === void 0 ? void 0 : _this$_getInternalIns4.endUpdate();
+  }
+
+  isReady() {
+    var _this$_getInternalIns5;
+
+    return (_this$_getInternalIns5 = this._getInternalInstance()) === null || _this$_getInternalIns5 === void 0 ? void 0 : _this$_getInternalIns5.isReady();
+  }
+
+  _getInternalInstance() {
+    var _this$viewRef;
+
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.getComponentInstance();
+  }
+
+  _fireContentReady() {}
 
   _wrapKeyDownHandler(handler) {
     return handler;
   }
 
-  _optionChanging(fullName, value, prevValue) {
-    super._optionChanging(fullName, value, prevValue);
+  _optionChanging(fullName, prevValue, value) {
+    super._optionChanging(fullName, prevValue, value);
 
-    if (this.viewRef) {
+    if (this.viewRef && prevValue !== value) {
       var name = fullName.split(/[.[]/)[0];
 
       var prevProps = _extends({}, this.viewRef.prevProps);
@@ -65,9 +80,9 @@ export default class DataGridWrapper extends Component {
   }
 
   _optionChanged(e) {
-    var _this$viewRef7, _this$viewRef7$getCom;
+    var _this$viewRef2, _this$viewRef2$getCom;
 
-    var gridInstance = (_this$viewRef7 = this.viewRef) === null || _this$viewRef7 === void 0 ? void 0 : (_this$viewRef7$getCom = _this$viewRef7.getComponentInstance) === null || _this$viewRef7$getCom === void 0 ? void 0 : _this$viewRef7$getCom.call(_this$viewRef7);
+    var gridInstance = (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : (_this$viewRef2$getCom = _this$viewRef2.getComponentInstance) === null || _this$viewRef2$getCom === void 0 ? void 0 : _this$viewRef2$getCom.call(_this$viewRef2);
 
     if (e.fullName === "dataSource" && e.value === (gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.option("dataSource"))) {
       gridInstance === null || gridInstance === void 0 ? void 0 : gridInstance.option("dataSource", e.value);
@@ -93,6 +108,45 @@ export default class DataGridWrapper extends Component {
     return super._patchOptionValues(options);
   }
 
+  _renderWrapper(props) {
+    var isFirstRender = !this._isNodeReplaced;
+
+    super._renderWrapper(props);
+
+    if (isFirstRender) {
+      this._getInternalInstance().on("optionChanged", this._internalOptionChangedHandler.bind(this));
+    }
+  }
+
+  _internalOptionChangedHandler(e) {
+    var isSecondLevelOption = e.name !== e.fullName;
+
+    if (isSecondLevelOption && e.value !== e.previousValue) {
+      if (e.fullName.startsWith("columns[")) {
+        if (this.option(e.fullName) !== e.value) {
+          this._skipInvalidate = true;
+
+          this._notifyOptionChanged(e.fullName, e.value, e.previousValue);
+
+          this._skipInvalidate = false;
+        }
+      } else {
+        this._skipInvalidate = true;
+
+        this._options.silent(e.fullName, e.previousValue);
+
+        this.option(e.fullName, e.value);
+        this._skipInvalidate = false;
+      }
+    }
+  }
+
+  _invalidate() {
+    if (this._skipInvalidate) return;
+
+    super._invalidate();
+  }
+
   _setOptionsByReference() {
     super._setOptionsByReference();
 
@@ -108,6 +162,10 @@ export default class DataGridWrapper extends Component {
       since: "19.2",
       alias: "keyboardNavigation.enabled"
     };
+  }
+
+  _getAdditionalProps() {
+    return super._getAdditionalProps().concat(["onInitialized", "onColumnsChanging", "integrationOptions", "adaptColumnWidthByRatio", "useLegacyKeyboardNavigation", "templatesRenderAsynchronously", "forceApplyBindings", "nestedComponentOptions"]);
   }
 
 }

@@ -3,7 +3,6 @@ import $ from '../../core/renderer';
 import Callbacks from '../../core/utils/callbacks';
 import variableWrapper from '../../core/utils/variable_wrapper';
 import { compileGetter, compileSetter } from '../../core/utils/data';
-import { grep } from '../../core/utils/common';
 import { isDefined, isString, isNumeric, isFunction, isObject, isPlainObject, type } from '../../core/utils/type';
 import { each, map } from '../../core/utils/iterator';
 import { getDefaultAlignment } from '../../core/utils/position';
@@ -1029,6 +1028,20 @@ export var columnsControllerModule = {
         return column;
       };
 
+      var sortColumns = (columns, sortOrder) => {
+        if (sortOrder !== 'asc' && sortOrder !== 'desc') {
+          return columns;
+        }
+
+        var sign = sortOrder === 'asc' ? 1 : -1;
+        columns.sort(function (column1, column2) {
+          var caption1 = column1.caption || '';
+          var caption2 = column2.caption || '';
+          return sign * caption1.localeCompare(caption2);
+        });
+        return columns;
+      };
+
       return {
         _getExpandColumnOptions: function _getExpandColumnOptions() {
           return {
@@ -1664,9 +1677,9 @@ export var columnsControllerModule = {
         },
         getChooserColumns: function getChooserColumns(getAllColumns) {
           var columns = getAllColumns ? this.getColumns() : this.getInvisibleColumns();
-          return grep(columns, function (column) {
-            return column.showInColumnChooser;
-          });
+          var columnChooserColumns = columns.filter(column => column.showInColumnChooser);
+          var sortOrder = this.option('columnChooser.sortOrder');
+          return sortColumns(columnChooserColumns, sortOrder);
         },
         allowMoveColumn: function allowMoveColumn(fromVisibleIndex, toVisibleIndex, sourceLocation, targetLocation) {
           var that = this;

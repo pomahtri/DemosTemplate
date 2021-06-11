@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/appointments.layout_manager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -87,8 +87,8 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
     var _this$instance$getWor = this.instance.getWorkSpace(),
         virtualScrollingDispatcher = _this$instance$getWor.virtualScrollingDispatcher;
 
-    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
-    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
+    var virtualCellCount = virtualScrollingDispatcher.leftVirtualCellsCount;
+    var virtualRowCount = virtualScrollingDispatcher.topVirtualRowsCount;
     return list.map(function (data, index) {
       if (!_this2._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -110,8 +110,9 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
   };
 
   _proto._isDataChanged = function _isDataChanged(data) {
-    var updatedData = this.instance.getUpdatedAppointment();
-    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(function (item) {
+    var appointmentDataProvider = this.instance.fire('getAppointmentDataProvider');
+    var updatedData = appointmentDataProvider.getUpdatedAppointment();
+    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(function (item) {
       return data[item.key] === item.value;
     });
   };

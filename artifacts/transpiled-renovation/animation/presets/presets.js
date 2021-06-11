@@ -2,7 +2,7 @@
 
 exports.PresetCollection = exports.presets = void 0;
 
-var _component = _interopRequireDefault(require("../../core/component"));
+var _component = require("../../core/component");
 
 var _iterator = require("../../core/utils/iterator");
 
@@ -22,7 +22,7 @@ var directionPostfixes = {
 };
 var optionPrefix = 'preset_';
 
-var AnimationPresetCollection = _component.default.inherit({
+var AnimationPresetCollection = _component.Component.inherit({
   ctor: function ctor() {
     this.callBase.apply(this, arguments);
     this._registeredPresets = [];

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/viz/common/renderers/pattern.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -52,7 +52,7 @@ var viewFunction = function viewFunction(_ref) {
     "opacity": hatching === null || hatching === void 0 ? void 0 : hatching.opacity
   }), (0, _inferno.createComponentVNode)(2, _svg_path.PathSvgElement, {
     "d": d,
-    "strokeWidth": (hatching === null || hatching === void 0 ? void 0 : hatching.width) || 1,
+    "strokeWidth": Number(hatching === null || hatching === void 0 ? void 0 : hatching.width) || 1,
     "stroke": color
   })], 4, {
     "id": id,
@@ -96,7 +96,7 @@ var SvgPattern = /*#__PURE__*/function (_BaseInfernoComponent) {
     get: function get() {
       var _this$props$hatching;
 
-      return ((_this$props$hatching = this.props.hatching) === null || _this$props$hatching === void 0 ? void 0 : _this$props$hatching.step) || 6;
+      return Number((_this$props$hatching = this.props.hatching) === null || _this$props$hatching === void 0 ? void 0 : _this$props$hatching.step) || 6;
     }
   }, {
     key: "d",

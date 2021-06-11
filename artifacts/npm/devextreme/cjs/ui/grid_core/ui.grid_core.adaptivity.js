@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.adaptivity.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,8 +19,6 @@ var _index = require("../../events/utils/index");
 var _click = require("../../events/click");
 
 var _type = require("../../core/utils/type");
-
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
 
 var _guid = _interopRequireDefault(require("../../core/guid"));
 
@@ -1059,18 +1057,8 @@ var adaptivityModule = {
         _needBestFit: function _needBestFit() {
           return this.callBase() || !!this._adaptiveColumnsController.getHidingColumnsQueue().length;
         },
-        _updateScrollableForIE: function _updateScrollableForIE() {
-          var that = this;
-
-          if (_browser.default.msie && parseInt(_browser.default.version) <= 11) {
-            this._updateScrollableTimeoutID = setTimeout(function () {
-              that.getView('rowsView')._updateScrollable();
-            });
-          }
-        },
         _correctColumnWidths: function _correctColumnWidths(resultWidths, visibleColumns) {
           var adaptiveController = this._adaptiveColumnsController;
-          var columnAutoWidth = this.option('columnAutoWidth');
           var oldHiddenColumns = adaptiveController.getHiddenColumns();
           var hidingColumnsQueue = adaptiveController.updateHidingQueue(this._columnsController.getColumns());
           adaptiveController.hideRedundantColumns(resultWidths, visibleColumns, hidingColumnsQueue);
@@ -1083,11 +1071,6 @@ var adaptivityModule = {
           }
 
           !hiddenColumns.length && adaptiveController.collapseAdaptiveDetailRow();
-
-          if (columnAutoWidth && hidingColumnsQueue.length && !hiddenColumns.length) {
-            this._updateScrollableForIE();
-          }
-
           return this.callBase.apply(this, arguments);
         },
         _toggleBestFitMode: function _toggleBestFitMode(isBestFit) {

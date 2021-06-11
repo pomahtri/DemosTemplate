@@ -5,7 +5,7 @@ import { createComponentVNode } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import { isDefined } from "../../../core/utils/type";
 import messageLocalization from "../../../localization/message";
-import { LoadPanel, LoadPanelProps } from "../load_panel";
+import { LoadPanel, LoadPanelProps } from "../overlays/load_panel";
 var SCROLLVIEW_LOADPANEL = "dx-scrollview-loadpanel";
 export var viewFunction = viewModel => {
   var {

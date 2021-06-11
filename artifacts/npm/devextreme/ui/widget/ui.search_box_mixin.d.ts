@@ -1,23 +1,24 @@
 /**
 * DevExtreme (ui/widget/ui.search_box_mixin.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import {
-    dxTextBoxOptions
+    Properties as TextBoxProperties
 } from '../text_box';
 
 /** @namespace DevExpress.ui */
-export interface SearchBoxMixinOptions<T = SearchBoxMixin> {
+export interface SearchBoxMixinOptions {
     /**
      * @docid
      * @default {}
      * @public
+     * @type dxTextBoxOptions
      */
-    searchEditorOptions?: dxTextBoxOptions;
+    searchEditorOptions?: TextBoxProperties;
     /**
      * @docid
      * @default false

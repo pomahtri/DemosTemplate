@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/validation_message.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 import $ from '../core/renderer';
 import registerComponent from '../core/component_registrator';
-import Overlay from './overlay';
+import Overlay from './overlay/ui.overlay';
 import { extend } from '../core/utils/extend';
 import { encodeHtml } from '../core/utils/string';
 import { getDefaultAlignment } from '../core/utils/position';

@@ -24,7 +24,7 @@ var _pointer = _interopRequireDefault(require("../events/pointer"));
 
 var _component_registrator = _interopRequireDefault(require("../core/component_registrator"));
 
-var _overlay = _interopRequireDefault(require("./overlay"));
+var _ui = _interopRequireDefault(require("./overlay/ui.overlay"));
 
 var _themes = require("./themes");
 
@@ -86,7 +86,7 @@ ready(function () {
   });
 });
 
-var Toast = _overlay.default.inherit({
+var Toast = _ui.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       message: '',

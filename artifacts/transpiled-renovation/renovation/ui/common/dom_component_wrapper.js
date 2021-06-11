@@ -128,7 +128,7 @@ var DomComponentWrapper = /*#__PURE__*/function (_InfernoComponent) {
           restProps = _objectWithoutProperties(_this$props$component, _excluded);
 
       var properties = _extends({
-        rtlEnabled: ((_this$config = this.config) === null || _this$config === void 0 ? void 0 : _this$config.rtlEnabled) || false
+        rtlEnabled: !!((_this$config = this.config) !== null && _this$config !== void 0 && _this$config.rtlEnabled)
       }, restProps);
 
       if (valueChange) {

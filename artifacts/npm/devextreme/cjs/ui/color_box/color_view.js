@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/color_box/color_view.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -653,9 +653,7 @@ var ColorView = _editor.default.inherit({
       var rtlEnabled = this.option('rtlEnabled');
       var startColor = 'rgba(' + colorAsRgb + ', ' + (rtlEnabled ? '1' : '0') + ')';
       var finishColor = 'rgba(' + colorAsRgb + ', ' + (rtlEnabled ? '0' : '1') + ')';
-      var startColorIE = '\'#' + (rtlEnabled ? '00' : '') + colorAsHex + '\'';
-      var finishColorIE = '\'#' + (rtlEnabled ? '' : '00') + colorAsHex + '\'';
-      return ['background-image: -webkit-linear-gradient(180deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -moz-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -o-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=' + startColorIE + ', endColorstr=' + finishColorIE + ')'].join(';');
+      return ['background-image: -webkit-linear-gradient(180deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -moz-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -o-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')'].join(';');
     };
 
     $el.attr('style', combineGradientString.call(this, colorAsRgb, colorAsHex));

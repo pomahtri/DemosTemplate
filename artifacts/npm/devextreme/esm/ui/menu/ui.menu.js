@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/menu/ui.menu.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,7 +19,7 @@ import { addNamespace } from '../../events/utils/index';
 import pointerEvents from '../../events/pointer';
 import { end as hoverEventEnd } from '../../events/hover';
 import MenuBase from '../context_menu/ui.menu_base';
-import Overlay from '../overlay';
+import Overlay from '../overlay/ui.overlay';
 import Submenu from './ui.submenu';
 import Button from '../button';
 import TreeView from '../tree_view'; // STYLE menu

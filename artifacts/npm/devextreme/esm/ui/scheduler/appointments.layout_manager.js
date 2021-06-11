@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointments.layout_manager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -66,8 +66,8 @@ class AppointmentLayoutManager {
     var {
       virtualScrollingDispatcher
     } = this.instance.getWorkSpace();
-    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
-    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
+    var virtualCellCount = virtualScrollingDispatcher.leftVirtualCellsCount;
+    var virtualRowCount = virtualScrollingDispatcher.topVirtualRowsCount;
     return list.map((data, index) => {
       if (!this._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -89,8 +89,9 @@ class AppointmentLayoutManager {
   }
 
   _isDataChanged(data) {
-    var updatedData = this.instance.getUpdatedAppointment();
-    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
+    var appointmentDataProvider = this.instance.fire('getAppointmentDataProvider');
+    var updatedData = appointmentDataProvider.getUpdatedAppointment();
+    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
   }
 
   _isAppointmentShouldAppear(currentAppointment, sourceAppointment) {

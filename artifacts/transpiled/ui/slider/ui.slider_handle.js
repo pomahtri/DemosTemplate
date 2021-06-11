@@ -111,7 +111,7 @@ var SliderHandle = _ui.default.inherit({
       animation: null,
       arrowPosition: null,
       templatesRenderAsynchronously: false,
-      _fixedPosition: false
+      _fixWrapperPosition: false
     });
     return true;
   },

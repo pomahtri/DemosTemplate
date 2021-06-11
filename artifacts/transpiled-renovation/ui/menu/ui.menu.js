@@ -28,9 +28,9 @@ var _hover = require("../../events/hover");
 
 var _ui = _interopRequireDefault(require("../context_menu/ui.menu_base"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _ui2 = _interopRequireDefault(require("../overlay/ui.overlay"));
 
-var _ui2 = _interopRequireDefault(require("./ui.submenu"));
+var _ui3 = _interopRequireDefault(require("./ui.submenu"));
 
 var _button = _interopRequireDefault(require("../button"));
 
@@ -433,7 +433,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     var $hamburger = this._renderHamburgerButton();
 
     this._treeView = this._createComponent((0, _renderer.default)('<div>'), _tree_view.default, this._getTreeViewOptions());
-    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _overlay.default, this._getAdaptiveOverlayOptions());
+    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _ui2.default, this._getAdaptiveOverlayOptions());
 
     this._overlay.$content().append(this._treeView.$element()).addClass(DX_ADAPTIVE_MODE_CLASS).addClass(this.option('cssClass'));
 
@@ -489,7 +489,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
 
     var items = this._getChildNodes(node);
 
-    var result = this._createComponent($submenuContainer, _ui2.default, (0, _extend.extend)(this._getSubmenuOptions(), {
+    var result = this._createComponent($submenuContainer, _ui3.default, (0, _extend.extend)(this._getSubmenuOptions(), {
       _dataAdapter: this._dataAdapter,
       _parentKey: node.internalFields.key,
       items: items,
@@ -575,7 +575,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
   _proto._nestedItemOnSelectionChangedHandler = function _nestedItemOnSelectionChangedHandler(args) {
     var selectedItem = args.addedItems.length && args.addedItems[0];
 
-    var submenu = _ui2.default.getInstance(args.element);
+    var submenu = _ui3.default.getInstance(args.element);
 
     var onSelectionChanged = this._actions['onSelectionChanged'];
     onSelectionChanged(args);
@@ -725,7 +725,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     }
 
     var $submenu = $rootItem.children(".".concat(DX_CONTEXT_MENU_CLASS));
-    return $submenu.length && _ui2.default.getInstance($submenu);
+    return $submenu.length && _ui3.default.getInstance($submenu);
   };
 
   _proto.getSubmenuPosition = function getSubmenuPosition($rootItem) {

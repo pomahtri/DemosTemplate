@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.columns_view.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -284,7 +284,6 @@ var ColumnsView = _uiGrid_core.default.View.inherit(_uiGrid_core3.default).inher
         var columnIndex = $cell.index();
         var cellOptions = rowOptions && rowOptions.cells && rowOptions.cells[columnIndex];
         var column = cellOptions ? cellOptions.column : visibleColumns[columnIndex];
-        var msieCorrection = _browser.default.msie ? 1 : 0;
 
         if (!isMasterDetailRow && !isFilterRow && (!isDataRow || isDataRow && column && !column.cellTemplate) && (!isHeaderRow || isHeaderRow && column && !column.headerCellTemplate) && (!isGroupRow || isGroupRow && column && (column.groupIndex === undefined || !column.groupCellTemplate))) {
           if ($element.data(CELL_HINT_VISIBLE)) {
@@ -292,7 +291,7 @@ var ColumnsView = _uiGrid_core.default.View.inherit(_uiGrid_core3.default).inher
             $element.data(CELL_HINT_VISIBLE, false);
           }
 
-          var difference = $element[0].scrollWidth - $element[0].clientWidth - msieCorrection; // T598499
+          var difference = $element[0].scrollWidth - $element[0].clientWidth; // T598499
 
           if (difference > 0 && !(0, _type.isDefined)($element.attr('title'))) {
             $element.attr('title', $element.text());

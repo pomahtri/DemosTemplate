@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.row_dragging.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -17,8 +17,6 @@ var _extend = require("../../core/utils/extend");
 var _sortable = _interopRequireDefault(require("../sortable"));
 
 var _uiGrid_core = _interopRequireDefault(require("./ui.grid_core.utils"));
-
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -107,7 +105,7 @@ var RowDraggingExtender = {
           togglePointerEventsStyle(false);
           (_rowDragging$onDragEn = rowDragging.onDragEnd) === null || _rowDragging$onDragEn === void 0 ? void 0 : _rowDragging$onDragEn.call(rowDragging, e);
         },
-        dropFeedbackMode: _browser.default.msie ? 'indicate' : rowDragging.dropFeedbackMode,
+        dropFeedbackMode: rowDragging.dropFeedbackMode,
         onOptionChanged: function onOptionChanged(e) {
           var hasFixedSortable = _this[sortableFixedName];
 

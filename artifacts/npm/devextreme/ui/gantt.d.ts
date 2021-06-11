@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/gantt.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -189,6 +189,7 @@ export type TaskEditDialogShowingEvent = Cancelable & EventInfo<dxGantt> & {
 /** @public */
 export type ResourceManagerDialogShowingEvent = Cancelable & EventInfo<dxGantt> & {
     readonly values: Array<any>;
+    readonly key: any;
 }
 
 /** @public */
@@ -524,6 +525,7 @@ export interface dxGanttOptions extends WidgetOptions<dxGantt> {
      * @type_function_param1_field2 element:DxElement
      * @type_function_param1_field3 cancel:boolean
      * @type_function_param1_field4 values:Array<any>
+     * @type_function_param1_field5 key:any
      * @action
      * @public
      */
@@ -918,7 +920,6 @@ export interface dxGanttOptions extends WidgetOptions<dxGantt> {
      * @type_function_param2_field6 taskResources:Array<object>
      * @type_function_param2_field7 taskSize:object
      * @type_function_return string|Element|jQuery
-     * @return void
      * @public
      */
     taskContentTemplate?: template | ((container: DxElement, item: TaskContentTemplateData) => string | UserDefinedElement);
@@ -937,8 +938,7 @@ export interface dxGanttOptions extends WidgetOptions<dxGantt> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxGantt extends Widget {
-    constructor(element: UserDefinedElement, options?: dxGanttOptions)
+export default class dxGantt extends Widget<dxGanttOptions> {
     /**
      * @docid
      * @publicName getTaskData(key)
@@ -1134,7 +1134,7 @@ export interface dxGanttContextMenu {
      * @type Array<dxGanttContextMenuItem,Enums.GanttContextMenuItem>
      * @public
      */
-    items?: Array<dxGanttContextMenuItem | 'undo' | 'redo' | 'expandAll' | 'collapseAll' | 'addTask' | 'deleteTask' | 'zoomIn' | 'zoomOut' | 'deleteDependency' | 'taskDetails' | 'resourceManager'>;
+    items?: Array<dxGanttContextMenuItem | 'undo' | 'redo' | 'expandAll' | 'collapseAll' | 'addTask' | 'deleteTask' | 'zoomIn' | 'zoomOut' | 'deleteDependency' | 'taskDetails'>;
 }
 
 /**
@@ -1169,7 +1169,7 @@ export interface dxGanttContextMenuItem extends dxContextMenuItem {
      * @type Enums.GanttContextMenuItem|string
      * @public
      */
-    name?: 'undo' | 'redo' | 'expandAll' | 'collapseAll' | 'addTask' | 'deleteTask' | 'zoomIn' | 'zoomOut' | 'deleteDependency' | 'taskDetails' | 'resourceManager' | string;
+    name?: 'undo' | 'redo' | 'expandAll' | 'collapseAll' | 'addTask' | 'deleteTask' | 'zoomIn' | 'zoomOut' | 'deleteDependency' | 'taskDetails' | string;
 }
 
 /**

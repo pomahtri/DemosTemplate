@@ -241,7 +241,6 @@ export var ColumnsView = modules.View.inherit(columnStateMixin).inherit({
         var columnIndex = $cell.index();
         var cellOptions = rowOptions && rowOptions.cells && rowOptions.cells[columnIndex];
         var column = cellOptions ? cellOptions.column : visibleColumns[columnIndex];
-        var msieCorrection = browser.msie ? 1 : 0;
 
         if (!isMasterDetailRow && !isFilterRow && (!isDataRow || isDataRow && column && !column.cellTemplate) && (!isHeaderRow || isHeaderRow && column && !column.headerCellTemplate) && (!isGroupRow || isGroupRow && column && (column.groupIndex === undefined || !column.groupCellTemplate))) {
           if ($element.data(CELL_HINT_VISIBLE)) {
@@ -249,7 +248,7 @@ export var ColumnsView = modules.View.inherit(columnStateMixin).inherit({
             $element.data(CELL_HINT_VISIBLE, false);
           }
 
-          var difference = $element[0].scrollWidth - $element[0].clientWidth - msieCorrection; // T598499
+          var difference = $element[0].scrollWidth - $element[0].clientWidth; // T598499
 
           if (difference > 0 && !isDefined($element.attr('title'))) {
             $element.attr('title', $element.text());

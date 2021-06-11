@@ -611,10 +611,10 @@ var Lookup = DropDownList.inherit({
       showEvent: null,
       hideEvent: null,
       target: this.$element(),
-      _fixedPosition: false,
       fullScreen: false,
       shading: false,
       closeOnTargetScroll: true,
+      _fixWrapperPosition: false,
       width: this._isInitialOptionValue('dropDownOptions.width') ? function () {
         return this.$element().outerWidth();
       }.bind(this) : this._popupConfig().width

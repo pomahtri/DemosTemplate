@@ -45,9 +45,7 @@ var getPixelRatio = function getPixelRatio(window) {
 exports.getPixelRatio = getPixelRatio;
 
 function getContentHeightLimit(browser) {
-  if (browser.msie) {
-    return 4000000;
-  } else if (browser.mozilla) {
+  if (browser.mozilla) {
     return 8000000;
   }
 

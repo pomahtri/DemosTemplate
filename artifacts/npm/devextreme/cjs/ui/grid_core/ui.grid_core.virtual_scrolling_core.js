@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.virtual_scrolling_core.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -53,9 +53,7 @@ var getPixelRatio = function getPixelRatio(window) {
 exports.getPixelRatio = getPixelRatio;
 
 function getContentHeightLimit(browser) {
-  if (browser.msie) {
-    return 4000000;
-  } else if (browser.mozilla) {
+  if (browser.mozilla) {
     return 8000000;
   }
 

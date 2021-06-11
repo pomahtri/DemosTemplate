@@ -10,7 +10,7 @@ var _type = require("../../../core/utils/type");
 
 var _message = _interopRequireDefault(require("../../../localization/message"));
 
-var _load_panel = require("../load_panel");
+var _load_panel = require("../overlays/load_panel");
 
 var _excluded = ["refreshingText", "targetElement", "visible"];
 

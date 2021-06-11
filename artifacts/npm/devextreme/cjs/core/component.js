@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/core/component.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 "use strict";
 
-exports.default = void 0;
+exports.Component = void 0;
 
 var _config = _interopRequireDefault(require("./config"));
 
@@ -416,8 +416,14 @@ var Component = _class.default.inherit({
     this.endUpdate();
   }
 });
+/**
+ * @name Component
+ * @module core/component
+ * @export Component
+ * @namespace DevExpress
+ * @hidden
+ * @wrappable
+ */
 
-var _default = Component;
-exports.default = _default;
-module.exports = exports.default;
-module.exports.default = exports.default;
+
+exports.Component = Component;

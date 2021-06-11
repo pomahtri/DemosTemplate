@@ -276,7 +276,6 @@ var ColumnsView = _uiGrid_core.default.View.inherit(_uiGrid_core3.default).inher
         var columnIndex = $cell.index();
         var cellOptions = rowOptions && rowOptions.cells && rowOptions.cells[columnIndex];
         var column = cellOptions ? cellOptions.column : visibleColumns[columnIndex];
-        var msieCorrection = _browser.default.msie ? 1 : 0;
 
         if (!isMasterDetailRow && !isFilterRow && (!isDataRow || isDataRow && column && !column.cellTemplate) && (!isHeaderRow || isHeaderRow && column && !column.headerCellTemplate) && (!isGroupRow || isGroupRow && column && (column.groupIndex === undefined || !column.groupCellTemplate))) {
           if ($element.data(CELL_HINT_VISIBLE)) {
@@ -284,7 +283,7 @@ var ColumnsView = _uiGrid_core.default.View.inherit(_uiGrid_core3.default).inher
             $element.data(CELL_HINT_VISIBLE, false);
           }
 
-          var difference = $element[0].scrollWidth - $element[0].clientWidth - msieCorrection; // T598499
+          var difference = $element[0].scrollWidth - $element[0].clientWidth; // T598499
 
           if (difference > 0 && !(0, _type.isDefined)($element.attr('title'))) {
             $element.attr('title', $element.text());

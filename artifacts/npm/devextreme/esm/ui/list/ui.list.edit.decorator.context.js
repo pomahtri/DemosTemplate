@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/list/ui.list.edit.decorator.context.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,7 +11,7 @@ import EditDecoratorMenuHelperMixin from './ui.list.edit.decorator_menu_helper';
 import messageLocalization from '../../localization/message';
 import { register as registerDecorator } from './ui.list.edit.decorator_registry';
 import EditDecorator from './ui.list.edit.decorator';
-import Overlay from '../overlay';
+import Overlay from '../overlay/ui.overlay';
 import { ListBase } from './ui.list.base';
 var CONTEXTMENU_CLASS = 'dx-list-context-menu';
 var CONTEXTMENU_MENUCONTENT_CLASS = 'dx-list-context-menucontent';

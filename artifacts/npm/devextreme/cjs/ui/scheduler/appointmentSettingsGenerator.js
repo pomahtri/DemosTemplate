@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/appointmentSettingsGenerator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -81,8 +81,8 @@ var AppointmentSettingsGeneratorBaseStrategy = /*#__PURE__*/function () {
   _proto2.create = function create(rawAppointment) {
     var scheduler = this.scheduler;
     var appointment = scheduler.createAppointmentAdapter(rawAppointment);
-
-    var itemResources = scheduler._resourcesManager.getResourcesFromItem(rawAppointment);
+    var resourceManager = this.scheduler.fire('getResourceManager');
+    var itemResources = resourceManager.getResourcesFromItem(rawAppointment);
 
     var isAllDay = this._isAllDayAppointment(rawAppointment);
 
@@ -384,13 +384,16 @@ var AppointmentSettingsGeneratorBaseStrategy = /*#__PURE__*/function () {
   _proto2._cropAppointmentsByStartDayHour = function _cropAppointmentsByStartDayHour(appointments, rawAppointment, isAllDay) {
     var _this6 = this;
 
-    return appointments.map(function (appointment) {
-      var startDate = new Date(appointment.startDate);
-
+    return appointments.filter(function (appointment) {
       var firstViewDate = _this6._getAppointmentFirstViewDate(appointment, rawAppointment);
+
+      if (!firstViewDate) {
+        return false;
+      }
 
       var startDayHour = _this6._getViewStartDayHour(firstViewDate);
 
+      var startDate = new Date(appointment.startDate);
       appointment.startDate = _this6._getAppointmentResultDate({
         appointment: appointment,
         rawAppointment: rawAppointment,
@@ -398,12 +401,8 @@ var AppointmentSettingsGeneratorBaseStrategy = /*#__PURE__*/function () {
         startDayHour: startDayHour,
         firstViewDate: firstViewDate
       });
-      return appointment;
+      return !isAllDay ? appointment.endDate > appointment.startDate : true;
     });
-  };
-
-  _proto2._getAppointmentFirstViewDate = function _getAppointmentFirstViewDate() {
-    return this.scheduler.getStartViewDate();
   };
 
   _proto2._getViewStartDayHour = function _getViewStartDayHour() {
@@ -469,6 +468,19 @@ var AppointmentSettingsGeneratorBaseStrategy = /*#__PURE__*/function () {
         resources = options.resources,
         isAllDay = options.isAllDay;
     return this.workspace.getCoordinatesByDateInGroup(appointment.startDate, resources, isAllDay);
+  };
+
+  _proto2._getAppointmentFirstViewDate = function _getAppointmentFirstViewDate(appointment, rawAppointment) {
+    var _this$scheduler$getWo = this.scheduler.getWorkSpace(),
+        viewDataProvider = _this$scheduler$getWo.viewDataProvider;
+
+    var groupIndex = appointment.source.groupIndex || 0;
+    var startDate = appointment.startDate,
+        endDate = appointment.endDate;
+
+    var isAllDay = this._isAllDayAppointment(rawAppointment);
+
+    return viewDataProvider.findGroupCellStartDate(groupIndex, startDate, endDate, isAllDay);
   };
 
   _createClass(AppointmentSettingsGeneratorBaseStrategy, [{
@@ -554,36 +566,14 @@ var AppointmentSettingsGeneratorVirtualStrategy = /*#__PURE__*/function (_Appoin
     return result;
   };
 
-  _proto3._cropAppointmentsByStartDayHour = function _cropAppointmentsByStartDayHour(appointments, rawAppointment, isAllDay) {
-    var _this10 = this;
-
-    return appointments.filter(function (appointment) {
-      var firstViewDate = _this10._getAppointmentFirstViewDate(appointment, rawAppointment);
-
-      if (!firstViewDate) return false;
-
-      var startDayHour = _this10._getViewStartDayHour(firstViewDate);
-
-      var startDate = new Date(appointment.startDate);
-      appointment.startDate = _this10._getAppointmentResultDate({
-        appointment: appointment,
-        rawAppointment: rawAppointment,
-        startDate: startDate,
-        startDayHour: startDayHour,
-        firstViewDate: firstViewDate
-      });
-      return !isAllDay ? appointment.endDate > appointment.startDate : true;
-    });
-  };
-
   _proto3._createRecurrenceAppointments = function _createRecurrenceAppointments(appointment, resources) {
-    var _this11 = this;
+    var _this10 = this;
 
     var duration = appointment.duration;
     var result = [];
     var groupIndices = this.workspace._getGroupCount() ? this._getGroupIndices(resources) : [0];
     groupIndices.forEach(function (groupIndex) {
-      var option = _this11._createRecurrenceOptions(appointment, groupIndex);
+      var option = _this10._createRecurrenceOptions(appointment, groupIndex);
 
       var generatedStartDates = (0, _recurrence.getRecurrenceProcessor)().generateDates(option);
       var recurrentInfo = generatedStartDates.map(function (date) {
@@ -610,27 +600,14 @@ var AppointmentSettingsGeneratorVirtualStrategy = /*#__PURE__*/function (_Appoin
     return firstViewDate.getHours();
   };
 
-  _proto3._getAppointmentFirstViewDate = function _getAppointmentFirstViewDate(appointment, rawAppointment) {
-    var _this$scheduler$getWo = this.scheduler.getWorkSpace(),
-        viewDataProvider = _this$scheduler$getWo.viewDataProvider;
-
-    var groupIndex = appointment.source.groupIndex;
-    var startDate = appointment.startDate,
-        endDate = appointment.endDate;
-
-    var isAllDay = this._isAllDayAppointment(rawAppointment);
-
-    return viewDataProvider.findGroupCellStartDate(groupIndex, startDate, endDate, isAllDay);
-  };
-
   _proto3._updateGroupIndices = function _updateGroupIndices(appointments, itemResources) {
-    var _this12 = this;
+    var _this11 = this;
 
     var groupIndices = this._getGroupIndices(itemResources);
 
     var result = [];
     groupIndices.forEach(function (groupIndex) {
-      var groupStartDate = _this12.viewDataProvider.getGroupStartDate(groupIndex);
+      var groupStartDate = _this11.viewDataProvider.getGroupStartDate(groupIndex);
 
       if (groupStartDate) {
         appointments.forEach(function (appointment) {

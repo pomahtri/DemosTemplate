@@ -57,7 +57,7 @@ export class DateTableCellBase extends BaseInfernoComponent {
         groups,
         groupIndex: groups ? groupIndex : undefined,
         text: "",
-        allDay: allDay || undefined
+        allDay: !!allDay || undefined
       }, contentTemplateProps.data),
       index
     };

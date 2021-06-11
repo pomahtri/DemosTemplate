@@ -2,7 +2,7 @@
 
 exports.default = void 0;
 
-var _component = _interopRequireDefault(require("../../core/component"));
+var _component = require("../../core/component");
 
 var _data_helper = _interopRequireDefault(require("../../data_helper"));
 
@@ -121,16 +121,8 @@ var DataOption = /*#__PURE__*/function (_Component) {
     return this._getStore()._array || this._dataSource.items();
   };
 
-  _proto._reloadDataSource = function _reloadDataSource() {
-    var isArray = !!this._getStore()._array;
-
-    if (!isArray) {
-      this._dataSource.load();
-    }
-  };
-
   return DataOption;
-}(_component.default);
+}(_component.Component);
 
 DataOption.include(_data_helper.default);
 var _default = DataOption;

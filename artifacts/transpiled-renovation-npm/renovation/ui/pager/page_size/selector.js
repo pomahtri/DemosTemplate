@@ -77,7 +77,6 @@ var PageSizeSelector = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.htmlRef = (0, _inferno.createRef)();
     _this.state = {
       pageSize: _this.props.pageSize !== undefined ? _this.props.pageSize : _this.props.defaultPageSize
@@ -92,24 +91,6 @@ var PageSizeSelector = /*#__PURE__*/function (_InfernoComponent) {
     return [new _vdom.InfernoEffect(this.setRootElementRef, [])];
   };
 
-  _proto.updateEffects = function updateEffects() {};
-
-  _proto.set_pageSize = function set_pageSize(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      var _this2$props$pageSize, _this2$props;
-
-      _this2._currentState = state;
-      var newValue = value();
-      (_this2$props$pageSize = (_this2$props = _this2.props).pageSizeChange) === null || _this2$props$pageSize === void 0 ? void 0 : _this2$props$pageSize.call(_this2$props, newValue);
-      _this2._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
-  };
-
   _proto.setRootElementRef = function setRootElementRef() {
     var rootElementRef = this.props.rootElementRef;
 
@@ -122,7 +103,7 @@ var PageSizeSelector = /*#__PURE__*/function (_InfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageSize: this.__state_pageSize
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       htmlRef: this.htmlRef,
       normalizedPageSizes: this.normalizedPageSizes,
@@ -131,12 +112,6 @@ var PageSizeSelector = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(PageSizeSelector, [{
-    key: "__state_pageSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-    }
-  }, {
     key: "normalizedPageSizes",
     get: function get() {
       var pageSizes = this.props.pageSizes;
@@ -154,7 +129,7 @@ var PageSizeSelector = /*#__PURE__*/function (_InfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageSize = _extends({}, this.props, {
-        pageSize: this.__state_pageSize
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
           defaultPageSize = _this$props$pageSize.defaultPageSize,
           isLargeDisplayMode = _this$props$pageSize.isLargeDisplayMode,

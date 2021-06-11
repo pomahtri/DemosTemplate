@@ -226,21 +226,13 @@ class Gantt extends Widget {
   }
 
   _onApplyPanelSize(e) {
+    var _this$_ganttView;
+
     this._setInnerElementsWidth(e);
 
-    this._updateGanttRowHeights();
-  }
-
-  _updateGanttRowHeights() {
     var rowHeight = this._getTreeListRowHeight();
 
-    if (this._getGanttViewOption('rowHeight') !== rowHeight) {
-      var _this$_ganttView;
-
-      this._setGanttViewOption('rowHeight', rowHeight);
-
-      (_this$_ganttView = this._ganttView) === null || _this$_ganttView === void 0 ? void 0 : _this$_ganttView._ganttViewCore.updateRowHeights(rowHeight);
-    }
+    (_this$_ganttView = this._ganttView) === null || _this$_ganttView === void 0 ? void 0 : _this$_ganttView._ganttViewCore.updateRowHeights(rowHeight);
   }
 
   _onTreeListContentReady(e) {
@@ -484,12 +476,6 @@ class Gantt extends Widget {
     this._ganttView && this._ganttView.option(optionName, value);
   }
 
-  _getGanttViewOption(optionName, value) {
-    var _this$_ganttView3;
-
-    return (_this$_ganttView3 = this._ganttView) === null || _this$_ganttView3 === void 0 ? void 0 : _this$_ganttView3.option(optionName);
-  }
-
   _setTreeListOption(optionName, value) {
     this._treeList && this._treeList.option(optionName, value);
   }
@@ -639,9 +625,6 @@ class Gantt extends Widget {
       NotifyTaskColorChanged: (taskId, newValue, errorCallback) => {
         this._onRecordUpdated(GANTT_TASKS, taskId, 'color', newValue);
       },
-      NotifyParentTaskUpdated: (task, errorCallback) => {
-        this._onParentTaskUpdated(task);
-      },
       NotifyDependencyInserted: (dependency, callback, errorCallback) => {
         this._onRecordInserted(GANTT_DEPENDENCIES, dependency, callback);
       },
@@ -736,12 +719,6 @@ class Gantt extends Widget {
           this._selectTreeListRows(this._getArrayFromOneElement(insertedId));
 
           this._setTreeListOption('focusedRowKey', insertedId);
-
-          setTimeout(() => {
-            this._updateGanttRowHeights();
-          }, 300);
-
-          dataOption._reloadDataSource();
         }
 
         this._raiseInsertedAction(optionName, data, insertedId);
@@ -756,8 +733,6 @@ class Gantt extends Widget {
       dataOption.remove(key, () => {
         if (optionName === GANTT_TASKS) {
           this._updateTreeListDataSource();
-
-          dataOption._reloadDataSource();
         }
 
         this._raiseDeletedAction(optionName, key, this._convertCoreToMappedData(optionName, data));
@@ -792,12 +767,6 @@ class Gantt extends Widget {
         this._raiseUpdatedAction(optionName, data, key);
       });
     }
-  }
-
-  _onParentTaskUpdated(data) {
-    var mappedData = this.getTaskDataByCoreData(data);
-
-    this._raiseUpdatedAction(GANTT_TASKS, mappedData, data.id);
   }
 
   _onParentTasksRecalculated(data) {
@@ -866,7 +835,9 @@ class Gantt extends Widget {
   }
 
   _selectTreeListRows(keys) {
-    this._setTreeListOption('selectedRowKeys', keys);
+    var _this$_treeList;
+
+    (_this$_treeList = this._treeList) === null || _this$_treeList === void 0 ? void 0 : _this$_treeList.selectRows(keys);
   } // custom fields cache updating
 
 
@@ -884,20 +855,10 @@ class Gantt extends Widget {
         var dataOption = this["_".concat(GANTT_TASKS, "Option")];
 
         if (dataOption && data) {
-          dataOption.update(key, data, (data, key) => {
-            var updatedCustomFields = {};
-
-            this._addCustomFieldsData(key, updatedCustomFields);
-
+          dataOption.update(key, data, () => {
             this._updateTreeListDataSource();
 
             dataOption._refreshDataSource();
-
-            var selectedRowKey = this.option('selectedRowKey');
-
-            this._ganttView._selectTask(selectedRowKey);
-
-            this._raiseUpdatedAction(GANTT_TASKS, updatedCustomFields, key);
           });
         }
       };
@@ -1081,6 +1042,7 @@ class Gantt extends Widget {
       var mappedResources = coreArgs.values.resources.items.map(r => this._convertMappedToCoreData(GANTT_RESOURCES, r));
       var args = {
         cancel: false,
+        key: coreArgs.key,
         values: mappedResources
       };
       action(args);
@@ -1586,13 +1548,11 @@ class Gantt extends Widget {
 
       var customFields = this._getTaskCustomFields();
 
-      if (modelItem) {
-        for (var i = 0; i < customFields.length; i++) {
-          var field = customFields[i];
+      for (var i = 0; i < customFields.length; i++) {
+        var field = customFields[i];
 
-          if (Object.prototype.hasOwnProperty.call(modelItem, field)) {
-            data[field] = modelItem[field];
-          }
+        if (Object.prototype.hasOwnProperty.call(modelItem, field)) {
+          data[field] = modelItem[field];
         }
       }
     }
@@ -1673,9 +1633,9 @@ class Gantt extends Widget {
   }
 
   _clean() {
-    var _this$_ganttView4;
+    var _this$_ganttView3;
 
-    (_this$_ganttView4 = this._ganttView) === null || _this$_ganttView4 === void 0 ? void 0 : _this$_ganttView4._ganttViewCore.cleanMarkup();
+    (_this$_ganttView3 = this._ganttView) === null || _this$_ganttView3 === void 0 ? void 0 : _this$_ganttView3._ganttViewCore.cleanMarkup();
     delete this._ganttView;
     delete this._dialogInstance;
 
@@ -1985,17 +1945,12 @@ class Gantt extends Widget {
     this._exportHelper.reset();
 
     var fullOptions = extend({}, options);
-
-    if (fullOptions.createDocumentMethod) {
-      fullOptions.docCreateMethod = fullOptions.createDocumentMethod;
-    }
-
     (_fullOptions$docCreat = fullOptions.docCreateMethod) !== null && _fullOptions$docCreat !== void 0 ? _fullOptions$docCreat : fullOptions.docCreateMethod = (_window$jspdf$jsPDF = (_window$jspdf = window['jspdf']) === null || _window$jspdf === void 0 ? void 0 : _window$jspdf['jsPDF']) !== null && _window$jspdf$jsPDF !== void 0 ? _window$jspdf$jsPDF : window['jsPDF'];
     (_fullOptions$format = fullOptions.format) !== null && _fullOptions$format !== void 0 ? _fullOptions$format : fullOptions.format = 'a4';
     return new Promise(resolve => {
-      var _this$_ganttView5;
+      var _this$_ganttView4;
 
-      var doc = (_this$_ganttView5 = this._ganttView) === null || _this$_ganttView5 === void 0 ? void 0 : _this$_ganttView5._ganttViewCore.exportToPdf(fullOptions);
+      var doc = (_this$_ganttView4 = this._ganttView) === null || _this$_ganttView4 === void 0 ? void 0 : _this$_ganttView4._ganttViewCore.exportToPdf(fullOptions);
       resolve(doc);
     });
   }

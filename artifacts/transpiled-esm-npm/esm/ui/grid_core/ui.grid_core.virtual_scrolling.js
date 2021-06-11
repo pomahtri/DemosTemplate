@@ -8,20 +8,16 @@ import LoadIndicator from '../load_indicator';
 import browser from '../../core/utils/browser';
 import { getBoundingRect } from '../../core/utils/position';
 import { isDefined } from '../../core/utils/type';
-var TABLE_CLASS = 'table';
 var BOTTOM_LOAD_PANEL_CLASS = 'bottom-load-panel';
 var TABLE_CONTENT_CLASS = 'table-content';
 var GROUP_SPACE_CLASS = 'group-space';
 var CONTENT_CLASS = 'content';
-var ROW_CLASS = 'dx-row';
 var FREESPACE_CLASS = 'dx-freespace-row';
 var COLUMN_LINES_CLASS = 'dx-column-lines';
 var VIRTUAL_ROW_CLASS = 'dx-virtual-row';
 var SCROLLING_MODE_INFINITE = 'infinite';
 var SCROLLING_MODE_VIRTUAL = 'virtual';
 var SCROLLING_MODE_STANDARD = 'standard';
-var PIXELS_LIMIT = 250000; // this limit is defined for IE
-
 var LOAD_TIMEOUT = 300;
 var NEW_SCROLLING_MODE = 'scrolling.newMode';
 
@@ -593,36 +589,6 @@ var VirtualScrollingRowsViewExtender = function () {
 
       return result;
     },
-    _renderVirtualTableContent: function _renderVirtualTableContent(container, height) {
-      var that = this;
-
-      var columns = that._columnsController.getVisibleColumns();
-
-      var html = that._createColGroup(columns).prop('outerHTML');
-
-      var freeSpaceCellsHtml = '';
-      var columnLinesClass = that.option('showColumnLines') ? COLUMN_LINES_CLASS : '';
-
-      var createFreeSpaceRowHtml = function createFreeSpaceRowHtml(height) {
-        return '<tr style=\'height:' + height + 'px;\' class=\'' + FREESPACE_CLASS + ' ' + ROW_CLASS + ' ' + columnLinesClass + '\' >' + freeSpaceCellsHtml + '</tr>';
-      };
-
-      for (var i = 0; i < columns.length; i++) {
-        var classes = that._getCellClasses(columns[i]);
-
-        var classString = classes.length ? ' class=\'' + classes.join(' ') + '\'' : '';
-        freeSpaceCellsHtml += '<td' + classString + '/>';
-      }
-
-      while (height > PIXELS_LIMIT) {
-        html += createFreeSpaceRowHtml(PIXELS_LIMIT);
-        height -= PIXELS_LIMIT;
-      }
-
-      html += createFreeSpaceRowHtml(height);
-      container.addClass(that.addWidgetPrefix(TABLE_CLASS));
-      container.html(html);
-    },
     _getCellClasses: function _getCellClasses(column) {
       var classes = [];
       var cssClass = column.cssClass;
@@ -801,7 +767,8 @@ export var virtualScrollingModule = {
                   var rowElement = component.getRowElement(rowIndex);
                   var $rowElement = rowElement && rowElement[0] && $(rowElement[0]);
                   var top = $rowElement && $rowElement.position().top;
-                  var allowedTopOffset = browser.mozilla || browser.msie ? 1 : 0; // T884308
+                  var isChromeLatest = browser.chrome && browser.version >= 91;
+                  var allowedTopOffset = browser.mozilla || isChromeLatest ? 1 : 0; // T884308
 
                   if (top > allowedTopOffset) {
                     top = Math.round(top + $rowElement.outerHeight() * (itemIndex % 1));

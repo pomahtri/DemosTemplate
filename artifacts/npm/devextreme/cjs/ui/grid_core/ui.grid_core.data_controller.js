@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.data_controller.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -315,9 +315,10 @@ var dataControllerModule = {
               that.reload();
             }
           } else if (changeTypes.columns) {
-            if (optionNames.filterValues || optionNames.filterValue || optionNames.selectedFilterOperation) {
+            filterValues = that._columnsController.columnOption(e.columnIndex, 'filterValues');
+
+            if (optionNames.filterValues || optionNames.filterType && Array.isArray(filterValues) || optionNames.filterValue || optionNames.selectedFilterOperation || optionNames.allowFiltering) {
               filterValue = that._columnsController.columnOption(e.columnIndex, 'filterValue');
-              filterValues = that._columnsController.columnOption(e.columnIndex, 'filterValues');
 
               if (Array.isArray(filterValues) || e.columnIndex === undefined || (0, _type.isDefined)(filterValue) || !optionNames.selectedFilterOperation || optionNames.filterValue) {
                 that._applyFilter();

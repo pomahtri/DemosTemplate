@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.state_storing_core.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,6 @@ import eventsEngine from '../../events/core/events_engine';
 import { getWindow } from '../../core/utils/window';
 import modules from './ui.grid_core.modules';
 import errors from '../widget/ui.errors';
-import browser from '../../core/utils/browser';
 import { sessionStorage } from '../../core/utils/storage';
 import { extend } from '../../core/utils/extend';
 import { each } from '../../core/utils/iterator';
@@ -38,11 +37,7 @@ export var StateStoringController = modules.ViewController.inherit(function () {
     var storage = options.type === 'sessionStorage' ? sessionStorage() : getWindow().localStorage;
 
     if (!storage) {
-      if (getWindow().location.protocol === 'file:' && browser.msie) {
-        throw new Error('E1038');
-      } else {
-        throw new Error('E1007');
-      }
+      throw new Error('E1007');
     }
 
     return storage;

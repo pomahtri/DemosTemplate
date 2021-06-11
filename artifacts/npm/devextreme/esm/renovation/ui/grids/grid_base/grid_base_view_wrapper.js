@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/grids/grid_base/grid_base_view_wrapper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 import _extends from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-var _excluded = ["view"];
+var _excluded = ["onRendered", "view"];
 import { createVNode } from "inferno";
 import { InfernoEffect, InfernoComponent } from "@devextreme/vdom";
 import $ from "../../../../core/renderer";
@@ -32,18 +32,19 @@ export class GridBaseViewWrapper extends InfernoComponent {
     return [new InfernoEffect(this.renderView, [])];
   }
 
-  updateEffects() {}
-
   renderView() {
+    var _this$props$onRendere, _this$props;
+
     var $element = $(this.viewRef.current);
     this.props.view._$element = $element;
     this.props.view._$parent = $element.parent();
     this.props.view.render();
+    (_this$props$onRendere = (_this$props = this.props).onRendered) === null || _this$props$onRendere === void 0 ? void 0 : _this$props$onRendere.call(_this$props);
   }
 
   get restAttributes() {
-    var _this$props = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
+    var _this$props2 = this.props,
+        restProps = _objectWithoutPropertiesLoose(_this$props2, _excluded);
 
     return restProps;
   }

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.validating.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,9 +40,9 @@ var _validation_engine = _interopRequireDefault(require("../validation_engine"))
 
 var _validator = _interopRequireDefault(require("../validator"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _ui = _interopRequireDefault(require("../overlay/ui.overlay"));
 
-var _ui = _interopRequireDefault(require("../widget/ui.errors"));
+var _ui2 = _interopRequireDefault(require("../widget/ui.errors"));
 
 var _deferred = require("../../core/utils/deferred");
 
@@ -434,7 +434,7 @@ var ValidatingController = _uiGrid_core.default.Controller.inherit(function () {
 
       if (needCreateValidator) {
         if ($container && !$container.length) {
-          _ui.default.log('E1050');
+          _ui2.default.log('E1050');
 
           return;
         }
@@ -1163,7 +1163,7 @@ var validatingModule = {
               },
               onPositioned: this._positionedHandler.bind(this)
             };
-            return new _overlay.default($tooltipElement, tooltipOptions);
+            return new _ui.default($tooltipElement, tooltipOptions);
           },
           _hideFixedGroupCell: function _hideFixedGroupCell($cell, overlayOptions) {
             var $nextFixedRowElement;
@@ -1237,8 +1237,8 @@ var validatingModule = {
                 boundaryOffset: '0 0',
                 offset: {
                   x: 0,
-                  // IE and Firefox consider the top row/cell border when calculating a cell offset.
-                  y: !isOverlayVisible && (_browser.default.mozilla || _browser.default.msie) ? -1 : 0
+                  // Firefox consider the top row/cell border when calculating a cell offset.
+                  y: !isOverlayVisible && _browser.default.mozilla ? -1 : 0
                 },
                 my: myPosition,
                 at: atPosition
@@ -1252,7 +1252,7 @@ var validatingModule = {
 
             this._hideFixedGroupCell($cell, overlayOptions);
 
-            new _overlay.default($overlayElement, overlayOptions);
+            new _ui.default($overlayElement, overlayOptions);
           },
           _normalizeValidationMessagePositionAndMaxWidth: function _normalizeValidationMessagePositionAndMaxWidth(options, isRevertButton, isOverlayVisible) {
             var fixedColumns = this._columnsController.getFixedColumns();

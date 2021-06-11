@@ -1,13 +1,12 @@
 /**
 * DevExtreme (ui/speed_dial_action.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import {
-    UserDefinedElement,
     DxElement
 } from '../core/element';
 
@@ -101,9 +100,7 @@ export interface dxSpeedDialActionOptions extends WidgetOptions<dxSpeedDialActio
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxSpeedDialAction extends Widget {
-    constructor(element: UserDefinedElement, options?: dxSpeedDialActionOptions)
-}
+export default class dxSpeedDialAction extends Widget<dxSpeedDialActionOptions> { }
 
 /** @public */
 export type Properties = dxSpeedDialActionOptions;

@@ -10,8 +10,6 @@ var _uiGrid_core = _interopRequireDefault(require("./ui.grid_core.modules"));
 
 var _ui = _interopRequireDefault(require("../widget/ui.errors"));
 
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
-
 var _storage = require("../../core/utils/storage");
 
 var _extend = require("../../core/utils/extend");
@@ -46,11 +44,7 @@ var StateStoringController = _uiGrid_core.default.ViewController.inherit(functio
     var storage = options.type === 'sessionStorage' ? (0, _storage.sessionStorage)() : (0, _window.getWindow)().localStorage;
 
     if (!storage) {
-      if ((0, _window.getWindow)().location.protocol === 'file:' && _browser.default.msie) {
-        throw new Error('E1038');
-      } else {
-        throw new Error('E1007');
-      }
+      throw new Error('E1007');
     }
 
     return storage;

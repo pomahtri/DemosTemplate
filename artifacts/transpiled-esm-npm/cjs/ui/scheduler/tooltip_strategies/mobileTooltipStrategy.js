@@ -2,7 +2,7 @@
 
 exports.MobileTooltipStrategy = void 0;
 
-var _overlay = _interopRequireDefault(require("../../overlay"));
+var _ui = _interopRequireDefault(require("../../overlay/ui.overlay"));
 
 var _tooltipStrategyBase = require("./tooltipStrategyBase");
 
@@ -121,7 +121,7 @@ var MobileTooltipStrategy = /*#__PURE__*/function (_TooltipStrategyBase) {
 
     var element = this._createTooltipElement(SLIDE_PANEL_CLASS_NAME);
 
-    return this._options.createComponent(element, _overlay.default, {
+    return this._options.createComponent(element, _ui.default, {
       target: (0, _window.getWindow)(),
       closeOnOutsideClick: true,
       animation: animationConfig,

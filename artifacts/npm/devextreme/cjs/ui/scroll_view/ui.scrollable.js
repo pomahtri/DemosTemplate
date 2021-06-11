@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scroll_view/ui.scrollable.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -271,7 +271,16 @@ var Scrollable = _dom_component.default.inherit({
 
     this._updateIfNeed();
 
+    return this._moveIsAllowed(e);
+  },
+  _moveIsAllowed: function _moveIsAllowed(e) {
     return this._strategy.validate(e);
+  },
+  handleMove: function handleMove(e) {
+    this._strategy.handleMove(e);
+  },
+  _prepareDirections: function _prepareDirections(value) {
+    this._strategy._prepareDirections(value);
   },
   _initHandler: function _initHandler() {
     var strategy = this._strategy;
@@ -450,6 +459,9 @@ var Scrollable = _dom_component.default.inherit({
   },
   content: function content() {
     return (0, _element.getPublicElement)(this._$content);
+  },
+  container: function container() {
+    return (0, _element.getPublicElement)(this._$container);
   },
   scrollOffset: function scrollOffset() {
     return this._getScrollOffset();

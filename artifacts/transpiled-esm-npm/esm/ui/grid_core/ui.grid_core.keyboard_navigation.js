@@ -166,7 +166,7 @@ var KeyboardNavigationController = core.ViewController.inherit({
       var needUpdateFocus = false;
       var isAppend = e && (e.changeType === 'append' || e.changeType === 'prepend');
       var $focusedElement = $(':focus');
-      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length || browser.msie && $focusedElement.is('body');
+      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length;
       eventsEngine.off($rowsView, 'focusin', rowsViewFocusHandler);
       eventsEngine.on($rowsView, 'focusin', rowsViewFocusHandler);
 
@@ -1753,6 +1753,7 @@ var KeyboardNavigationController = core.ViewController.inherit({
       type: 'input',
       target: $input.get(0)
     });
+    $input.get(0).select();
     eventsEngine.trigger($input, keyDownEvent);
 
     if (!keyDownEvent.isDefaultPrevented()) {

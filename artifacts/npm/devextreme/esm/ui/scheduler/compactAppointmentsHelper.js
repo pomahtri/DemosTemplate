@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/compactAppointmentsHelper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 import $ from '../../core/renderer';
 import Button from '../button';
-import { move } from '../../animation/translator';
+import { move, locate } from '../../animation/translator';
 import messageLocalization from '../../localization/message';
 import { FunctionTemplate } from '../../core/templates/function_template';
 import { when } from '../../core/utils/deferred';
@@ -77,15 +77,13 @@ export class CompactAppointmentsHelper {
 
   _onButtonClick(e, options) {
     var $button = $(e.element);
-    this.instance.showAppointmentTooltipCore($button, $button.data('items'), this._getExtraOptionsForTooltip(options));
+    this.instance.showAppointmentTooltipCore($button, $button.data('items'), this._getExtraOptionsForTooltip(options, $button));
   }
 
-  _getExtraOptionsForTooltip(options) {
+  _getExtraOptionsForTooltip(options, $appointmentCollector) {
     return {
       clickEvent: this._clickEvent(options.onAppointmentClick).bind(this),
-      dragBehavior: options.allowDrag && this._createTooltipDragBehavior().bind(this),
-      dropDownAppointmentTemplate: this.instance.option().dropDownAppointmentTemplate,
-      // deprecated option
+      dragBehavior: options.allowDrag && this._createTooltipDragBehavior($appointmentCollector).bind(this),
       isButtonClick: true
     };
   }
@@ -105,7 +103,7 @@ export class CompactAppointmentsHelper {
     };
   }
 
-  _createTooltipDragBehavior() {
+  _createTooltipDragBehavior($appointmentCollector) {
     return e => {
       var $element = $(e.element);
       var workSpace = this.instance.getWorkSpace();
@@ -116,14 +114,20 @@ export class CompactAppointmentsHelper {
         return (_$$data = $(itemElement).data(LIST_ITEM_DATA_KEY)) === null || _$$data === void 0 ? void 0 : _$$data.appointment;
       };
 
-      var getItemSettings = (_, event) => event.itemSettings;
-
-      var options = {
-        filter: ".".concat(LIST_ITEM_CLASS),
-        isSetCursorOffset: true
+      var getItemSettings = (_, event) => {
+        return event.itemSettings;
       };
 
-      workSpace._createDragBehaviorBase($element, getItemData, getItemSettings, options);
+      var initialPosition = locate($appointmentCollector);
+      var options = {
+        filter: ".".concat(LIST_ITEM_CLASS),
+        isSetCursorOffset: true,
+        initialPosition,
+        getItemData,
+        getItemSettings
+      };
+
+      workSpace._createDragBehaviorBase($element, options);
     };
   }
 

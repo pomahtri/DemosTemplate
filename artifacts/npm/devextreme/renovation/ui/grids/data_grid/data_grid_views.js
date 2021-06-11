@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/grids/data_grid/data_grid_views.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -21,6 +21,8 @@ var _uiGrid_core = require("../../../../ui/grid_core/ui.grid_core.grid_view");
 var _data_grid_props = require("./common/data_grid_props");
 
 var _common = require("../../../../core/utils/common");
+
+var _window = require("../../../../core/utils/window");
 
 var _excluded = ["instance", "showBorders"];
 
@@ -46,12 +48,14 @@ var DATA_GRID_ROLE_NAME = "grid";
 
 var viewFunction = function viewFunction(_ref) {
   var showBorders = _ref.props.showBorders,
+      update = _ref.update,
       views = _ref.views;
   return (0, _inferno.createComponentVNode)(2, _grid_base_views.GridBaseViews, {
     "views": views,
     "className": DATA_GRID_CLASS,
     "showBorders": showBorders,
-    "role": DATA_GRID_ROLE_NAME
+    "role": DATA_GRID_ROLE_NAME,
+    "onRendered": update
   });
 };
 
@@ -60,13 +64,13 @@ var DataGridPropsType = {
   showBorders: _data_grid_props.DataGridProps.showBorders
 };
 
-var DataGridViews = /*#__PURE__*/function (_InfernoComponent) {
-  _inheritsLoose(DataGridViews, _InfernoComponent);
+var DataGridViews = /*#__PURE__*/function (_BaseInfernoComponent) {
+  _inheritsLoose(DataGridViews, _BaseInfernoComponent);
 
   function DataGridViews(props) {
     var _this;
 
-    _this = _InfernoComponent.call(this, props) || this;
+    _this = _BaseInfernoComponent.call(this, props) || this;
     _this.state = {};
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
@@ -74,32 +78,20 @@ var DataGridViews = /*#__PURE__*/function (_InfernoComponent) {
 
   var _proto = DataGridViews.prototype;
 
-  _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.update, [this.props.instance])];
-  };
-
-  _proto.updateEffects = function updateEffects() {
-    var _this$_effects$;
-
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.instance]);
-  };
-
   _proto.update = function update() {
     var gridInstance = this.props.instance;
-
-    if (!gridInstance) {
-      return;
-    }
-
     var dataController = gridInstance.getController("data");
     var resizingController = gridInstance.getController("resizing");
-    (0, _common.deferRender)(function () {
-      resizingController.resize();
 
-      if (dataController.isLoaded()) {
-        resizingController.fireContentReadyAction();
-      }
-    });
+    if ((0, _window.hasWindow)()) {
+      (0, _common.deferRender)(function () {
+        resizingController.resize();
+
+        if (dataController.isLoaded()) {
+          resizingController.fireContentReadyAction();
+        }
+      });
+    }
   };
 
   _proto.render = function render() {
@@ -107,6 +99,7 @@ var DataGridViews = /*#__PURE__*/function (_InfernoComponent) {
     return viewFunction({
       props: _extends({}, props),
       views: this.views,
+      update: this.update,
       restAttributes: this.restAttributes
     });
   };
@@ -145,7 +138,7 @@ var DataGridViews = /*#__PURE__*/function (_InfernoComponent) {
   }]);
 
   return DataGridViews;
-}(_vdom.InfernoComponent);
+}(_vdom.BaseInfernoComponent);
 
 exports.DataGridViews = DataGridViews;
 DataGridViews.defaultProps = _extends({}, DataGridPropsType);

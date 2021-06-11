@@ -167,7 +167,7 @@ var GanttExportHelper = /*#__PURE__*/function () {
   _proto._getDataCell = function _getDataCell(rowIndex, colIndex) {
     var treeList = this._treeList;
     var cellElement = treeList.getCellElement(rowIndex, colIndex);
-    return cellElement && cellElement.length ? cellElement[0] : cellElement;
+    return cellElement && cellElement[0];
   };
 
   _proto._getHeaderElement = function _getHeaderElement(index) {

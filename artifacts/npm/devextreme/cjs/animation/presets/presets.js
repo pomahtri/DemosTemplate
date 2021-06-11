@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/animation/presets/presets.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,7 @@
 
 exports.PresetCollection = exports.presets = void 0;
 
-var _component = _interopRequireDefault(require("../../core/component"));
+var _component = require("../../core/component");
 
 var _iterator = require("../../core/utils/iterator");
 
@@ -30,7 +30,7 @@ var directionPostfixes = {
 };
 var optionPrefix = 'preset_';
 
-var AnimationPresetCollection = _component.default.inherit({
+var AnimationPresetCollection = _component.Component.inherit({
   ctor: function ctor() {
     this.callBase.apply(this, arguments);
     this._registeredPresets = [];

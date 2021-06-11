@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.header_panel.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,8 +11,6 @@
 exports.headerPanelModule = void 0;
 
 var _renderer = _interopRequireDefault(require("../../core/renderer"));
-
-var _jquery = require("jquery");
 
 var _toolbar = _interopRequireDefault(require("../toolbar"));
 
@@ -29,6 +27,8 @@ var _message = _interopRequireDefault(require("../../localization/message"));
 require("../drop_down_menu");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var HEADER_PANEL_CLASS = 'header-panel';
 var TOOLBAR_BUTTON_CLASS = 'toolbar-button';
@@ -58,25 +58,8 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
         }
       }
     };
-    var defaultButtonsByNames = {};
-    options.toolbarOptions.items.forEach(function (button) {
-      defaultButtonsByNames[button.name] = button;
-    });
-    var items = this.option('toolbar.items');
-
-    if ((0, _type.isDefined)(items)) {
-      options.toolbarOptions.items = items;
-    }
-
+    options.toolbarOptions.items = this._normalizeToolbarItems(options.toolbarOptions.items);
     this.executeAction('onToolbarPreparing', options);
-    options.toolbarOptions.items = options.toolbarOptions.items.map(function (button) {
-      if ((0, _type.isString)(button)) button = {
-        name: button
-      };
-      if (!(0, _type.isDefined)(button.name)) return button;
-      if (!(0, _type.isDefined)(defaultButtonsByNames[button.name])) return button;
-      return (0, _jquery.extend)(defaultButtonsByNames[button.name], button);
-    });
 
     if (options.toolbarOptions && !(0, _type.isDefined)(options.toolbarOptions.visible)) {
       var toolbarItems = options.toolbarOptions.items;
@@ -84,6 +67,31 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
     }
 
     return options.toolbarOptions;
+  },
+  _normalizeToolbarItems: function _normalizeToolbarItems(items) {
+    var userItems = this.option('toolbar.items');
+
+    if (!(0, _type.isDefined)(userItems)) {
+      return items;
+    }
+
+    var defaultButtonsByNames = {};
+    items.forEach(function (button) {
+      defaultButtonsByNames[button.name] = button;
+    });
+    return userItems.map(function (button) {
+      if ((0, _type.isString)(button)) {
+        button = {
+          name: button
+        };
+      }
+
+      if (!(0, _type.isDefined)(button.name) || !(0, _type.isDefined)(defaultButtonsByNames[button.name])) {
+        return button;
+      }
+
+      return _extends({}, button, defaultButtonsByNames[button.name]);
+    });
   },
   _renderCore: function _renderCore() {
     if (!this._toolbar) {
@@ -146,7 +154,7 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
     return this.getElementHeight();
   },
   optionChanged: function optionChanged(args) {
-    if (args.name === 'onToolbarPreparing' || args.name === 'toolbar') {
+    if (args.name === 'onToolbarPreparing') {
       this._invalidate();
 
       args.handled = true;

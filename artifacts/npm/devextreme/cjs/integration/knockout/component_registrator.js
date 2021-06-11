@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/integration/knockout/component_registrator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,6 +19,8 @@ var _type = require("../../core/utils/type");
 var _component_registrator_callbacks = _interopRequireDefault(require("../../core/component_registrator_callbacks"));
 
 var _ui = _interopRequireDefault(require("../../ui/widget/ui.widget"));
+
+var _draggable = _interopRequireDefault(require("../../ui/draggable"));
 
 var _template = require("./template");
 
@@ -232,7 +234,7 @@ if (_knockout.default) {
 
         createComponent();
         return {
-          controlsDescendantBindings: componentClass.subclassOf(_ui.default)
+          controlsDescendantBindings: componentClass.subclassOf(_ui.default) || componentClass.subclassOf(_draggable.default)
         };
       }
     };

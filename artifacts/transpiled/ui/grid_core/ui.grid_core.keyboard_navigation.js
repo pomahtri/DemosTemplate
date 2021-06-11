@@ -199,7 +199,7 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
       var needUpdateFocus = false;
       var isAppend = e && (e.changeType === 'append' || e.changeType === 'prepend');
       var $focusedElement = (0, _renderer.default)(':focus');
-      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length || _browser.default.msie && $focusedElement.is('body');
+      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length;
 
       _events_engine.default.off($rowsView, 'focusin', rowsViewFocusHandler);
 
@@ -1814,6 +1814,7 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
       type: 'input',
       target: $input.get(0)
     });
+    $input.get(0).select();
 
     _events_engine.default.trigger($input, keyDownEvent);
 

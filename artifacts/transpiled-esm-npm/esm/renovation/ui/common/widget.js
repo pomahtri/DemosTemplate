@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "aria", "children", "className", "classes", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "rootElementRef", "rtlEnabled", "tabIndex", "visible", "width"];
+var _excluded = ["_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "addWidgetClass", "aria", "children", "className", "classes", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "name", "onActive", "onClick", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onVisibilityChange", "rootElementRef", "rtlEnabled", "tabIndex", "visible", "width"];
 import { createVNode, createComponentVNode, normalizeProps } from "inferno";
 import { InfernoEffect, InfernoWrapperComponent, normalizeStyles } from "@devextreme/vdom";
 import "../../../events/click";
@@ -15,6 +15,8 @@ import { ConfigContext } from "../../common/config_context";
 import { ConfigProvider } from "../../common/config_provider";
 import { resolveRtlEnabled, resolveRtlEnabledDefinition } from "../../utils/resolve_rtl";
 import resizeCallbacks from "../../../core/utils/resize_callbacks";
+var DEFAULT_FEEDBACK_HIDE_TIMEOUT = 400;
+var DEFAULT_FEEDBACK_SHOW_TIMEOUT = 30;
 
 var getAria = args => Object.keys(args).reduce((r, key) => {
   if (args[key]) {
@@ -25,25 +27,6 @@ var getAria = args => Object.keys(args).reduce((r, key) => {
 
   return r;
 }, {});
-
-var getCssClasses = model => {
-  var isFocusable = !!model.focusStateEnabled && !model.disabled;
-  var isHoverable = !!model.hoverStateEnabled && !model.disabled;
-  var canBeActive = !!model.activeStateEnabled && !model.disabled;
-  var classesMap = {
-    "dx-widget": true,
-    [String(model.classes)]: !!model.classes,
-    [String(model.className)]: !!model.className,
-    "dx-state-disabled": !!model.disabled,
-    "dx-state-invisible": !model.visible,
-    "dx-state-focused": !!model.focused && isFocusable,
-    "dx-state-active": !!model.active && canBeActive,
-    "dx-state-hover": !!model.hovered && isHoverable && !model.active,
-    "dx-rtl": !!model.rtlEnabled,
-    "dx-visibility-change-handler": !!model.onVisibilityChange
-  };
-  return combineClasses(classesMap);
-};
 
 export var viewFunction = viewModel => {
   var widget = normalizeProps(createVNode(1, "div", viewModel.cssClasses, viewModel.props.children, 0, _extends({}, viewModel.attributes, {
@@ -58,18 +41,18 @@ export var viewFunction = viewModel => {
   }) : widget;
 };
 export var WidgetProps = _extends({}, BaseWidgetProps, {
-  _feedbackHideTimeout: 400,
-  _feedbackShowTimeout: 30,
+  _feedbackHideTimeout: DEFAULT_FEEDBACK_HIDE_TIMEOUT,
+  _feedbackShowTimeout: DEFAULT_FEEDBACK_SHOW_TIMEOUT,
   aria: {},
   classes: "",
-  className: "",
-  name: ""
+  name: "",
+  addWidgetClass: true
 });
+import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 export class Widget extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.widgetRef = infernoCreateRef();
     this.state = {
       active: false,
@@ -80,6 +63,8 @@ export class Widget extends InfernoWrapperComponent {
     this.activeEffect = this.activeEffect.bind(this);
     this.clickEffect = this.clickEffect.bind(this);
     this.focus = this.focus.bind(this);
+    this.activate = this.activate.bind(this);
+    this.deactivate = this.deactivate.bind(this);
     this.focusEffect = this.focusEffect.bind(this);
     this.hoverEffect = this.hoverEffect.bind(this);
     this.keyboardEffect = this.keyboardEffect.bind(this);
@@ -97,7 +82,7 @@ export class Widget extends InfernoWrapperComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.setRootElementRef, []), new InfernoEffect(this.activeEffect, [this.props._feedbackHideTimeout, this.props._feedbackShowTimeout, this.props.activeStateEnabled, this.props.activeStateUnit, this.props.disabled, this.props.onActive, this.props.onInactive]), new InfernoEffect(this.clickEffect, [this.props.disabled, this.props.name, this.props.onClick]), new InfernoEffect(this.focusEffect, [this.props.disabled, this.props.focusStateEnabled, this.props.name, this.props.onFocusIn, this.props.onFocusOut]), new InfernoEffect(this.hoverEffect, [this.props.activeStateUnit, this.props.disabled, this.props.hoverStateEnabled, this.props.onHoverEnd, this.props.onHoverStart, this.active]), new InfernoEffect(this.keyboardEffect, [this.props.onKeyDown]), new InfernoEffect(this.resizeEffect, [this.props.name, this.props.onDimensionChanged]), new InfernoEffect(this.windowResizeEffect, [this.props.onDimensionChanged]), new InfernoEffect(this.visibilityEffect, [this.props.name, this.props.onVisibilityChange])];
+    return [new InfernoEffect(this.setRootElementRef, []), new InfernoEffect(this.activeEffect, [this.props._feedbackHideTimeout, this.props._feedbackShowTimeout, this.props.activeStateEnabled, this.props.activeStateUnit, this.props.disabled, this.props.onActive, this.props.onInactive]), new InfernoEffect(this.clickEffect, [this.props.disabled, this.props.name, this.props.onClick]), new InfernoEffect(this.focusEffect, [this.props.disabled, this.props.focusStateEnabled, this.props.name, this.props.onFocusIn, this.props.onFocusOut]), new InfernoEffect(this.hoverEffect, [this.props.activeStateUnit, this.props.disabled, this.props.hoverStateEnabled, this.props.onHoverEnd, this.props.onHoverStart, this.state.active]), new InfernoEffect(this.keyboardEffect, [this.props.focusStateEnabled, this.props.onKeyDown]), new InfernoEffect(this.resizeEffect, [this.props.name, this.props.onDimensionChanged]), new InfernoEffect(this.windowResizeEffect, [this.props.onDimensionChanged]), new InfernoEffect(this.visibilityEffect, [this.props.name, this.props.onVisibilityChange]), createReRenderEffect()];
   }
 
   updateEffects() {
@@ -106,59 +91,11 @@ export class Widget extends InfernoWrapperComponent {
     (_this$_effects$ = this._effects[1]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props._feedbackHideTimeout, this.props._feedbackShowTimeout, this.props.activeStateEnabled, this.props.activeStateUnit, this.props.disabled, this.props.onActive, this.props.onInactive]);
     (_this$_effects$2 = this._effects[2]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.disabled, this.props.name, this.props.onClick]);
     (_this$_effects$3 = this._effects[3]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.disabled, this.props.focusStateEnabled, this.props.name, this.props.onFocusIn, this.props.onFocusOut]);
-    (_this$_effects$4 = this._effects[4]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.activeStateUnit, this.props.disabled, this.props.hoverStateEnabled, this.props.onHoverEnd, this.props.onHoverStart, this.active]);
-    (_this$_effects$5 = this._effects[5]) === null || _this$_effects$5 === void 0 ? void 0 : _this$_effects$5.update([this.props.onKeyDown]);
+    (_this$_effects$4 = this._effects[4]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.activeStateUnit, this.props.disabled, this.props.hoverStateEnabled, this.props.onHoverEnd, this.props.onHoverStart, this.state.active]);
+    (_this$_effects$5 = this._effects[5]) === null || _this$_effects$5 === void 0 ? void 0 : _this$_effects$5.update([this.props.focusStateEnabled, this.props.onKeyDown]);
     (_this$_effects$6 = this._effects[6]) === null || _this$_effects$6 === void 0 ? void 0 : _this$_effects$6.update([this.props.name, this.props.onDimensionChanged]);
     (_this$_effects$7 = this._effects[7]) === null || _this$_effects$7 === void 0 ? void 0 : _this$_effects$7.update([this.props.onDimensionChanged]);
     (_this$_effects$8 = this._effects[8]) === null || _this$_effects$8 === void 0 ? void 0 : _this$_effects$8.update([this.props.name, this.props.onVisibilityChange]);
-  }
-
-  get active() {
-    var state = this._currentState || this.state;
-    return state.active;
-  }
-
-  set_active(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        active: newValue
-      };
-    });
-  }
-
-  get focused() {
-    var state = this._currentState || this.state;
-    return state.focused;
-  }
-
-  set_focused(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        focused: newValue
-      };
-    });
-  }
-
-  get hovered() {
-    var state = this._currentState || this.state;
-    return state.hovered;
-  }
-
-  set_hovered(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        hovered: newValue
-      };
-    });
   }
 
   setRootElementRef() {
@@ -189,13 +126,17 @@ export class Widget extends InfernoWrapperComponent {
         var {
           event
         } = _ref;
-        this.set_active(() => true);
+        this.setState(state => _extends({}, state, {
+          active: true
+        }));
         onActive === null || onActive === void 0 ? void 0 : onActive(event);
       }, _ref2 => {
         var {
           event
         } = _ref2;
-        this.set_active(() => false);
+        this.setState(state => _extends({}, state, {
+          active: false
+        }));
         onInactive === null || onInactive === void 0 ? void 0 : onInactive(event);
       }, {
         hideTimeout: _feedbackHideTimeout,
@@ -246,12 +187,16 @@ export class Widget extends InfernoWrapperComponent {
     if (isFocusable) {
       focus.on(this.widgetRef.current, e => {
         if (!e.isDefaultPrevented()) {
-          this.set_focused(() => true);
+          this.setState(state => _extends({}, state, {
+            focused: true
+          }));
           onFocusIn === null || onFocusIn === void 0 ? void 0 : onFocusIn(e);
         }
       }, e => {
         if (!e.isDefaultPrevented()) {
-          this.set_focused(() => false);
+          this.setState(state => _extends({}, state, {
+            focused: false
+          }));
           onFocusOut === null || onFocusOut === void 0 ? void 0 : onFocusOut(e);
         }
       }, {
@@ -283,13 +228,17 @@ export class Widget extends InfernoWrapperComponent {
         var {
           event
         } = _ref3;
-        !this.active && this.set_hovered(() => true);
+        !this.state.active && this.setState(state => _extends({}, state, {
+          hovered: true
+        }));
         onHoverStart === null || onHoverStart === void 0 ? void 0 : onHoverStart(event);
       }, _ref4 => {
         var {
           event
         } = _ref4;
-        this.set_hovered(() => false);
+        this.setState(state => _extends({}, state, {
+          hovered: false
+        }));
         onHoverEnd === null || onHoverEnd === void 0 ? void 0 : onHoverEnd(event);
       }, {
         selector,
@@ -306,10 +255,11 @@ export class Widget extends InfernoWrapperComponent {
 
   keyboardEffect() {
     var {
+      focusStateEnabled,
       onKeyDown
     } = this.props;
 
-    if (onKeyDown) {
+    if (focusStateEnabled && onKeyDown) {
       var id = keyboard.on(this.widgetRef.current, this.widgetRef.current, e => onKeyDown(e));
       return () => keyboard.off(id);
     }
@@ -416,6 +366,7 @@ export class Widget extends InfernoWrapperComponent {
   get cssClasses() {
     var {
       activeStateEnabled,
+      addWidgetClass,
       className,
       classes,
       disabled,
@@ -424,20 +375,22 @@ export class Widget extends InfernoWrapperComponent {
       onVisibilityChange,
       visible
     } = this.props;
-    return getCssClasses({
-      active: this.active,
-      focused: this.focused,
-      hovered: this.hovered,
-      className,
-      classes,
-      disabled,
-      activeStateEnabled,
-      focusStateEnabled,
-      hoverStateEnabled,
-      onVisibilityChange,
-      rtlEnabled: this.rtlEnabled,
-      visible
-    });
+    var isFocusable = !!focusStateEnabled && !disabled;
+    var isHoverable = !!hoverStateEnabled && !disabled;
+    var canBeActive = !!activeStateEnabled && !disabled;
+    var classesMap = {
+      "dx-widget": !!addWidgetClass,
+      [String(classes)]: !!classes,
+      [String(className)]: !!className,
+      "dx-state-disabled": !!disabled,
+      "dx-state-invisible": !visible,
+      "dx-state-focused": !!this.state.focused && isFocusable,
+      "dx-state-active": !!this.state.active && canBeActive,
+      "dx-state-hover": !!this.state.hovered && isHoverable && !this.state.active,
+      "dx-rtl": !!this.rtlEnabled,
+      "dx-visibility-change-handler": !!onVisibilityChange
+    };
+    return combineClasses(classesMap);
   }
 
   get tabIndex() {
@@ -461,13 +414,25 @@ export class Widget extends InfernoWrapperComponent {
     focus.trigger(this.widgetRef.current);
   }
 
+  activate() {
+    this.setState(state => _extends({}, state, {
+      active: true
+    }));
+  }
+
+  deactivate() {
+    this.setState(state => _extends({}, state, {
+      active: false
+    }));
+  }
+
   render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      active: this.active,
-      focused: this.focused,
-      hovered: this.hovered,
+      active: this.state.active,
+      focused: this.state.focused,
+      hovered: this.state.hovered,
       widgetRef: this.widgetRef,
       config: this.config,
       shouldRenderConfigProvider: this.shouldRenderConfigProvider,

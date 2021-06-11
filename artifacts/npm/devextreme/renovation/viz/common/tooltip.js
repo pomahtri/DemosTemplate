@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/tooltip.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -247,7 +247,6 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.cloudRef = (0, _inferno.createRef)();
     _this.textRef = (0, _inferno.createRef)();
     _this.htmlRef = (0, _inferno.createRef)();
@@ -275,95 +274,17 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
   _proto.createEffects = function createEffects() {
     var _this$props$rootWidge;
 
-    return [new _vdom.InfernoEffect(this.setHtmlText, [this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]), new _vdom.InfernoEffect(this.calculateSize, [this.props.visible, this.props.x, this.props.y, this.textSize, this.cloudSize]), new _vdom.InfernoEffect(this.eventsEffect, [this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.textSize, this.currentEventData]), new _vdom.InfernoEffect(this.checkContainer, [this.props.visible]), new _vdom.InfernoEffect(this.setCanvas, [this.props.container, (_this$props$rootWidge = this.props.rootWidget) === null || _this$props$rootWidge === void 0 ? void 0 : _this$props$rootWidge.current])];
+    return [new _vdom.InfernoEffect(this.setHtmlText, [this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]), new _vdom.InfernoEffect(this.calculateSize, [this.props.visible, this.props.x, this.props.y, this.state.textSize, this.state.cloudSize]), new _vdom.InfernoEffect(this.eventsEffect, [this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.state.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.state.textSize, this.state.currentEventData]), new _vdom.InfernoEffect(this.checkContainer, [this.props.visible]), new _vdom.InfernoEffect(this.setCanvas, [this.props.container, (_this$props$rootWidge = this.props.rootWidget) === null || _this$props$rootWidge === void 0 ? void 0 : _this$props$rootWidge.current])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$, _this$_effects$2, _this$_effects$3, _this$_effects$4, _this$_effects$5, _this$props$rootWidge2;
 
     (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.visible, this.props.x, this.props.y, this.textSize, this.cloudSize]);
-    (_this$_effects$3 = this._effects[2]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.textSize, this.currentEventData]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.visible, this.props.x, this.props.y, this.state.textSize, this.state.cloudSize]);
+    (_this$_effects$3 = this._effects[2]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.state.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.state.textSize, this.state.currentEventData]);
     (_this$_effects$4 = this._effects[3]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.visible]);
     (_this$_effects$5 = this._effects[4]) === null || _this$_effects$5 === void 0 ? void 0 : _this$_effects$5.update([this.props.container, (_this$props$rootWidge2 = this.props.rootWidget) === null || _this$props$rootWidge2 === void 0 ? void 0 : _this$props$rootWidge2.current]);
-  };
-
-  _proto.set_filterId = function set_filterId(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        filterId: newValue
-      };
-    });
-  };
-
-  _proto.set_textSize = function set_textSize(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      _this3._currentState = state;
-      var newValue = value();
-      _this3._currentState = null;
-      return {
-        textSize: newValue
-      };
-    });
-  };
-
-  _proto.set_cloudSize = function set_cloudSize(value) {
-    var _this4 = this;
-
-    this.setState(function (state) {
-      _this4._currentState = state;
-      var newValue = value();
-      _this4._currentState = null;
-      return {
-        cloudSize: newValue
-      };
-    });
-  };
-
-  _proto.set_currentEventData = function set_currentEventData(value) {
-    var _this5 = this;
-
-    this.setState(function (state) {
-      _this5._currentState = state;
-      var newValue = value();
-      _this5._currentState = null;
-      return {
-        currentEventData: newValue
-      };
-    });
-  };
-
-  _proto.set_isEmptyContainer = function set_isEmptyContainer(value) {
-    var _this6 = this;
-
-    this.setState(function (state) {
-      _this6._currentState = state;
-      var newValue = value();
-      _this6._currentState = null;
-      return {
-        isEmptyContainer: newValue
-      };
-    });
-  };
-
-  _proto.set_canvas = function set_canvas(value) {
-    var _this7 = this;
-
-    this.setState(function (state) {
-      _this7._currentState = state;
-      var newValue = value();
-      _this7._currentState = null;
-      return {
-        canvas: newValue
-      };
-    });
   };
 
   _proto.setHtmlText = function setHtmlText() {
@@ -378,15 +299,19 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
     var contentSize = this.calculateContentSize();
     var cloudSize = this.calculateCloudSize();
 
-    if ((0, _utils3.isUpdatedFlatObject)(this.textSize, contentSize)) {
-      this.set_textSize(function () {
-        return contentSize;
+    if ((0, _utils3.isUpdatedFlatObject)(this.state.textSize, contentSize)) {
+      this.setState(function (state) {
+        return _extends({}, state, {
+          textSize: contentSize
+        });
       });
     }
 
-    if ((0, _utils3.isUpdatedFlatObject)(this.cloudSize, cloudSize)) {
-      this.set_cloudSize(function () {
-        return cloudSize;
+    if ((0, _utils3.isUpdatedFlatObject)(this.state.cloudSize, cloudSize)) {
+      this.setState(function (state) {
+        return _extends({}, state, {
+          cloudSize: cloudSize
+        });
       });
     }
   };
@@ -406,18 +331,22 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
       return JSON.stringify(object1.target) === JSON.stringify(object2.target);
     };
 
-    if (visible && this.correctedCoordinates && !isEqual(this.currentEventData, eventData)) {
-      this.currentEventData && (onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.currentEventData));
+    if (visible && this.correctedCoordinates && !isEqual(this.state.currentEventData, eventData)) {
+      this.state.currentEventData && (onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.state.currentEventData));
       onTooltipShown === null || onTooltipShown === void 0 ? void 0 : onTooltipShown(eventData);
-      this.set_currentEventData(function () {
-        return eventData;
+      this.setState(function (state) {
+        return _extends({}, state, {
+          currentEventData: eventData
+        });
       });
     }
 
-    if (!visible && this.currentEventData) {
-      onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.currentEventData);
-      this.set_currentEventData(function () {
-        return undefined;
+    if (!visible && this.state.currentEventData) {
+      onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.state.currentEventData);
+      this.setState(function (state) {
+        return _extends({}, state, {
+          currentEventData: undefined
+        });
       });
     }
   };
@@ -427,18 +356,22 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
       var htmlTextSize = this.htmlRef.current.getBoundingClientRect();
 
       if (!htmlTextSize.width && !htmlTextSize.height) {
-        this.set_isEmptyContainer(function () {
-          return true;
+        this.setState(function (state) {
+          return _extends({}, state, {
+            isEmptyContainer: true
+          });
         });
       }
     }
   };
 
   _proto.setCanvas = function setCanvas() {
-    var _this8 = this;
+    var _this2 = this;
 
-    this.set_canvas(function () {
-      return (0, _tooltip_utils.getCanvas)(_this8.container);
+    this.setState(function (state) {
+      return _extends({}, state, {
+        canvas: (0, _tooltip_utils.getCanvas)(_this2.container)
+      });
     });
   };
 
@@ -487,12 +420,12 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
       props: _extends({}, props, {
         contentTemplate: getTemplate(props.contentTemplate)
       }),
-      filterId: this.filterId,
-      textSize: this.textSize,
-      cloudSize: this.cloudSize,
-      currentEventData: this.currentEventData,
-      isEmptyContainer: this.isEmptyContainer,
-      canvas: this.canvas,
+      filterId: this.state.filterId,
+      textSize: this.state.textSize,
+      cloudSize: this.state.cloudSize,
+      currentEventData: this.state.currentEventData,
+      isEmptyContainer: this.state.isEmptyContainer,
+      canvas: this.state.canvas,
       cloudRef: this.cloudRef,
       textRef: this.textRef,
       htmlRef: this.htmlRef,
@@ -511,50 +444,14 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(Tooltip, [{
-    key: "filterId",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.filterId;
-    }
-  }, {
-    key: "textSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.textSize;
-    }
-  }, {
-    key: "cloudSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.cloudSize;
-    }
-  }, {
-    key: "currentEventData",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.currentEventData;
-    }
-  }, {
-    key: "isEmptyContainer",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.isEmptyContainer;
-    }
-  }, {
-    key: "canvas",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.canvas;
-    }
-  }, {
     key: "textSizeWithPaddings",
     get: function get() {
       var _this$props2 = this.props,
           paddingLeftRight = _this$props2.paddingLeftRight,
           paddingTopBottom = _this$props2.paddingTopBottom;
       return {
-        width: this.textSize.width + paddingLeftRight * 2,
-        height: this.textSize.height + paddingTopBottom * 2
+        width: this.state.textSize.width + paddingLeftRight * 2,
+        height: this.state.textSize.height + paddingTopBottom * 2
       };
     }
   }, {
@@ -649,7 +546,7 @@ var Tooltip = /*#__PURE__*/function (_InfernoComponent) {
           x = _this$props4.x,
           y = _this$props4.y;
       return (0, _tooltip_utils.recalculateCoordinates)({
-        canvas: this.canvas,
+        canvas: this.state.canvas,
         anchorX: x,
         anchorY: y,
         size: this.textSizeWithPaddings,

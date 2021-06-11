@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/drawer/ui.drawer.rendering.strategy.overlap.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ var _renderer = _interopRequireDefault(require("../../core/renderer"));
 
 var _translator = require("../../animation/translator");
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _ui = _interopRequireDefault(require("../overlay/ui.overlay"));
 
 var _common = require("../../core/utils/common");
 
@@ -49,7 +49,7 @@ var OverlapStrategy = /*#__PURE__*/function (_DrawerStrategy) {
         opened = _drawer$option.opened,
         minSize = _drawer$option.minSize;
 
-    drawer._overlay = drawer._createComponent(drawer.content(), _overlay.default, {
+    drawer._overlay = drawer._createComponent(drawer.content(), _ui.default, {
       shading: false,
       container: drawer.getOverlayTarget(),
       position: this._getOverlayPosition(),

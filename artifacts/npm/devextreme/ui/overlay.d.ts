@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/overlay.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -34,7 +34,7 @@ import Widget, {
 } from './widget/ui.widget';
 
 /** @namespace DevExpress.ui */
-export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
+export interface dxOverlayOptions<TComponent> extends WidgetOptions<TComponent> {
     /**
      * @docid
      * @default { show: { type: "pop", duration: 300, from: { scale: 0.55 } }, hide: { type: "pop", duration: 300, to: { opacity: 0, scale: 0.55 }, from: { opacity: 1, scale: 1 } } }
@@ -72,6 +72,13 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @public
      */
     dragEnabled?: boolean;
+    /**
+     * @docid
+     * @deprecated
+     * @default {}
+     * @public
+     */
+    elementAttr?: any;
     /**
      * @docid
      * @default function() { return $(window).height() * 0.8 }
@@ -117,7 +124,7 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @action
      * @public
      */
-    onHidden?: ((e: EventInfo<T>) => void);
+    onHidden?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -129,7 +136,7 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @action
      * @public
      */
-    onHiding?: ((e: Cancelable & EventInfo<T>) => void);
+    onHiding?: ((e: Cancelable & EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -140,7 +147,7 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @action
      * @public
      */
-    onShowing?: ((e: EventInfo<T>) => void);
+    onShowing?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -151,7 +158,7 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @action
      * @public
      */
-    onShown?: ((e: EventInfo<T>) => void);
+    onShown?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default { my: 'center', at: 'center', of: window }
@@ -186,6 +193,12 @@ export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
      * @public
      */
     width?: number | string | (() => number | string);
+    /**
+     * @docid
+     * @default {}
+     * @public
+     */
+    wrapperAttr?: any;
 }
 /** @namespace DevExpress.ui */
 export interface dxOverlayAnimation {
@@ -209,8 +222,7 @@ export interface dxOverlayAnimation {
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxOverlay extends Widget {
-    constructor(element: UserDefinedElement, options?: dxOverlayOptions)
+export default class dxOverlay<TProperties> extends Widget<TProperties> {
     /**
      * @docid
      * @publicName content()
@@ -254,11 +266,13 @@ export default class dxOverlay extends Widget {
  * @param1 zIndex:number
  * @namespace DevExpress.ui.dxOverlay
  * @module ui/overlay
- * @export dxOverlay.baseZIndex
+ * @export baseZIndex
  * @static
  * @public
  */
 export function baseZIndex(zIndex: number): void;
 
-export type Options = dxOverlayOptions;
-export type IOptions = dxOverlayOptions;
+type Properties = dxOverlayOptions<dxOverlay<Properties>>;
+
+export type Options = Properties;
+export type IOptions = Properties;

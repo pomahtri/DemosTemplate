@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/load_panel.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -22,7 +22,7 @@ var _extend = require("../core/utils/extend");
 
 var _load_indicator = _interopRequireDefault(require("./load_indicator"));
 
-var _overlay = _interopRequireDefault(require("./overlay"));
+var _ui = _interopRequireDefault(require("./overlay/ui.overlay"));
 
 var _deferred = require("../core/utils/deferred");
 
@@ -39,7 +39,7 @@ var LOADPANEL_CONTENT_CLASS = 'dx-loadpanel-content';
 var LOADPANEL_CONTENT_WRAPPER_CLASS = 'dx-loadpanel-content-wrapper';
 var LOADPANEL_PANE_HIDDEN_CLASS = 'dx-loadpanel-pane-hidden';
 
-var LoadPanel = _overlay.default.inherit({
+var LoadPanel = _ui.default.inherit({
   _supportedKeys: function _supportedKeys() {
     return (0, _extend.extend)(this.callBase(), {
       escape: _common.noop

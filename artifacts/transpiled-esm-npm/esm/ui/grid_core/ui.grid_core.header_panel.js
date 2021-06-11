@@ -1,5 +1,5 @@
+import _extends from "@babel/runtime/helpers/esm/extends";
 import $ from '../../core/renderer';
-import { extend } from 'jquery';
 import Toolbar from '../toolbar';
 import { ColumnsView } from './ui.grid_core.columns_view';
 import { noop } from '../../core/utils/common';
@@ -34,25 +34,8 @@ var HeaderPanel = ColumnsView.inherit({
         }
       }
     };
-    var defaultButtonsByNames = {};
-    options.toolbarOptions.items.forEach(button => {
-      defaultButtonsByNames[button.name] = button;
-    });
-    var items = this.option('toolbar.items');
-
-    if (isDefined(items)) {
-      options.toolbarOptions.items = items;
-    }
-
+    options.toolbarOptions.items = this._normalizeToolbarItems(options.toolbarOptions.items);
     this.executeAction('onToolbarPreparing', options);
-    options.toolbarOptions.items = options.toolbarOptions.items.map(button => {
-      if (isString(button)) button = {
-        name: button
-      };
-      if (!isDefined(button.name)) return button;
-      if (!isDefined(defaultButtonsByNames[button.name])) return button;
-      return extend(defaultButtonsByNames[button.name], button);
-    });
 
     if (options.toolbarOptions && !isDefined(options.toolbarOptions.visible)) {
       var toolbarItems = options.toolbarOptions.items;
@@ -61,6 +44,33 @@ var HeaderPanel = ColumnsView.inherit({
 
     return options.toolbarOptions;
   },
+
+  _normalizeToolbarItems(items) {
+    var userItems = this.option('toolbar.items');
+
+    if (!isDefined(userItems)) {
+      return items;
+    }
+
+    var defaultButtonsByNames = {};
+    items.forEach(button => {
+      defaultButtonsByNames[button.name] = button;
+    });
+    return userItems.map(button => {
+      if (isString(button)) {
+        button = {
+          name: button
+        };
+      }
+
+      if (!isDefined(button.name) || !isDefined(defaultButtonsByNames[button.name])) {
+        return button;
+      }
+
+      return _extends({}, button, defaultButtonsByNames[button.name]);
+    });
+  },
+
   _renderCore: function _renderCore() {
     if (!this._toolbar) {
       var $headerPanel = this.element();
@@ -120,7 +130,7 @@ var HeaderPanel = ColumnsView.inherit({
     return this.getElementHeight();
   },
   optionChanged: function optionChanged(args) {
-    if (args.name === 'onToolbarPreparing' || args.name === 'toolbar') {
+    if (args.name === 'onToolbarPreparing') {
       this._invalidate();
 
       args.handled = true;

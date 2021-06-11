@@ -44,6 +44,8 @@ var _utilsTimeZone = _interopRequireDefault(require("../utils.timeZone.js"));
 
 var _constants = require("../constants");
 
+var _classes = require("../classes");
+
 var _appointmentLayout = require("./appointmentLayout");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -193,7 +195,8 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
       allowResize: true,
       allowAllDayResize: true,
       onAppointmentDblClick: null,
-      _collectorOffset: 0
+      _collectorOffset: 0,
+      groups: []
     });
   };
 
@@ -383,7 +386,7 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
   };
 
   _proto._itemClass = function _itemClass() {
-    return _constants.APPOINTMENT_ITEM_CLASS;
+    return _classes.APPOINTMENT_ITEM_CLASS;
   };
 
   _proto._itemContainer = function _itemContainer() {
@@ -581,8 +584,6 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
   };
 
   _proto._renderAppointment = function _renderAppointment(element, settings) {
-    var _this4 = this;
-
     element.data(_constants.APPOINTMENT_SETTINGS_KEY, settings);
 
     this._applyResourceDataAttr(element);
@@ -596,9 +597,11 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
     this.invoke('setCellDataCacheAlias', this._currentAppointmentSettings, geometry);
 
     if (settings.virtual) {
-      var deferredColor = this.invoke('getAppointmentColor', {
+      var deferredColor = this.invoke('getResourceManager').getAppointmentColor({
         itemData: rawAppointment,
-        groupIndex: settings.groupIndex
+        groupIndex: settings.groupIndex,
+        groups: this.option('groups'),
+        workspaceGroups: this.invoke('getWorkspaceOption', 'groups')
       });
 
       this._processVirtualAppointment(settings, element, rawAppointment, deferredColor);
@@ -619,12 +622,15 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
         startDate: new Date((_settings$info = settings.info) === null || _settings$info === void 0 ? void 0 : _settings$info.appointment.startDate),
         cellWidth: this.invoke('getCellWidth'),
         cellHeight: this.invoke('getCellHeight'),
-        resizableConfig: this._resizableConfig(rawAppointment, settings)
+        resizableConfig: this._resizableConfig(rawAppointment, settings),
+        groups: this.option('groups')
       };
 
       if (this.isAgendaView) {
+        var resourceManager = this.invoke('getResourceManager');
+
         config.createPlainResourceListAsync = function (rawAppointment) {
-          return _this4.resourceManager._createPlainResourcesByAppointmentAsync(rawAppointment);
+          return resourceManager._createPlainResourcesByAppointmentAsync(rawAppointment);
         };
       }
 
@@ -633,7 +639,8 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
   };
 
   _proto._applyResourceDataAttr = function _applyResourceDataAttr($appointment) {
-    var resources = this.invoke('getResourcesFromItem', this._getItemData($appointment));
+    var resourceManager = this.invoke('getResourceManager');
+    var resources = resourceManager.getResourcesFromItem(this._getItemData($appointment));
 
     if (resources) {
       (0, _iterator.each)(resources, function (name, values) {
@@ -849,10 +856,10 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
   };
 
   _proto._renderDropDownAppointments = function _renderDropDownAppointments() {
-    var _this5 = this;
+    var _this4 = this;
 
     this._renderByFragments(function ($commonFragment, $allDayFragment) {
-      (0, _iterator.each)(_this5._virtualAppointments, function (groupIndex) {
+      (0, _iterator.each)(_this4._virtualAppointments, function (groupIndex) {
         var virtualGroup = this._virtualAppointments[groupIndex];
         var virtualItems = virtualGroup.items;
         var virtualCoordinates = virtualGroup.coordinates;
@@ -877,7 +884,7 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
           isCompact: this.invoke('isAdaptive') || this._isGroupCompact(virtualGroup),
           applyOffset: !virtualGroup.isAllDay && this.invoke('isApplyCompactAppointmentOffset')
         });
-      }.bind(_this5));
+      }.bind(_this4));
     });
   };
 
@@ -1056,7 +1063,7 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
     var maxAllowedDate = this.invoke('getEndViewDate');
     var startDayHour = this.invoke('getStartDayHour');
     var endDayHour = this.invoke('getEndDayHour');
-    var appointmentIsLong = this.invoke('appointmentTakesSeveralDays', appointment);
+    var appointmentIsLong = this.invoke('getAppointmentDataProvider').appointmentTakesSeveralDays(appointment);
     var result = [];
     var timeZoneCalculator = this.invoke('getTimeZoneCalculator');
     startDate = timeZoneCalculator.createDate(startDate, {
@@ -1115,7 +1122,7 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
   };
 
   _proto._removeDragSourceClassFromDraggedAppointment = function _removeDragSourceClassFromDraggedAppointment() {
-    var $appointments = this._itemElements().filter(".".concat(_constants.APPOINTMENT_DRAG_SOURCE_CLASS));
+    var $appointments = this._itemElements().filter(".".concat(_classes.APPOINTMENT_DRAG_SOURCE_CLASS));
 
     $appointments.each(function (_, element) {
       var appointmentInstance = (0, _renderer.default)(element).dxSchedulerAppointment('instance');
@@ -1153,11 +1160,6 @@ var SchedulerAppointments = /*#__PURE__*/function (_CollectionWidget) {
     key: "isVirtualScrolling",
     get: function get() {
       return this.invoke('isVirtualScrolling');
-    }
-  }, {
-    key: "resourceManager",
-    get: function get() {
-      return this.option('observer')._resourcesManager;
     }
   }]);
 

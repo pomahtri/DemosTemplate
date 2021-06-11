@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/pager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -60,7 +60,6 @@ var Pager = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var _this;
 
     _this = _InfernoWrapperCompon.call(this, props) || this;
-    _this._currentState = null;
     _this.state = {
       pageIndex: _this.props.pageIndex !== undefined ? _this.props.pageIndex : _this.props.defaultPageIndex,
       pageSize: _this.props.pageSize !== undefined ? _this.props.pageSize : _this.props.defaultPageSize
@@ -72,62 +71,58 @@ var Pager = /*#__PURE__*/function (_InfernoWrapperCompon) {
 
   var _proto = Pager.prototype;
 
-  _proto.set_pageIndex = function set_pageIndex(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      var _this2$props$pageInde, _this2$props;
-
-      _this2._currentState = state;
-      var newValue = value();
-      (_this2$props$pageInde = (_this2$props = _this2.props).pageIndexChange) === null || _this2$props$pageInde === void 0 ? void 0 : _this2$props$pageInde.call(_this2$props, newValue);
-      _this2._currentState = null;
-      return {
-        pageIndex: newValue
-      };
-    });
-  };
-
-  _proto.set_pageSize = function set_pageSize(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      var _this3$props$pageSize, _this3$props;
-
-      _this3._currentState = state;
-      var newValue = value();
-      (_this3$props$pageSize = (_this3$props = _this3.props).pageSizeChange) === null || _this3$props$pageSize === void 0 ? void 0 : _this3$props$pageSize.call(_this3$props, newValue);
-      _this3._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
+  _proto.createEffects = function createEffects() {
+    return [(0, _vdom.createReRenderEffect)()];
   };
 
   _proto.pageIndexChange = function pageIndexChange(newPageIndex) {
     if (this.props.gridCompatibility) {
-      this.set_pageIndex(function () {
-        return newPageIndex + 1;
-      });
+      {
+        var __newValue;
+
+        this.setState(function (state) {
+          __newValue = newPageIndex + 1;
+          return {
+            pageIndex: __newValue
+          };
+        });
+        this.props.pageIndexChange(__newValue);
+      }
     } else {
-      this.set_pageIndex(function () {
-        return newPageIndex;
-      });
+      {
+        var _newValue;
+
+        this.setState(function (state) {
+          _newValue = newPageIndex;
+          return {
+            pageIndex: _newValue
+          };
+        });
+        this.props.pageIndexChange(_newValue);
+      }
     }
   };
 
   _proto.pageSizeChange = function pageSizeChange(newPageSize) {
-    this.set_pageSize(function () {
-      return newPageSize;
-    });
+    {
+      var __newValue;
+
+      this.setState(function (state) {
+        __newValue = newPageSize;
+        return {
+          pageSize: __newValue
+        };
+      });
+      this.props.pageSizeChange(__newValue);
+    }
   };
 
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       pageIndexChange: this.pageIndexChange,
       pageIndex: this.pageIndex,
@@ -139,25 +134,13 @@ var Pager = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _createClass(Pager, [{
-    key: "__state_pageIndex",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
-    }
-  }, {
-    key: "__state_pageSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-    }
-  }, {
     key: "pageIndex",
     get: function get() {
       if (this.props.gridCompatibility) {
-        return this.__state_pageIndex - 1;
+        return (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
       }
 
-      return this.__state_pageIndex;
+      return this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex;
     }
   }, {
     key: "className",
@@ -173,19 +156,19 @@ var Pager = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }, {
     key: "pagerProps",
     get: function get() {
-      var _this4 = this;
+      var _this2 = this;
 
       return _extends({}, _extends({}, this.props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }), {
         className: this.className,
         pageIndex: this.pageIndex,
         pageIndexChange: function pageIndexChange(pageIndex) {
-          return _this4.pageIndexChange(pageIndex);
+          return _this2.pageIndexChange(pageIndex);
         },
         pageSizeChange: function pageSizeChange(pageSize) {
-          return _this4.pageSizeChange(pageSize);
+          return _this2.pageSizeChange(pageSize);
         }
       });
     }
@@ -193,8 +176,8 @@ var Pager = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex = _extends({}, this.props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
           className = _this$props$pageIndex.className,
           defaultPageIndex = _this$props$pageIndex.defaultPageIndex,

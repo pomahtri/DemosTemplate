@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/editor/editor.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../../core/element';
-
 import {
     NativeEventInfo
 } from '../../events/index';
@@ -24,7 +20,7 @@ export interface ValueChangedInfo {
 }
 
 /** @namespace DevExpress.ui */
-export interface EditorOptions<T = Editor> extends WidgetOptions<T> {
+export interface EditorOptions<TComponent> extends WidgetOptions<TComponent> {
     /**
      * @docid
      * @default true
@@ -44,7 +40,7 @@ export interface EditorOptions<T = Editor> extends WidgetOptions<T> {
      * @action
      * @public
      */
-    onValueChanged?: ((e: NativeEventInfo<T> & ValueChangedInfo) => void);
+    onValueChanged?: ((e: NativeEventInfo<TComponent> & ValueChangedInfo) => void);
     /**
      * @docid
      * @default false
@@ -101,8 +97,7 @@ export interface EditorOptions<T = Editor> extends WidgetOptions<T> {
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class Editor extends Widget {
-    constructor(element: UserDefinedElement, options?: EditorOptions)
+export default class Editor<TProperties = Properties> extends Widget<TProperties> {
     /**
      * @docid
      * @publicName reset()
@@ -110,3 +105,5 @@ export default class Editor extends Widget {
      */
     reset(): void;
 }
+
+type Properties = EditorOptions<Editor<Properties>>;

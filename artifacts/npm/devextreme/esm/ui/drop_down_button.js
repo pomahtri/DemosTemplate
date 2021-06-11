@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/drop_down_button.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -290,6 +290,16 @@ var DropDownButton = Widget.inherit({
   },
 
   _buttonGroupOptions() {
+    var buttonTemplate = this.option('splitButton') || !this.option('showArrowIcon') ? 'content' : (_ref4, buttonContent) => {
+      var {
+        text,
+        icon
+      } = _ref4;
+      var $firstIcon = getImageContainer(icon);
+      var $textContainer = text ? $('<span>').text(text).addClass(DX_BUTTON_TEXT_CLASS) : undefined;
+      var $secondIcon = getImageContainer('spindown').addClass(DX_ICON_RIGHT_CLASS);
+      $(buttonContent).append($firstIcon, $textContainer, $secondIcon);
+    };
     return extend({
       items: this._getButtonGroupItems(),
       focusStateEnabled: this.option('focusStateEnabled'),
@@ -301,21 +311,7 @@ var DropDownButton = Widget.inherit({
       selectionMode: 'none',
       tabIndex: this.option('tabIndex'),
       onKeyboardHandled: e => this._keyboardHandler(e),
-      buttonTemplate: (_ref4, buttonContent) => {
-        var {
-          text,
-          icon
-        } = _ref4;
-
-        if (this.option('splitButton') || !this.option('showArrowIcon')) {
-          return 'content';
-        }
-
-        var $firstIcon = getImageContainer(icon);
-        var $textContainer = text ? $('<span>').text(text).addClass(DX_BUTTON_TEXT_CLASS) : undefined;
-        var $secondIcon = getImageContainer('spindown').addClass(DX_ICON_RIGHT_CLASS);
-        $(buttonContent).append($firstIcon, $textContainer, $secondIcon);
-      }
+      buttonTemplate
     }, this._options.cache('buttonGroupOptions'));
   },
 
@@ -737,7 +733,7 @@ var DropDownButton = Widget.inherit({
       case 'showArrowIcon':
         this._updateArrowClass();
 
-        this._buttonGroup.repaint();
+        this._renderButtonGroup();
 
         this._popup && this._popup.repaint();
         break;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/list/ui.list.edit.decorator.context.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ var _uiListEdit2 = require("./ui.list.edit.decorator_registry");
 
 var _uiListEdit3 = _interopRequireDefault(require("./ui.list.edit.decorator"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _ui = _interopRequireDefault(require("../overlay/ui.overlay"));
 
 var _uiList = require("./ui.list.base");
 
@@ -35,7 +35,7 @@ var CONTEXTMENU_MENUCONTENT_CLASS = 'dx-list-context-menucontent';
     this._menu = this._renderOverlay($menu);
   },
   _renderOverlay: function _renderOverlay($element) {
-    return this._list._createComponent($element, _overlay.default, {
+    return this._list._createComponent($element, _ui.default, {
       shading: false,
       deferRendering: true,
       closeOnTargetScroll: true,

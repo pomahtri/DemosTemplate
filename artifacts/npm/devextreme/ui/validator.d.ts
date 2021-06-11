@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/validator.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import DOMComponent, {
     DOMComponentOptions
 } from '../core/dom_component';
@@ -125,8 +121,7 @@ export interface dxValidatorOptions extends DOMComponentOptions<dxValidator> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxValidator extends DOMComponent {
-    constructor(element: UserDefinedElement, options?: dxValidatorOptions)
+export default class dxValidator extends DOMComponent<dxValidatorOptions> {
     /**
      * @docid
      * @publicName focus()

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scroll_view/load_panel.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,7 +13,7 @@ import { createComponentVNode } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import { isDefined } from "../../../core/utils/type";
 import messageLocalization from "../../../localization/message";
-import { LoadPanel, LoadPanelProps } from "../load_panel";
+import { LoadPanel, LoadPanelProps } from "../overlays/load_panel";
 var SCROLLVIEW_LOADPANEL = "dx-scrollview-loadpanel";
 export var viewFunction = viewModel => {
   var {

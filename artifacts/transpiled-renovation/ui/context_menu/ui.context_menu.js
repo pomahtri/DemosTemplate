@@ -36,9 +36,9 @@ var _devices = _interopRequireDefault(require("../../core/devices"));
 
 var _index = require("../../events/utils/index");
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _ui = _interopRequireDefault(require("../overlay/ui.overlay"));
 
-var _ui = _interopRequireDefault(require("./ui.menu_base"));
+var _ui2 = _interopRequireDefault(require("./ui.menu_base"));
 
 var _deferred = require("../../core/utils/deferred");
 
@@ -405,7 +405,7 @@ var ContextMenu = /*#__PURE__*/function (_MenuBase) {
 
     var overlayOptions = this._getOverlayOptions();
 
-    this._overlay = this._createComponent((0, _renderer.default)('<div>').appendTo(this._$element), _overlay.default, overlayOptions);
+    this._overlay = this._createComponent((0, _renderer.default)('<div>').appendTo(this._$element), _ui.default, overlayOptions);
 
     var $overlayContent = this._overlay.$content();
 
@@ -1075,7 +1075,7 @@ var ContextMenu = /*#__PURE__*/function (_MenuBase) {
   };
 
   return ContextMenu;
-}(_ui.default);
+}(_ui2.default);
 
 (0, _component_registrator.default)('dxContextMenu', ContextMenu);
 var _default = ContextMenu;

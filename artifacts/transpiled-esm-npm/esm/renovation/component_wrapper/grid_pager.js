@@ -1,4 +1,4 @@
-import Component from "./component";
+import Component from "./common/component";
 export class GridPagerWrapper extends Component {
   _optionChanged(args) {
     switch (args.name) {

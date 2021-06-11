@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/select_box.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -24,20 +24,21 @@ import {
 } from '../events/index';
 
 import {
-    SelectionChangedInfo
-} from './collection/ui.collection_widget.base';
-
-import {
     DropDownButtonTemplateDataModel
 } from './drop_down_editor/ui.drop_down_editor';
 
 import dxDropDownList, {
-    dxDropDownListOptions
+    dxDropDownListOptions,
+    SelectionChangedInfo
 } from './drop_down_editor/ui.drop_down_list';
 
 import {
     ValueChangedInfo
 } from './editor/editor';
+
+import {
+    Properties as PopupProperties
+} from './popup';
 
 export interface CustomItemCreatingInfo {
     readonly text?: string;
@@ -113,7 +114,7 @@ export type DropDownButtonTemplateData = DropDownButtonTemplateDataModel;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxSelectBoxOptions<T = dxSelectBox> extends dxDropDownListOptions<T> {
+export interface dxSelectBoxOptions<TComponent> extends dxDropDownListOptions<TComponent> {
     /**
      * @docid
      * @default false
@@ -172,6 +173,12 @@ export interface dxSelectBoxOptions<T = dxSelectBox> extends dxDropDownListOptio
      * @public
      */
     valueChangeEvent?: string;
+
+    /**
+     * @docid
+     * @type dxPopupOptions
+     */
+    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -182,15 +189,13 @@ export interface dxSelectBoxOptions<T = dxSelectBox> extends dxDropDownListOptio
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxSelectBox extends dxDropDownList {
-    constructor(element: UserDefinedElement, options?: dxSelectBoxOptions)
-}
+export default class dxSelectBox<TProperties = Properties> extends dxDropDownList<TProperties> { }
 
 /** @public */
-export type Properties = dxSelectBoxOptions;
+export type Properties = dxSelectBoxOptions<dxSelectBox<Properties>>;
 
 /** @deprecated use Properties instead */
-export type Options = dxSelectBoxOptions;
+export type Options = Properties;
 
 /** @deprecated use Properties instead */
-export type IOptions = dxSelectBoxOptions;
+export type IOptions = Properties;

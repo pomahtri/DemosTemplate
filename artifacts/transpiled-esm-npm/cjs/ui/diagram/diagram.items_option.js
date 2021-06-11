@@ -4,7 +4,7 @@ exports.default = void 0;
 
 var _extend = require("../../core/utils/extend");
 
-var _component = _interopRequireDefault(require("../../core/component"));
+var _component = require("../../core/component");
 
 var _data_helper = _interopRequireDefault(require("../../data_helper"));
 
@@ -16,7 +16,7 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var ItemsOptionBase = _component.default.inherit({}).include(_data_helper.default);
+var ItemsOptionBase = _component.Component.inherit({}).include(_data_helper.default);
 
 var ItemsOption = /*#__PURE__*/function (_ItemsOptionBase) {
   _inheritsLoose(ItemsOption, _ItemsOptionBase);

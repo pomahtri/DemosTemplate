@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/integration/knockout/component_registrator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,6 +13,7 @@ import Callbacks from '../../core/utils/callbacks';
 import { isPlainObject } from '../../core/utils/type';
 import registerComponentCallbacks from '../../core/component_registrator_callbacks';
 import Widget from '../../ui/widget/ui.widget';
+import Draggable from '../../ui/draggable';
 import { KoTemplate } from './template';
 import Editor from '../../ui/editor/editor';
 import Locker from '../../core/utils/locker';
@@ -210,7 +211,7 @@ if (ko) {
 
         createComponent();
         return {
-          controlsDescendantBindings: componentClass.subclassOf(Widget)
+          controlsDescendantBindings: componentClass.subclassOf(Widget) || componentClass.subclassOf(Draggable)
         };
       }
     };

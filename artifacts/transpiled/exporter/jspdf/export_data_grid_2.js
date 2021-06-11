@@ -4,22 +4,38 @@ exports.exportDataGrid = exportDataGrid;
 
 var _type = require("../../core/utils/type");
 
+var _extend = require("../../core/utils/extend");
+
 var _pdf_grid = require("./pdf_grid");
 
-function exportDataGrid(doc, dataGrid, options) {
-  if (!(0, _type.isDefined)(options.topLeft)) {
+function _getFullOptions(options) {
+  var fullOptions = (0, _extend.extend)({}, options);
+
+  if (!(0, _type.isDefined)(fullOptions.topLeft)) {
     throw 'options.topLeft is required';
   }
 
+  if (!(0, _type.isDefined)(fullOptions.indent)) {
+    fullOptions.indent = 10;
+  }
+
+  return fullOptions;
+}
+
+function exportDataGrid(doc, dataGrid, options) {
+  options = (0, _extend.extend)({}, _getFullOptions(options));
   var dataProvider = dataGrid.getDataProvider();
   return new Promise(function (resolve) {
     dataProvider.ready().done(function () {
       var columns = dataProvider.getColumns();
       var pdfGrid = new _pdf_grid.PdfGrid(options.splitToTablesByColumns, options.columnWidths);
+      var rowsIndents = [];
       pdfGrid.startNewTable(options.drawTableBorder, options.topLeft);
       var dataRowsCount = dataProvider.getRowsCount();
 
       for (var rowIndex = 0; rowIndex < dataRowsCount; rowIndex++) {
+        var rowType = dataProvider.getCellData(rowIndex, 0, true).cellSourceData.rowType;
+        var groupLevel = rowType !== 'header' ? dataProvider.getGroupLevel(rowIndex) : 0;
         var currentRow = [];
 
         for (var cellIndex = 0; cellIndex < columns.length; cellIndex++) {
@@ -28,7 +44,7 @@ function exportDataGrid(doc, dataGrid, options) {
             text: cellData.value
           };
 
-          if (cellData.cellSourceData.rowType === 'header') {
+          if (rowType === 'header') {
             var cellMerging = dataProvider.getCellMerging(rowIndex, cellIndex);
 
             if (cellMerging && cellMerging.rowspan > 0) {
@@ -38,6 +54,8 @@ function exportDataGrid(doc, dataGrid, options) {
             if (cellMerging && cellMerging.colspan > 0) {
               pdfCell.colSpan = cellMerging.colspan;
             }
+          } else if (rowType === 'group') {
+            pdfCell.colSpan = columns.length - 1;
           }
 
           if (options.onCellExporting) {
@@ -52,6 +70,20 @@ function exportDataGrid(doc, dataGrid, options) {
           currentRow.push(pdfCell);
         }
 
+        rowsIndents.push(groupLevel * options.indent);
+        var startNewTableWithIndent = rowsIndents.length >= 2 && rowsIndents[rowsIndents.length - 1] !== rowsIndents[rowsIndents.length - 2];
+
+        if (startNewTableWithIndent) {
+          var indent = rowsIndents[rowsIndents.length - 1];
+          var prevTable = pdfGrid._currentHorizontalTables[0];
+          var firstColumnWidth = options.columnWidths[0] - indent;
+          var tableTopLeft = {
+            x: options.topLeft.x + indent,
+            y: prevTable.rect.y + prevTable.rect.h
+          };
+          pdfGrid.startNewTable(options.drawTableBorder, tableTopLeft, null, null, firstColumnWidth);
+        }
+
         var rowHeight = null; // TODO: Default Value
 
         if (options.onRowExporting) {
@@ -63,11 +95,11 @@ function exportDataGrid(doc, dataGrid, options) {
           var _args$drawNewTableFro = args.drawNewTableFromThisRow,
               startNewTable = _args$drawNewTableFro.startNewTable,
               addPage = _args$drawNewTableFro.addPage,
-              tableTopLeft = _args$drawNewTableFro.tableTopLeft,
+              _tableTopLeft = _args$drawNewTableFro.tableTopLeft,
               splitToTablesByColumns = _args$drawNewTableFro.splitToTablesByColumns;
 
           if (startNewTable === true) {
-            pdfGrid.startNewTable(options.drawTableBorder, tableTopLeft, addPage === true, splitToTablesByColumns);
+            pdfGrid.startNewTable(options.drawTableBorder, _tableTopLeft, addPage === true, splitToTablesByColumns);
           }
 
           if ((0, _type.isDefined)(args.rowHeight)) {

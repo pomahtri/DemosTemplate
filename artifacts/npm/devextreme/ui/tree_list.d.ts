@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/tree_list.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -970,8 +970,7 @@ export interface Selection extends SelectionBase {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTreeList extends Widget implements GridBase {
-    constructor(element: UserDefinedElement, options?: dxTreeListOptions)
+export default class dxTreeList extends Widget<dxTreeListOptions> implements GridBase {
     /**
      * @docid
      * @publicName addColumn(columnOptions)
@@ -1172,7 +1171,7 @@ export default class dxTreeList extends Widget implements GridBase {
     isRowFocused(key: any): boolean;
     isRowSelected(key: any): boolean;
     keyOf(obj: any): any;
-    navigateToRow(key: any): void;
+    navigateToRow(key: any): DxPromise<void>;
     pageCount(): number;
     pageIndex(): number;
     pageIndex(newIndex: number): DxPromise<void>;

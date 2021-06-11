@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/scheduler/workspaces/timeline/header_panel/layout.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -56,5 +56,6 @@ var TimelineHeaderPanelLayout = /*#__PURE__*/function (_HeaderPanel) {
 
 exports.default = TimelineHeaderPanelLayout;
 (0, _component_registrator.default)("dxTimelineHeaderPanelLayout", TimelineHeaderPanelLayout);
+TimelineHeaderPanelLayout.defaultOptions = _layout.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/component_wrapper/button.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,9 +12,11 @@ exports.default = void 0;
 
 var _validation_engine = _interopRequireDefault(require("../../ui/validation_engine"));
 
-var _component = _interopRequireDefault(require("./component"));
+var _component = _interopRequireDefault(require("./common/component"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -24,19 +26,17 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var Button = /*#__PURE__*/function (_Component) {
-  _inheritsLoose(Button, _Component);
+var ButtonWrapper = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(ButtonWrapper, _Component);
 
-  function Button() {
+  function ButtonWrapper() {
     return _Component.apply(this, arguments) || this;
   }
 
-  var _proto = Button.prototype;
+  var _proto = ButtonWrapper.prototype;
 
-  _proto._init = function _init() {
-    _Component.prototype._init.call(this);
-
-    this._addAction("onSubmit", this._getSubmitAction());
+  _proto.getDefaultTemplateNames = function getDefaultTemplateNames() {
+    return ["content"];
   };
 
   _proto.getProps = function getProps() {
@@ -44,6 +44,11 @@ var Button = /*#__PURE__*/function (_Component) {
 
     props.validationGroup = this._validationGroupConfig;
     return props;
+  };
+
+  _proto._toggleActiveState = function _toggleActiveState(_, value) {
+    var button = this.viewRef;
+    value ? button.activate() : button.deactivate();
   };
 
   _proto._getSubmitAction = function _getSubmitAction() {
@@ -70,8 +75,7 @@ var Button = /*#__PURE__*/function (_Component) {
 
             _this.option("disabled", true);
 
-            complete.then(function (_ref2) {
-              var status = _ref2.status;
+            complete.then(function () {
               needValidate = true;
 
               _this.option("disabled", false);
@@ -88,21 +92,63 @@ var Button = /*#__PURE__*/function (_Component) {
     });
   };
 
+  _proto._init = function _init() {
+    var _this2 = this;
+
+    _Component.prototype._init.call(this);
+
+    this.defaultKeyHandlers = {
+      enter: function enter(_, opts) {
+        return _this2.viewRef.onWidgetKeyDown(opts);
+      },
+      space: function space(_, opts) {
+        return _this2.viewRef.onWidgetKeyDown(opts);
+      }
+    };
+
+    this._addAction("onSubmit", this._getSubmitAction());
+  };
+
+  _proto._initMarkup = function _initMarkup() {
+    _Component.prototype._initMarkup.call(this);
+
+    var $content = this.$element().find(".dx-button-content");
+    var $template = $content.children().filter(".dx-template-wrapper");
+
+    if ($template.length) {
+      $template.addClass("dx-button-content");
+      $content.replaceWith($template);
+    }
+  };
+
+  _proto._patchOptionValues = function _patchOptionValues(options) {
+    return _Component.prototype._patchOptionValues.call(this, _extends({}, options, {
+      templateData: options._templateData
+    }));
+  };
+
   _proto._findGroup = function _findGroup() {
     var $element = this.$element();
     return this.option("validationGroup") || _validation_engine.default.findGroup($element, this._modelByElement($element));
   };
 
-  _createClass(Button, [{
+  _createClass(ButtonWrapper, [{
     key: "_validationGroupConfig",
     get: function get() {
       return _validation_engine.default.getGroupConfig(this._findGroup());
     }
+  }, {
+    key: "_templatesInfo",
+    get: function get() {
+      return {
+        template: "content"
+      };
+    }
   }]);
 
-  return Button;
+  return ButtonWrapper;
 }(_component.default);
 
-exports.default = Button;
+exports.default = ButtonWrapper;
 module.exports = exports.default;
 module.exports.default = exports.default;

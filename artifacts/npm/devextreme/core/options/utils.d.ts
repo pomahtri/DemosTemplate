@@ -1,6 +1,6 @@
 /**
 * DevExtreme (core/options/utils.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,9 +10,13 @@ import {
     Device
 } from '../devices';
 
+export type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
 export declare type Rule<T> = {
     device: ((device: Device) => boolean) | Device | Device[];
-    options: Partial<T>;
+    options: RecursivePartial<T>;
 };
 
 export declare function convertRulesToOptions<T>(rules: Rule<T>[]): T;

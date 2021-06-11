@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/tooltip_utils.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -123,8 +123,8 @@ function getCloudPoints(size, coordinates, rotationAngle, options, bounded) {
   var arrowBaseTop = max(arrowY - halfArrowWidth, yt);
   var arrowBaseLeft = max(arrowX - halfArrowWidth, xl);
   var cornerRadius = Math.min(halfWidth, halfHeight, options.cornerRadius);
-  var points;
-  var arrowArc;
+  var points = "";
+  var arrowArc = "";
   leftTopCorner[1] += cornerRadius;
   rightTopCorner[0] -= cornerRadius;
   rightBottomCorner[1] -= cornerRadius;
@@ -217,7 +217,7 @@ function getCloudPoints(size, coordinates, rotationAngle, options, bounded) {
 }
 
 function getCanvas(container) {
-  var _getWindow, _getWindow2;
+  var _ref4, _getWindow, _ref5, _getWindow2;
 
   var containerBox = container.getBoundingClientRect();
 
@@ -225,8 +225,8 @@ function getCanvas(container) {
 
   var body = _dom_adapter.default.getBody();
 
-  var left = ((_getWindow = (0, _window.getWindow)()) === null || _getWindow === void 0 ? void 0 : _getWindow.pageXOffset) || html.scrollLeft || 0;
-  var top = ((_getWindow2 = (0, _window.getWindow)()) === null || _getWindow2 === void 0 ? void 0 : _getWindow2.pageYOffset) || html.scrollTop || 0;
+  var left = (_ref4 = Number((_getWindow = (0, _window.getWindow)()) === null || _getWindow === void 0 ? void 0 : _getWindow.pageXOffset) || html.scrollLeft) !== null && _ref4 !== void 0 ? _ref4 : 0;
+  var top = (_ref5 = Number((_getWindow2 = (0, _window.getWindow)()) === null || _getWindow2 === void 0 ? void 0 : _getWindow2.pageYOffset) || html.scrollTop) !== null && _ref5 !== void 0 ? _ref5 : 0;
   var box = {
     left: left,
     top: top,
@@ -248,13 +248,13 @@ function getCanvas(container) {
   return box;
 }
 
-function recalculateCoordinates(_ref4) {
-  var anchorX = _ref4.anchorX,
-      anchorY = _ref4.anchorY,
-      arrowLength = _ref4.arrowLength,
-      canvas = _ref4.canvas,
-      offset = _ref4.offset,
-      size = _ref4.size;
+function recalculateCoordinates(_ref6) {
+  var anchorX = _ref6.anchorX,
+      anchorY = _ref6.anchorY,
+      arrowLength = _ref6.arrowLength,
+      canvas = _ref6.canvas,
+      offset = _ref6.offset,
+      size = _ref6.size;
   var bounds = {
     xl: canvas.left,
     xr: canvas.width - canvas.right,
@@ -268,8 +268,8 @@ function recalculateCoordinates(_ref4) {
     return false;
   }
 
-  var x;
-  var y;
+  var x = Number.NaN;
+  var y = Number.NaN;
   var correctedAnchorY = anchorY;
 
   if (bounds.width < size.width) {
@@ -304,13 +304,13 @@ function recalculateCoordinates(_ref4) {
   };
 }
 
-function getCloudAngle(_ref5, _ref6) {
-  var height = _ref5.height,
-      width = _ref5.width;
-  var anchorX = _ref6.anchorX,
-      anchorY = _ref6.anchorY,
-      x = _ref6.x,
-      y = _ref6.y;
+function getCloudAngle(_ref7, _ref8) {
+  var height = _ref7.height,
+      width = _ref7.width;
+  var anchorX = _ref8.anchorX,
+      anchorY = _ref8.anchorY,
+      x = _ref8.x,
+      y = _ref8.y;
   var halfWidth = width / 2;
   var halfHeight = height / 2;
   var xr = Math.ceil(x + halfWidth);
@@ -335,6 +335,8 @@ function getCloudAngle(_ref5, _ref6) {
 }
 
 function prepareData(data, color, border, font, customizeTooltip) {
+  var _customize$color, _customize$borderColo, _customize$fontColor;
+
   var customize = {};
 
   if ((0, _type.isFunction)(customizeTooltip)) {
@@ -351,17 +353,19 @@ function prepareData(data, color, border, font, customizeTooltip) {
   }
 
   if (!("text" in customize) && !("html" in customize)) {
-    customize.text = data.valueText || data.description || "";
+    var _data$valueText, _data$description;
+
+    customize.text = ((_data$valueText = data.valueText) !== null && _data$valueText !== void 0 ? _data$valueText : "") || ((_data$description = data.description) !== null && _data$description !== void 0 ? _data$description : "");
   }
 
-  customize.color = customize.color || color;
-  customize.borderColor = customize.borderColor || border.color;
-  customize.fontColor = customize.fontColor || font.color;
+  customize.color = ((_customize$color = customize.color) !== null && _customize$color !== void 0 ? _customize$color : "") || color;
+  customize.borderColor = ((_customize$borderColo = customize.borderColor) !== null && _customize$borderColo !== void 0 ? _customize$borderColo : "") || border.color;
+  customize.fontColor = ((_customize$fontColor = customize.fontColor) !== null && _customize$fontColor !== void 0 ? _customize$fontColor : "") || font.color;
   return customize;
 }
 
-function isTextEmpty(_ref7) {
-  var html = _ref7.html,
-      text = _ref7.text;
+function isTextEmpty(_ref9) {
+  var html = _ref9.html,
+      text = _ref9.text;
   return text === null || text === "" || html === "" || html === null;
 }

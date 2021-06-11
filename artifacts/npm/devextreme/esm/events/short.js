@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/events/short.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -237,6 +237,20 @@ export var dxScrollCancel = {
       namespace
     } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     eventsEngine.off($el, addNamespace('dxscrollcancel', namespace));
+  }
+};
+export var keyDown = {
+  on: function on($el, onKeyDown) {
+    var {
+      namespace
+    } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    eventsEngine.on($el, addNamespace('keydown', namespace), onKeyDown);
+  },
+  off: function off($el) {
+    var {
+      namespace
+    } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    eventsEngine.off($el, addNamespace('keydown', namespace));
   }
 };
 export var dxPointerDown = {

@@ -232,6 +232,10 @@ var chartPlugin = {
     },
 
     _annotationsPointerEventHandler(event) {
+      if (this._disposed) {
+        return;
+      }
+
       var originalEvent = event.originalEvent || {};
       var touch = originalEvent.touches && originalEvent.touches[0] || {};
 

@@ -19,7 +19,7 @@ export var getKeyByGroup = (groupIndex, groupOrientation) => {
 };
 
 var addToStyle = (attr, value, style) => {
-  var nextStyle = style || {};
+  var nextStyle = style !== null && style !== void 0 ? style : {};
 
   var result = _extends({}, nextStyle);
 

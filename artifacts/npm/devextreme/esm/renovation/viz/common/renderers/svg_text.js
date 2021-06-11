@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/viz/common/renderers/svg_text.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -25,7 +25,7 @@ export var viewFunction = _ref => {
     textItems,
     textRef
   } = _ref;
-  var texts = textItems || [];
+  var texts = textItems !== null && textItems !== void 0 ? textItems : [];
   var {
     fill,
     opacity,
@@ -120,21 +120,23 @@ export class TextSvgElement extends InfernoComponent {
   }
 
   get styles() {
-    var style = this.props.styles || {};
+    var _this$props$styles;
+
+    var style = (_this$props$styles = this.props.styles) !== null && _this$props$styles !== void 0 ? _this$props$styles : {};
     return _extends({
       whiteSpace: "pre"
     }, style);
   }
 
   get textItems() {
-    var items;
-    var parsedHtml;
+    var items = undefined;
+    var parsedHtml = "";
     var {
       text
     } = this.props;
     if (!text) return;
 
-    if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.indexOf("&") !== -1)) {
+    if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.includes("&"))) {
       parsedHtml = removeExtraAttrs(text);
       items = parseHTML(parsedHtml);
     } else if (/\n/g.test(text)) {
@@ -205,7 +207,7 @@ export class TextSvgElement extends InfernoComponent {
       x,
       y
     } = this.props;
-    var lineHeight = getLineHeight(styles || {});
+    var lineHeight = getLineHeight(styles !== null && styles !== void 0 ? styles : {});
     var item = items[0];
     setTextNodeAttribute(item, "x", x);
     setTextNodeAttribute(item, "y", y);
@@ -227,11 +229,10 @@ export class TextSvgElement extends InfernoComponent {
       stroke,
       strokeWidth
     } = this.props;
-    var strokeOpacity = this.props.strokeOpacity || 1;
-    var tspan;
+    var strokeOpacity = Number(this.props.strokeOpacity) || 1;
 
     for (var i = 0, ii = items.length; i < ii; ++i) {
-      tspan = items[i].stroke;
+      var tspan = items[i].stroke;
       tspan.setAttribute(KEY_STROKE, stroke);
       tspan.setAttribute("stroke-width", strokeWidth.toString());
       tspan.setAttribute("stroke-opacity", strokeOpacity.toString());

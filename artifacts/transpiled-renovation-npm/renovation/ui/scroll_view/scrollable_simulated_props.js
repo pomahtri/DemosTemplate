@@ -25,7 +25,6 @@ var ScrollableSimulatedPropsType = {
   bounceEnabled: ScrollableSimulatedProps.bounceEnabled,
   scrollByContent: ScrollableSimulatedProps.scrollByContent,
   scrollByThumb: ScrollableSimulatedProps.scrollByThumb,
-  updateManually: ScrollableSimulatedProps.updateManually,
   pullDownEnabled: ScrollableSimulatedProps.pullDownEnabled,
   reachBottomEnabled: ScrollableSimulatedProps.reachBottomEnabled,
   forceGeneratePockets: ScrollableSimulatedProps.forceGeneratePockets,

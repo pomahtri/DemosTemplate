@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.editor_factory.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -159,8 +159,8 @@ var EditorFactory = _uiGrid_core.default.ViewController.inherit({
     if (hideBorder) {
       that._$focusOverlay.addClass(DX_HIDDEN);
     } else if ($element.length) {
-      // align "left bottom" for IE, align "right bottom" for Mozilla
-      var align = _browser.default.msie ? 'left bottom' : _browser.default.mozilla ? 'right bottom' : 'left top';
+      // align "right bottom" for Mozilla
+      var align = _browser.default.mozilla ? 'right bottom' : 'left top';
       var $content = $element.closest('.' + that.addWidgetPrefix(CONTENT_CLASS));
       var elemCoord = (0, _position2.getBoundingRect)($element.get(0));
 

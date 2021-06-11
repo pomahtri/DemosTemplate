@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/common/dom_component_wrapper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -136,7 +136,7 @@ var DomComponentWrapper = /*#__PURE__*/function (_InfernoComponent) {
           restProps = _objectWithoutProperties(_this$props$component, _excluded);
 
       var properties = _extends({
-        rtlEnabled: ((_this$config = this.config) === null || _this$config === void 0 ? void 0 : _this$config.rtlEnabled) || false
+        rtlEnabled: !!((_this$config = this.config) !== null && _this$config !== void 0 && _this$config.rtlEnabled)
       }, restProps);
 
       if (valueChange) {

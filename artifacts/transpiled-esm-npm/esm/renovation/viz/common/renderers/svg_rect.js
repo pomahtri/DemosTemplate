@@ -52,10 +52,10 @@ export class RectSvgElement extends BaseInfernoComponent {
   }
 
   get parsedProps() {
-    var tmpX;
-    var tmpY;
-    var tmpWidth;
-    var tmpHeight;
+    var tmpX = Number.NaN;
+    var tmpY = Number.NaN;
+    var tmpWidth = Number.NaN;
+    var tmpHeight = Number.NaN;
 
     var tmpProps = _extends({}, this.props);
 
@@ -66,14 +66,13 @@ export class RectSvgElement extends BaseInfernoComponent {
       x,
       y
     } = tmpProps;
-    var sw;
 
     if (x !== undefined || y !== undefined || width !== undefined || height !== undefined || strokeWidth !== undefined) {
       tmpX = x !== undefined ? x : 0;
       tmpY = y !== undefined ? y : 0;
       tmpWidth = width !== undefined ? width : 0;
       tmpHeight = height !== undefined ? height : 0;
-      sw = strokeWidth !== undefined ? strokeWidth : 0;
+      var sw = strokeWidth !== undefined ? strokeWidth : 0;
       var maxSW = ~~((tmpWidth < tmpHeight ? tmpWidth : tmpHeight) / 2);
       var newSW = Math.min(sw, maxSW);
       tmpProps.x = tmpX + newSW / 2;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/timeline/header_panel/layout.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 import registerComponent from "../../../../../../core/component_registrator";
 import HeaderPanel from "../../../../../component_wrapper/scheduler_header_panel";
-import { TimelineHeaderPanelLayout as TimelineHeaderPanelLayoutComponent } from "./layout";
+import { TimelineHeaderPanelLayout as TimelineHeaderPanelLayoutComponent, defaultOptions } from "./layout";
 export default class TimelineHeaderPanelLayout extends HeaderPanel {
   get _propsInfo() {
     return {
@@ -26,3 +26,4 @@ export default class TimelineHeaderPanelLayout extends HeaderPanel {
 
 }
 registerComponent("dxTimelineHeaderPanelLayout", TimelineHeaderPanelLayout);
+TimelineHeaderPanelLayout.defaultOptions = defaultOptions;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/viz/common/renderers/svg_text.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -63,7 +63,7 @@ var viewFunction = function viewFunction(_ref) {
       textAnchor = _ref.textAnchor,
       textItems = _ref.textItems,
       textRef = _ref.textRef;
-  var texts = textItems || [];
+  var texts = textItems !== null && textItems !== void 0 ? textItems : [];
   var fill = computedProps.fill,
       opacity = computedProps.opacity,
       stroke = computedProps.stroke,
@@ -199,7 +199,7 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
         styles = _this$props.styles,
         x = _this$props.x,
         y = _this$props.y;
-    var lineHeight = (0, _utils.getLineHeight)(styles || {});
+    var lineHeight = (0, _utils.getLineHeight)(styles !== null && styles !== void 0 ? styles : {});
     var item = items[0];
     (0, _utils.setTextNodeAttribute)(item, "x", x);
     (0, _utils.setTextNodeAttribute)(item, "y", y);
@@ -220,11 +220,10 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
     var _this$props2 = this.props,
         stroke = _this$props2.stroke,
         strokeWidth = _this$props2.strokeWidth;
-    var strokeOpacity = this.props.strokeOpacity || 1;
-    var tspan;
+    var strokeOpacity = Number(this.props.strokeOpacity) || 1;
 
     for (var i = 0, ii = items.length; i < ii; ++i) {
-      tspan = items[i].stroke;
+      var tspan = items[i].stroke;
       tspan.setAttribute(KEY_STROKE, stroke);
       tspan.setAttribute("stroke-width", strokeWidth.toString());
       tspan.setAttribute("stroke-opacity", strokeOpacity.toString());
@@ -263,7 +262,9 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
   }, {
     key: "styles",
     get: function get() {
-      var style = this.props.styles || {};
+      var _this$props$styles;
+
+      var style = (_this$props$styles = this.props.styles) !== null && _this$props$styles !== void 0 ? _this$props$styles : {};
       return _extends({
         whiteSpace: "pre"
       }, style);
@@ -271,12 +272,12 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
   }, {
     key: "textItems",
     get: function get() {
-      var items;
-      var parsedHtml;
+      var items = undefined;
+      var parsedHtml = "";
       var text = this.props.text;
       if (!text) return;
 
-      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.indexOf("&") !== -1)) {
+      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.includes("&"))) {
         parsedHtml = (0, _utils.removeExtraAttrs)(text);
         items = (0, _utils.parseHTML)(parsedHtml);
       } else if (/\n/g.test(text)) {

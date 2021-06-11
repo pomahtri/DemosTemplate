@@ -22,6 +22,8 @@ var _date = _interopRequireDefault(require("../../../localization/date"));
 
 var _table_creator = _interopRequireDefault(require("../table_creator"));
 
+var _classes = require("../classes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -170,8 +172,8 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   _proto._initWorkSpaceUnits = function _initWorkSpaceUnits() {
     this._initGroupTable();
 
-    this._$timePanel = (0, _renderer.default)('<table>').addClass(this._getTimePanelClass());
-    this._$dateTable = (0, _renderer.default)('<table>').addClass(this._getDateTableClass());
+    this._$timePanel = (0, _renderer.default)('<table>').addClass(_classes.TIME_PANEL_CLASS);
+    this._$dateTable = (0, _renderer.default)('<table>').addClass(_classes.DATE_TABLE_CLASS);
   };
 
   _proto._initGroupTable = function _initGroupTable() {
@@ -301,16 +303,20 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   };
 
   _proto._makeGroupRows = function _makeGroupRows() {
-    var tree = this.invoke('createReducedResourcesTree');
+    var _this$invoke = this.invoke('getAppointmentDataProvider'),
+        filteredItems = _this$invoke.filteredItems; // TODO refactoring
+
+
+    var resourceManager = this.invoke('getResourceManager');
+    var tree = resourceManager.createReducedResourcesTree(filteredItems); // TODO refactoring
+
     var cellTemplate = this.option('resourceCellTemplate');
-
-    var getGroupHeaderContentClass = this._getGroupHeaderContentClass();
-
+    var getGroupHeaderContentClass = _classes.GROUP_HEADER_CONTENT_CLASS;
     var cellTemplates = [];
     var table = tableCreator.makeGroupedTableFromJSON(tableCreator.VERTICAL, tree, {
       cellTag: 'th',
       groupTableClass: GROUP_TABLE_CLASS,
-      groupRowClass: this._getGroupRowClass(),
+      groupRowClass: _classes.GROUP_ROW_CLASS,
       groupCellClass: this._getGroupHeaderClass(),
       groupCellCustomContent: function groupCellCustomContent(cell, cellText, index, data) {
         var container = _dom_adapter.default.createElement('div');
@@ -343,7 +349,7 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
       cellTemplate: cellTemplate
     });
     return {
-      elements: (0, _renderer.default)(table).find('.' + this._getGroupRowClass()),
+      elements: (0, _renderer.default)(table).find(".".concat(_classes.GROUP_ROW_CLASS)),
       cellTemplates: cellTemplates
     };
   };
@@ -383,7 +389,7 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   _proto._renderDateTable = function _renderDateTable() {
     this._renderTableBody({
       container: (0, _element.getPublicElement)(this._$dateTable),
-      rowClass: this._getDateTableRowClass(),
+      rowClass: _classes.DATE_TABLE_ROW_CLASS,
       cellClass: this._getDateTableCellClass()
     });
   };
@@ -408,7 +414,8 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
     var groupsOpt = this.option('groups');
     var groups = {};
     var isGroupedView = !!groupsOpt.length;
-    var path = isGroupedView && this._getPathToLeaf(rowIndex) || [];
+    var resourceManager = this.invoke('getResourceManager');
+    var path = isGroupedView && resourceManager._getPathToLeaf(rowIndex, groupsOpt) || [];
     path.forEach(function (resourceValue, resourceIndex) {
       var resourceName = groupsOpt[resourceIndex].name;
       groups[resourceName] = resourceValue;
@@ -610,6 +617,12 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
 
     return isUpdateNeeded;
   };
+
+  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
+    return false;
+  };
+
+  _proto._setSelectedCellsByCellData = function _setSelectedCellsByCellData() {};
 
   _createClass(SchedulerAgenda, [{
     key: "renderingStrategy",

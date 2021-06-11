@@ -266,21 +266,13 @@ var Gantt = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._onApplyPanelSize = function _onApplyPanelSize(e) {
+    var _this$_ganttView;
+
     this._setInnerElementsWidth(e);
 
-    this._updateGanttRowHeights();
-  };
-
-  _proto._updateGanttRowHeights = function _updateGanttRowHeights() {
     var rowHeight = this._getTreeListRowHeight();
 
-    if (this._getGanttViewOption('rowHeight') !== rowHeight) {
-      var _this$_ganttView;
-
-      this._setGanttViewOption('rowHeight', rowHeight);
-
-      (_this$_ganttView = this._ganttView) === null || _this$_ganttView === void 0 ? void 0 : _this$_ganttView._ganttViewCore.updateRowHeights(rowHeight);
-    }
+    (_this$_ganttView = this._ganttView) === null || _this$_ganttView === void 0 ? void 0 : _this$_ganttView._ganttViewCore.updateRowHeights(rowHeight);
   };
 
   _proto._onTreeListContentReady = function _onTreeListContentReady(e) {
@@ -530,12 +522,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
     this._ganttView && this._ganttView.option(optionName, value);
   };
 
-  _proto._getGanttViewOption = function _getGanttViewOption(optionName, value) {
-    var _this$_ganttView3;
-
-    return (_this$_ganttView3 = this._ganttView) === null || _this$_ganttView3 === void 0 ? void 0 : _this$_ganttView3.option(optionName);
-  };
-
   _proto._setTreeListOption = function _setTreeListOption(optionName, value) {
     this._treeList && this._treeList.option(optionName, value);
   };
@@ -695,9 +681,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
       NotifyTaskColorChanged: function NotifyTaskColorChanged(taskId, newValue, errorCallback) {
         _this8._onRecordUpdated(GANTT_TASKS, taskId, 'color', newValue);
       },
-      NotifyParentTaskUpdated: function NotifyParentTaskUpdated(task, errorCallback) {
-        _this8._onParentTaskUpdated(task);
-      },
       NotifyDependencyInserted: function NotifyDependencyInserted(dependency, callback, errorCallback) {
         _this8._onRecordInserted(GANTT_DEPENDENCIES, dependency, callback);
       },
@@ -794,12 +777,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
           _this9._selectTreeListRows(_this9._getArrayFromOneElement(insertedId));
 
           _this9._setTreeListOption('focusedRowKey', insertedId);
-
-          setTimeout(function () {
-            _this9._updateGanttRowHeights();
-          }, 300);
-
-          dataOption._reloadDataSource();
         }
 
         _this9._raiseInsertedAction(optionName, data, insertedId);
@@ -816,8 +793,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
       dataOption.remove(key, function () {
         if (optionName === GANTT_TASKS) {
           _this10._updateTreeListDataSource();
-
-          dataOption._reloadDataSource();
         }
 
         _this10._raiseDeletedAction(optionName, key, _this10._convertCoreToMappedData(optionName, data));
@@ -854,12 +829,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
         _this11._raiseUpdatedAction(optionName, data, key);
       });
     }
-  };
-
-  _proto._onParentTaskUpdated = function _onParentTaskUpdated(data) {
-    var mappedData = this.getTaskDataByCoreData(data);
-
-    this._raiseUpdatedAction(GANTT_TASKS, mappedData, data.id);
   };
 
   _proto._onParentTasksRecalculated = function _onParentTasksRecalculated(data) {
@@ -928,7 +897,9 @@ var Gantt = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._selectTreeListRows = function _selectTreeListRows(keys) {
-    this._setTreeListOption('selectedRowKeys', keys);
+    var _this$_treeList;
+
+    (_this$_treeList = this._treeList) === null || _this$_treeList === void 0 ? void 0 : _this$_treeList.selectRows(keys);
   } // custom fields cache updating
   ;
 
@@ -948,20 +919,10 @@ var Gantt = /*#__PURE__*/function (_Widget) {
         var dataOption = _this12["_".concat(GANTT_TASKS, "Option")];
 
         if (dataOption && data) {
-          dataOption.update(key, data, function (data, key) {
-            var updatedCustomFields = {};
-
-            _this12._addCustomFieldsData(key, updatedCustomFields);
-
+          dataOption.update(key, data, function () {
             _this12._updateTreeListDataSource();
 
             dataOption._refreshDataSource();
-
-            var selectedRowKey = _this12.option('selectedRowKey');
-
-            _this12._ganttView._selectTask(selectedRowKey);
-
-            _this12._raiseUpdatedAction(GANTT_TASKS, updatedCustomFields, key);
           });
         }
       };
@@ -1149,6 +1110,7 @@ var Gantt = /*#__PURE__*/function (_Widget) {
       });
       var args = {
         cancel: false,
+        key: coreArgs.key,
         values: mappedResources
       };
       action(args);
@@ -1664,13 +1626,11 @@ var Gantt = /*#__PURE__*/function (_Widget) {
 
       var customFields = this._getTaskCustomFields();
 
-      if (modelItem) {
-        for (var i = 0; i < customFields.length; i++) {
-          var field = customFields[i];
+      for (var i = 0; i < customFields.length; i++) {
+        var field = customFields[i];
 
-          if (Object.prototype.hasOwnProperty.call(modelItem, field)) {
-            data[field] = modelItem[field];
-          }
+        if (Object.prototype.hasOwnProperty.call(modelItem, field)) {
+          data[field] = modelItem[field];
         }
       }
     }
@@ -1751,9 +1711,9 @@ var Gantt = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._clean = function _clean() {
-    var _this$_ganttView4;
+    var _this$_ganttView3;
 
-    (_this$_ganttView4 = this._ganttView) === null || _this$_ganttView4 === void 0 ? void 0 : _this$_ganttView4._ganttViewCore.cleanMarkup();
+    (_this$_ganttView3 = this._ganttView) === null || _this$_ganttView3 === void 0 ? void 0 : _this$_ganttView3._ganttViewCore.cleanMarkup();
     delete this._ganttView;
     delete this._dialogInstance;
 
@@ -2075,11 +2035,6 @@ var Gantt = /*#__PURE__*/function (_Widget) {
     this._exportHelper.reset();
 
     var fullOptions = (0, _extend.extend)({}, options);
-
-    if (fullOptions.createDocumentMethod) {
-      fullOptions.docCreateMethod = fullOptions.createDocumentMethod;
-    }
-
     (_fullOptions$docCreat = fullOptions.docCreateMethod) !== null && _fullOptions$docCreat !== void 0 ? _fullOptions$docCreat : fullOptions.docCreateMethod = (_window$jspdf$jsPDF = (_window$jspdf = window['jspdf']) === null || _window$jspdf === void 0 ? void 0 : _window$jspdf['jsPDF']) !== null && _window$jspdf$jsPDF !== void 0 ? _window$jspdf$jsPDF : window['jsPDF'];
     (_fullOptions$format = fullOptions.format) !== null && _fullOptions$format !== void 0 ? _fullOptions$format : fullOptions.format = 'a4';
     return new Promise(function (resolve) {

@@ -11,7 +11,7 @@ import DOMComponent from '../../../core/dom_component';
 import Resizable from '../../resizable';
 import messageLocalization from '../../../localization/message';
 import dateLocalization from '../../../localization/date';
-import { EMPTY_APPOINTMENT_CLASS, RECURRENCE_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_CLASS, ALL_DAY_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_ICON, REDUCED_APPOINTMENT_PARTS_CLASSES, DIRECTION_APPOINTMENT_CLASSES, APPOINTMENT_DRAG_SOURCE_CLASS, APPOINTMENT_CONTENT_CLASSES } from '../constants';
+import { EMPTY_APPOINTMENT_CLASS, RECURRENCE_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_CLASS, ALL_DAY_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_ICON, REDUCED_APPOINTMENT_PARTS_CLASSES, DIRECTION_APPOINTMENT_CLASSES, APPOINTMENT_DRAG_SOURCE_CLASS, APPOINTMENT_CONTENT_CLASSES } from '../classes';
 import { Deferred } from '../../../core/utils/deferred';
 var DEFAULT_HORIZONTAL_HANDLES = 'left right';
 var DEFAULT_VERTICAL_HANDLES = 'top bottom';
@@ -30,6 +30,7 @@ export class Appointment extends DOMComponent {
     return extend(super._getDefaultOptions(), {
       data: {},
       groupIndex: -1,
+      groups: [],
       geometry: {
         top: 0,
         left: 0,
@@ -146,9 +147,11 @@ export class Appointment extends DOMComponent {
   }
 
   _setResourceColor() {
-    var deferredColor = this.invoke('getAppointmentColor', {
+    var resourceManager = this.invoke('getResourceManager');
+    var deferredColor = resourceManager.getAppointmentColor({
       itemData: this.rawAppointment,
-      groupIndex: this.option('groupIndex')
+      groupIndex: this.option('groupIndex'),
+      groups: this.option('groups')
     });
     deferredColor.done(color => color && this.coloredElement.css('backgroundColor', color));
   }

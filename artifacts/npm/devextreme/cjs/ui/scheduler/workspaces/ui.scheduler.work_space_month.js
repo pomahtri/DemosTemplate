@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.work_space_month.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -337,10 +337,6 @@ var SchedulerWorkSpaceMonth = /*#__PURE__*/function (_SchedulerWorkSpace) {
     return true;
   };
 
-  _proto._getDateTableBorderOffset = function _getDateTableBorderOffset() {
-    return this._getDateTableBorder();
-  };
-
   _proto._getCellPositionByIndex = function _getCellPositionByIndex(index, groupIndex) {
     var position = _SchedulerWorkSpace.prototype._getCellPositionByIndex.call(this, index, groupIndex);
 
@@ -377,10 +373,6 @@ var SchedulerWorkSpaceMonth = /*#__PURE__*/function (_SchedulerWorkSpace) {
 
   _proto._getRowCountWithAllDayRows = function _getRowCountWithAllDayRows() {
     return this._getRowCount();
-  };
-
-  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
-    return true;
   };
 
   _proto.renderRAllDayPanel = function renderRAllDayPanel() {};

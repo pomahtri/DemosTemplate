@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/file_uploader.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -251,6 +251,9 @@ class FileUploader extends Editor {
       eventsEngine.on(this._$fileInput, 'change', this._inputChangeHandler.bind(this));
       eventsEngine.on(this._$fileInput, 'click', e => {
         e.stopPropagation();
+
+        this._resetInputValue();
+
         return this.option('useNativeInputClick') || this._isCustomClickEvent;
       });
     }
@@ -290,37 +293,8 @@ class FileUploader extends Editor {
     return this.option('uploadMode') !== 'useForm' && this.option('extendSelection') && this.option('multiple');
   }
 
-  _removeDuplicates(files, value) {
-    var result = [];
-
-    for (var i = 0; i < value.length; i++) {
-      if (!this._isFileInArray(files, value[i])) {
-        result.push(value[i]);
-      }
-    }
-
-    return result;
-  }
-
-  _isFileInArray(files, file) {
-    for (var i = 0; i < files.length; i++) {
-      var item = files[i];
-
-      if (item.size === file.size && item.name === file.name) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   _changeValue(value) {
     var files = this._shouldFileListBeExtended() ? this.option('value').slice() : [];
-
-    if (this.option('uploadMode') !== 'instantly') {
-      value = this._removeDuplicates(files, value);
-    }
-
     this.option('value', files.concat(value));
   }
 
@@ -701,11 +675,7 @@ class FileUploader extends Editor {
 
     this._toggleFileUploaderEmptyClassName();
 
-    this._doPreventInputChange = true;
-
-    this._$fileInput.val('');
-
-    this._doPreventInputChange = false;
+    this._resetInputValue(true);
   }
 
   removeFile(fileData) {
@@ -1429,6 +1399,18 @@ class FileUploader extends Editor {
         super._optionChanged(args);
 
     }
+  }
+
+  _resetInputValue(force) {
+    if (this.option('uploadMode') === 'useForm' && !force) {
+      return;
+    }
+
+    this._doPreventInputChange = true;
+
+    this._$fileInput.val('');
+
+    this._doPreventInputChange = false;
   }
 
   reset() {

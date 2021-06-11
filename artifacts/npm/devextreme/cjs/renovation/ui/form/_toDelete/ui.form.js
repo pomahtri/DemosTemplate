@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/form/_toDelete/ui.form.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -100,7 +100,6 @@ var Form = _ui.default.inherit({
       formID: 'dx-' + new _guid.default(),
       formData: {},
       colCount: 1,
-      screenByWidth: _window.defaultScreenFactorFunc,
 
       /**
       * _pseudo ColCountResponsibleType
@@ -455,7 +454,6 @@ var Form = _ui.default.inherit({
       isRoot: true,
       colCount: that.option('colCount'),
       alignItemLabels: that.option('alignItemLabels'),
-      screenByWidth: this.option('screenByWidth'),
       colCountByScreen: this.option('colCountByScreen'),
       onLayoutChanged: function onLayoutChanged(inOneColumn) {
         that._alignLabels.bind(that)(that._rootLayoutManager, inOneColumn);

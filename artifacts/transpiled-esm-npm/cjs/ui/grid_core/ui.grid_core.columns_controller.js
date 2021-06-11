@@ -10,8 +10,6 @@ var _variable_wrapper = _interopRequireDefault(require("../../core/utils/variabl
 
 var _data = require("../../core/utils/data");
 
-var _common = require("../../core/utils/common");
-
 var _type = require("../../core/utils/type");
 
 var _iterator = require("../../core/utils/iterator");
@@ -1091,6 +1089,20 @@ var columnsControllerModule = {
         return column;
       };
 
+      var sortColumns = function sortColumns(columns, sortOrder) {
+        if (sortOrder !== 'asc' && sortOrder !== 'desc') {
+          return columns;
+        }
+
+        var sign = sortOrder === 'asc' ? 1 : -1;
+        columns.sort(function (column1, column2) {
+          var caption1 = column1.caption || '';
+          var caption2 = column2.caption || '';
+          return sign * caption1.localeCompare(caption2);
+        });
+        return columns;
+      };
+
       return {
         _getExpandColumnOptions: function _getExpandColumnOptions() {
           return {
@@ -1730,9 +1742,11 @@ var columnsControllerModule = {
         },
         getChooserColumns: function getChooserColumns(getAllColumns) {
           var columns = getAllColumns ? this.getColumns() : this.getInvisibleColumns();
-          return (0, _common.grep)(columns, function (column) {
+          var columnChooserColumns = columns.filter(function (column) {
             return column.showInColumnChooser;
           });
+          var sortOrder = this.option('columnChooser.sortOrder');
+          return sortColumns(columnChooserColumns, sortOrder);
         },
         allowMoveColumn: function allowMoveColumn(fromVisibleIndex, toVisibleIndex, sourceLocation, targetLocation) {
           var that = this;

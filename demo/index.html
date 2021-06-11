@@ -79,22 +79,17 @@
                                 displayExpr: "text",
                                 valueExpr: "value",
                                 value: "CustomerStoreState",
-                                disabled: $scope.disabled
+                                bindingOptions: {
+                                    "disabled": "disabled"
+                                },
                             }
                         }
                     ]
-                },
-                bindingOptions: {
-                    "toolbar.items[2].options.disabled": "disabled"
                 },
                 onInitialized: ({component}) => {
                     window.grid = component;
                 }
             };
-
-            $scope.$watch("disabled", () => {
-                console.log($scope.disabled);
-            })
         });
     </script>
 </body>

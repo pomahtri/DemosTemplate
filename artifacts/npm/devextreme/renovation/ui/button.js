@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/button.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -35,7 +35,7 @@ var _widget = require("./common/widget");
 
 var _base_props = require("./common/base_props");
 
-var _excluded = ["accessKey", "activeStateEnabled", "children", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onContentReady", "onKeyDown", "onSubmit", "pressed", "rtlEnabled", "stylingMode", "tabIndex", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "visible", "width"];
+var _excluded = ["accessKey", "activeStateEnabled", "children", "className", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onKeyDown", "onSubmit", "pressed", "rtlEnabled", "stylingMode", "tabIndex", "template", "templateData", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "visible", "width"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67,10 +67,10 @@ var getCssClasses = function getCssClasses(model) {
       stylingMode = model.stylingMode,
       text = model.text,
       type = model.type;
-  var isValidStylingMode = stylingMode && stylingModes.indexOf(stylingMode) !== -1;
+  var isValidStylingMode = stylingMode && stylingModes.includes(stylingMode);
   var classesMap = (_classesMap = {
     "dx-button": true
-  }, _defineProperty(_classesMap, "dx-button-mode-".concat(isValidStylingMode ? stylingMode : "contained"), true), _defineProperty(_classesMap, "dx-button-".concat(type || "normal"), true), _defineProperty(_classesMap, "dx-button-has-text", !!text), _defineProperty(_classesMap, "dx-button-has-icon", !!icon), _defineProperty(_classesMap, "dx-button-icon-right", iconPosition !== "left"), _classesMap);
+  }, _defineProperty(_classesMap, "dx-button-mode-".concat(isValidStylingMode ? stylingMode : "contained"), true), _defineProperty(_classesMap, "dx-button-".concat(type !== null && type !== void 0 ? type : "normal"), true), _defineProperty(_classesMap, "dx-button-has-text", !!text), _defineProperty(_classesMap, "dx-button-has-icon", !!icon), _defineProperty(_classesMap, "dx-button-icon-right", iconPosition !== "left"), _classesMap);
   return (0, _combine_classes.combineClasses)(classesMap);
 };
 
@@ -80,6 +80,7 @@ var viewFunction = function viewFunction(viewModel) {
       icon = _viewModel$props.icon,
       iconPosition = _viewModel$props.iconPosition,
       ButtonTemplate = _viewModel$props.template,
+      templateData = _viewModel$props.templateData,
       text = _viewModel$props.text;
   var renderText = !viewModel.props.template && !children && text;
   var isIconLeft = iconPosition === "left";
@@ -91,6 +92,7 @@ var viewFunction = function viewFunction(viewModel) {
     "accessKey": viewModel.props.accessKey,
     "activeStateEnabled": viewModel.props.activeStateEnabled,
     "aria": viewModel.aria,
+    "className": viewModel.props.className,
     "classes": viewModel.cssClasses,
     "disabled": viewModel.props.disabled,
     "focusStateEnabled": viewModel.props.focusStateEnabled,
@@ -98,7 +100,6 @@ var viewFunction = function viewFunction(viewModel) {
     "hint": viewModel.props.hint,
     "hoverStateEnabled": viewModel.props.hoverStateEnabled,
     "onActive": viewModel.onActive,
-    "onContentReady": viewModel.props.onContentReady,
     "onClick": viewModel.onWidgetClick,
     "onInactive": viewModel.onInactive,
     "onKeyDown": viewModel.onWidgetKeyDown,
@@ -108,10 +109,10 @@ var viewFunction = function viewFunction(viewModel) {
     "width": viewModel.props.width
   }, viewModel.restAttributes, {
     children: (0, _inferno.createVNode)(1, "div", "dx-button-content", [viewModel.props.template && ButtonTemplate({
-      data: {
+      data: _extends({
         icon: icon,
         text: text
-      }
+      }, templateData)
     }), !viewModel.props.template && children, isIconLeft && iconComponent, renderText && (0, _inferno.createVNode)(1, "span", "dx-button-text", text, 0), !isIconLeft && iconComponent, viewModel.props.useSubmitBehavior && (0, _inferno.createVNode)(64, "input", "dx-button-submit-input", null, 1, {
       "type": "submit",
       "tabIndex": -1
@@ -129,9 +130,11 @@ var ButtonProps = _extends({}, _base_props.BaseWidgetProps, {
   icon: "",
   iconPosition: "left",
   text: "",
+  type: "normal",
   useInkRipple: false,
   useSubmitBehavior: false,
-  validationGroup: undefined
+  validationGroup: undefined,
+  templateData: {}
 });
 
 exports.ButtonProps = ButtonProps;
@@ -170,34 +173,27 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
     _this.inkRippleRef = (0, _inferno.createRef)();
     _this.submitInputRef = (0, _inferno.createRef)();
     _this.widgetRef = (0, _inferno.createRef)();
-    _this.contentReadyEffect = _this.contentReadyEffect.bind(_assertThisInitialized(_this));
     _this.focus = _this.focus.bind(_assertThisInitialized(_this));
+    _this.activate = _this.activate.bind(_assertThisInitialized(_this));
+    _this.deactivate = _this.deactivate.bind(_assertThisInitialized(_this));
+    _this.submitEffect = _this.submitEffect.bind(_assertThisInitialized(_this));
     _this.onActive = _this.onActive.bind(_assertThisInitialized(_this));
     _this.onInactive = _this.onInactive.bind(_assertThisInitialized(_this));
     _this.onWidgetClick = _this.onWidgetClick.bind(_assertThisInitialized(_this));
     _this.onWidgetKeyDown = _this.onWidgetKeyDown.bind(_assertThisInitialized(_this));
-    _this.submitEffect = _this.submitEffect.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   var _proto = Button.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.contentReadyEffect, [this.props.onContentReady]), new _vdom.InfernoEffect(this.submitEffect, [this.props.onSubmit, this.props.useSubmitBehavior])];
+    return [new _vdom.InfernoEffect(this.submitEffect, [this.props.onSubmit, this.props.useSubmitBehavior]), (0, _vdom.createReRenderEffect)()];
   };
 
   _proto.updateEffects = function updateEffects() {
-    var _this$_effects$, _this$_effects$2;
+    var _this$_effects$;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onContentReady]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.onSubmit, this.props.useSubmitBehavior]);
-  };
-
-  _proto.contentReadyEffect = function contentReadyEffect() {
-    var onContentReady = this.props.onContentReady;
-    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({
-      element: this.contentRef.current.parentNode
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onSubmit, this.props.useSubmitBehavior]);
   };
 
   _proto.submitEffect = function submitEffect() {
@@ -279,6 +275,14 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
     this.widgetRef.current.focus();
   };
 
+  _proto.activate = function activate() {
+    this.widgetRef.current.activate();
+  };
+
+  _proto.deactivate = function deactivate() {
+    this.widgetRef.current.deactivate();
+  };
+
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
@@ -307,10 +311,10 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
       var _this$props3 = this.props,
           icon = _this$props3.icon,
           text = _this$props3.text;
-      var label = text || icon;
+      var label = (text !== null && text !== void 0 ? text : "") || icon;
 
       if (!text && icon && (0, _icon.getImageSourceType)(icon) === "image") {
-        label = icon.indexOf("base64") === -1 ? icon.replace(/.+\/([^.]+)\..+$/, "$1") : "Base64";
+        label = !icon.includes("base64") ? icon.replace(/.+\/([^.]+)\..+$/, "$1") : "Base64";
       }
 
       return _extends({
@@ -330,7 +334,12 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
       var _this$props4 = this.props,
           icon = _this$props4.icon,
           type = _this$props4.type;
-      return icon || type === "back" ? icon || "back" : "";
+
+      if (icon || type === "back") {
+        return (icon !== null && icon !== void 0 ? icon : "") || "back";
+      }
+
+      return "";
     }
   }, {
     key: "inkRippleConfig",
@@ -352,6 +361,7 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
           accessKey = _this$props6.accessKey,
           activeStateEnabled = _this$props6.activeStateEnabled,
           children = _this$props6.children,
+          className = _this$props6.className,
           disabled = _this$props6.disabled,
           focusStateEnabled = _this$props6.focusStateEnabled,
           height = _this$props6.height,
@@ -360,7 +370,6 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
           icon = _this$props6.icon,
           iconPosition = _this$props6.iconPosition,
           onClick = _this$props6.onClick,
-          onContentReady = _this$props6.onContentReady,
           onKeyDown = _this$props6.onKeyDown,
           onSubmit = _this$props6.onSubmit,
           pressed = _this$props6.pressed,
@@ -368,6 +377,7 @@ var Button = /*#__PURE__*/function (_InfernoWrapperCompon) {
           stylingMode = _this$props6.stylingMode,
           tabIndex = _this$props6.tabIndex,
           template = _this$props6.template,
+          templateData = _this$props6.templateData,
           text = _this$props6.text,
           type = _this$props6.type,
           useInkRipple = _this$props6.useInkRipple,

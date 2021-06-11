@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/pager/pager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -25,10 +25,10 @@ export var viewFunction = _ref => {
     "pagerProps": pagerProps
   }, restAttributes)));
 };
+import { createReRenderEffect } from "@devextreme/vdom";
 export class Pager extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.state = {
       pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.props.defaultPageIndex,
       pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.props.defaultPageSize
@@ -37,62 +37,58 @@ export class Pager extends InfernoWrapperComponent {
     this.pageSizeChange = this.pageSizeChange.bind(this);
   }
 
-  get __state_pageIndex() {
-    var state = this._currentState || this.state;
-    return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
-  }
-
-  set_pageIndex(value) {
-    this.setState(state => {
-      var _this$props$pageIndex, _this$props;
-
-      this._currentState = state;
-      var newValue = value();
-      (_this$props$pageIndex = (_this$props = this.props).pageIndexChange) === null || _this$props$pageIndex === void 0 ? void 0 : _this$props$pageIndex.call(_this$props, newValue);
-      this._currentState = null;
-      return {
-        pageIndex: newValue
-      };
-    });
-  }
-
-  get __state_pageSize() {
-    var state = this._currentState || this.state;
-    return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-  }
-
-  set_pageSize(value) {
-    this.setState(state => {
-      var _this$props$pageSizeC, _this$props2;
-
-      this._currentState = state;
-      var newValue = value();
-      (_this$props$pageSizeC = (_this$props2 = this.props).pageSizeChange) === null || _this$props$pageSizeC === void 0 ? void 0 : _this$props$pageSizeC.call(_this$props2, newValue);
-      this._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
+  createEffects() {
+    return [createReRenderEffect()];
   }
 
   pageIndexChange(newPageIndex) {
     if (this.props.gridCompatibility) {
-      this.set_pageIndex(() => newPageIndex + 1);
+      {
+        var __newValue;
+
+        this.setState(state => {
+          __newValue = newPageIndex + 1;
+          return {
+            pageIndex: __newValue
+          };
+        });
+        this.props.pageIndexChange(__newValue);
+      }
     } else {
-      this.set_pageIndex(() => newPageIndex);
+      {
+        var _newValue;
+
+        this.setState(state => {
+          _newValue = newPageIndex;
+          return {
+            pageIndex: _newValue
+          };
+        });
+        this.props.pageIndexChange(_newValue);
+      }
     }
   }
 
   get pageIndex() {
     if (this.props.gridCompatibility) {
-      return this.__state_pageIndex - 1;
+      return (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
     }
 
-    return this.__state_pageIndex;
+    return this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex;
   }
 
   pageSizeChange(newPageSize) {
-    this.set_pageSize(() => newPageSize);
+    {
+      var __newValue;
+
+      this.setState(state => {
+        __newValue = newPageSize;
+        return {
+          pageSize: __newValue
+        };
+      });
+      this.props.pageSizeChange(__newValue);
+    }
   }
 
   get className() {
@@ -108,8 +104,8 @@ export class Pager extends InfernoWrapperComponent {
 
   get pagerProps() {
     return _extends({}, _extends({}, this.props, {
-      pageIndex: this.__state_pageIndex,
-      pageSize: this.__state_pageSize
+      pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+      pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
     }), {
       className: this.className,
       pageIndex: this.pageIndex,
@@ -119,11 +115,11 @@ export class Pager extends InfernoWrapperComponent {
   }
 
   get restAttributes() {
-    var _this$props$pageIndex2 = _extends({}, this.props, {
-      pageIndex: this.__state_pageIndex,
-      pageSize: this.__state_pageSize
+    var _this$props$pageIndex = _extends({}, this.props, {
+      pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+      pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
     }),
-        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex2, _excluded);
+        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex, _excluded);
 
     return restProps;
   }
@@ -132,8 +128,8 @@ export class Pager extends InfernoWrapperComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       pageIndexChange: this.pageIndexChange,
       pageIndex: this.pageIndex,

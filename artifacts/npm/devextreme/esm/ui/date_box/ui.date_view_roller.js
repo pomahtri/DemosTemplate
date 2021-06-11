@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/date_box/ui.date_view_roller.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -24,9 +24,10 @@ var DATEVIEW_ROLLER_ITEM_CLASS = 'dx-dateview-item';
 var DATEVIEW_ROLLER_ITEM_SELECTED_CLASS = 'dx-dateview-item-selected';
 var DATEVIEW_ROLLER_ITEM_SELECTED_FRAME_CLASS = 'dx-dateview-item-selected-frame';
 var DATEVIEW_ROLLER_ITEM_SELECTED_BORDER_CLASS = 'dx-dateview-item-selected-border';
-var DateViewRoller = Scrollable.inherit({
-  _getDefaultOptions: function _getDefaultOptions() {
-    return extend(this.callBase(), {
+
+class DateViewRoller extends Scrollable {
+  _getDefaultOptions() {
+    return extend(super._getDefaultOptions(), {
       showScrollbar: false,
       useNative: false,
       selectedIndex: 0,
@@ -36,9 +37,10 @@ var DateViewRoller = Scrollable.inherit({
       onClick: null,
       onSelectedIndexChanged: null
     });
-  },
-  _defaultOptionsRules: function _defaultOptionsRules() {
-    return this.callBase().concat([{
+  }
+
+  _defaultOptionsRules() {
+    return super._defaultOptionsRules().concat([{
       device: {
         platform: 'generic'
       },
@@ -46,14 +48,17 @@ var DateViewRoller = Scrollable.inherit({
         scrollByContent: true
       }
     }]);
-  },
-  _init: function _init() {
-    this.callBase();
+  }
+
+  _init() {
+    super._init();
 
     this._renderSelectedItemFrame();
-  },
-  _render: function _render() {
-    this.callBase();
+  }
+
+  _render() {
+    super._render();
+
     this.$element().addClass(DATEVIEW_ROLLER_CLASS);
 
     this._renderContainerClick();
@@ -69,16 +74,19 @@ var DateViewRoller = Scrollable.inherit({
     this._wrapAction('_endAction', this._endActionHandler.bind(this));
 
     this._renderSelectedIndexChanged();
-  },
-  _renderSelectedIndexChanged: function _renderSelectedIndexChanged() {
+  }
+
+  _renderSelectedIndexChanged() {
     this._selectedIndexChanged = this._createActionByOption('onSelectedIndexChanged');
-  },
-  _renderWheelEvent: function _renderWheelEvent() {
-    eventsEngine.on(this._$container, 'dxmousewheel', e => {
+  }
+
+  _renderWheelEvent() {
+    eventsEngine.on($(this.container()), 'dxmousewheel', e => {
       this._isWheelScrolled = true;
     });
-  },
-  _renderContainerClick: function _renderContainerClick() {
+  }
+
+  _renderContainerClick() {
     if (!this.option('showOnClick')) {
       return;
     }
@@ -87,14 +95,15 @@ var DateViewRoller = Scrollable.inherit({
 
     var clickAction = this._createActionByOption('onClick');
 
-    eventsEngine.off(this._$container, eventName);
-    eventsEngine.on(this._$container, eventName, function (e) {
+    eventsEngine.off($(this.container()), eventName);
+    eventsEngine.on($(this.container()), eventName, function (e) {
       clickAction({
         event: e
       });
     });
-  },
-  _wrapAction: function _wrapAction(actionName, callback) {
+  }
+
+  _wrapAction(actionName, callback) {
     var strategy = this._strategy;
     var originalAction = strategy[actionName];
 
@@ -102,27 +111,26 @@ var DateViewRoller = Scrollable.inherit({
       callback.apply(this, arguments);
       return originalAction.apply(this, arguments);
     };
-  },
-  _renderItems: function _renderItems() {
+  }
+
+  _renderItems() {
     var items = this.option('items') || [];
     var $items = $();
-
-    this._$content.empty(); // NOTE: rendering ~166+30+12+24+60 <div>s >> 50mc
-
+    $(this.content()).empty(); // NOTE: rendering ~166+30+12+24+60 <div>s >> 50mc
 
     items.forEach(function (item) {
       $items = $items.add($('<div>').addClass(DATEVIEW_ROLLER_ITEM_CLASS).append(item));
     });
-
-    this._$content.append($items);
-
+    $(this.content()).append($items);
     this._$items = $items;
     this.update();
-  },
-  _renderSelectedItemFrame: function _renderSelectedItemFrame() {
-    $('<div>').addClass(DATEVIEW_ROLLER_ITEM_SELECTED_FRAME_CLASS).append($('<div>').addClass(DATEVIEW_ROLLER_ITEM_SELECTED_BORDER_CLASS)).appendTo(this._$container);
-  },
-  _renderSelectedValue: function _renderSelectedValue(selectedIndex) {
+  }
+
+  _renderSelectedItemFrame() {
+    $('<div>').addClass(DATEVIEW_ROLLER_ITEM_SELECTED_FRAME_CLASS).append($('<div>').addClass(DATEVIEW_ROLLER_ITEM_SELECTED_BORDER_CLASS)).appendTo($(this.container()));
+  }
+
+  _renderSelectedValue(selectedIndex) {
     var index = this._fitIndex(selectedIndex !== null && selectedIndex !== void 0 ? selectedIndex : this.option('selectedIndex'));
 
     this._moveTo({
@@ -130,8 +138,9 @@ var DateViewRoller = Scrollable.inherit({
     });
 
     this._renderActiveStateItem();
-  },
-  _fitIndex: function _fitIndex(index) {
+  }
+
+  _fitIndex(index) {
     var items = this.option('items') || [];
     var itemCount = items.length;
 
@@ -144,39 +153,48 @@ var DateViewRoller = Scrollable.inherit({
     }
 
     return index;
-  },
-  _getItemPosition: function _getItemPosition(index) {
+  }
+
+  _getItemPosition(index) {
     return Math.round(this._itemHeight() * index);
-  },
-  _renderItemsClick: function _renderItemsClick() {
+  }
+
+  _renderItemsClick() {
     var itemSelector = this._getItemSelector();
 
     var eventName = addNamespace(clickEventName, this.NAME);
     eventsEngine.off(this.$element(), eventName, itemSelector);
     eventsEngine.on(this.$element(), eventName, itemSelector, this._itemClickHandler.bind(this));
-  },
-  _getItemSelector: function _getItemSelector() {
+  }
+
+  _getItemSelector() {
     return '.' + DATEVIEW_ROLLER_ITEM_CLASS;
-  },
-  _itemClickHandler: function _itemClickHandler(e) {
+  }
+
+  _itemClickHandler(e) {
     this.option('selectedIndex', this._itemElementIndex(e.currentTarget));
-  },
-  _itemElementIndex: function _itemElementIndex(itemElement) {
+  }
+
+  _itemElementIndex(itemElement) {
     return this._itemElements().index(itemElement);
-  },
-  _itemElements: function _itemElements() {
+  }
+
+  _itemElements() {
     return this.$element().find(this._getItemSelector());
-  },
-  _renderActiveStateItem: function _renderActiveStateItem() {
+  }
+
+  _renderActiveStateItem() {
     var selectedIndex = this.option('selectedIndex');
     each(this._$items, function (index) {
       $(this).toggleClass(DATEVIEW_ROLLER_ITEM_SELECTED_CLASS, selectedIndex === index);
     });
-  },
-  _shouldScrollToNeighborItem: function _shouldScrollToNeighborItem() {
+  }
+
+  _shouldScrollToNeighborItem() {
     return devices.real().deviceType === 'desktop' && this._isWheelScrolled;
-  },
-  _moveTo: function _moveTo(targetLocation) {
+  }
+
+  _moveTo(targetLocation) {
     targetLocation = this._normalizeLocation(targetLocation);
 
     var location = this._location();
@@ -191,20 +209,22 @@ var DateViewRoller = Scrollable.inherit({
 
       if (this._animation && !this._shouldScrollToNeighborItem()) {
         var that = this;
-        fx.stop(this._$content);
-        fx.animate(this._$content, {
+        fx.stop($(this.content()));
+        fx.animate($(this.content()), {
           duration: 200,
           type: 'slide',
           to: {
             top: Math.floor(delta.y)
           },
-          complete: function complete() {
-            resetPosition(that._$content);
+
+          complete() {
+            resetPosition($(that.content()));
 
             that._strategy.handleMove({
               delta
             });
           }
+
         });
         delete this._animation;
       } else {
@@ -213,19 +233,23 @@ var DateViewRoller = Scrollable.inherit({
         });
       }
     }
-  },
-  _validate: function _validate(e) {
+  }
+
+  _validate(e) {
     return this._strategy.validate(e);
-  },
-  _fitSelectedIndexInRange: function _fitSelectedIndexInRange(index) {
+  }
+
+  _fitSelectedIndexInRange(index) {
     var itemsCount = this.option('items').length;
     return Math.max(Math.min(index, itemsCount - 1), 0);
-  },
-  _isInNullNeighborhood: function _isInNullNeighborhood(x) {
+  }
+
+  _isInNullNeighborhood(x) {
     var EPS = 0.1;
     return -EPS <= x && x <= EPS;
-  },
-  _getSelectedIndexAfterScroll: function _getSelectedIndexAfterScroll(currentSelectedIndex) {
+  }
+
+  _getSelectedIndexAfterScroll(currentSelectedIndex) {
     var locationTop = -this._location().top;
 
     var currentSelectedIndexPosition = currentSelectedIndex * this._itemHeight();
@@ -241,8 +265,9 @@ var DateViewRoller = Scrollable.inherit({
     var newSelectedIndex = this._fitSelectedIndexInRange(currentSelectedIndex + direction);
 
     return newSelectedIndex;
-  },
-  _getNewSelectedIndex: function _getNewSelectedIndex(currentSelectedIndex) {
+  }
+
+  _getNewSelectedIndex(currentSelectedIndex) {
     if (this._shouldScrollToNeighborItem()) {
       return this._getSelectedIndexAfterScroll(currentSelectedIndex);
     }
@@ -252,8 +277,9 @@ var DateViewRoller = Scrollable.inherit({
     var ratio = -this._location().top / this._itemHeight();
 
     return Math.round(ratio);
-  },
-  _endActionHandler: function _endActionHandler() {
+  }
+
+  _endActionHandler() {
     var currentSelectedIndex = this.option('selectedIndex');
 
     var newSelectedIndex = this._getNewSelectedIndex(currentSelectedIndex);
@@ -265,38 +291,45 @@ var DateViewRoller = Scrollable.inherit({
     }
 
     this._isWheelScrolled = false;
-  },
-  _itemHeight: function _itemHeight() {
+  }
+
+  _itemHeight() {
     var $item = this._$items.first();
 
     return $item.height();
-  },
-  _toggleActive: function _toggleActive(state) {
+  }
+
+  _toggleActive(state) {
     this.$element().toggleClass(DATEVIEW_ROLLER_ACTIVE_CLASS, state);
-  },
-  _isVisible: function _isVisible() {
-    return this._$container.is(':visible');
-  },
-  _fireSelectedIndexChanged: function _fireSelectedIndexChanged(value, previousValue) {
+  }
+
+  _isVisible() {
+    return $(this.container()).is(':visible');
+  }
+
+  _fireSelectedIndexChanged(value, previousValue) {
     this._selectedIndexChanged({
       value: value,
       previousValue: previousValue,
       event: undefined
     });
-  },
-  _visibilityChanged: function _visibilityChanged(visible) {
-    this.callBase(visible);
+  }
+
+  _visibilityChanged(visible) {
+    super._visibilityChanged(visible);
 
     if (visible) {
       this._renderSelectedValue(this.option('selectedIndex'));
     }
 
     this.toggleActiveState(false);
-  },
-  toggleActiveState: function toggleActiveState(state) {
+  }
+
+  toggleActiveState(state) {
     this.$element().toggleClass(DATEVIEW_ROLLER_CURRENT_CLASS, state);
-  },
-  _refreshSelectedIndex: function _refreshSelectedIndex() {
+  }
+
+  _refreshSelectedIndex() {
     var selectedIndex = this.option('selectedIndex');
 
     var fitIndex = this._fitIndex(selectedIndex);
@@ -306,8 +339,9 @@ var DateViewRoller = Scrollable.inherit({
     } else {
       this.option('selectedIndex', fitIndex);
     }
-  },
-  _optionChanged: function _optionChanged(args) {
+  }
+
+  _optionChanged(args) {
     switch (args.name) {
       case 'selectedIndex':
         this._fireSelectedIndexChanged(args.value, args.previousValue);
@@ -335,9 +369,12 @@ var DateViewRoller = Scrollable.inherit({
         break;
 
       default:
-        this.callBase(args);
+        super._optionChanged(args);
+
     }
   }
-});
+
+}
+
 registerComponent('dxDateViewRoller', DateViewRoller);
 export default DateViewRoller;

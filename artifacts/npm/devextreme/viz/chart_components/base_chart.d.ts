@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/chart_components/base_chart.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -64,7 +64,7 @@ export interface TooltipInfo {
 }
 
 /** @namespace DevExpress.viz */
-export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
+export interface BaseChartOptions<TComponent> extends BaseWidgetOptions<TComponent> {
     /**
      * @docid
      * @type object
@@ -136,7 +136,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onDone?: ((e: EventInfo<T>) => void);
+    onDone?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -150,7 +150,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onPointClick?: ((e: NativeEventInfo<T> & PointInteractionInfo) => void) | string;
+    onPointClick?: ((e: NativeEventInfo<TComponent> & PointInteractionInfo) => void) | string;
     /**
      * @docid
      * @type_function_param1 e:object
@@ -161,7 +161,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onPointHoverChanged?: ((e: EventInfo<T> & PointInteractionInfo) => void);
+    onPointHoverChanged?: ((e: EventInfo<TComponent> & PointInteractionInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -172,7 +172,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onPointSelectionChanged?: ((e: EventInfo<T> & PointInteractionInfo) => void);
+    onPointSelectionChanged?: ((e: EventInfo<TComponent> & PointInteractionInfo) => void);
     /**
      * @docid
      * @default null
@@ -185,7 +185,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onTooltipHidden?: ((e: EventInfo<T> & TooltipInfo) => void);
+    onTooltipHidden?: ((e: EventInfo<TComponent> & TooltipInfo) => void);
     /**
      * @docid
      * @default null
@@ -198,7 +198,7 @@ export interface BaseChartOptions<T = BaseChart> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onTooltipShown?: ((e: EventInfo<T> & TooltipInfo) => void);
+    onTooltipShown?: ((e: EventInfo<TComponent> & TooltipInfo) => void);
     /**
      * @docid
      * @extends CommonVizPalette
@@ -320,8 +320,7 @@ export interface BaseChartTooltip extends BaseWidgetTooltip {
  * @inherits BaseWidget, DataHelperMixin
  * @namespace DevExpress.viz
  */
-export class BaseChart extends BaseWidget {
-    constructor(element: UserDefinedElement, options?: BaseChartOptions)
+export class BaseChart<TProperties> extends BaseWidget<TProperties> {
     /**
      * @docid
      * @publicName clearSelection()

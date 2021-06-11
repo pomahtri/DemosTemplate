@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/collection/ui.collection_widget.base.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -37,7 +37,7 @@ export interface SelectionChangedInfo<T = any> {
 }
 
 /** @namespace DevExpress.ui */
-export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOptions<T> {
+export interface CollectionWidgetOptions<TComponent> extends WidgetOptions<TComponent> {
     /**
      * @docid
      * @default null
@@ -92,7 +92,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
      * @action
      * @public
      */
-    onItemClick?: ((e: NativeEventInfo<T> & ItemInfo) => void) | string;
+    onItemClick?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void) | string;
     /**
      * @docid
      * @default null
@@ -107,7 +107,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
      * @action
      * @public
      */
-    onItemContextMenu?: ((e: NativeEventInfo<T> & ItemInfo) => void);
+    onItemContextMenu?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void);
     /**
      * @docid
      * @default null
@@ -122,7 +122,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
      * @action
      * @public
      */
-    onItemHold?: ((e: NativeEventInfo<T> & ItemInfo) => void);
+    onItemHold?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void);
     /**
      * @docid
      * @default null
@@ -136,7 +136,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
      * @action
      * @public
      */
-    onItemRendered?: ((e: NativeEventInfo<T> & ItemInfo) => void);
+    onItemRendered?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void);
     /**
      * @docid
      * @default null
@@ -149,7 +149,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
      * @action
      * @public
      */
-    onSelectionChanged?: ((e: EventInfo<T> & SelectionChangedInfo) => void);
+    onSelectionChanged?: ((e: EventInfo<TComponent> & SelectionChangedInfo) => void);
     /**
      * @docid
      * @default -1
@@ -186,8 +186,7 @@ export interface CollectionWidgetOptions<T = CollectionWidget> extends WidgetOpt
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class CollectionWidget extends Widget {
-    constructor(element: UserDefinedElement, options?: CollectionWidgetOptions)
+export default class CollectionWidget<TProperties> extends Widget<TProperties> {
     getDataSource(): DataSource;
 }
 

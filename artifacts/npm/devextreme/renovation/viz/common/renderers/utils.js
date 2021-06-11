@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/renderers/utils.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -59,12 +59,10 @@ var extend = function extend(target, source) {
 exports.extend = extend;
 
 function buildSegments(points, buildSimpleSegment, close) {
-  var i;
-  var ii;
   var list = [];
 
   if (Array.isArray(points[0])) {
-    for (i = 0, ii = points.length; i < ii; ++i) {
+    for (var i = 0, ii = points.length; i < ii; ++i) {
       buildSimpleSegment(points[i], close, list);
     }
   } else {
@@ -105,7 +103,6 @@ function buildSimpleLineSegment(points, close, list) {
 }
 
 function buildSimpleCurveSegment(points, close, list) {
-  var i;
   var k = list.length;
   var ii = (points || []).length;
 
@@ -114,15 +111,15 @@ function buildSimpleCurveSegment(points, close, list) {
       var arrPoints = points;
       list[k++] = ["M", arrPoints[0].x, arrPoints[0].y];
 
-      for (i = 1; i < ii;) {
+      for (var i = 1; i < ii;) {
         list[k++] = ["C", arrPoints[i].x, arrPoints[i++].y, arrPoints[i].x, arrPoints[i++].y, arrPoints[i].x, arrPoints[i++].y];
       }
     } else {
       var _arrPoints2 = points;
       list[k++] = ["M", _arrPoints2[0], _arrPoints2[1]];
 
-      for (i = 2; i < ii;) {
-        list[k++] = ["C", _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++]];
+      for (var _i = 2; _i < ii;) {
+        list[k++] = ["C", _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++]];
       }
     }
   } else {
@@ -162,10 +159,9 @@ exports.buildPathSegments = buildPathSegments;
 var combinePathParam = function combinePathParam(segments) {
   var d = [];
   var ii = segments.length;
-  var segment;
 
   for (var i = 0; i < ii; ++i) {
-    segment = segments[i];
+    var segment = segments[i];
 
     for (var j = 0, jj = segment.length; j < jj; ++j) {
       d.push(segment[j]);
@@ -206,18 +202,17 @@ function makeEqualLineSegments(short, long, type) {
 }
 
 function makeEqualAreaSegments(short, long, type) {
-  var i;
-  var head;
   var shortLength = short.length;
   var longLength = long.length;
-  var constsSeg1;
-  var constsSeg2;
 
   if ((shortLength - 1) % 2 === 0 && (longLength - 1) % 2 === 0) {
-    i = (shortLength - 1) / 2 - 1;
-    head = short.slice(0, i + 1);
-    constsSeg1 = _toConsumableArray(head[head.length - 1]);
-    constsSeg2 = _toConsumableArray(short.slice(i + 1)[0]);
+    var i = (shortLength - 1) / 2 - 1;
+    var head = short.slice(0, i + 1);
+
+    var constsSeg1 = _toConsumableArray(head[head.length - 1]);
+
+    var constsSeg2 = _toConsumableArray(short.slice(i + 1)[0]);
+
     prepareConstSegment(constsSeg1, type);
     prepareConstSegment(constsSeg2, type);
 
@@ -232,7 +227,7 @@ var compensateSegments = function compensateSegments(oldSegments, newSegments, t
   var oldLength = oldSegments.length;
   var newLength = newSegments.length;
   var originalNewSegments = [];
-  var makeEqualSegments = type.indexOf("area") !== -1 ? makeEqualAreaSegments : makeEqualLineSegments;
+  var makeEqualSegments = type.includes("area") ? makeEqualAreaSegments : makeEqualLineSegments;
 
   if (oldLength === 0) {
     for (var i = 0; i < newLength; i++) {
@@ -266,13 +261,12 @@ var getElementBBox = function getElementBBox(element) {
 exports.getElementBBox = getElementBBox;
 
 function maxLengthFontSize(fontSize1, fontSize2) {
-  var height1 = fontSize1 || DEFAULT_FONT_SIZE;
-  var height2 = fontSize2 || DEFAULT_FONT_SIZE;
+  var height1 = fontSize1 !== null && fontSize1 !== void 0 ? fontSize1 : DEFAULT_FONT_SIZE;
+  var height2 = fontSize2 !== null && fontSize2 !== void 0 ? fontSize2 : DEFAULT_FONT_SIZE;
   return height1 > height2 ? height1 : height2;
 }
 
 function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
-  var style;
   var realStyle = node.style;
 
   if ((0, _type.isDefined)(node.wholeText)) {
@@ -286,7 +280,7 @@ function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
   } else if (node.tagName === "BR") {
     ++line;
   } else if (_dom_adapter.default.isElementNode(node)) {
-    style = extend(style = {}, parentStyle);
+    var style = extend({}, parentStyle);
 
     switch (node.tagName) {
       case "B":
@@ -323,14 +317,13 @@ function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
 
 function adjustLineHeights(items) {
   var currentItem = items[0];
-  var item;
 
   for (var i = 1, ii = items.length; i < ii; ++i) {
-    item = items[i];
+    var item = items[i];
 
     if (item.line === currentItem.line) {
       currentItem.height = maxLengthFontSize(currentItem.height, item.height);
-      currentItem.inherits = currentItem.inherits || item.height === 0;
+      currentItem.inherits = !!currentItem.inherits || item.height === 0;
       item.height = NaN;
     } else {
       currentItem = item;
@@ -401,7 +394,7 @@ var setTextNodeAttribute = function setTextNodeAttribute(item, name, value) {
 exports.setTextNodeAttribute = setTextNodeAttribute;
 
 var getItemLineHeight = function getItemLineHeight(item, defaultValue) {
-  return item.inherits ? maxLengthFontSize(item.height, defaultValue) : item.height || defaultValue;
+  return item.inherits ? maxLengthFontSize(item.height, defaultValue) : Number(item.height) || defaultValue;
 };
 
 exports.getItemLineHeight = getItemLineHeight;
@@ -445,16 +438,18 @@ function getTransformation(props, x, y) {
       translateY = props.translateY;
   var transformations = [];
   var transDir = sharpDirection === "backward" ? -1 : 1;
-  var strokeOdd = (strokeWidth || 0) % 2;
+  var strokeOdd = (strokeWidth !== null && strokeWidth !== void 0 ? strokeWidth : 0) % 2;
   var correctionX = strokeOdd && (sharp === "h" || sharp === true) ? SHARPING_CORRECTION * transDir : 0;
   var correctionY = strokeOdd && (sharp === "v" || sharp === true) ? SHARPING_CORRECTION * transDir : 0;
 
   if (translateX || translateY || correctionX || correctionY) {
-    transformations.push("translate(".concat((translateX || 0) + correctionX, ",").concat((translateY || 0) + correctionY, ")"));
+    transformations.push("translate(".concat((translateX !== null && translateX !== void 0 ? translateX : 0) + correctionX, ",").concat((translateY !== null && translateY !== void 0 ? translateY : 0) + correctionY, ")"));
   }
 
   if (rotate) {
-    transformations.push("rotate(".concat(rotate, ",").concat(rotateX || x || 0, ",").concat(rotateY || y || 0, ")"));
+    var _ref, _ref2;
+
+    transformations.push("rotate(".concat(rotate, ",").concat((_ref = Number(rotateX) || x) !== null && _ref !== void 0 ? _ref : 0, ",").concat((_ref2 = Number(rotateY) || y) !== null && _ref2 !== void 0 ? _ref2 : 0, ")"));
   }
 
   var scaleXDefined = (0, _type.isDefined)(scaleX);
@@ -475,7 +470,7 @@ function getDashStyle(props) {
     return undefined;
   }
 
-  var sw = strokeWidth || 1;
+  var sw = Number(strokeWidth) || 1;
   var value = (0, _utils.normalizeEnum)(dashStyle);
   var dashArray = [];
   dashArray = value.replace(/longdash/g, "8,3,").replace(/dash/g, "4,3,").replace(/dot/g, "1,3,").replace(/,$/, "").split(",");

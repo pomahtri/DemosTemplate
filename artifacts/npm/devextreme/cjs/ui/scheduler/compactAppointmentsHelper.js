@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/compactAppointmentsHelper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -94,15 +94,13 @@ var CompactAppointmentsHelper = /*#__PURE__*/function () {
 
   _proto._onButtonClick = function _onButtonClick(e, options) {
     var $button = (0, _renderer.default)(e.element);
-    this.instance.showAppointmentTooltipCore($button, $button.data('items'), this._getExtraOptionsForTooltip(options));
+    this.instance.showAppointmentTooltipCore($button, $button.data('items'), this._getExtraOptionsForTooltip(options, $button));
   };
 
-  _proto._getExtraOptionsForTooltip = function _getExtraOptionsForTooltip(options) {
+  _proto._getExtraOptionsForTooltip = function _getExtraOptionsForTooltip(options, $appointmentCollector) {
     return {
       clickEvent: this._clickEvent(options.onAppointmentClick).bind(this),
-      dragBehavior: options.allowDrag && this._createTooltipDragBehavior().bind(this),
-      dropDownAppointmentTemplate: this.instance.option().dropDownAppointmentTemplate,
-      // deprecated option
+      dragBehavior: options.allowDrag && this._createTooltipDragBehavior($appointmentCollector).bind(this),
       isButtonClick: true
     };
   };
@@ -124,7 +122,7 @@ var CompactAppointmentsHelper = /*#__PURE__*/function () {
     };
   };
 
-  _proto._createTooltipDragBehavior = function _createTooltipDragBehavior() {
+  _proto._createTooltipDragBehavior = function _createTooltipDragBehavior($appointmentCollector) {
     var _this3 = this;
 
     return function (e) {
@@ -142,12 +140,16 @@ var CompactAppointmentsHelper = /*#__PURE__*/function () {
         return event.itemSettings;
       };
 
+      var initialPosition = (0, _translator.locate)($appointmentCollector);
       var options = {
         filter: ".".concat(_constants.LIST_ITEM_CLASS),
-        isSetCursorOffset: true
+        isSetCursorOffset: true,
+        initialPosition: initialPosition,
+        getItemData: getItemData,
+        getItemSettings: getItemSettings
       };
 
-      workSpace._createDragBehaviorBase($element, getItemData, getItemSettings, options);
+      workSpace._createDragBehaviorBase($element, options);
     };
   };
 

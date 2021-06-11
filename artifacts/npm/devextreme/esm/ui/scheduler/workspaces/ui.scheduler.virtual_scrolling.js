@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/workspaces/ui.scheduler.virtual_scrolling.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -20,7 +20,8 @@ var DOCUMENT_SCROLL_EVENT_NAMESPACE = addNamespace('scroll', 'dxSchedulerVirtual
 var scrollingOrientations = {
   vertical: 'vertical',
   horizontal: 'horizontal',
-  both: 'both'
+  both: 'both',
+  none: 'none'
 };
 var DefaultScrollingOrientation = scrollingOrientations.both;
 export default class VirtualScrollingDispatcher {
@@ -45,10 +46,6 @@ export default class VirtualScrollingDispatcher {
 
   get renderer() {
     return this._renderer;
-  }
-
-  get isVirtualScrolling() {
-    return this.workspace.isVirtualScrolling();
   }
 
   get verticalVirtualScrolling() {
@@ -146,7 +143,13 @@ export default class VirtualScrollingDispatcher {
   }
 
   get scrollingOrientation() {
-    return this.workspace.option('scrolling.orientation') || DefaultScrollingOrientation;
+    var scrolling = this.workspace.option('scrolling');
+
+    if (scrolling.mode === 'standard') {
+      return scrollingOrientations.none;
+    }
+
+    return scrolling.orientation || DefaultScrollingOrientation;
   }
 
   get verticalScrollingAllowed() {
@@ -683,7 +686,7 @@ class Renderer {
   }
 
   _renderGrid() {
-    this.workspace.renderRWorkspace(false);
+    this.workspace.renderWorkSpace(false);
   }
 
   _renderAppointments() {

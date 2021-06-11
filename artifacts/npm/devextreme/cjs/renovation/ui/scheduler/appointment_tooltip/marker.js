@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/appointment_tooltip/marker.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -49,7 +49,6 @@ var Marker = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.state = {
       appointmentColor: undefined
     };
@@ -58,40 +57,21 @@ var Marker = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = Marker.prototype;
 
-  _proto.set_appointmentColor = function set_appointmentColor(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        appointmentColor: newValue
-      };
-    });
-  };
-
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      appointmentColor: this.appointmentColor,
+      appointmentColor: this.state.appointmentColor,
       style: this.style,
       restAttributes: this.restAttributes
     });
   };
 
   _createClass(Marker, [{
-    key: "appointmentColor",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.appointmentColor;
-    }
-  }, {
     key: "style",
     get: function get() {
       return {
-        background: this.appointmentColor
+        background: this.state.appointmentColor
       };
     }
   }, {

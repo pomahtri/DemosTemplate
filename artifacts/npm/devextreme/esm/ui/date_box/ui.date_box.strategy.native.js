@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/date_box/ui.date_box.strategy.native.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -21,7 +21,7 @@ var NativeStrategy = DateBoxStrategy.inherit({
       width: 'auto'
     });
   },
-  getParsedText: function getParsedText(text, format) {
+  getParsedText: function getParsedText(text) {
     if (!text) {
       return null;
     } // NOTE: Required for correct date parsing when native picker is used (T418155)
@@ -31,15 +31,7 @@ var NativeStrategy = DateBoxStrategy.inherit({
       return new Date(text.replace(/-/g, '/').replace('T', ' ').split('.')[0]);
     }
 
-    if (this._isTextInput()) {
-      return this.callBase(text, format);
-    } else {
-      return dateUtils.fromStandardDateFormat(text);
-    }
-  },
-  // IE11 fallback (T902036)
-  _isTextInput: function _isTextInput() {
-    return this.dateBox._input().prop('type') === 'text';
+    return dateUtils.fromStandardDateFormat(text);
   },
   renderPopupContent: noop,
   _getWidgetName: noop,

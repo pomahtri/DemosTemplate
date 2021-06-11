@@ -1,6 +1,6 @@
 "use strict";
 
-exports.default = void 0;
+exports.Component = void 0;
 
 var _config = _interopRequireDefault(require("./config"));
 
@@ -414,8 +414,14 @@ var Component = _class.default.inherit({
     this.endUpdate();
   }
 });
+/**
+ * @name Component
+ * @module core/component
+ * @export Component
+ * @namespace DevExpress
+ * @hidden
+ * @wrappable
+ */
 
-var _default = Component;
-exports.default = _default;
-module.exports = exports.default;
-module.exports.default = exports.default;
+
+exports.Component = Component;

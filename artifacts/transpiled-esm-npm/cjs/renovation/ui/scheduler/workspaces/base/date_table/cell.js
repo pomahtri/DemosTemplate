@@ -111,7 +111,7 @@ var DateTableCellBase = /*#__PURE__*/function (_BaseInfernoComponent) {
           groups: groups,
           groupIndex: groups ? groupIndex : undefined,
           text: "",
-          allDay: allDay || undefined
+          allDay: !!allDay || undefined
         }, contentTemplateProps.data),
         index: index
       };

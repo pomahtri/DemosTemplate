@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/multi_view.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import DataSource, {
     DataSourceOptions
 } from '../data/data_source';
@@ -61,7 +57,7 @@ export type SelectionChangedEvent = EventInfo<dxMultiView> & SelectionChangedInf
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxMultiViewOptions<T = dxMultiView> extends CollectionWidgetOptions<T> {
+export interface dxMultiViewOptions<TComponent> extends CollectionWidgetOptions<TComponent> {
     /**
      * @docid
      * @default true
@@ -119,9 +115,7 @@ export interface dxMultiViewOptions<T = dxMultiView> extends CollectionWidgetOpt
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxMultiView extends CollectionWidget {
-    constructor(element: UserDefinedElement, options?: dxMultiViewOptions)
-}
+export default class dxMultiView<TProperties = Properties> extends CollectionWidget<TProperties> { }
 
 /**
  * @docid
@@ -133,10 +127,10 @@ export interface dxMultiViewItem extends CollectionWidgetItem {
 }
 
 /** @public */
-export type Properties = dxMultiViewOptions;
+export type Properties = dxMultiViewOptions<dxMultiView<Properties>>;
 
 /** @deprecated use Properties instead */
-export type Options = dxMultiViewOptions;
+export type Options = Properties;
 
 /** @deprecated use Properties instead */
-export type IOptions = dxMultiViewOptions;
+export type IOptions = Properties;

@@ -12,6 +12,8 @@ var _component_registrator_callbacks = _interopRequireDefault(require("../../cor
 
 var _ui = _interopRequireDefault(require("../../ui/widget/ui.widget"));
 
+var _draggable = _interopRequireDefault(require("../../ui/draggable"));
+
 var _template = require("./template");
 
 var _editor = _interopRequireDefault(require("../../ui/editor/editor"));
@@ -224,7 +226,7 @@ if (_knockout.default) {
 
         createComponent();
         return {
-          controlsDescendantBindings: componentClass.subclassOf(_ui.default)
+          controlsDescendantBindings: componentClass.subclassOf(_ui.default) || componentClass.subclassOf(_draggable.default)
         };
       }
     };

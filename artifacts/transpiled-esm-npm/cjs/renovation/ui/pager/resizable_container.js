@@ -103,7 +103,6 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.parentRef = (0, _inferno.createRef)();
     _this.pageSizesRef = (0, _inferno.createRef)();
     _this.infoTextRef = (0, _inferno.createRef)();
@@ -121,47 +120,21 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
   var _proto = ResizableContainer.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.subscribeToResize, [this.infoTextVisible, this.isLargeDisplayMode]), new _vdom.InfernoEffect(this.effectUpdateChildProps, [this.infoTextVisible, this.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate])];
+    return [new _vdom.InfernoEffect(this.subscribeToResize, [this.state.infoTextVisible, this.state.isLargeDisplayMode]), new _vdom.InfernoEffect(this.effectUpdateChildProps, [this.state.infoTextVisible, this.state.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$, _this$_effects$2;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.infoTextVisible, this.isLargeDisplayMode]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.infoTextVisible, this.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate]);
-  };
-
-  _proto.set_infoTextVisible = function set_infoTextVisible(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        infoTextVisible: newValue
-      };
-    });
-  };
-
-  _proto.set_isLargeDisplayMode = function set_isLargeDisplayMode(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      _this3._currentState = state;
-      var newValue = value();
-      _this3._currentState = null;
-      return {
-        isLargeDisplayMode: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.infoTextVisible, this.state.isLargeDisplayMode]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.state.infoTextVisible, this.state.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate]);
   };
 
   _proto.subscribeToResize = function subscribeToResize() {
-    var _this4 = this;
+    var _this2 = this;
 
     var callback = function callback() {
-      _this4.updateAdaptivityProps();
+      _this2.updateAdaptivityProps();
     };
 
     _resize_callbacks.default.add(callback);
@@ -180,7 +153,7 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _proto.updateAdaptivityProps = function updateAdaptivityProps() {
-    var _this5 = this;
+    var _this3 = this;
 
     var currentElementsWidth = getElementsWidth({
       parent: this.parentRef.current,
@@ -189,7 +162,7 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
       pages: this.pagesRef.current
     });
 
-    if ((0, _type.isDefined)(this.actualAdaptivityProps) && (this.actualAdaptivityProps.infoTextVisible !== this.infoTextVisible || this.actualAdaptivityProps.isLargeDisplayMode !== this.isLargeDisplayMode)) {
+    if ((0, _type.isDefined)(this.actualAdaptivityProps) && (this.actualAdaptivityProps.infoTextVisible !== this.state.infoTextVisible || this.actualAdaptivityProps.isLargeDisplayMode !== this.state.isLargeDisplayMode)) {
       return;
     }
 
@@ -199,23 +172,27 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
       this.elementsWidth = {};
     }
 
-    if (isEmpty || this.isLargeDisplayMode) {
+    if (isEmpty || this.state.isLargeDisplayMode) {
       this.elementsWidth.pageSizes = currentElementsWidth.pageSizes;
       this.elementsWidth.pages = currentElementsWidth.pages;
     }
 
-    if (isEmpty || this.infoTextVisible) {
+    if (isEmpty || this.state.infoTextVisible) {
       this.elementsWidth.info = currentElementsWidth.info;
     }
 
     this.actualAdaptivityProps = calculateAdaptivityProps(_extends({
       parent: currentElementsWidth.parent
     }, this.elementsWidth));
-    this.set_infoTextVisible(function () {
-      return _this5.actualAdaptivityProps.infoTextVisible;
+    this.setState(function (state) {
+      return _extends({}, state, {
+        infoTextVisible: _this3.actualAdaptivityProps.infoTextVisible
+      });
     });
-    this.set_isLargeDisplayMode(function () {
-      return _this5.actualAdaptivityProps.isLargeDisplayMode;
+    this.setState(function (state) {
+      return _extends({}, state, {
+        isLargeDisplayMode: _this3.actualAdaptivityProps.isLargeDisplayMode
+      });
     });
   };
 
@@ -225,8 +202,8 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
       props: _extends({}, props, {
         contentTemplate: getTemplate(props.contentTemplate)
       }),
-      infoTextVisible: this.infoTextVisible,
-      isLargeDisplayMode: this.isLargeDisplayMode,
+      infoTextVisible: this.state.infoTextVisible,
+      isLargeDisplayMode: this.state.isLargeDisplayMode,
       parentRef: this.parentRef,
       pageSizesRef: this.pageSizesRef,
       infoTextRef: this.infoTextRef,
@@ -237,18 +214,6 @@ var ResizableContainer = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(ResizableContainer, [{
-    key: "infoTextVisible",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.infoTextVisible;
-    }
-  }, {
-    key: "isLargeDisplayMode",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.isLargeDisplayMode;
-    }
-  }, {
     key: "restAttributes",
     get: function get() {
       var _this$props = this.props,

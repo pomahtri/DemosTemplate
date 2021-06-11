@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.keyboard_navigation.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -207,7 +207,7 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
       var needUpdateFocus = false;
       var isAppend = e && (e.changeType === 'append' || e.changeType === 'prepend');
       var $focusedElement = (0, _renderer.default)(':focus');
-      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length || _browser.default.msie && $focusedElement.is('body');
+      var isFocusedElementCorrect = !$focusedElement.length || $focusedElement.closest($rowsView).length;
 
       _events_engine.default.off($rowsView, 'focusin', rowsViewFocusHandler);
 
@@ -1819,6 +1819,7 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
       type: 'input',
       target: $input.get(0)
     });
+    $input.get(0).select();
 
     _events_engine.default.trigger($input, keyDownEvent);
 

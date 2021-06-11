@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scroll_view/scrollable_simulated_props.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -23,7 +23,6 @@ export var ScrollableSimulatedPropsType = {
   bounceEnabled: ScrollableSimulatedProps.bounceEnabled,
   scrollByContent: ScrollableSimulatedProps.scrollByContent,
   scrollByThumb: ScrollableSimulatedProps.scrollByThumb,
-  updateManually: ScrollableSimulatedProps.updateManually,
   pullDownEnabled: ScrollableSimulatedProps.pullDownEnabled,
   reachBottomEnabled: ScrollableSimulatedProps.reachBottomEnabled,
   forceGeneratePockets: ScrollableSimulatedProps.forceGeneratePockets,

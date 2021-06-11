@@ -1,2 +1,3 @@
 import Overlay from './overlay/ui.overlay';
-export default Overlay;
+var baseZIndex = Overlay.baseZIndex;
+export { baseZIndex };

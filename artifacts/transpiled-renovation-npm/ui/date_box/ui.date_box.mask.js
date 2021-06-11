@@ -151,8 +151,7 @@ var DateBoxMask = _uiDate_box.default.inherit({
   _isSingleCharKey: function _isSingleCharKey(_ref) {
     var originalEvent = _ref.originalEvent,
         alt = _ref.alt;
-    var key = originalEvent.data || ((0, _index.normalizeKeyName)(originalEvent) === 'space' ? // IE11 (T972456)
-    ' ' : originalEvent.key);
+    var key = originalEvent.data || originalEvent.key;
     return typeof key === 'string' && key.length === 1 && !alt && !(0, _index.isCommandKeyPressed)(originalEvent);
   },
   _isSingleDigitKey: function _isSingleDigitKey(e) {
@@ -619,19 +618,13 @@ var DateBoxMask = _uiDate_box.default.inherit({
   _maskCompositionEndHandler: function _maskCompositionEndHandler(e) {
     var _this5 = this;
 
-    if (_browser.default.msie && this._isSingleDigitKey(e)) {
-      var key = e.originalEvent.data;
+    this._input().val(this._getDisplayedText(this._maskValue));
 
-      this._processInputKey(key);
-    } else {
-      this._input().val(this._getDisplayedText(this._maskValue));
+    this._selectNextPart();
 
-      this._selectNextPart();
-
-      this._maskInputHandler = function () {
-        _this5._renderSelectedPart();
-      };
-    }
+    this._maskInputHandler = function () {
+      _this5._renderSelectedPart();
+    };
   },
   _maskPasteHandler: function _maskPasteHandler(e) {
     var newText = this._replaceSelectedText(this.option('text'), this._caret(), (0, _dom.clipboardText)(e));

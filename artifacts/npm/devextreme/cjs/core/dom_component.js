@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/core/dom_component.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ var _errors = _interopRequireDefault(require("./errors"));
 
 var _resize_callbacks = _interopRequireDefault(require("../core/utils/resize_callbacks"));
 
-var _component = _interopRequireDefault(require("./component"));
+var _component = require("./component");
 
 var _template_manager = require("./template_manager");
 
@@ -44,9 +44,9 @@ var _short = require("../events/short");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var abstract = _component.default.abstract;
+var abstract = _component.Component.abstract;
 
-var DOMComponent = _component.default.inherit({
+var DOMComponent = _component.Component.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       width: undefined,

@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["addDateTableClass", "bottomVirtualRowHeight", "cellTemplate", "className", "dataCellTemplate", "groupOrientation", "leftVirtualCellWidth", "rightVirtualCellWidth", "topVirtualRowHeight", "viewData"];
+var _excluded = ["addDateTableClass", "bottomVirtualRowHeight", "cellTemplate", "dataCellTemplate", "groupOrientation", "leftVirtualCellWidth", "rightVirtualCellWidth", "topVirtualRowHeight", "viewData"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { InfernoWrapperComponent } from "@devextreme/vdom";
 import { Table } from "../table";
@@ -41,7 +41,7 @@ export var viewFunction = _ref => {
     })
   })));
 };
-export var DateTableLayoutBaseProps = _extends({}, DateTableLayoutProps);
+import { createReRenderEffect } from "@devextreme/vdom";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
 
@@ -49,6 +49,10 @@ export class DateTableLayoutBase extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  createEffects() {
+    return [createReRenderEffect()];
   }
 
   get classes() {
@@ -59,19 +63,27 @@ export class DateTableLayoutBase extends InfernoWrapperComponent {
   }
 
   get topVirtualRowHeight() {
-    return this.props.viewData.topVirtualRowHeight || 0;
+    var _this$props$viewData$;
+
+    return (_this$props$viewData$ = this.props.viewData.topVirtualRowHeight) !== null && _this$props$viewData$ !== void 0 ? _this$props$viewData$ : 0;
   }
 
   get bottomVirtualRowHeight() {
-    return this.props.viewData.bottomVirtualRowHeight || 0;
+    var _this$props$viewData$2;
+
+    return (_this$props$viewData$2 = this.props.viewData.bottomVirtualRowHeight) !== null && _this$props$viewData$2 !== void 0 ? _this$props$viewData$2 : 0;
   }
 
   get leftVirtualCellWidth() {
-    return this.props.viewData.leftVirtualCellWidth || 0;
+    var _this$props$viewData$3;
+
+    return (_this$props$viewData$3 = this.props.viewData.leftVirtualCellWidth) !== null && _this$props$viewData$3 !== void 0 ? _this$props$viewData$3 : 0;
   }
 
   get rightVirtualCellWidth() {
-    return this.props.viewData.rightVirtualCellWidth || 0;
+    var _this$props$viewData$4;
+
+    return (_this$props$viewData$4 = this.props.viewData.rightVirtualCellWidth) !== null && _this$props$viewData$4 !== void 0 ? _this$props$viewData$4 : 0;
   }
 
   get virtualCellsCount() {
@@ -103,4 +115,4 @@ export class DateTableLayoutBase extends InfernoWrapperComponent {
   }
 
 }
-DateTableLayoutBase.defaultProps = _extends({}, DateTableLayoutBaseProps);
+DateTableLayoutBase.defaultProps = _extends({}, DateTableLayoutProps);

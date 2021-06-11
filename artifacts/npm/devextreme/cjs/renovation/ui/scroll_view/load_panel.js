@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scroll_view/load_panel.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ var _type = require("../../../core/utils/type");
 
 var _message = _interopRequireDefault(require("../../../localization/message"));
 
-var _load_panel = require("../load_panel");
+var _load_panel = require("../overlays/load_panel");
 
 var _excluded = ["refreshingText", "targetElement", "visible"];
 

@@ -1,24 +1,38 @@
 /**
 * DevExtreme (esm/renovation/component_wrapper/button.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import _extends from "@babel/runtime/helpers/esm/extends";
 import ValidationEngine from "../../ui/validation_engine";
-import Component from "./component";
-export default class Button extends Component {
-  _init() {
-    super._init();
+import Component from "./common/component";
+export default class ButtonWrapper extends Component {
+  get _validationGroupConfig() {
+    return ValidationEngine.getGroupConfig(this._findGroup());
+  }
 
-    this._addAction("onSubmit", this._getSubmitAction());
+  getDefaultTemplateNames() {
+    return ["content"];
   }
 
   getProps() {
     var props = super.getProps();
     props.validationGroup = this._validationGroupConfig;
     return props;
+  }
+
+  get _templatesInfo() {
+    return {
+      template: "content"
+    };
+  }
+
+  _toggleActiveState(_, value) {
+    var button = this.viewRef;
+    value ? button.activate() : button.deactivate();
   }
 
   _getSubmitAction() {
@@ -43,10 +57,7 @@ export default class Button extends Component {
           if (status === "pending") {
             needValidate = false;
             this.option("disabled", true);
-            complete.then(_ref2 => {
-              var {
-                status
-              } = _ref2;
+            complete.then(() => {
               needValidate = true;
               this.option("disabled", false);
               validationStatus = status;
@@ -61,8 +72,33 @@ export default class Button extends Component {
     });
   }
 
-  get _validationGroupConfig() {
-    return ValidationEngine.getGroupConfig(this._findGroup());
+  _init() {
+    super._init();
+
+    this.defaultKeyHandlers = {
+      enter: (_, opts) => this.viewRef.onWidgetKeyDown(opts),
+      space: (_, opts) => this.viewRef.onWidgetKeyDown(opts)
+    };
+
+    this._addAction("onSubmit", this._getSubmitAction());
+  }
+
+  _initMarkup() {
+    super._initMarkup();
+
+    var $content = this.$element().find(".dx-button-content");
+    var $template = $content.children().filter(".dx-template-wrapper");
+
+    if ($template.length) {
+      $template.addClass("dx-button-content");
+      $content.replaceWith($template);
+    }
+  }
+
+  _patchOptionValues(options) {
+    return super._patchOptionValues(_extends({}, options, {
+      templateData: options._templateData
+    }));
   }
 
   _findGroup() {

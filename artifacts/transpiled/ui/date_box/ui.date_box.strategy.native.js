@@ -27,7 +27,7 @@ var NativeStrategy = _uiDate_box.default.inherit({
       width: 'auto'
     });
   },
-  getParsedText: function getParsedText(text, format) {
+  getParsedText: function getParsedText(text) {
     if (!text) {
       return null;
     } // NOTE: Required for correct date parsing when native picker is used (T418155)
@@ -37,15 +37,7 @@ var NativeStrategy = _uiDate_box.default.inherit({
       return new Date(text.replace(/-/g, '/').replace('T', ' ').split('.')[0]);
     }
 
-    if (this._isTextInput()) {
-      return this.callBase(text, format);
-    } else {
-      return _ui.default.fromStandardDateFormat(text);
-    }
-  },
-  // IE11 fallback (T902036)
-  _isTextInput: function _isTextInput() {
-    return this.dateBox._input().prop('type') === 'text';
+    return _ui.default.fromStandardDateFormat(text);
   },
   renderPopupContent: _common.noop,
   _getWidgetName: _common.noop,

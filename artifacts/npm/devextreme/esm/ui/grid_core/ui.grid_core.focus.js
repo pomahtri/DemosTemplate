@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.focus.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -167,14 +167,14 @@ var FocusController = core.ViewController.inherit(function () {
       var keyboardController = this.getController('keyboardNavigation');
 
       if (isFocusedRowKeyDefined) {
-        this.option('focusedRowKey', undefined);
+        this.option('focusedRowKey', null);
       }
 
       keyboardController.setFocusedRowIndex(-1);
       this.option('focusedRowIndex', -1);
       this.getController('data').updateItems({
         changeType: 'updateFocusedRow',
-        focusedRowKey: undefined
+        focusedRowKey: null
       });
 
       keyboardController._fireFocusedRowChanged(undefined, -1);
@@ -192,7 +192,7 @@ var FocusController = core.ViewController.inherit(function () {
         this.option('focusedRowIndex', -1);
       }
 
-      this._navigateToRow(key);
+      return this._navigateToRow(key);
     },
     _navigateToRow: function _navigateToRow(key, needFocusRow) {
       var that = this;
@@ -248,7 +248,10 @@ var FocusController = core.ViewController.inherit(function () {
       if (needFocusRow) {
         this._triggerUpdateFocusedRow(key, deferred);
       } else {
-        this.getView('rowsView').scrollToRowElement(key);
+        var focusedRowIndex = this.getFocusedRowIndexByKey(key);
+        this.getView('rowsView').scrollToRowElement(key, deferred).done(function () {
+          deferred.resolve(focusedRowIndex);
+        });
       }
     },
     _navigateToVirtualRow: function _navigateToVirtualRow(key, deferred, needFocusRow) {
@@ -262,19 +265,22 @@ var FocusController = core.ViewController.inherit(function () {
         var focusedRowIndex = rowIndex + dataController.getRowIndexOffset(true);
         var offset = rowsScrollController.getItemOffset(focusedRowIndex);
 
-        if (needFocusRow) {
-          var triggerUpdateFocusedRow = function triggerUpdateFocusedRow() {
-            that.component.off('contentReady', triggerUpdateFocusedRow);
+        var triggerUpdateFocusedRow = function triggerUpdateFocusedRow() {
+          that.component.off('contentReady', triggerUpdateFocusedRow);
 
+          if (needFocusRow) {
             that._triggerUpdateFocusedRow(key, deferred);
-          };
+          } else {
+            deferred.resolve(focusedRowIndex);
+          }
+        };
 
-          that.component.on('contentReady', triggerUpdateFocusedRow);
-        }
-
+        that.component.on('contentReady', triggerUpdateFocusedRow);
         scrollable.scrollTo({
           y: offset
         });
+      } else {
+        deferred.resolve(-1);
       }
     },
     _triggerUpdateFocusedRow: function _triggerUpdateFocusedRow(key, deferred) {
@@ -282,17 +288,21 @@ var FocusController = core.ViewController.inherit(function () {
       var focusedRowIndex = this.getFocusedRowIndexByKey(key);
 
       if (this._isValidFocusedRowIndex(focusedRowIndex)) {
+        var d;
+
         if (this.option('focusedRowEnabled')) {
           dataController.updateItems({
             changeType: 'updateFocusedRow',
             focusedRowKey: key
           });
         } else {
-          this.getView('rowsView').scrollToRowElement(key);
+          d = this.getView('rowsView').scrollToRowElement(key);
         }
 
-        this.getController('keyboardNavigation').setFocusedRowIndex(focusedRowIndex);
-        deferred && deferred.resolve(focusedRowIndex);
+        when(d).done(() => {
+          this.getController('keyboardNavigation').setFocusedRowIndex(focusedRowIndex);
+          deferred && deferred.resolve(focusedRowIndex);
+        });
       } else {
         deferred && deferred.resolve(-1);
       }
@@ -404,7 +414,7 @@ export var focusModule = {
     return {
       focusedRowEnabled: false,
       autoNavigateToFocusedRow: true,
-      focusedRowKey: undefined,
+      focusedRowKey: null,
       focusedRowIndex: -1,
       focusedColumnIndex: -1
     };
@@ -844,17 +854,40 @@ export var focusModule = {
         scrollToRowElement: function scrollToRowElement(key) {
           var rowIndex = this.getController('data').getRowIndexByKey(key);
           var $row = $(this.getRow(rowIndex));
-          this.scrollToElementVertically($row);
+          return this.scrollToElementVertically($row);
         },
         scrollToElementVertically: function scrollToElementVertically($row) {
           var scrollable = this.getScrollable();
 
           if (scrollable) {
             var position = scrollable.getScrollElementPosition($row, 'vertical');
-            scrollable.scrollTo({
-              top: position
-            });
+            return this._scrollTopPosition(position);
           }
+
+          return new Deferred().resolve();
+        },
+        _scrollTopPosition: function _scrollTopPosition(scrollTop) {
+          var d = new Deferred();
+          var scrollable = this.getScrollable();
+
+          if (scrollable) {
+            var currentScrollTop = scrollable.scrollTop();
+
+            var scrollHandler = () => {
+              scrollable.off('scroll', scrollHandler);
+              d.resolve();
+            };
+
+            if (scrollTop !== currentScrollTop) {
+              scrollable.on('scroll', scrollHandler);
+              scrollable.scrollTo({
+                top: scrollTop
+              });
+              return d.promise();
+            }
+          }
+
+          return d.resolve();
         }
       }
     }

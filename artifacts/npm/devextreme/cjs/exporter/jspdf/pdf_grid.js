@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/exporter/jspdf/pdf_grid.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -41,7 +41,7 @@ var PdfGrid = /*#__PURE__*/function () {
     this._newPageTables.push(this._currentHorizontalTables[this._currentHorizontalTables.length - 1]);
   };
 
-  _proto.startNewTable = function startNewTable(drawTableBorder, firstTableTopLeft, firstTableOnNewPage, splitByColumns) {
+  _proto.startNewTable = function startNewTable(drawTableBorder, firstTableTopLeft, firstTableOnNewPage, splitByColumns, firstColumnWidth) {
     var _this$_splitByColumns, _this$_splitByColumns2, _this$_tables;
 
     if ((0, _type.isDefined)(splitByColumns)) {
@@ -49,7 +49,14 @@ var PdfGrid = /*#__PURE__*/function () {
     }
 
     var firstTableEndColumnIndex = (_this$_splitByColumns = (_this$_splitByColumns2 = this._splitByColumns[0]) === null || _this$_splitByColumns2 === void 0 ? void 0 : _this$_splitByColumns2.columnIndex) !== null && _this$_splitByColumns !== void 0 ? _this$_splitByColumns : this._columnWidths.length;
-    this._currentHorizontalTables = [new _pdf_table.PdfTable(drawTableBorder, firstTableTopLeft, this._columnWidths.slice(0, firstTableEndColumnIndex))];
+
+    var firstTableColumnWidths = this._columnWidths.slice(0, firstTableEndColumnIndex);
+
+    if ((0, _type.isDefined)(firstColumnWidth)) {
+      firstTableColumnWidths[0] = firstColumnWidth;
+    }
+
+    this._currentHorizontalTables = [new _pdf_table.PdfTable(drawTableBorder, firstTableTopLeft, firstTableColumnWidths)];
 
     if (firstTableOnNewPage) {
       this._addLastTableToNewPages();

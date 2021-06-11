@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/date_box.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import {
     EventInfo,
     NativeEventInfo,
@@ -34,6 +30,11 @@ import {
 import {
     format
 } from './widget/ui.widget';
+
+import {
+    Properties as PopupProperties
+} from './popup';
+
 
 /** @public */
 export type ChangeEvent = NativeEventInfo<dxDateBox>;
@@ -219,6 +220,12 @@ export interface dxDateBoxOptions extends dxDropDownEditorOptions<dxDateBox> {
      * @public
      */
     value?: Date | number | string;
+
+    /**
+     * @docid
+     * @type dxPopupOptions
+     */
+    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -229,8 +236,7 @@ export interface dxDateBoxOptions extends dxDropDownEditorOptions<dxDateBox> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxDateBox extends dxDropDownEditor {
-    constructor(element: UserDefinedElement, options?: dxDateBoxOptions)
+export default class dxDateBox extends dxDropDownEditor<dxDateBoxOptions> {
     /**
      * @docid
      * @publicName close()

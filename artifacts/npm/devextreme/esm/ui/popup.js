@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/popup.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -26,7 +26,7 @@ import { getWindow, hasWindow } from '../core/utils/window';
 import { triggerResizeEvent } from '../events/visibility_change';
 import messageLocalization from '../localization/message';
 import Button from './button';
-import Overlay from './overlay';
+import Overlay from './overlay/ui.overlay';
 import { isMaterial, current as currentTheme } from './themes';
 import './toolbar/ui.toolbar.base';
 var window = getWindow(); // STYLE popup
@@ -50,7 +50,6 @@ var BUTTON_DEFAULT_TYPE = 'default';
 var BUTTON_NORMAL_TYPE = 'normal';
 var BUTTON_TEXT_MODE = 'text';
 var BUTTON_CONTAINED_MODE = 'contained';
-var IS_IE11 = browser.msie && parseInt(browser.version) === 11;
 var IS_OLD_SAFARI = browser.safari && compareVersions(browser.version, [11]) < 0;
 var HEIGHT_STRATEGIES = {
   static: '',
@@ -545,9 +544,7 @@ var Popup = Overlay.inherit({
 
     if (this._isAutoHeight() && this.option('autoResizeEnabled')) {
       if (isAutoWidth || IS_OLD_SAFARI) {
-        if (!IS_IE11) {
-          currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
-        }
+        currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
       } else {
         currentHeightStrategyClass = HEIGHT_STRATEGIES.flex;
       }
@@ -614,17 +611,8 @@ var Popup = Overlay.inherit({
       popupVerticalPaddings: getVerticalOffsets(this.$content().get(0), false)
     };
   },
-  _shouldFixBodyPosition: function _shouldFixBodyPosition() {
+  _isAllWindowCovered: function _isAllWindowCovered() {
     return this.callBase() || this.option('fullScreen');
-  },
-  _toggleSafariFullScreen: function _toggleSafariFullScreen(value) {
-    var toggleFullScreenBeforeShown = this._shouldFixBodyPosition() && value && !this._isShown;
-
-    if (toggleFullScreenBeforeShown) {
-      this._bodyScrollTop = value ? window.pageYOffset : undefined;
-    } else {
-      this._toggleSafariScrolling(!value);
-    }
   },
   _renderDimensions: function _renderDimensions() {
     if (this.option('fullScreen')) {
@@ -721,7 +709,7 @@ var Popup = Overlay.inherit({
       case 'fullScreen':
         this._toggleFullScreenClass(args.value);
 
-        this._toggleSafariFullScreen(args.value);
+        this._toggleSafariScrolling(!args.value);
 
         this._renderGeometry();
 

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/utils.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -41,7 +41,7 @@ var getKeyByGroup = function getKeyByGroup(groupIndex, groupOrientation) {
 exports.getKeyByGroup = getKeyByGroup;
 
 var addToStyle = function addToStyle(attr, value, style) {
-  var nextStyle = style || {};
+  var nextStyle = style !== null && style !== void 0 ? style : {};
 
   var result = _extends({}, nextStyle);
 

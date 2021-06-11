@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/html_editor/ui/formDialog.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,19 +18,12 @@ var _popup = _interopRequireDefault(require("../../popup"));
 
 var _form = _interopRequireDefault(require("../../form"));
 
-var _dom_adapter = _interopRequireDefault(require("../../../core/dom_adapter"));
-
-var _dom = require("../../../core/utils/dom");
-
 var _deferred = require("../../../core/utils/deferred");
 
 var _message = _interopRequireDefault(require("../../../localization/message"));
 
-var _browser = _interopRequireDefault(require("../../../core/utils/browser"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getActiveElement = _dom_adapter.default.getActiveElement;
 var DIALOG_CLASS = 'dx-formdialog';
 var FORM_CLASS = 'dx-formdialog-form';
 
@@ -104,8 +97,6 @@ var FormDialog = /*#__PURE__*/function () {
                 dataField = _ref2.dataField,
                 event = _ref2.event;
 
-            _this2._updateEditorValue(component, dataField);
-
             _this2.hide(component.option('formData'), event);
           },
           customizeItem: function customizeItem(item) {
@@ -143,17 +134,6 @@ var FormDialog = /*#__PURE__*/function () {
         }
       }]
     }, this._popupUserConfig);
-  };
-
-  _proto._updateEditorValue = function _updateEditorValue(component, dataField) {
-    if (_browser.default.msie && parseInt(_browser.default.version) <= 11) {
-      var editor = component.getEditor(dataField);
-      var activeElement = getActiveElement();
-
-      if (editor.$element().find(activeElement).length) {
-        (0, _dom.resetActiveElement)();
-      }
-    }
   };
 
   _proto._renderForm = function _renderForm($container, options) {

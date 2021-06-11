@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.virtual_scrolling.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,7 +40,8 @@ var DOCUMENT_SCROLL_EVENT_NAMESPACE = (0, _index.addNamespace)('scroll', 'dxSche
 var scrollingOrientations = {
   vertical: 'vertical',
   horizontal: 'horizontal',
-  both: 'both'
+  both: 'both',
+  none: 'none'
 };
 var DefaultScrollingOrientation = scrollingOrientations.both;
 
@@ -234,11 +235,6 @@ var VirtualScrollingDispatcher = /*#__PURE__*/function () {
       return this._renderer;
     }
   }, {
-    key: "isVirtualScrolling",
-    get: function get() {
-      return this.workspace.isVirtualScrolling();
-    }
-  }, {
     key: "verticalVirtualScrolling",
     get: function get() {
       return this._verticalVirtualScrolling;
@@ -347,7 +343,13 @@ var VirtualScrollingDispatcher = /*#__PURE__*/function () {
   }, {
     key: "scrollingOrientation",
     get: function get() {
-      return this.workspace.option('scrolling.orientation') || DefaultScrollingOrientation;
+      var scrolling = this.workspace.option('scrolling');
+
+      if (scrolling.mode === 'standard') {
+        return scrollingOrientations.none;
+      }
+
+      return scrolling.orientation || DefaultScrollingOrientation;
     }
   }, {
     key: "verticalScrollingAllowed",
@@ -742,7 +744,7 @@ var Renderer = /*#__PURE__*/function () {
   };
 
   _proto5._renderGrid = function _renderGrid() {
-    this.workspace.renderRWorkspace(false);
+    this.workspace.renderWorkSpace(false);
   };
 
   _proto5._renderAppointments = function _renderAppointments() {

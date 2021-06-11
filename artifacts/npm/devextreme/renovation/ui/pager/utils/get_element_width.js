@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/utils/get_element_width.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,7 +19,9 @@ var _type_conversion = require("../../../utils/type_conversion");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getElementStyle(name, element) {
-  var computedStyle = (0, _get_computed_style.default)(element) || {};
+  var _getElementComputedSt;
+
+  var computedStyle = (_getElementComputedSt = (0, _get_computed_style.default)(element)) !== null && _getElementComputedSt !== void 0 ? _getElementComputedSt : {};
   return (0, _type_conversion.toNumber)(computedStyle[name]);
 }
 

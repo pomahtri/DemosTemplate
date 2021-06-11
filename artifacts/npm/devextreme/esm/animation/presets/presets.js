@@ -1,12 +1,12 @@
 /**
 * DevExtreme (esm/animation/presets/presets.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import Component from '../../core/component';
+import { Component } from '../../core/component';
 import { each } from '../../core/utils/iterator';
 import { extend } from '../../core/utils/extend';
 import devices from '../../core/devices';

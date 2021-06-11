@@ -45,8 +45,10 @@ var generateDefaultCustomizeTooltipCallback = function generateDefaultCustomizeT
 
   var lineHeight = (lineSpacing !== null && lineSpacing !== void 0 ? lineSpacing : DEFAULT_LINE_SPACING) + (size !== null && size !== void 0 ? size : 0);
   return function (customizeObject) {
+    var _customizeObject$valu;
+
     var html = "";
-    var vt = customizeObject.valueTexts || [];
+    var vt = (_customizeObject$valu = customizeObject.valueTexts) !== null && _customizeObject$valu !== void 0 ? _customizeObject$valu : [];
 
     for (var i = 0; i < vt.length; i += 2) {
       html += "<tr><td>".concat(vt[i], "</td><td style='width: 15px'></td><td style='text-align: ").concat(rtlEnabled ? "left" : "right", "'>").concat(vt[i + 1], "</td></tr>");

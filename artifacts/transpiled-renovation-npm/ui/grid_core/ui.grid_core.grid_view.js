@@ -26,8 +26,6 @@ var _deferred = require("../../core/utils/deferred");
 
 var _dom_adapter = _interopRequireDefault(require("../../core/dom_adapter"));
 
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
-
 var accessibility = _interopRequireWildcard(require("../shared/accessibility"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -199,12 +197,6 @@ var ResizingController = _uiGrid_core.default.ViewController.inherit({
     if (this._needStretch()) {
       $rowsTable.get(0).style.width = isBestFit ? 'auto' : '';
     }
-
-    if (_browser.default.msie && parseInt(_browser.default.version) === 11) {
-      $rowsTable.find('.' + this.addWidgetPrefix(TABLE_FIXED_CLASS)).each(function () {
-        this.style.width = isBestFit ? '10px' : '';
-      });
-    }
   },
   _synchronizeColumns: function _synchronizeColumns() {
     var _this2 = this;
@@ -299,13 +291,7 @@ var ResizingController = _uiGrid_core.default.ViewController.inherit({
           var isFocusOutsideWindow = (0, _position.getBoundingRect)(focusedElement).bottom < 0;
 
           if (!isFocusOutsideWindow) {
-            if (_browser.default.msie) {
-              setTimeout(function () {
-                restoreFocus(focusedElement, selectionRange);
-              });
-            } else {
-              restoreFocus(focusedElement, selectionRange);
-            }
+            restoreFocus(focusedElement, selectionRange);
           }
         }
       }

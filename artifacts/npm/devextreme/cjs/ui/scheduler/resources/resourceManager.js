@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/resources/resourceManager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 "use strict";
 
-exports.ResourceManager = void 0;
+exports.removeResourceManager = exports.getResourceManager = exports.createResourceManager = exports.ResourceManager = void 0;
 
 var _array = require("../../../core/utils/array");
 
@@ -48,7 +48,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var ResourceManager = /*#__PURE__*/function () {
   function ResourceManager(resources) {
+    this.loadedResources = [];
     this._resourceLoader = {};
+    this._dataAccessors = {
+      getter: {},
+      setter: {}
+    };
     this.agendaProcessor = new _agendaResourceProcessor.AgendaResourceProcessor();
     this.setResources(resources);
   }
@@ -223,7 +228,22 @@ var ResourceManager = /*#__PURE__*/function () {
     return result;
   };
 
+  _proto.isLoaded = function isLoaded() {
+    return (0, _type.isDefined)(this.loadedResources);
+  };
+
   _proto.loadResources = function loadResources(groups) {
+    var _this2 = this;
+
+    var result = new _deferred.Deferred();
+    this.loadResourcesCore(groups).done(function (resources) {
+      _this2.loadedResources = resources;
+      result.resolve(resources);
+    });
+    return result.promise();
+  };
+
+  _proto.loadResourcesCore = function loadResourcesCore(groups) {
     var result = new _deferred.Deferred();
     var that = this;
     var deferreds = [];
@@ -422,7 +442,38 @@ var ResourceManager = /*#__PURE__*/function () {
     return result;
   };
 
-  _proto.groupAppointmentsByResources = function groupAppointmentsByResources(appointments, resources) {
+  _proto.groupAppointmentsByResources = function groupAppointmentsByResources(appointments, groups) {
+    var result = {
+      '0': appointments
+    };
+
+    if (groups && groups.length && this.getResourcesData().length) {
+      result = this.groupAppointmentsByResourcesCore(appointments, this.loadedResources);
+    }
+
+    var totalResourceCount = 0;
+    (0, _iterator.each)(this.loadedResources, function (i, resource) {
+      if (!i) {
+        totalResourceCount = resource.items.length;
+      } else {
+        totalResourceCount *= resource.items.length;
+      }
+    });
+
+    for (var j = 0; j < totalResourceCount; j++) {
+      var index = j.toString();
+
+      if (result[index]) {
+        continue;
+      }
+
+      result[index] = [];
+    }
+
+    return result;
+  };
+
+  _proto.groupAppointmentsByResourcesCore = function groupAppointmentsByResourcesCore(appointments, resources) {
     var tree = this.createResourcesTree(resources);
     var result = {};
     (0, _iterator.each)(appointments, function (_, appointment) {
@@ -439,6 +490,64 @@ var ResourceManager = /*#__PURE__*/function () {
       }
     }.bind(this));
     return result;
+  };
+
+  _proto.getAppointmentColor = function getAppointmentColor(options) {
+    var groups = options.groups;
+    var resourceForPainting = this.getResourceForPainting(groups);
+    var response = new _deferred.Deferred().resolve().promise();
+
+    if (resourceForPainting) {
+      var field = (0, _utils.getFieldExpr)(resourceForPainting);
+      var groupIndex = options.groupIndex,
+          itemData = options.itemData;
+      var cellGroups = this.getCellGroups(groupIndex, this.loadedResources);
+      var resourceValues = (0, _array.wrapToArray)(this.getDataAccessors(field, 'getter')(itemData));
+      var groupId = resourceValues.length ? resourceValues[0] : undefined;
+
+      for (var i = 0; i < cellGroups.length; i++) {
+        if (cellGroups[i].name === field) {
+          groupId = cellGroups[i].id;
+          break;
+        }
+      }
+
+      response = this.getResourceColor(field, groupId);
+    }
+
+    return response;
+  };
+
+  _proto._getPathToLeaf = function _getPathToLeaf(leafIndex, groups) {
+    var tree = this.createResourcesTree(groups);
+
+    function findLeafByIndex(data, index) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].leafIndex === index) {
+          return data[i];
+        } else {
+          var _leaf = findLeafByIndex(data[i].children, index);
+
+          if (_leaf) {
+            return _leaf;
+          }
+        }
+      }
+    }
+
+    function makeBranch(leaf, result) {
+      result = result || [];
+      result.push(leaf.value);
+
+      if (leaf.parent) {
+        makeBranch(leaf.parent, result);
+      }
+
+      return result;
+    }
+
+    var leaf = findLeafByIndex(tree, leafIndex);
+    return makeBranch(leaf).reverse();
   };
 
   _proto.reduceResourcesTree = function reduceResourcesTree(tree, existingAppointments, _result) {
@@ -491,7 +600,7 @@ var ResourceManager = /*#__PURE__*/function () {
   };
 
   _proto.getResourcesDataByGroups = function getResourcesDataByGroups(groups) {
-    var _this2 = this;
+    var _this3 = this;
 
     var resourcesData = this.getResourcesData();
 
@@ -518,7 +627,7 @@ var ResourceManager = /*#__PURE__*/function () {
           data = currentResource.data,
           resourceName = currentResource.name;
 
-      var resource = _this2.getResourceByField(resourceName);
+      var resource = _this3.getResourceByField(resourceName);
 
       var valueExpr = (0, _utils.getValueExpr)(resource);
       var filteredItems = [];
@@ -554,7 +663,69 @@ var ResourceManager = /*#__PURE__*/function () {
     return result;
   };
 
+  _proto.createReducedResourcesTree = function createReducedResourcesTree(appointments) {
+    var tree = this.createResourcesTree(this.loadedResources);
+    return this.reduceResourcesTree(tree, appointments);
+  } // TODO rework
+  ;
+
+  _proto.getCellGroups = function getCellGroups(groupIndex, groups) {
+    var result = [];
+
+    if (this.getGroupCount(groups)) {
+      if (groupIndex < 0) {
+        return;
+      }
+
+      var path = this._getPathToLeaf(groupIndex, groups);
+
+      for (var i = 0; i < groups.length; i++) {
+        result.push({
+          name: groups[i].name,
+          id: path[i]
+        });
+      }
+    }
+
+    return result;
+  };
+
+  _proto.getGroupCount = function getGroupCount(groups) {
+    // TODO replace with viewDataProvider method
+    var result = 0;
+
+    for (var i = 0, len = groups.length; i < len; i++) {
+      if (!i) {
+        result = groups[i].items.length;
+      } else {
+        result *= groups[i].items.length;
+      }
+    }
+
+    return result;
+  };
+
   return ResourceManager;
 }();
 
 exports.ResourceManager = ResourceManager;
+var resourceManagers = {};
+
+var createResourceManager = function createResourceManager(key, resources) {
+  var validKey = key || 0;
+  resourceManagers[validKey] = new ResourceManager(resources);
+};
+
+exports.createResourceManager = createResourceManager;
+
+var getResourceManager = function getResourceManager(key) {
+  return resourceManagers[key];
+};
+
+exports.getResourceManager = getResourceManager;
+
+var removeResourceManager = function removeResourceManager(key) {
+  return resourceManagers[key] = null;
+};
+
+exports.removeResourceManager = removeResourceManager;

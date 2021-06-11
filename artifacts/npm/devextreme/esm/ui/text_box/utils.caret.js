@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/text_box/utils.caret.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,14 +8,13 @@
 */
 import $ from '../../core/renderer';
 import { isDefined } from '../../core/utils/type';
-import browser from '../../core/utils/browser';
 import devices from '../../core/devices';
 import domAdapter from '../../core/dom_adapter';
 var {
   ios,
   mac
 } = devices.real();
-var isFocusingOnCaretChange = browser.msie || ios || mac;
+var isFocusingOnCaretChange = ios || mac;
 
 var getCaret = function getCaret(input) {
   var range;
@@ -52,7 +51,7 @@ var caret = function caret(input, position) {
 
   if (!isDefined(position)) {
     return getCaret(input);
-  } // NOTE: IE and AppleWebKit-based browsers focuses element input after caret position has changed
+  } // NOTE: AppleWebKit-based browsers focuses element input after caret position has changed
 
 
   if (!force && isFocusingOnCaretChange && domAdapter.getActiveElement() !== input) {

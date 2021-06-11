@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.work_space.indicator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -24,7 +24,7 @@ var _position = require("../../../core/utils/position");
 
 var _window = require("../../../core/utils/window");
 
-var _constants = require("../constants");
+var _classes = require("../classes");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -261,7 +261,7 @@ var SchedulerWorkSpaceIndicator = /*#__PURE__*/function (_SchedulerWorkSpace) {
     var cellClass = _SchedulerWorkSpace.prototype._getHeaderPanelCellClass.call(this, i);
 
     if (this._isCurrentTimeHeaderCell(i)) {
-      return cellClass + ' ' + _constants.HEADER_CURRENT_TIME_CELL_CLASS;
+      return cellClass + ' ' + _classes.HEADER_CURRENT_TIME_CELL_CLASS;
     }
 
     return cellClass;

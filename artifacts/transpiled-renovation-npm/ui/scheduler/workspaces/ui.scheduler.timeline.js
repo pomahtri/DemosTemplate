@@ -20,7 +20,7 @@ var _table_creator = _interopRequireDefault(require("../table_creator"));
 
 var _uiSchedulerCurrent_time_shader = _interopRequireDefault(require("../shaders/ui.scheduler.current_time_shader.horizontal"));
 
-var _constants = require("../constants");
+var _classes = require("../classes");
 
 var _utils = _interopRequireDefault(require("../utils.timeZone"));
 
@@ -78,14 +78,6 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
     this._$sidebarTable = (0, _renderer.default)('<div>').addClass(GROUP_TABLE_CLASS);
   };
 
-  _proto._getCellFromNextRow = function _getCellFromNextRow(direction, isMultiSelection) {
-    if (!isMultiSelection) {
-      return _SchedulerWorkSpace.prototype._getCellFromNextRow.call(this, direction, isMultiSelection);
-    }
-
-    return this._$focusedCell;
-  };
-
   _proto._getDefaultGroupStrategy = function _getDefaultGroupStrategy() {
     return 'vertical';
   };
@@ -122,7 +114,7 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
   };
 
   _proto._getDateForHeaderText = function _getDateForHeaderText(index) {
-    var firstViewDate = this._getValidFirstViewDateWithoutDST();
+    var firstViewDate = this._getFirstViewDateWithoutDST();
 
     return this._getDateByIndexCore(firstViewDate, index);
   };
@@ -135,7 +127,7 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
   };
 
   _proto._getDateByIndex = function _getDateByIndex(index) {
-    var firstViewDate = this._getValidFirstViewDateWithoutDST();
+    var firstViewDate = this._getFirstViewDateWithoutDST();
 
     var result = this._getDateByIndexCore(firstViewDate, index);
 
@@ -146,19 +138,8 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
     return result;
   };
 
-  _proto._getValidFirstViewDateWithoutDST = function _getValidFirstViewDateWithoutDST() {
-    var newFirstViewDate = _utils.default.getDateWithoutTimezoneChange(this._firstViewDate);
-
-    newFirstViewDate.setHours(this.option('startDayHour'));
-    return newFirstViewDate;
-  };
-
   _proto._getFormat = function _getFormat() {
     return 'shorttime';
-  };
-
-  _proto._needApplyLastGroupCellClass = function _needApplyLastGroupCellClass() {
-    return true;
   };
 
   _proto._calculateHiddenInterval = function _calculateHiddenInterval(rowIndex, cellIndex) {
@@ -210,10 +191,6 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
 
   _proto._renderAllDayPanel = function _renderAllDayPanel() {
     return (0, _common.noop)();
-  };
-
-  _proto._getTableAllDay = function _getTableAllDay() {
-    return false;
   };
 
   _proto._getDateHeaderTemplate = function _getDateHeaderTemplate() {
@@ -321,18 +298,7 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
       groupCellTemplates = this._renderGroupHeader();
     }
 
-    if (this.isRenovatedRender()) {
-      this.renderRWorkspace();
-    } else {
-      this._renderDateHeader();
-
-      this._renderTimePanel();
-
-      this._renderDateTable();
-
-      this._renderAllDayPanel();
-    }
-
+    this.renderWorkSpace();
     this._shader = new _uiSchedulerCurrent_time_shader.default(this);
 
     this._$sidebarTable.appendTo(this._sidebarScrollable.$content());
@@ -421,8 +387,6 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
   };
 
   _proto._setTableSizes = function _setTableSizes() {
-    var _this$virtualScrollin;
-
     var cellHeight = this.getCellHeight();
 
     var minHeight = this._getWorkSpaceMinHeight();
@@ -441,7 +405,7 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
 
     _SchedulerWorkSpace.prototype._setTableSizes.call(this);
 
-    (_this$virtualScrollin = this.virtualScrollingDispatcher) === null || _this$virtualScrollin === void 0 ? void 0 : _this$virtualScrollin.updateDimensions();
+    this.virtualScrollingDispatcher.updateDimensions();
   };
 
   _proto._getWorkSpaceMinHeight = function _getWorkSpaceMinHeight() {
@@ -459,10 +423,10 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
   _proto._makeGroupRows = function _makeGroupRows(groups, groupByDate) {
     var tableCreatorStrategy = this.option('groupOrientation') === 'vertical' ? tableCreator.VERTICAL : tableCreator.HORIZONTAL;
     return tableCreator.makeGroupedTable(tableCreatorStrategy, groups, {
-      groupRowClass: this._getGroupRowClass(),
-      groupHeaderRowClass: this._getGroupRowClass(),
+      groupRowClass: _classes.GROUP_ROW_CLASS,
+      groupHeaderRowClass: _classes.GROUP_ROW_CLASS,
       groupHeaderClass: this._getGroupHeaderClass.bind(this),
-      groupHeaderContentClass: this._getGroupHeaderContentClass()
+      groupHeaderContentClass: _classes.GROUP_HEADER_CONTENT_CLASS
     }, this._getCellCount() || 1, this.option('resourceCellTemplate'), this._getTotalRowCount(this._getGroupCount()), groupByDate);
   };
 
@@ -479,8 +443,7 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
   _proto._calculateMinCellHeight = function _calculateMinCellHeight() {
     var dateTable = this._getDateTable();
 
-    var dateTableRowSelector = '.' + this._getDateTableRowClass();
-
+    var dateTableRowSelector = ".".concat(_classes.DATE_TABLE_ROW_CLASS);
     return (0, _position.getBoundingRect)(dateTable).height / dateTable.find(dateTableRowSelector).length - DATE_TABLE_CELL_BORDER * 2;
   };
 
@@ -651,12 +614,12 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
     var currentTimeCellIndices = this._getCurrentTimePanelCellIndices();
 
     currentTimeCellIndices.forEach(function (timePanelCellIndex) {
-      timePanelCells.eq(timePanelCellIndex).addClass(_constants.HEADER_CURRENT_TIME_CELL_CLASS);
+      timePanelCells.eq(timePanelCellIndex).addClass(_classes.HEADER_CURRENT_TIME_CELL_CLASS);
     });
   };
 
   _proto._cleanCurrentTimeCells = function _cleanCurrentTimeCells() {
-    this.$element().find(".".concat(_constants.HEADER_CURRENT_TIME_CELL_CLASS)).removeClass(_constants.HEADER_CURRENT_TIME_CELL_CLASS);
+    this.$element().find(".".concat(_classes.HEADER_CURRENT_TIME_CELL_CLASS)).removeClass(_classes.HEADER_CURRENT_TIME_CELL_CLASS);
   };
 
   _proto._getTimePanelCells = function _getTimePanelCells() {
@@ -683,13 +646,11 @@ var SchedulerTimeline = /*#__PURE__*/function (_SchedulerWorkSpace) {
     });
   };
 
-  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
-    return true;
-  };
-
   _proto.renderRAllDayPanel = function renderRAllDayPanel() {};
 
   _proto.renderRTimeTable = function renderRTimeTable() {};
+
+  _proto._renderGroupAllDayPanel = function _renderGroupAllDayPanel() {};
 
   _proto.generateRenderOptions = function generateRenderOptions() {
     var options = _SchedulerWorkSpace.prototype.generateRenderOptions.call(this, true);

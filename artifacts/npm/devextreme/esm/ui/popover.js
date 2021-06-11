@@ -1,14 +1,13 @@
 /**
 * DevExtreme (esm/ui/popover.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import $ from '../core/renderer';
-import { getWindow, hasWindow } from '../core/utils/window';
-var window = getWindow();
+import { hasWindow } from '../core/utils/window';
 import { getPublicElement } from '../core/element';
 import domAdapter from '../core/dom_adapter';
 import eventsEngine from '../events/core/events_engine';
@@ -20,6 +19,7 @@ import positionUtils from '../animation/position';
 import { isObject, isString } from '../core/utils/type';
 import { fitIntoRange } from '../core/utils/math';
 import { addNamespace } from '../events/utils/index';
+import errors from './widget/ui.errors';
 import Popup from './popup';
 import { getBoundingRect } from '../core/utils/position'; // STYLE popover
 
@@ -86,11 +86,21 @@ var getEventDelay = function getEventDelay(that, optionName) {
 };
 
 var attachEvent = function attachEvent(that, name) {
-  var target = that.option('target');
+  var {
+    target,
+    shading,
+    disabled,
+    hideEvent
+  } = that.option();
   var isSelector = isString(target);
-  var event = getEventName(that, name + 'Event');
+  var shouldIgnoreHideEvent = shading && name === 'hide';
+  var event = shouldIgnoreHideEvent ? null : getEventName(that, "".concat(name, "Event"));
 
-  if (!event || that.option('disabled')) {
+  if (shouldIgnoreHideEvent && hideEvent) {
+    errors.log('W1020');
+  }
+
+  if (!event || disabled) {
     return;
   }
 
@@ -151,7 +161,7 @@ var detachEvent = function detachEvent(that, target, name, event) {
 var Popover = Popup.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return extend(this.callBase(), {
-      target: window,
+      target: undefined,
       shading: false,
       position: 'bottom',
       closeOnOutsideClick: true,
@@ -215,7 +225,7 @@ var Popover = Popup.inherit({
         h: 10,
         v: 10
       },
-      _fixedPosition: true
+      _fixWrapperPosition: true
       /**
       * @name dxPopoverOptions.focusStateEnabled
       * @hidden
@@ -413,6 +423,8 @@ var Popover = Popup.inherit({
     this.$wrapper().toggleClass('dx-popover-flipped-horizontal', isFlippedHorizontal).toggleClass('dx-popover-flipped-vertical', isFlippedVertical);
   },
   _renderArrowPosition: function _renderArrowPosition(side) {
+    var _$target$get;
+
     var arrowRect = getBoundingRect(this._$arrow.get(0));
     var arrowFlip = -(this._isVerticalSide(side) ? arrowRect.height : arrowRect.width);
 
@@ -430,7 +442,7 @@ var Popover = Popup.inherit({
     var contentLocation = contentOffset[axis];
     var contentSize = getBoundingRect(this.$overlayContent().get(0))[sizeProperty];
     var targetLocation = targetOffset[axis];
-    var targetSize = $target.get(0).preventDefault ? 0 : getBoundingRect($target.get(0))[sizeProperty];
+    var targetSize = (_$target$get = $target.get(0)) !== null && _$target$get !== void 0 && _$target$get.preventDefault ? 0 : getBoundingRect($target.get(0))[sizeProperty];
     var min = Math.max(contentLocation, targetLocation);
     var max = Math.min(contentLocation + contentSize, targetLocation + targetSize);
     var arrowLocation;

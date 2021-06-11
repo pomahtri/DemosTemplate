@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/content.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -130,14 +130,13 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.widgetRootElementRef = (0, _inferno.createRef)();
     _this.state = {
       pageIndex: _this.props.pageIndex !== undefined ? _this.props.pageIndex : _this.props.defaultPageIndex,
       pageSize: _this.props.pageSize !== undefined ? _this.props.pageSize : _this.props.defaultPageSize
     };
-    _this.createFakeInstance = _this.createFakeInstance.bind(_assertThisInitialized(_this));
     _this.setRootElementRef = _this.setRootElementRef.bind(_assertThisInitialized(_this));
+    _this.createFakeInstance = _this.createFakeInstance.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -145,40 +144,6 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
 
   _proto.createEffects = function createEffects() {
     return [new _vdom.InfernoEffect(this.setRootElementRef, [])];
-  };
-
-  _proto.updateEffects = function updateEffects() {};
-
-  _proto.set_pageIndex = function set_pageIndex(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      var _this2$props$pageInde, _this2$props;
-
-      _this2._currentState = state;
-      var newValue = value();
-      (_this2$props$pageInde = (_this2$props = _this2.props).pageIndexChange) === null || _this2$props$pageInde === void 0 ? void 0 : _this2$props$pageInde.call(_this2$props, newValue);
-      _this2._currentState = null;
-      return {
-        pageIndex: newValue
-      };
-    });
-  };
-
-  _proto.set_pageSize = function set_pageSize(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      var _this3$props$pageSize, _this3$props;
-
-      _this3._currentState = state;
-      var newValue = value();
-      (_this3$props$pageSize = (_this3$props = _this3.props).pageSizeChange) === null || _this3$props$pageSize === void 0 ? void 0 : _this3$props$pageSize.call(_this3$props, newValue);
-      _this3._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
   };
 
   _proto.getChildContext = function getChildContext() {
@@ -196,20 +161,20 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _proto.createFakeInstance = function createFakeInstance() {
-    var _this4 = this;
+    var _this2 = this;
 
     return {
       option: function option() {
         return false;
       },
       element: function element() {
-        return _this4.widgetRootElementRef.current;
+        return _this2.widgetRootElementRef.current;
       },
       _createActionByOption: function _createActionByOption() {
         return function (e) {
-          var _this4$props$onKeyDow, _this4$props;
+          var _this2$props$onKeyDow, _this2$props;
 
-          (_this4$props$onKeyDow = (_this4$props = _this4.props).onKeyDown) === null || _this4$props$onKeyDow === void 0 ? void 0 : _this4$props$onKeyDow.call(_this4$props, e);
+          (_this2$props$onKeyDow = (_this2$props = _this2.props).onKeyDown) === null || _this2$props$onKeyDow === void 0 ? void 0 : _this2$props$onKeyDow.call(_this2$props, e);
         };
       }
     };
@@ -219,8 +184,8 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       widgetRootElementRef: this.widgetRootElementRef,
       keyboardAction: this.keyboardAction,
@@ -235,25 +200,13 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(PagerContent, [{
-    key: "__state_pageIndex",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
-    }
-  }, {
-    key: "__state_pageSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-    }
-  }, {
     key: "keyboardAction",
     get: function get() {
-      var _this5 = this;
+      var _this3 = this;
 
       return {
         registerKeyboardAction: function registerKeyboardAction(element, action) {
-          var fakePagerInstance = _this5.createFakeInstance();
+          var fakePagerInstance = _this3.createFakeInstance();
 
           return (0, _accessibility.registerKeyboardAction)("pager", fakePagerInstance, element, undefined, action);
         }
@@ -270,7 +223,7 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
   }, {
     key: "pageIndexSelectorVisible",
     get: function get() {
-      return this.__state_pageSize !== 0;
+      return (this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize) !== 0;
     }
   }, {
     key: "normalizedDisplayMode",
@@ -325,8 +278,8 @@ var PagerContent = /*#__PURE__*/function (_InfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex = _extends({}, this.props, {
-        pageIndex: this.__state_pageIndex,
-        pageSize: this.__state_pageSize
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
           className = _this$props$pageIndex.className,
           defaultPageIndex = _this$props$pageIndex.defaultPageIndex,

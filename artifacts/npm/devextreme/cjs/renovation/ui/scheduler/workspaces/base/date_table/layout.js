@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/base/date_table/layout.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 "use strict";
 
-exports.DateTableLayoutBase = exports.DateTableLayoutBaseProps = exports.viewFunction = void 0;
+exports.DateTableLayoutBase = exports.viewFunction = void 0;
 
 var _inferno = require("inferno");
 
@@ -20,7 +20,7 @@ var _table_body = require("./table_body");
 
 var _layout_props = require("./layout_props");
 
-var _excluded = ["addDateTableClass", "bottomVirtualRowHeight", "cellTemplate", "className", "dataCellTemplate", "groupOrientation", "leftVirtualCellWidth", "rightVirtualCellWidth", "topVirtualRowHeight", "viewData"];
+var _excluded = ["addDateTableClass", "bottomVirtualRowHeight", "cellTemplate", "dataCellTemplate", "groupOrientation", "leftVirtualCellWidth", "rightVirtualCellWidth", "topVirtualRowHeight", "viewData"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -71,10 +71,6 @@ var viewFunction = function viewFunction(_ref) {
 
 exports.viewFunction = viewFunction;
 
-var DateTableLayoutBaseProps = _extends({}, _layout_props.DateTableLayoutProps);
-
-exports.DateTableLayoutBaseProps = DateTableLayoutBaseProps;
-
 var getTemplate = function getTemplate(TemplateProp) {
   return TemplateProp && (TemplateProp.defaultProps ? function (props) {
     return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, TemplateProp, _extends({}, props)));
@@ -93,6 +89,10 @@ var DateTableLayoutBase = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }
 
   var _proto = DateTableLayoutBase.prototype;
+
+  _proto.createEffects = function createEffects() {
+    return [(0, _vdom.createReRenderEffect)()];
+  };
 
   _proto.render = function render() {
     var props = this.props;
@@ -120,22 +120,30 @@ var DateTableLayoutBase = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }, {
     key: "topVirtualRowHeight",
     get: function get() {
-      return this.props.viewData.topVirtualRowHeight || 0;
+      var _this$props$viewData$;
+
+      return (_this$props$viewData$ = this.props.viewData.topVirtualRowHeight) !== null && _this$props$viewData$ !== void 0 ? _this$props$viewData$ : 0;
     }
   }, {
     key: "bottomVirtualRowHeight",
     get: function get() {
-      return this.props.viewData.bottomVirtualRowHeight || 0;
+      var _this$props$viewData$2;
+
+      return (_this$props$viewData$2 = this.props.viewData.bottomVirtualRowHeight) !== null && _this$props$viewData$2 !== void 0 ? _this$props$viewData$2 : 0;
     }
   }, {
     key: "leftVirtualCellWidth",
     get: function get() {
-      return this.props.viewData.leftVirtualCellWidth || 0;
+      var _this$props$viewData$3;
+
+      return (_this$props$viewData$3 = this.props.viewData.leftVirtualCellWidth) !== null && _this$props$viewData$3 !== void 0 ? _this$props$viewData$3 : 0;
     }
   }, {
     key: "rightVirtualCellWidth",
     get: function get() {
-      return this.props.viewData.rightVirtualCellWidth || 0;
+      var _this$props$viewData$4;
+
+      return (_this$props$viewData$4 = this.props.viewData.rightVirtualCellWidth) !== null && _this$props$viewData$4 !== void 0 ? _this$props$viewData$4 : 0;
     }
   }, {
     key: "virtualCellsCount",
@@ -149,7 +157,6 @@ var DateTableLayoutBase = /*#__PURE__*/function (_InfernoWrapperCompon) {
           addDateTableClass = _this$props.addDateTableClass,
           bottomVirtualRowHeight = _this$props.bottomVirtualRowHeight,
           cellTemplate = _this$props.cellTemplate,
-          className = _this$props.className,
           dataCellTemplate = _this$props.dataCellTemplate,
           groupOrientation = _this$props.groupOrientation,
           leftVirtualCellWidth = _this$props.leftVirtualCellWidth,
@@ -166,4 +173,4 @@ var DateTableLayoutBase = /*#__PURE__*/function (_InfernoWrapperCompon) {
 }(_vdom.InfernoWrapperComponent);
 
 exports.DateTableLayoutBase = DateTableLayoutBase;
-DateTableLayoutBase.defaultProps = _extends({}, DateTableLayoutBaseProps);
+DateTableLayoutBase.defaultProps = _extends({}, _layout_props.DateTableLayoutProps);

@@ -1,6 +1,6 @@
 {
   "name": "devextreme-themebuilder",
-  "version": "21.1.3-dev",
+  "version": "21.2.0-dev",
   "description": "DevExtreme ThemeBuilder",
   "keywords": [
     "devextreme",
@@ -18,7 +18,7 @@
     "clean-css": "^5.1.0",
     "less": "^3.13.1",
     "postcss": "^8.2.6",
-    "sass": "^1.32.8",
+    "sass": "^1.34.1",
     "semver": "^5.7.1"
   },
   "scripts": {

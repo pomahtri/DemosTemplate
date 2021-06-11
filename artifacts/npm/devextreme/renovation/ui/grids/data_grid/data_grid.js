@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/grids/data_grid/data_grid.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,8 @@
 */
 "use strict";
 
-exports.DataGrid = exports.viewFunction = void 0;
+exports.defaultOptions = defaultOptions;
+exports.DataGrid = exports.defaultOptionRules = exports.viewFunction = void 0;
 
 var _inferno = require("inferno");
 
@@ -26,24 +27,22 @@ var _data_grid_views = require("./data_grid_views");
 
 var _get_updated_options = require("./utils/get_updated_options");
 
+var _window = require("../../../../core/utils/window");
+
+var _utils = require("../../../../core/options/utils");
+
+var _devices = _interopRequireDefault(require("../../../../core/devices"));
+
+var _themes = require("../../../../ui/themes");
+
 var _excluded = ["onOptionChanged"],
-    _excluded2 = ["accessKey", "activeStateEnabled", "allowColumnReordering", "allowColumnResizing", "autoNavigateToFocusedRow", "cacheEnabled", "cellHintEnabled", "columnAutoWidth", "columnChooser", "columnFixing", "columnHidingEnabled", "columnMinWidth", "columnResizingMode", "columnWidth", "columns", "commonColumnSettings", "customizeColumns", "customizeExportData", "dataSource", "dateSerializationFormat", "defaultFilterValue", "defaultFocusedColumnIndex", "defaultFocusedRowIndex", "defaultFocusedRowKey", "defaultSelectedRowKeys", "defaultSelectionFilter", "disabled", "editing", "errorRowEnabled", "export", "filterBuilder", "filterBuilderPopup", "filterPanel", "filterRow", "filterSyncEnabled", "filterValue", "filterValueChange", "focusStateEnabled", "focusedColumnIndex", "focusedColumnIndexChange", "focusedRowEnabled", "focusedRowIndex", "focusedRowIndexChange", "focusedRowKey", "focusedRowKeyChange", "groupPanel", "grouping", "headerFilter", "height", "highlightChanges", "hint", "hoverStateEnabled", "keyExpr", "keyboardNavigation", "loadPanel", "loadingTimeout", "masterDetail", "noDataText", "onAdaptiveDetailRowPreparing", "onCellClick", "onCellDblClick", "onCellHoverChanged", "onCellPrepared", "onClick", "onContentReady", "onContextMenuPreparing", "onDataErrorOccurred", "onEditingStart", "onEditorPrepared", "onEditorPreparing", "onExported", "onExporting", "onFileSaving", "onFocusedCellChanged", "onFocusedCellChanging", "onFocusedRowChanged", "onFocusedRowChanging", "onInitNewRow", "onKeyDown", "onRowClick", "onRowCollapsed", "onRowCollapsing", "onRowDblClick", "onRowExpanded", "onRowExpanding", "onRowInserted", "onRowInserting", "onRowPrepared", "onRowRemoved", "onRowRemoving", "onRowUpdated", "onRowUpdating", "onRowValidating", "onSelectionChanged", "onToolbarPreparing", "pager", "paging", "remoteOperations", "renderAsync", "repaintChangesOnly", "rowAlternationEnabled", "rowDragging", "rowTemplate", "rtlEnabled", "scrolling", "searchPanel", "selectedRowKeys", "selectedRowKeysChange", "selection", "selectionFilter", "selectionFilterChange", "showBorders", "showColumnHeaders", "showColumnLines", "showRowLines", "sortByGroupSummaryInfo", "sorting", "stateStoring", "summary", "tabIndex", "twoWayBindingEnabled", "useKeyboard", "visible", "width", "wordWrapEnabled"];
+    _excluded2 = ["accessKey", "activeStateEnabled", "allowColumnReordering", "allowColumnResizing", "autoNavigateToFocusedRow", "cacheEnabled", "cellHintEnabled", "className", "columnAutoWidth", "columnChooser", "columnFixing", "columnHidingEnabled", "columnMinWidth", "columnResizingMode", "columnWidth", "columns", "commonColumnSettings", "customizeColumns", "customizeExportData", "dataSource", "dateSerializationFormat", "defaultFilterValue", "defaultFocusedColumnIndex", "defaultFocusedRowIndex", "defaultFocusedRowKey", "defaultSelectedRowKeys", "defaultSelectionFilter", "disabled", "editing", "errorRowEnabled", "export", "filterBuilder", "filterBuilderPopup", "filterPanel", "filterRow", "filterSyncEnabled", "filterValue", "filterValueChange", "focusStateEnabled", "focusedColumnIndex", "focusedColumnIndexChange", "focusedRowEnabled", "focusedRowIndex", "focusedRowIndexChange", "focusedRowKey", "focusedRowKeyChange", "groupPanel", "grouping", "headerFilter", "height", "highlightChanges", "hint", "hoverStateEnabled", "keyExpr", "keyboardNavigation", "loadPanel", "loadingTimeout", "masterDetail", "noDataText", "onAdaptiveDetailRowPreparing", "onCellClick", "onCellDblClick", "onCellHoverChanged", "onCellPrepared", "onClick", "onContextMenuPreparing", "onDataErrorOccurred", "onEditingStart", "onEditorPrepared", "onEditorPreparing", "onExported", "onExporting", "onFileSaving", "onFocusedCellChanged", "onFocusedCellChanging", "onFocusedRowChanged", "onFocusedRowChanging", "onInitNewRow", "onKeyDown", "onRowClick", "onRowCollapsed", "onRowCollapsing", "onRowDblClick", "onRowExpanded", "onRowExpanding", "onRowInserted", "onRowInserting", "onRowPrepared", "onRowRemoved", "onRowRemoving", "onRowUpdated", "onRowUpdating", "onRowValidating", "onSelectionChanged", "onToolbarPreparing", "pager", "paging", "remoteOperations", "renderAsync", "repaintChangesOnly", "rowAlternationEnabled", "rowDragging", "rowTemplate", "rtlEnabled", "scrolling", "searchPanel", "selectedRowKeys", "selectedRowKeysChange", "selection", "selectionFilter", "selectionFilterChange", "showBorders", "showColumnHeaders", "showColumnLines", "showRowLines", "sortByGroupSummaryInfo", "sorting", "stateStoring", "summary", "tabIndex", "twoWayBindingEnabled", "useKeyboard", "visible", "width", "wordWrapEnabled"];
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -62,6 +61,16 @@ var aria = {
 };
 var rowSelector = ".dx-row";
 
+function normalizeProps(props) {
+  var result = {};
+  Object.keys(props).forEach(function (key) {
+    if (props[key] !== undefined) {
+      result[key] = props[key];
+    }
+  });
+  return result;
+}
+
 var viewFunction = function viewFunction(_ref) {
   var instance = _ref.instance,
       onDimensionChanged = _ref.onDimensionChanged,
@@ -70,12 +79,12 @@ var viewFunction = function viewFunction(_ref) {
       _ref$props = _ref.props,
       accessKey = _ref$props.accessKey,
       activeStateEnabled = _ref$props.activeStateEnabled,
+      className = _ref$props.className,
       disabled = _ref$props.disabled,
       focusStateEnabled = _ref$props.focusStateEnabled,
       height = _ref$props.height,
       hint = _ref$props.hint,
       hoverStateEnabled = _ref$props.hoverStateEnabled,
-      onContentReady = _ref$props.onContentReady,
       rtlEnabled = _ref$props.rtlEnabled,
       showBorders = _ref$props.showBorders,
       tabIndex = _ref$props.tabIndex,
@@ -83,18 +92,18 @@ var viewFunction = function viewFunction(_ref) {
       width = _ref$props.width,
       restAttributes = _ref.restAttributes,
       widgetElementRef = _ref.widgetElementRef;
-  return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _widget.Widget, _extends({
+  return normalizeProps((0, _inferno.createComponentVNode)(2, _widget.Widget, _extends({
     "rootElementRef": widgetElementRef,
     "accessKey": accessKey,
     "activeStateEnabled": activeStateEnabled,
     "activeStateUnit": rowSelector,
     "aria": aria,
+    "className": className,
     "disabled": disabled,
     "focusStateEnabled": focusStateEnabled,
     "height": height,
     "hint": hint,
     "hoverStateEnabled": hoverStateEnabled,
-    "onContentReady": onContentReady,
     "rtlEnabled": rtlEnabled,
     "tabIndex": tabIndex,
     "visible": visible,
@@ -111,10 +120,42 @@ var viewFunction = function viewFunction(_ref) {
 };
 
 exports.viewFunction = viewFunction;
+var defaultOptionRules = (0, _utils.createDefaultOptionRules)([{
+  device: function device() {
+    return _devices.default.real().platform === "ios";
+  },
+  options: {
+    showRowLines: true
+  }
+}, {
+  device: function device() {
+    return _devices.default.real().deviceType !== "desktop";
+  },
+  options: {
+    grouping: {
+      expandMode: "rowClick"
+    }
+  }
+}, {
+  device: function device() {
+    return (0, _themes.isMaterial)((0, _themes.current)());
+  },
+  options: {
+    showRowLines: true,
+    showColumnLines: false,
+    headerFilter: {
+      height: 315
+    },
+    editing: {
+      useIcons: true
+    }
+  }
+}]);
+exports.defaultOptionRules = defaultOptionRules;
 
 var getTemplate = function getTemplate(TemplateProp) {
   return TemplateProp && (TemplateProp.defaultProps ? function (props) {
-    return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, TemplateProp, _extends({}, props)));
+    return normalizeProps((0, _inferno.createComponentVNode)(2, TemplateProp, _extends({}, props)));
   } : TemplateProp);
 };
 
@@ -125,7 +166,6 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var _this;
 
     _this = _InfernoWrapperCompon.call(this, props) || this;
-    _this._currentState = null;
     _this.widgetElementRef = (0, _inferno.createRef)();
     _this.isTwoWayPropUpdating = false;
     _this.state = {
@@ -148,7 +188,6 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
     _this.closeEditCell = _this.closeEditCell.bind(_assertThisInitialized(_this));
     _this.collapseAdaptiveDetailRow = _this.collapseAdaptiveDetailRow.bind(_assertThisInitialized(_this));
     _this.columnCount = _this.columnCount.bind(_assertThisInitialized(_this));
-    _this.callMethod = _this.callMethod.bind(_assertThisInitialized(_this));
     _this.columnOption = _this.columnOption.bind(_assertThisInitialized(_this));
     _this.deleteColumn = _this.deleteColumn.bind(_assertThisInitialized(_this));
     _this.deleteRow = _this.deleteRow.bind(_assertThisInitialized(_this));
@@ -209,213 +248,108 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
     _this.getScrollbarWidth = _this.getScrollbarWidth.bind(_assertThisInitialized(_this));
     _this.updateOptions = _this.updateOptions.bind(_assertThisInitialized(_this));
     _this.dispose = _this.dispose.bind(_assertThisInitialized(_this));
-    _this.initInstanceElement = _this.initInstanceElement.bind(_assertThisInitialized(_this));
-    _this.subscribeOptionChanged = _this.subscribeOptionChanged.bind(_assertThisInitialized(_this));
+    _this.setupInstance = _this.setupInstance.bind(_assertThisInitialized(_this));
     _this.instanceOptionChangedHandler = _this.instanceOptionChangedHandler.bind(_assertThisInitialized(_this));
     _this.updateTwoWayValue = _this.updateTwoWayValue.bind(_assertThisInitialized(_this));
     _this.onHoverStart = _this.onHoverStart.bind(_assertThisInitialized(_this));
     _this.onHoverEnd = _this.onHoverEnd.bind(_assertThisInitialized(_this));
     _this.onDimensionChanged = _this.onDimensionChanged.bind(_assertThisInitialized(_this));
-    _this.normalizeProps = _this.normalizeProps.bind(_assertThisInitialized(_this));
-    _this.createInstance = _this.createInstance.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   var _proto = DataGrid.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.updateOptions, [this.instance, this.props, this.__state_filterValue, this.__state_focusedColumnIndex, this.__state_focusedRowIndex, this.__state_focusedRowKey, this.__state_selectedRowKeys, this.__state_selectionFilter]), new _vdom.InfernoEffect(this.dispose, []), new _vdom.InfernoEffect(this.initInstanceElement, []), new _vdom.InfernoEffect(this.subscribeOptionChanged, [this.instance, this.props.editing, this.props.searchPanel, this.props.focusedRowKeyChange, this.props.focusedRowIndexChange, this.props.focusedColumnIndexChange, this.props.filterValueChange, this.props.selectedRowKeysChange, this.props.selectionFilterChange])];
+    return [new _vdom.InfernoEffect(this.updateOptions, [this.state.instance, this.props, this.__state_filterValue, this.__state_focusedColumnIndex, this.__state_focusedRowIndex, this.__state_focusedRowKey, this.__state_selectedRowKeys, this.__state_selectionFilter]), new _vdom.InfernoEffect(this.dispose, []), new _vdom.InfernoEffect(this.setupInstance, []), (0, _vdom.createReRenderEffect)()];
   };
 
   _proto.updateEffects = function updateEffects() {
-    var _this$_effects$, _this$_effects$2;
+    var _this$_effects$;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.instance, this.props, this.__state_filterValue, this.__state_focusedColumnIndex, this.__state_focusedRowIndex, this.__state_focusedRowKey, this.__state_selectedRowKeys, this.__state_selectionFilter]);
-    (_this$_effects$2 = this._effects[3]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.instance, this.props.editing, this.props.searchPanel, this.props.focusedRowKeyChange, this.props.focusedRowIndexChange, this.props.focusedColumnIndexChange, this.props.filterValueChange, this.props.selectedRowKeysChange, this.props.selectionFilterChange]);
-  };
-
-  _proto.set_instance = function set_instance(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        instance: newValue
-      };
-    });
-  };
-
-  _proto.set_filterValue = function set_filterValue(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      _this3._currentState = state;
-      var newValue = value();
-
-      _this3.props.filterValueChange(newValue);
-
-      _this3._currentState = null;
-      return {
-        filterValue: newValue
-      };
-    });
-  };
-
-  _proto.set_focusedColumnIndex = function set_focusedColumnIndex(value) {
-    var _this4 = this;
-
-    this.setState(function (state) {
-      _this4._currentState = state;
-      var newValue = value();
-
-      _this4.props.focusedColumnIndexChange(newValue);
-
-      _this4._currentState = null;
-      return {
-        focusedColumnIndex: newValue
-      };
-    });
-  };
-
-  _proto.set_focusedRowIndex = function set_focusedRowIndex(value) {
-    var _this5 = this;
-
-    this.setState(function (state) {
-      _this5._currentState = state;
-      var newValue = value();
-
-      _this5.props.focusedRowIndexChange(newValue);
-
-      _this5._currentState = null;
-      return {
-        focusedRowIndex: newValue
-      };
-    });
-  };
-
-  _proto.set_focusedRowKey = function set_focusedRowKey(value) {
-    var _this6 = this;
-
-    this.setState(function (state) {
-      _this6._currentState = state;
-      var newValue = value();
-
-      _this6.props.focusedRowKeyChange(newValue);
-
-      _this6._currentState = null;
-      return {
-        focusedRowKey: newValue
-      };
-    });
-  };
-
-  _proto.set_selectedRowKeys = function set_selectedRowKeys(value) {
-    var _this7 = this;
-
-    this.setState(function (state) {
-      _this7._currentState = state;
-      var newValue = value();
-
-      _this7.props.selectedRowKeysChange(newValue);
-
-      _this7._currentState = null;
-      return {
-        selectedRowKeys: newValue
-      };
-    });
-  };
-
-  _proto.set_selectionFilter = function set_selectionFilter(value) {
-    var _this8 = this;
-
-    this.setState(function (state) {
-      _this8._currentState = state;
-      var newValue = value();
-
-      _this8.props.selectionFilterChange(newValue);
-
-      _this8._currentState = null;
-      return {
-        selectionFilter: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.instance, this.props, this.__state_filterValue, this.__state_focusedColumnIndex, this.__state_focusedRowIndex, this.__state_focusedRowKey, this.__state_selectedRowKeys, this.__state_selectionFilter]);
   };
 
   _proto.updateOptions = function updateOptions() {
-    var _this9 = this;
+    var _this2 = this;
 
-    if (this.instance && this.prevProps && !this.isTwoWayPropUpdating) {
+    if (this.state.instance && this.prevProps && !this.isTwoWayPropUpdating) {
       var updatedOptions = (0, _get_updated_options.getUpdatedOptions)(this.prevProps, _extends({}, this.props, {
-        filterValue: this.__state_filterValue,
-        focusedColumnIndex: this.__state_focusedColumnIndex,
-        focusedRowIndex: this.__state_focusedRowIndex,
-        focusedRowKey: this.__state_focusedRowKey,
-        selectedRowKeys: this.__state_selectedRowKeys,
-        selectionFilter: this.__state_selectionFilter
+        filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+        focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+        focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+        focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+        selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+        selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter
       }));
-      this.instance.beginUpdate();
+      this.state.instance.beginUpdate();
       updatedOptions.forEach(function (_ref2) {
         var path = _ref2.path,
             previousValue = _ref2.previousValue,
             value = _ref2.value;
 
-        _this9.instance._options.silent(path, previousValue);
+        _this2.state.instance._options.silent(path, previousValue);
 
-        _this9.instance.option(path, value);
+        _this2.state.instance.option(path, value);
       });
       this.prevProps = _extends({}, this.props, {
-        filterValue: this.__state_filterValue,
-        focusedColumnIndex: this.__state_focusedColumnIndex,
-        focusedRowIndex: this.__state_focusedRowIndex,
-        focusedRowKey: this.__state_focusedRowKey,
-        selectedRowKeys: this.__state_selectedRowKeys,
-        selectionFilter: this.__state_selectionFilter
+        filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+        focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+        focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+        focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+        selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+        selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter
       });
-      this.instance.endUpdate();
+      this.state.instance.endUpdate();
     } else {
       this.prevProps = _extends({}, this.props, {
-        filterValue: this.__state_filterValue,
-        focusedColumnIndex: this.__state_focusedColumnIndex,
-        focusedRowIndex: this.__state_focusedRowIndex,
-        focusedRowKey: this.__state_focusedRowKey,
-        selectedRowKeys: this.__state_selectedRowKeys,
-        selectionFilter: this.__state_selectionFilter
+        filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+        focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+        focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+        focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+        selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+        selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter
       });
     }
   };
 
   _proto.dispose = function dispose() {
-    var _this10 = this;
+    var _this3 = this;
 
     return function () {
-      _this10.instance.dispose();
+      _this3.state.instance.dispose();
     };
   };
 
-  _proto.initInstanceElement = function initInstanceElement() {
-    var _this11 = this;
+  _proto.setupInstance = function setupInstance() {
+    var _this$widgetElementRe;
 
-    this.set_instance(function () {
-      return _this11.createInstance();
+    var element = (_this$widgetElementRe = this.widgetElementRef) === null || _this$widgetElementRe === void 0 ? void 0 : _this$widgetElementRe.current;
+
+    var _this$props$filterVal = _extends({}, _extends({}, this.props, {
+      filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+      focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+      focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+      focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+      selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+      selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter
+    }), {
+      onContentReady: this.restAttributes.onContentReady
+    }),
+        onOptionChanged = _this$props$filterVal.onOptionChanged,
+        restProps = _objectWithoutProperties(_this$props$filterVal, _excluded);
+
+    var instance = new _datagrid_component.DataGridComponent(element, normalizeProps(restProps));
+
+    if ((0, _window.hasWindow)()) {
+      instance.getController("resizing").updateSize(element);
+    }
+
+    instance.on("optionChanged", this.instanceOptionChangedHandler.bind(this));
+    this.setState(function (state) {
+      return _extends({}, state, {
+        instance: instance
+      });
     });
-  };
-
-  _proto.subscribeOptionChanged = function subscribeOptionChanged() {
-    var _this$instance;
-
-    (_this$instance = this.instance) === null || _this$instance === void 0 ? void 0 : _this$instance.on("optionChanged", this.instanceOptionChangedHandler.bind(this));
-  };
-
-  _proto.callMethod = function callMethod(funcName, args) {
-    var _this$instance2;
-
-    var normalizedArgs = _toConsumableArray(args).filter(function (arg) {
-      return arg !== undefined;
-    });
-
-    return (_this$instance2 = this.instance) === null || _this$instance2 === void 0 ? void 0 : _this$instance2[funcName].apply(_this$instance2, _toConsumableArray(normalizedArgs));
   };
 
   _proto.instanceOptionChangedHandler = function instanceOptionChangedHandler(e) {
@@ -428,7 +362,8 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _proto.updateTwoWayValue = function updateTwoWayValue(e) {
-    var isValueCorrect = e.value === e.component.option(e.fullName);
+    var optionValue = e.component.option(e.fullName);
+    var isValueCorrect = e.value === optionValue;
 
     if (e.value !== e.previousValue && isValueCorrect) {
       if (e.name === "editing" && this.props.editing) {
@@ -450,39 +385,87 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
       }
 
       if (e.fullName === "focusedRowKey") {
-        this.set_focusedRowKey(function () {
-          return e.value;
-        });
+        {
+          var __newValue;
+
+          this.setState(function (state) {
+            __newValue = e.value;
+            return {
+              focusedRowKey: __newValue
+            };
+          });
+          this.props.focusedRowKeyChange(__newValue);
+        }
       }
 
       if (e.fullName === "focusedRowIndex") {
-        this.set_focusedRowIndex(function () {
-          return e.value;
-        });
+        {
+          var _newValue;
+
+          this.setState(function (state) {
+            _newValue = e.value;
+            return {
+              focusedRowIndex: _newValue
+            };
+          });
+          this.props.focusedRowIndexChange(_newValue);
+        }
       }
 
       if (e.fullName === "focusedColumnIndex") {
-        this.set_focusedColumnIndex(function () {
-          return e.value;
-        });
+        {
+          var _newValue2;
+
+          this.setState(function (state) {
+            _newValue2 = e.value;
+            return {
+              focusedColumnIndex: _newValue2
+            };
+          });
+          this.props.focusedColumnIndexChange(_newValue2);
+        }
       }
 
       if (e.fullName === "filterValue") {
-        this.set_filterValue(function () {
-          return e.value;
-        });
+        {
+          var _newValue3;
+
+          this.setState(function (state) {
+            _newValue3 = e.value;
+            return {
+              filterValue: _newValue3
+            };
+          });
+          this.props.filterValueChange(_newValue3);
+        }
       }
 
       if (e.fullName === "selectedRowKeys") {
-        this.set_selectedRowKeys(function () {
-          return e.value;
-        });
+        {
+          var _newValue4;
+
+          this.setState(function (state) {
+            _newValue4 = e.value;
+            return {
+              selectedRowKeys: _newValue4
+            };
+          });
+          this.props.selectedRowKeysChange(_newValue4);
+        }
       }
 
       if (e.fullName === "selectionFilter") {
-        this.set_selectionFilter(function () {
-          return e.value;
-        });
+        {
+          var _newValue5;
+
+          this.setState(function (state) {
+            _newValue5 = e.value;
+            return {
+              selectionFilter: _newValue5
+            };
+          });
+          this.props.selectionFilterChange(_newValue5);
+        }
       }
     }
   };
@@ -496,539 +479,466 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _proto.onDimensionChanged = function onDimensionChanged() {
-    var _this$instance3;
+    var _this$state$instance;
 
-    (_this$instance3 = this.instance) === null || _this$instance3 === void 0 ? void 0 : _this$instance3.updateDimensions(true);
-  };
-
-  _proto.normalizeProps = function normalizeProps(props) {
-    var _this12 = this;
-
-    var result = {};
-    Object.keys(props).forEach(function (key) {
-      if (_extends({}, _this12.props, {
-        filterValue: _this12.__state_filterValue,
-        focusedColumnIndex: _this12.__state_focusedColumnIndex,
-        focusedRowIndex: _this12.__state_focusedRowIndex,
-        focusedRowKey: _this12.__state_focusedRowKey,
-        selectedRowKeys: _this12.__state_selectedRowKeys,
-        selectionFilter: _this12.__state_selectionFilter
-      })[key] !== undefined) {
-        result[key] = props[key];
-      }
-    });
-    return result;
-  };
-
-  _proto.createInstance = function createInstance() {
-    var _this$widgetElementRe;
-
-    var element = (_this$widgetElementRe = this.widgetElementRef) === null || _this$widgetElementRe === void 0 ? void 0 : _this$widgetElementRe.current;
-
-    var _this$props$filterVal = _extends({}, this.props, {
-      filterValue: this.__state_filterValue,
-      focusedColumnIndex: this.__state_focusedColumnIndex,
-      focusedRowIndex: this.__state_focusedRowIndex,
-      focusedRowKey: this.__state_focusedRowKey,
-      selectedRowKeys: this.__state_selectedRowKeys,
-      selectionFilter: this.__state_selectionFilter
-    }),
-        onOptionChanged = _this$props$filterVal.onOptionChanged,
-        restProps = _objectWithoutProperties(_this$props$filterVal, _excluded);
-
-    var instance = new _datagrid_component.DataGridComponent(element, this.normalizeProps(restProps));
-    instance.getController("resizing").updateSize(element);
-    return instance;
+    (_this$state$instance = this.state.instance) === null || _this$state$instance === void 0 ? void 0 : _this$state$instance.updateDimensions(true);
   };
 
   _proto.getComponentInstance = function getComponentInstance() {
-    return this.instance;
+    return this.state.instance;
   };
 
   _proto.beginCustomLoading = function beginCustomLoading(messageText) {
-    var _this$instance4;
+    var _this$state$instance2;
 
-    return (_this$instance4 = this.instance) === null || _this$instance4 === void 0 ? void 0 : _this$instance4.beginCustomLoading(messageText);
+    return (_this$state$instance2 = this.state.instance) === null || _this$state$instance2 === void 0 ? void 0 : _this$state$instance2.beginCustomLoading(messageText);
   };
 
   _proto.byKey = function byKey(key) {
-    var _this$instance5;
+    var _this$state$instance3;
 
-    return (_this$instance5 = this.instance) === null || _this$instance5 === void 0 ? void 0 : _this$instance5.byKey(key);
+    return (_this$state$instance3 = this.state.instance) === null || _this$state$instance3 === void 0 ? void 0 : _this$state$instance3.byKey(key);
   };
 
   _proto.cancelEditData = function cancelEditData() {
-    var _this$instance6;
+    var _this$state$instance4;
 
-    return (_this$instance6 = this.instance) === null || _this$instance6 === void 0 ? void 0 : _this$instance6.cancelEditData();
+    return (_this$state$instance4 = this.state.instance) === null || _this$state$instance4 === void 0 ? void 0 : _this$state$instance4.cancelEditData();
   };
 
   _proto.cellValue = function cellValue(rowIndex, dataField, value) {
-    var _this$instance7;
+    var _this$state$instance5;
 
-    return (_this$instance7 = this.instance) === null || _this$instance7 === void 0 ? void 0 : _this$instance7.cellValue(rowIndex, dataField, value);
+    return (_this$state$instance5 = this.state.instance) === null || _this$state$instance5 === void 0 ? void 0 : _this$state$instance5.cellValue(rowIndex, dataField, value);
   };
 
   _proto.clearFilter = function clearFilter(filterName) {
-    var _this$instance8;
+    var _this$state$instance6;
 
-    return (_this$instance8 = this.instance) === null || _this$instance8 === void 0 ? void 0 : _this$instance8.clearFilter(filterName);
+    return (_this$state$instance6 = this.state.instance) === null || _this$state$instance6 === void 0 ? void 0 : _this$state$instance6.clearFilter(filterName);
   };
 
   _proto.clearSelection = function clearSelection() {
-    var _this$instance9;
+    var _this$state$instance7;
 
-    return (_this$instance9 = this.instance) === null || _this$instance9 === void 0 ? void 0 : _this$instance9.clearSelection();
+    return (_this$state$instance7 = this.state.instance) === null || _this$state$instance7 === void 0 ? void 0 : _this$state$instance7.clearSelection();
   };
 
   _proto.clearSorting = function clearSorting() {
-    var _this$instance10;
+    var _this$state$instance8;
 
-    return (_this$instance10 = this.instance) === null || _this$instance10 === void 0 ? void 0 : _this$instance10.clearSorting();
+    return (_this$state$instance8 = this.state.instance) === null || _this$state$instance8 === void 0 ? void 0 : _this$state$instance8.clearSorting();
   };
 
   _proto.closeEditCell = function closeEditCell() {
-    var _this$instance11;
+    var _this$state$instance9;
 
-    return (_this$instance11 = this.instance) === null || _this$instance11 === void 0 ? void 0 : _this$instance11.closeEditCell();
+    return (_this$state$instance9 = this.state.instance) === null || _this$state$instance9 === void 0 ? void 0 : _this$state$instance9.closeEditCell();
   };
 
   _proto.collapseAdaptiveDetailRow = function collapseAdaptiveDetailRow() {
-    var _this$instance12;
+    var _this$state$instance10;
 
-    return (_this$instance12 = this.instance) === null || _this$instance12 === void 0 ? void 0 : _this$instance12.collapseAdaptiveDetailRow();
+    return (_this$state$instance10 = this.state.instance) === null || _this$state$instance10 === void 0 ? void 0 : _this$state$instance10.collapseAdaptiveDetailRow();
   };
 
   _proto.columnCount = function columnCount() {
-    var _this$instance13;
+    var _this$state$instance11;
 
-    return (_this$instance13 = this.instance) === null || _this$instance13 === void 0 ? void 0 : _this$instance13.columnCount();
+    return (_this$state$instance11 = this.state.instance) === null || _this$state$instance11 === void 0 ? void 0 : _this$state$instance11.columnCount();
   };
 
   _proto.columnOption = function columnOption(id, optionName, optionValue) {
-    return this.callMethod("columnOption", arguments);
+    if (this.state.instance) {
+      if (arguments.length === 1 || optionName === undefined) {
+        return this.state.instance.columnOption(id);
+      }
+
+      if (arguments.length === 2) {
+        return this.state.instance.columnOption(id, optionName);
+      }
+
+      return this.state.instance.columnOption(id, optionName, optionValue);
+    }
+
+    return null;
   };
 
   _proto.deleteColumn = function deleteColumn(id) {
-    var _this$instance14;
+    var _this$state$instance12;
 
-    return (_this$instance14 = this.instance) === null || _this$instance14 === void 0 ? void 0 : _this$instance14.deleteColumn(id);
+    return (_this$state$instance12 = this.state.instance) === null || _this$state$instance12 === void 0 ? void 0 : _this$state$instance12.deleteColumn(id);
   };
 
   _proto.deleteRow = function deleteRow(rowIndex) {
-    var _this$instance15;
+    var _this$state$instance13;
 
-    return (_this$instance15 = this.instance) === null || _this$instance15 === void 0 ? void 0 : _this$instance15.deleteRow(rowIndex);
+    return (_this$state$instance13 = this.state.instance) === null || _this$state$instance13 === void 0 ? void 0 : _this$state$instance13.deleteRow(rowIndex);
   };
 
   _proto.deselectAll = function deselectAll() {
-    var _this$instance16;
+    var _this$state$instance14;
 
-    return (_this$instance16 = this.instance) === null || _this$instance16 === void 0 ? void 0 : _this$instance16.deselectAll();
+    return (_this$state$instance14 = this.state.instance) === null || _this$state$instance14 === void 0 ? void 0 : _this$state$instance14.deselectAll();
   };
 
   _proto.deselectRows = function deselectRows(keys) {
-    var _this$instance17;
+    var _this$state$instance15;
 
-    return (_this$instance17 = this.instance) === null || _this$instance17 === void 0 ? void 0 : _this$instance17.deselectRows(keys);
+    return (_this$state$instance15 = this.state.instance) === null || _this$state$instance15 === void 0 ? void 0 : _this$state$instance15.deselectRows(keys);
   };
 
   _proto.editCell = function editCell(rowIndex, dataFieldColumnIndex) {
-    var _this$instance18;
+    var _this$state$instance16;
 
-    return (_this$instance18 = this.instance) === null || _this$instance18 === void 0 ? void 0 : _this$instance18.editCell(rowIndex, dataFieldColumnIndex);
+    return (_this$state$instance16 = this.state.instance) === null || _this$state$instance16 === void 0 ? void 0 : _this$state$instance16.editCell(rowIndex, dataFieldColumnIndex);
   };
 
   _proto.editRow = function editRow(rowIndex) {
-    var _this$instance19;
+    var _this$state$instance17;
 
-    return (_this$instance19 = this.instance) === null || _this$instance19 === void 0 ? void 0 : _this$instance19.editRow(rowIndex);
+    return (_this$state$instance17 = this.state.instance) === null || _this$state$instance17 === void 0 ? void 0 : _this$state$instance17.editRow(rowIndex);
   };
 
   _proto.endCustomLoading = function endCustomLoading() {
-    var _this$instance20;
+    var _this$state$instance18;
 
-    return (_this$instance20 = this.instance) === null || _this$instance20 === void 0 ? void 0 : _this$instance20.endCustomLoading();
+    return (_this$state$instance18 = this.state.instance) === null || _this$state$instance18 === void 0 ? void 0 : _this$state$instance18.endCustomLoading();
   };
 
   _proto.expandAdaptiveDetailRow = function expandAdaptiveDetailRow(key) {
-    var _this$instance21;
+    var _this$state$instance19;
 
-    return (_this$instance21 = this.instance) === null || _this$instance21 === void 0 ? void 0 : _this$instance21.expandAdaptiveDetailRow(key);
+    return (_this$state$instance19 = this.state.instance) === null || _this$state$instance19 === void 0 ? void 0 : _this$state$instance19.expandAdaptiveDetailRow(key);
   };
 
   _proto.filter = function filter(filterExpr) {
-    var _this$instance22;
+    var _this$state$instance20;
 
-    return (_this$instance22 = this.instance) === null || _this$instance22 === void 0 ? void 0 : _this$instance22.filter(filterExpr);
+    return (_this$state$instance20 = this.state.instance) === null || _this$state$instance20 === void 0 ? void 0 : _this$state$instance20.filter(filterExpr);
   };
 
   _proto.focus = function focus(element) {
-    var _this$instance23;
+    var _this$state$instance21;
 
-    return (_this$instance23 = this.instance) === null || _this$instance23 === void 0 ? void 0 : _this$instance23.focus(element);
+    return (_this$state$instance21 = this.state.instance) === null || _this$state$instance21 === void 0 ? void 0 : _this$state$instance21.focus(element);
   };
 
   _proto.getCellElement = function getCellElement(rowIndex, dataField) {
-    var _this$instance24;
+    var _this$state$instance22;
 
-    return (_this$instance24 = this.instance) === null || _this$instance24 === void 0 ? void 0 : _this$instance24.getCellElement(rowIndex, dataField);
+    return (_this$state$instance22 = this.state.instance) === null || _this$state$instance22 === void 0 ? void 0 : _this$state$instance22.getCellElement(rowIndex, dataField);
   };
 
   _proto.getCombinedFilter = function getCombinedFilter(returnDataField) {
-    var _this$instance25;
+    var _this$state$instance23;
 
-    return (_this$instance25 = this.instance) === null || _this$instance25 === void 0 ? void 0 : _this$instance25.getCombinedFilter(returnDataField);
+    return (_this$state$instance23 = this.state.instance) === null || _this$state$instance23 === void 0 ? void 0 : _this$state$instance23.getCombinedFilter(returnDataField);
   };
 
   _proto.getDataSource = function getDataSource() {
-    var _this$instance26;
+    var _this$state$instance24;
 
-    return (_this$instance26 = this.instance) === null || _this$instance26 === void 0 ? void 0 : _this$instance26.getDataSource();
+    return (_this$state$instance24 = this.state.instance) === null || _this$state$instance24 === void 0 ? void 0 : _this$state$instance24.getDataSource();
   };
 
   _proto.getKeyByRowIndex = function getKeyByRowIndex(rowIndex) {
-    var _this$instance27;
+    var _this$state$instance25;
 
-    return (_this$instance27 = this.instance) === null || _this$instance27 === void 0 ? void 0 : _this$instance27.getKeyByRowIndex(rowIndex);
+    return (_this$state$instance25 = this.state.instance) === null || _this$state$instance25 === void 0 ? void 0 : _this$state$instance25.getKeyByRowIndex(rowIndex);
   };
 
   _proto.getRowElement = function getRowElement(rowIndex) {
-    var _this$instance28;
+    var _this$state$instance26;
 
-    return (_this$instance28 = this.instance) === null || _this$instance28 === void 0 ? void 0 : _this$instance28.getRowElement(rowIndex);
+    return (_this$state$instance26 = this.state.instance) === null || _this$state$instance26 === void 0 ? void 0 : _this$state$instance26.getRowElement(rowIndex);
   };
 
   _proto.getRowIndexByKey = function getRowIndexByKey(key) {
-    var _this$instance29;
+    var _this$state$instance27;
 
-    return (_this$instance29 = this.instance) === null || _this$instance29 === void 0 ? void 0 : _this$instance29.getRowIndexByKey(key);
+    return (_this$state$instance27 = this.state.instance) === null || _this$state$instance27 === void 0 ? void 0 : _this$state$instance27.getRowIndexByKey(key);
   };
 
   _proto.getScrollable = function getScrollable() {
-    var _this$instance30;
+    var _this$state$instance28;
 
-    return (_this$instance30 = this.instance) === null || _this$instance30 === void 0 ? void 0 : _this$instance30.getScrollable();
+    return (_this$state$instance28 = this.state.instance) === null || _this$state$instance28 === void 0 ? void 0 : _this$state$instance28.getScrollable();
   };
 
   _proto.getVisibleColumnIndex = function getVisibleColumnIndex(id) {
-    var _this$instance31;
+    var _this$state$instance29;
 
-    return (_this$instance31 = this.instance) === null || _this$instance31 === void 0 ? void 0 : _this$instance31.getVisibleColumnIndex(id);
+    return (_this$state$instance29 = this.state.instance) === null || _this$state$instance29 === void 0 ? void 0 : _this$state$instance29.getVisibleColumnIndex(id);
   };
 
   _proto.hasEditData = function hasEditData() {
-    var _this$instance32;
+    var _this$state$instance30;
 
-    return (_this$instance32 = this.instance) === null || _this$instance32 === void 0 ? void 0 : _this$instance32.hasEditData();
+    return (_this$state$instance30 = this.state.instance) === null || _this$state$instance30 === void 0 ? void 0 : _this$state$instance30.hasEditData();
   };
 
   _proto.hideColumnChooser = function hideColumnChooser() {
-    var _this$instance33;
+    var _this$state$instance31;
 
-    return (_this$instance33 = this.instance) === null || _this$instance33 === void 0 ? void 0 : _this$instance33.hideColumnChooser();
+    return (_this$state$instance31 = this.state.instance) === null || _this$state$instance31 === void 0 ? void 0 : _this$state$instance31.hideColumnChooser();
   };
 
   _proto.isAdaptiveDetailRowExpanded = function isAdaptiveDetailRowExpanded(key) {
-    var _this$instance34;
+    var _this$state$instance32;
 
-    return (_this$instance34 = this.instance) === null || _this$instance34 === void 0 ? void 0 : _this$instance34.isAdaptiveDetailRowExpanded(key);
+    return (_this$state$instance32 = this.state.instance) === null || _this$state$instance32 === void 0 ? void 0 : _this$state$instance32.isAdaptiveDetailRowExpanded(key);
   };
 
   _proto.isRowFocused = function isRowFocused(key) {
-    var _this$instance35;
+    var _this$state$instance33;
 
-    return (_this$instance35 = this.instance) === null || _this$instance35 === void 0 ? void 0 : _this$instance35.isRowFocused(key);
+    return (_this$state$instance33 = this.state.instance) === null || _this$state$instance33 === void 0 ? void 0 : _this$state$instance33.isRowFocused(key);
   };
 
   _proto.isRowSelected = function isRowSelected(key) {
-    var _this$instance36;
+    var _this$state$instance34;
 
-    return (_this$instance36 = this.instance) === null || _this$instance36 === void 0 ? void 0 : _this$instance36.isRowSelected(key);
+    return (_this$state$instance34 = this.state.instance) === null || _this$state$instance34 === void 0 ? void 0 : _this$state$instance34.isRowSelected(key);
   };
 
   _proto.keyOf = function keyOf(obj) {
-    var _this$instance37;
+    var _this$state$instance35;
 
-    return (_this$instance37 = this.instance) === null || _this$instance37 === void 0 ? void 0 : _this$instance37.keyOf(obj);
+    return (_this$state$instance35 = this.state.instance) === null || _this$state$instance35 === void 0 ? void 0 : _this$state$instance35.keyOf(obj);
   };
 
   _proto.navigateToRow = function navigateToRow(key) {
-    var _this$instance38;
+    var _this$state$instance36;
 
-    return (_this$instance38 = this.instance) === null || _this$instance38 === void 0 ? void 0 : _this$instance38.navigateToRow(key);
+    return (_this$state$instance36 = this.state.instance) === null || _this$state$instance36 === void 0 ? void 0 : _this$state$instance36.navigateToRow(key);
   };
 
   _proto.pageCount = function pageCount() {
-    var _this$instance39;
+    var _this$state$instance37;
 
-    return (_this$instance39 = this.instance) === null || _this$instance39 === void 0 ? void 0 : _this$instance39.pageCount();
+    return (_this$state$instance37 = this.state.instance) === null || _this$state$instance37 === void 0 ? void 0 : _this$state$instance37.pageCount();
   };
 
   _proto.pageIndex = function pageIndex(newIndex) {
-    var _this$instance40;
+    var _this$state$instance38;
 
-    return (_this$instance40 = this.instance) === null || _this$instance40 === void 0 ? void 0 : _this$instance40.pageIndex(newIndex);
+    return (_this$state$instance38 = this.state.instance) === null || _this$state$instance38 === void 0 ? void 0 : _this$state$instance38.pageIndex(newIndex);
   };
 
   _proto.pageSize = function pageSize(value) {
-    var _this$instance41;
+    var _this$state$instance39;
 
-    return (_this$instance41 = this.instance) === null || _this$instance41 === void 0 ? void 0 : _this$instance41.pageSize(value);
+    return (_this$state$instance39 = this.state.instance) === null || _this$state$instance39 === void 0 ? void 0 : _this$state$instance39.pageSize(value);
   };
 
   _proto.refresh = function refresh(changesOnly) {
-    var _this$instance42;
+    var _this$state$instance40;
 
-    return (_this$instance42 = this.instance) === null || _this$instance42 === void 0 ? void 0 : _this$instance42.refresh(changesOnly);
+    return (_this$state$instance40 = this.state.instance) === null || _this$state$instance40 === void 0 ? void 0 : _this$state$instance40.refresh(changesOnly);
   };
 
   _proto.repaintRows = function repaintRows(rowIndexes) {
-    var _this$instance43;
+    var _this$state$instance41;
 
-    return (_this$instance43 = this.instance) === null || _this$instance43 === void 0 ? void 0 : _this$instance43.repaintRows(rowIndexes);
+    return (_this$state$instance41 = this.state.instance) === null || _this$state$instance41 === void 0 ? void 0 : _this$state$instance41.repaintRows(rowIndexes);
   };
 
   _proto.saveEditData = function saveEditData() {
-    var _this$instance44;
+    var _this$state$instance42;
 
-    return (_this$instance44 = this.instance) === null || _this$instance44 === void 0 ? void 0 : _this$instance44.saveEditData();
+    return (_this$state$instance42 = this.state.instance) === null || _this$state$instance42 === void 0 ? void 0 : _this$state$instance42.saveEditData();
   };
 
   _proto.searchByText = function searchByText(text) {
-    var _this$instance45;
+    var _this$state$instance43;
 
-    return (_this$instance45 = this.instance) === null || _this$instance45 === void 0 ? void 0 : _this$instance45.searchByText(text);
+    return (_this$state$instance43 = this.state.instance) === null || _this$state$instance43 === void 0 ? void 0 : _this$state$instance43.searchByText(text);
   };
 
   _proto.selectAll = function selectAll() {
-    var _this$instance46;
+    var _this$state$instance44;
 
-    return (_this$instance46 = this.instance) === null || _this$instance46 === void 0 ? void 0 : _this$instance46.selectAll();
+    return (_this$state$instance44 = this.state.instance) === null || _this$state$instance44 === void 0 ? void 0 : _this$state$instance44.selectAll();
   };
 
   _proto.selectRows = function selectRows(keys, preserve) {
-    var _this$instance47;
+    var _this$state$instance45;
 
-    return (_this$instance47 = this.instance) === null || _this$instance47 === void 0 ? void 0 : _this$instance47.selectRows(keys, preserve);
+    return (_this$state$instance45 = this.state.instance) === null || _this$state$instance45 === void 0 ? void 0 : _this$state$instance45.selectRows(keys, preserve);
   };
 
   _proto.selectRowsByIndexes = function selectRowsByIndexes(indexes) {
-    var _this$instance48;
+    var _this$state$instance46;
 
-    return (_this$instance48 = this.instance) === null || _this$instance48 === void 0 ? void 0 : _this$instance48.selectRowsByIndexes(indexes);
+    return (_this$state$instance46 = this.state.instance) === null || _this$state$instance46 === void 0 ? void 0 : _this$state$instance46.selectRowsByIndexes(indexes);
   };
 
   _proto.showColumnChooser = function showColumnChooser() {
-    var _this$instance49;
+    var _this$state$instance47;
 
-    return (_this$instance49 = this.instance) === null || _this$instance49 === void 0 ? void 0 : _this$instance49.showColumnChooser();
+    return (_this$state$instance47 = this.state.instance) === null || _this$state$instance47 === void 0 ? void 0 : _this$state$instance47.showColumnChooser();
   };
 
   _proto.undeleteRow = function undeleteRow(rowIndex) {
-    var _this$instance50;
+    var _this$state$instance48;
 
-    return (_this$instance50 = this.instance) === null || _this$instance50 === void 0 ? void 0 : _this$instance50.undeleteRow(rowIndex);
+    return (_this$state$instance48 = this.state.instance) === null || _this$state$instance48 === void 0 ? void 0 : _this$state$instance48.undeleteRow(rowIndex);
   };
 
   _proto.updateDimensions = function updateDimensions() {
-    var _this$instance51;
+    var _this$state$instance49;
 
-    return (_this$instance51 = this.instance) === null || _this$instance51 === void 0 ? void 0 : _this$instance51.updateDimensions();
+    return (_this$state$instance49 = this.state.instance) === null || _this$state$instance49 === void 0 ? void 0 : _this$state$instance49.updateDimensions();
   };
 
   _proto.resize = function resize() {
-    var _this$instance52;
+    var _this$state$instance50;
 
-    return (_this$instance52 = this.instance) === null || _this$instance52 === void 0 ? void 0 : _this$instance52.resize();
+    return (_this$state$instance50 = this.state.instance) === null || _this$state$instance50 === void 0 ? void 0 : _this$state$instance50.resize();
   };
 
   _proto.addColumn = function addColumn(columnOptions) {
-    var _this$instance53;
+    var _this$state$instance51;
 
-    return (_this$instance53 = this.instance) === null || _this$instance53 === void 0 ? void 0 : _this$instance53.addColumn(columnOptions);
+    return (_this$state$instance51 = this.state.instance) === null || _this$state$instance51 === void 0 ? void 0 : _this$state$instance51.addColumn(columnOptions);
   };
 
   _proto.addRow = function addRow() {
-    var _this$instance54;
+    var _this$state$instance52;
 
-    return (_this$instance54 = this.instance) === null || _this$instance54 === void 0 ? void 0 : _this$instance54.addRow();
+    return (_this$state$instance52 = this.state.instance) === null || _this$state$instance52 === void 0 ? void 0 : _this$state$instance52.addRow();
   };
 
   _proto.clearGrouping = function clearGrouping() {
-    var _this$instance55;
+    var _this$state$instance53;
 
-    return (_this$instance55 = this.instance) === null || _this$instance55 === void 0 ? void 0 : _this$instance55.clearGrouping();
+    return (_this$state$instance53 = this.state.instance) === null || _this$state$instance53 === void 0 ? void 0 : _this$state$instance53.clearGrouping();
   };
 
   _proto.collapseAll = function collapseAll(groupIndex) {
-    var _this$instance56;
+    var _this$state$instance54;
 
-    return (_this$instance56 = this.instance) === null || _this$instance56 === void 0 ? void 0 : _this$instance56.collapseAll(groupIndex);
+    return (_this$state$instance54 = this.state.instance) === null || _this$state$instance54 === void 0 ? void 0 : _this$state$instance54.collapseAll(groupIndex);
   };
 
   _proto.collapseRow = function collapseRow(key) {
-    var _this$instance57;
+    var _this$state$instance55;
 
-    return (_this$instance57 = this.instance) === null || _this$instance57 === void 0 ? void 0 : _this$instance57.collapseRow(key);
+    return (_this$state$instance55 = this.state.instance) === null || _this$state$instance55 === void 0 ? void 0 : _this$state$instance55.collapseRow(key);
   };
 
   _proto.expandAll = function expandAll(groupIndex) {
-    var _this$instance58;
+    var _this$state$instance56;
 
-    return (_this$instance58 = this.instance) === null || _this$instance58 === void 0 ? void 0 : _this$instance58.expandAll(groupIndex);
+    return (_this$state$instance56 = this.state.instance) === null || _this$state$instance56 === void 0 ? void 0 : _this$state$instance56.expandAll(groupIndex);
   };
 
   _proto.expandRow = function expandRow(key) {
-    var _this$instance59;
+    var _this$state$instance57;
 
-    return (_this$instance59 = this.instance) === null || _this$instance59 === void 0 ? void 0 : _this$instance59.expandRow(key);
+    return (_this$state$instance57 = this.state.instance) === null || _this$state$instance57 === void 0 ? void 0 : _this$state$instance57.expandRow(key);
   };
 
   _proto.exportToExcel = function exportToExcel(selectionOnly) {
-    var _this$instance60;
+    var _this$state$instance58;
 
-    return (_this$instance60 = this.instance) === null || _this$instance60 === void 0 ? void 0 : _this$instance60.exportToExcel(selectionOnly);
+    return (_this$state$instance58 = this.state.instance) === null || _this$state$instance58 === void 0 ? void 0 : _this$state$instance58.exportToExcel(selectionOnly);
   };
 
   _proto.getSelectedRowKeys = function getSelectedRowKeys() {
-    var _this$instance61;
+    var _this$state$instance59;
 
-    return (_this$instance61 = this.instance) === null || _this$instance61 === void 0 ? void 0 : _this$instance61.getSelectedRowKeys();
+    return (_this$state$instance59 = this.state.instance) === null || _this$state$instance59 === void 0 ? void 0 : _this$state$instance59.getSelectedRowKeys();
   };
 
   _proto.getSelectedRowsData = function getSelectedRowsData() {
-    var _this$instance62;
+    var _this$state$instance60;
 
-    return (_this$instance62 = this.instance) === null || _this$instance62 === void 0 ? void 0 : _this$instance62.getSelectedRowsData();
+    return (_this$state$instance60 = this.state.instance) === null || _this$state$instance60 === void 0 ? void 0 : _this$state$instance60.getSelectedRowsData();
   };
 
   _proto.getTotalSummaryValue = function getTotalSummaryValue(summaryItemName) {
-    var _this$instance63;
+    var _this$state$instance61;
 
-    return (_this$instance63 = this.instance) === null || _this$instance63 === void 0 ? void 0 : _this$instance63.getTotalSummaryValue(summaryItemName);
+    return (_this$state$instance61 = this.state.instance) === null || _this$state$instance61 === void 0 ? void 0 : _this$state$instance61.getTotalSummaryValue(summaryItemName);
   };
 
   _proto.getVisibleColumns = function getVisibleColumns(headerLevel) {
-    var _this$instance64;
+    var _this$state$instance62;
 
-    return (_this$instance64 = this.instance) === null || _this$instance64 === void 0 ? void 0 : _this$instance64.getVisibleColumns(headerLevel);
+    return (_this$state$instance62 = this.state.instance) === null || _this$state$instance62 === void 0 ? void 0 : _this$state$instance62.getVisibleColumns(headerLevel);
   };
 
   _proto.getVisibleRows = function getVisibleRows() {
-    var _this$instance65;
+    var _this$state$instance63;
 
-    return (_this$instance65 = this.instance) === null || _this$instance65 === void 0 ? void 0 : _this$instance65.getVisibleRows();
+    return (_this$state$instance63 = this.state.instance) === null || _this$state$instance63 === void 0 ? void 0 : _this$state$instance63.getVisibleRows();
   };
 
   _proto.isRowExpanded = function isRowExpanded(key) {
-    var _this$instance66;
+    var _this$state$instance64;
 
-    return (_this$instance66 = this.instance) === null || _this$instance66 === void 0 ? void 0 : _this$instance66.isRowExpanded(key);
+    return (_this$state$instance64 = this.state.instance) === null || _this$state$instance64 === void 0 ? void 0 : _this$state$instance64.isRowExpanded(key);
   };
 
   _proto.totalCount = function totalCount() {
-    var _this$instance67;
+    var _this$state$instance65;
 
-    return (_this$instance67 = this.instance) === null || _this$instance67 === void 0 ? void 0 : _this$instance67.totalCount();
+    return (_this$state$instance65 = this.state.instance) === null || _this$state$instance65 === void 0 ? void 0 : _this$state$instance65.totalCount();
   };
 
   _proto.isScrollbarVisible = function isScrollbarVisible() {
-    var _this$instance68;
+    var _this$state$instance66;
 
-    return (_this$instance68 = this.instance) === null || _this$instance68 === void 0 ? void 0 : _this$instance68.isScrollbarVisible();
+    return (_this$state$instance66 = this.state.instance) === null || _this$state$instance66 === void 0 ? void 0 : _this$state$instance66.isScrollbarVisible();
   };
 
   _proto.getTopVisibleRowData = function getTopVisibleRowData() {
-    var _this$instance69;
+    var _this$state$instance67;
 
-    return (_this$instance69 = this.instance) === null || _this$instance69 === void 0 ? void 0 : _this$instance69.getTopVisibleRowData();
+    return (_this$state$instance67 = this.state.instance) === null || _this$state$instance67 === void 0 ? void 0 : _this$state$instance67.getTopVisibleRowData();
   };
 
   _proto.getScrollbarWidth = function getScrollbarWidth(isHorizontal) {
-    var _this$instance70;
+    var _this$state$instance68;
 
-    return (_this$instance70 = this.instance) === null || _this$instance70 === void 0 ? void 0 : _this$instance70.getScrollbarWidth(isHorizontal);
+    return (_this$state$instance68 = this.state.instance) === null || _this$state$instance68 === void 0 ? void 0 : _this$state$instance68.getScrollbarWidth(isHorizontal);
   };
 
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        filterValue: this.__state_filterValue,
-        focusedColumnIndex: this.__state_focusedColumnIndex,
-        focusedRowIndex: this.__state_focusedRowIndex,
-        focusedRowKey: this.__state_focusedRowKey,
-        selectedRowKeys: this.__state_selectedRowKeys,
-        selectionFilter: this.__state_selectionFilter,
+        filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+        focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+        focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+        focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+        selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+        selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter,
         rowTemplate: getTemplate(props.rowTemplate)
       }),
-      instance: this.instance,
+      instance: this.state.instance,
       widgetElementRef: this.widgetElementRef,
-      callMethod: this.callMethod,
       instanceOptionChangedHandler: this.instanceOptionChangedHandler,
       updateTwoWayValue: this.updateTwoWayValue,
       onHoverStart: this.onHoverStart,
       onHoverEnd: this.onHoverEnd,
       onDimensionChanged: this.onDimensionChanged,
-      normalizeProps: this.normalizeProps,
-      createInstance: this.createInstance,
       restAttributes: this.restAttributes
     });
   };
 
   _createClass(DataGrid, [{
-    key: "instance",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.instance;
-    }
-  }, {
-    key: "__state_filterValue",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.filterValue !== undefined ? this.props.filterValue : state.filterValue;
-    }
-  }, {
-    key: "__state_focusedColumnIndex",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : state.focusedColumnIndex;
-    }
-  }, {
-    key: "__state_focusedRowIndex",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : state.focusedRowIndex;
-    }
-  }, {
-    key: "__state_focusedRowKey",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : state.focusedRowKey;
-    }
-  }, {
-    key: "__state_selectedRowKeys",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : state.selectedRowKeys;
-    }
-  }, {
-    key: "__state_selectionFilter",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.selectionFilter !== undefined ? this.props.selectionFilter : state.selectionFilter;
-    }
-  }, {
     key: "restAttributes",
     get: function get() {
       var _this$props$filterVal2 = _extends({}, this.props, {
-        filterValue: this.__state_filterValue,
-        focusedColumnIndex: this.__state_focusedColumnIndex,
-        focusedRowIndex: this.__state_focusedRowIndex,
-        focusedRowKey: this.__state_focusedRowKey,
-        selectedRowKeys: this.__state_selectedRowKeys,
-        selectionFilter: this.__state_selectionFilter
+        filterValue: this.props.filterValue !== undefined ? this.props.filterValue : this.state.filterValue,
+        focusedColumnIndex: this.props.focusedColumnIndex !== undefined ? this.props.focusedColumnIndex : this.state.focusedColumnIndex,
+        focusedRowIndex: this.props.focusedRowIndex !== undefined ? this.props.focusedRowIndex : this.state.focusedRowIndex,
+        focusedRowKey: this.props.focusedRowKey !== undefined ? this.props.focusedRowKey : this.state.focusedRowKey,
+        selectedRowKeys: this.props.selectedRowKeys !== undefined ? this.props.selectedRowKeys : this.state.selectedRowKeys,
+        selectionFilter: this.props.selectionFilter !== undefined ? this.props.selectionFilter : this.state.selectionFilter
       }),
           accessKey = _this$props$filterVal2.accessKey,
           activeStateEnabled = _this$props$filterVal2.activeStateEnabled,
@@ -1037,6 +947,7 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
           autoNavigateToFocusedRow = _this$props$filterVal2.autoNavigateToFocusedRow,
           cacheEnabled = _this$props$filterVal2.cacheEnabled,
           cellHintEnabled = _this$props$filterVal2.cellHintEnabled,
+          className = _this$props$filterVal2.className,
           columnAutoWidth = _this$props$filterVal2.columnAutoWidth,
           columnChooser = _this$props$filterVal2.columnChooser,
           columnFixing = _this$props$filterVal2.columnFixing,
@@ -1094,7 +1005,6 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
           onCellHoverChanged = _this$props$filterVal2.onCellHoverChanged,
           onCellPrepared = _this$props$filterVal2.onCellPrepared,
           onClick = _this$props$filterVal2.onClick,
-          onContentReady = _this$props$filterVal2.onContentReady,
           onContextMenuPreparing = _this$props$filterVal2.onContextMenuPreparing,
           onDataErrorOccurred = _this$props$filterVal2.onDataErrorOccurred,
           onEditingStart = _this$props$filterVal2.onEditingStart,
@@ -1165,4 +1075,28 @@ var DataGrid = /*#__PURE__*/function (_InfernoWrapperCompon) {
 }(_vdom.InfernoWrapperComponent);
 
 exports.DataGrid = DataGrid;
-DataGrid.defaultProps = _extends({}, _data_grid_props.DataGridProps);
+
+function __processTwoWayProps(defaultProps) {
+  var twoWayProps = ["filterValue", "focusedColumnIndex", "focusedRowIndex", "focusedRowKey", "selectedRowKeys", "selectionFilter"];
+  return Object.keys(defaultProps).reduce(function (props, propName) {
+    var propValue = defaultProps[propName];
+    var defaultPropName = twoWayProps.some(function (p) {
+      return p === propName;
+    }) ? "default" + propName.charAt(0).toUpperCase() + propName.slice(1) : propName;
+    props[defaultPropName] = propValue;
+    return props;
+  }, {});
+}
+
+function __createDefaultProps() {
+  return _extends({}, _data_grid_props.DataGridProps, __processTwoWayProps((0, _utils.convertRulesToOptions)(defaultOptionRules)));
+}
+
+DataGrid.defaultProps = __createDefaultProps();
+var __defaultOptionRules = [];
+
+function defaultOptions(rule) {
+  __defaultOptionRules.push(rule);
+
+  DataGrid.defaultProps = _extends({}, __createDefaultProps(), __processTwoWayProps((0, _utils.convertRulesToOptions)(__defaultOptionRules)));
+}

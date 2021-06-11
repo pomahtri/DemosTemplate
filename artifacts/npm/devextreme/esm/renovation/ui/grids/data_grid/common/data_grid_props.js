@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/grids/data_grid/common/data_grid_props.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -15,8 +15,24 @@ export var DataGridColumnLookup = {};
 export var DataGridColumn = {};
 export var DataGridEditingTexts = {};
 export var DataGridEditing = {
+  allowAdding: false,
+  allowDeleting: false,
+  allowUpdating: false,
+  confirmDelete: true,
+  form: {
+    colCount: 2
+  },
+  mode: "row",
+  popup: {},
+  refreshMode: "full",
+  selectTextOnEditStart: false,
+  startEditAction: "click",
+  useIcons: false,
+  defaultChanges: [],
   changesChange: () => {},
+  defaultEditRowKey: null,
   editRowKeyChange: () => {},
+  defaultEditColumnName: null,
   editColumnNameChange: () => {}
 };
 export var DataGridScrolling = {};
@@ -59,7 +75,7 @@ export var DataGridProps = _extends({}, BaseWidgetProps, {
     popup: {},
     startEditAction: "click",
     editRowKey: null,
-    editColumnName: undefined,
+    editColumnName: null,
     changes: []
   },
   groupPanel: {
@@ -134,7 +150,7 @@ export var DataGridProps = _extends({}, BaseWidgetProps, {
     trueText: messageLocalization.format("dxDataGrid-trueText"),
     falseText: messageLocalization.format("dxDataGrid-falseText")
   },
-  defaultFilterValue: [],
+  defaultFilterValue: null,
   filterValueChange: () => {},
   defaultFocusedColumnIndex: -1,
   focusedColumnIndexChange: () => {},

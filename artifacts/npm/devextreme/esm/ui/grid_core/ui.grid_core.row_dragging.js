@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.row_dragging.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,6 @@ import $ from '../../core/renderer';
 import { extend } from '../../core/utils/extend';
 import Sortable from '../sortable';
 import gridCoreUtils from './ui.grid_core.utils';
-import browser from '../../core/utils/browser';
 var COMMAND_HANDLE_CLASS = 'dx-command-drag';
 var CELL_FOCUS_DISABLED_CLASS = 'dx-cell-focus-disabled';
 var HANDLE_ICON_CLASS = 'drag-icon';
@@ -94,7 +93,7 @@ var RowDraggingExtender = {
           togglePointerEventsStyle(false);
           (_rowDragging$onDragEn = rowDragging.onDragEnd) === null || _rowDragging$onDragEn === void 0 ? void 0 : _rowDragging$onDragEn.call(rowDragging, e);
         },
-        dropFeedbackMode: browser.msie ? 'indicate' : rowDragging.dropFeedbackMode,
+        dropFeedbackMode: rowDragging.dropFeedbackMode,
         onOptionChanged: e => {
           var hasFixedSortable = this[sortableFixedName];
 

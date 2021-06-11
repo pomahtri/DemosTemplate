@@ -90,7 +90,7 @@ var PdfTable = /*#__PURE__*/function () {
         throw 'column width is required'; // TODO
       }
 
-      cells[i]._rect = {
+      currentCell._rect = {
         x: this.getCellX(i),
         y: this.getCellY(this.rows.length - 1),
         w: columnWidth,

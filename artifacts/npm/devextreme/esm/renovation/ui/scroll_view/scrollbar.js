@@ -1,14 +1,14 @@
 /**
 * DevExtreme (esm/renovation/ui/scroll_view/scrollbar.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import _extends from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-var _excluded = ["activeStateEnabled", "bottomPocketSize", "bounceEnabled", "containerSize", "contentSize", "contentTranslateOffsetChange", "defaultPocketState", "direction", "forceGeneratePockets", "forceUpdateScrollbarLocation", "forceVisibility", "hoverStateEnabled", "isScrollableHovered", "onAnimatorCancel", "onAnimatorStart", "onPullDown", "onReachBottom", "onRelease", "pocketState", "pocketStateChange", "pullDownEnabled", "reachBottomEnabled", "rtlEnabled", "scrollByThumb", "scrollLocation", "scrollLocationChange", "scrollableOffset", "showScrollbar", "topPocketSize"];
+import _extends from "@babel/runtime/helpers/esm/extends";
+var _excluded = ["activeStateEnabled", "bottomPocketSize", "bounceEnabled", "containerSize", "contentSize", "contentTranslateOffsetChange", "direction", "forceGeneratePockets", "forceUpdateScrollbarLocation", "forceVisibility", "hoverStateEnabled", "isScrollableHovered", "onAnimatorCancel", "onAnimatorStart", "onEnd", "onPullDown", "onReachBottom", "onRelease", "onScroll", "pocketState", "pocketStateChange", "pullDownEnabled", "reachBottomEnabled", "rtlEnabled", "scrollByThumb", "scrollLocation", "scrollLocationChange", "scrollableOffset", "showScrollbar", "topPocketSize"];
 import { createVNode, createComponentVNode } from "inferno";
 import { InfernoEffect, InfernoComponent, normalizeStyles } from "@devextreme/vdom";
 import { Widget } from "../common/widget";
@@ -21,6 +21,7 @@ import { DIRECTION_HORIZONTAL, SCROLLABLE_SCROLLBAR_CLASS, TopPocketState, SCROL
 import { dxPointerDown, dxPointerUp } from "../../../events/short";
 import { ScrollableSimulatedProps } from "./scrollable_simulated_props";
 import { ScrollableProps } from "./scrollable_props";
+import { inRange } from "../../../core/utils/math";
 var OUT_BOUNDS_ACCELERATION = 0.5;
 var THUMB_MIN_SIZE = 15;
 export var viewFunction = viewModel => {
@@ -61,11 +62,13 @@ export var ScrollbarPropsType = {
   forceVisibility: ScrollbarProps.forceVisibility,
   forceUpdateScrollbarLocation: ScrollbarProps.forceUpdateScrollbarLocation,
   scrollLocation: ScrollbarProps.scrollLocation,
+  pocketState: ScrollbarProps.pocketState,
   onAnimatorCancel: ScrollbarProps.onAnimatorCancel,
   onPullDown: ScrollbarProps.onPullDown,
   onReachBottom: ScrollbarProps.onReachBottom,
   onRelease: ScrollbarProps.onRelease,
-  defaultPocketState: ScrollbarProps.defaultPocketState,
+  onScroll: ScrollbarProps.onScroll,
+  onEnd: ScrollbarProps.onEnd,
   direction: ScrollableProps.direction,
   showScrollbar: ScrollableProps.showScrollbar,
   scrollByThumb: ScrollableProps.scrollByThumb,
@@ -78,66 +81,62 @@ import { createRef as infernoCreateRef } from "inferno";
 export class Scrollbar extends InfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.thumbScrolling = false;
     this.crossThumbScrolling = false;
     this.initialTopPocketSize = 0;
+    this.rightScrollLocation = 0;
+    this.prevScrollLocation = 0;
     this.scrollbarRef = infernoCreateRef();
     this.scrollRef = infernoCreateRef();
     this.state = {
+      pendingPullDown: false,
       showOnScrollByWheel: undefined,
       hovered: false,
       expanded: false,
-      visibility: false,
-      boundaryOffset: 0,
-      maxOffset: 0,
-      pocketState: this.props.pocketState !== undefined ? this.props.pocketState : this.props.defaultPocketState
+      visibility: false
     };
-    this.updateBoundaryOffset = this.updateBoundaryOffset.bind(this);
     this.pointerDownEffect = this.pointerDownEffect.bind(this);
     this.pointerUpEffect = this.pointerUpEffect.bind(this);
     this.isThumb = this.isThumb.bind(this);
     this.isScrollbar = this.isScrollbar.bind(this);
     this.validateEvent = this.validateEvent.bind(this);
-    this.reachedMin = this.reachedMin.bind(this);
-    this.reachedMax = this.reachedMax.bind(this);
-    this.inBounds = this.inBounds.bind(this);
-    this.boundLocation = this.boundLocation.bind(this);
+    this.getLocationWithinRange = this.getLocationWithinRange.bind(this);
     this.getMinOffset = this.getMinOffset.bind(this);
     this.getMaxOffset = this.getMaxOffset.bind(this);
     this.initHandler = this.initHandler.bind(this);
     this.startHandler = this.startHandler.bind(this);
     this.moveHandler = this.moveHandler.bind(this);
-    this.hide = this.hide.bind(this);
+    this.disposeHideScrollbarTimer = this.disposeHideScrollbarTimer.bind(this);
     this.endHandler = this.endHandler.bind(this);
-    this.onInertiaAnimatorStart = this.onInertiaAnimatorStart.bind(this);
-    this.onBounceAnimatorStart = this.onBounceAnimatorStart.bind(this);
     this.stopHandler = this.stopHandler.bind(this);
     this.scrollByHandler = this.scrollByHandler.bind(this);
     this.scrollComplete = this.scrollComplete.bind(this);
+    this.scrollStep = this.scrollStep.bind(this);
+    this.updateContentTranslate = this.updateContentTranslate.bind(this);
+    this.moveTo = this.moveTo.bind(this);
+    this.releaseHandler = this.releaseHandler.bind(this);
+    this.moveToBoundaryOnSizeChange = this.moveToBoundaryOnSizeChange.bind(this);
+    this.hide = this.hide.bind(this);
+    this.inRange = this.inRange.bind(this);
+    this.clearHideScrollbarTimer = this.clearHideScrollbarTimer.bind(this);
+    this.onInertiaAnimatorStart = this.onInertiaAnimatorStart.bind(this);
+    this.onBounceAnimatorStart = this.onBounceAnimatorStart.bind(this);
     this.pullDownRefreshing = this.pullDownRefreshing.bind(this);
     this.reachBottomLoading = this.reachBottomLoading.bind(this);
     this.onPullDown = this.onPullDown.bind(this);
     this.onReachBottom = this.onReachBottom.bind(this);
     this.scrollToBounds = this.scrollToBounds.bind(this);
-    this.stopComplete = this.stopComplete.bind(this);
     this.resetThumbScrolling = this.resetThumbScrolling.bind(this);
     this.scrollBy = this.scrollBy.bind(this);
-    this.stopScrolling = this.stopScrolling.bind(this);
+    this.cancelScrolling = this.cancelScrolling.bind(this);
     this.onAnimatorCancel = this.onAnimatorCancel.bind(this);
     this.prepareThumbScrolling = this.prepareThumbScrolling.bind(this);
     this.moveToMouseLocation = this.moveToMouseLocation.bind(this);
-    this.scrollStep = this.scrollStep.bind(this);
-    this.moveToBoundaryOnSizeChange = this.moveToBoundaryOnSizeChange.bind(this);
     this.updateContent = this.updateContent.bind(this);
-    this.updateContentTranslate = this.updateContentTranslate.bind(this);
-    this.moveTo = this.moveTo.bind(this);
-    this.releaseHandler = this.releaseHandler.bind(this);
     this.release = this.release.bind(this);
     this.stateReleased = this.stateReleased.bind(this);
     this.onRelease = this.onRelease.bind(this);
     this.setPocketState = this.setPocketState.bind(this);
-    this.isPullDown = this.isPullDown.bind(this);
     this.isReachBottom = this.isReachBottom.bind(this);
     this.expand = this.expand.bind(this);
     this.collapse = this.collapse.bind(this);
@@ -146,139 +145,16 @@ export class Scrollbar extends InfernoComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.updateBoundaryOffset, [this.props.forceGeneratePockets, this.props.scrollLocation, this.props.pullDownEnabled, this.props.topPocketSize, this.boundaryOffset]), new InfernoEffect(this.pointerDownEffect, []), new InfernoEffect(this.pointerUpEffect, []), new InfernoEffect(this.moveToBoundaryOnSizeChange, [this.props.forceUpdateScrollbarLocation, this.props.scrollLocation, this.maxOffset, this.props.scrollLocationChange, this.props.direction, this.props.forceGeneratePockets, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.pullDownEnabled, this.props.topPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.bounceEnabled, this.boundaryOffset, this.__state_pocketState, this.props.pocketStateChange, this.props.onRelease]), new InfernoEffect(this.updateContentTranslate, [this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.topPocketSize, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.direction, this.props.scrollLocation])];
+    return [new InfernoEffect(this.pointerDownEffect, []), new InfernoEffect(this.pointerUpEffect, []), new InfernoEffect(this.disposeHideScrollbarTimer, []), new InfernoEffect(this.updateContentTranslate, [this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.topPocketSize, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.direction, this.props.scrollLocation]), new InfernoEffect(this.moveToBoundaryOnSizeChange, [this.props.forceUpdateScrollbarLocation, this.props.scrollLocation, this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.bounceEnabled, this.props.topPocketSize, this.state.pendingPullDown, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.direction, this.props.rtlEnabled, this.props.scrollLocationChange, this.props.contentTranslateOffsetChange, this.props.onScroll, this.props.pocketState, this.props.pocketStateChange, this.props.onRelease])];
   }
 
   updateEffects() {
-    var _this$_effects$, _this$_effects$2, _this$_effects$3, _this$_effects$4, _this$_effects$5;
+    var _this$_effects$, _this$_effects$2, _this$_effects$3, _this$_effects$4;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.forceGeneratePockets, this.props.scrollLocation, this.props.pullDownEnabled, this.props.topPocketSize, this.boundaryOffset]);
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([]);
     (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([]);
-    (_this$_effects$3 = this._effects[2]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([]);
-    (_this$_effects$4 = this._effects[3]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.forceUpdateScrollbarLocation, this.props.scrollLocation, this.maxOffset, this.props.scrollLocationChange, this.props.direction, this.props.forceGeneratePockets, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.pullDownEnabled, this.props.topPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.bounceEnabled, this.boundaryOffset, this.__state_pocketState, this.props.pocketStateChange, this.props.onRelease]);
-    (_this$_effects$5 = this._effects[4]) === null || _this$_effects$5 === void 0 ? void 0 : _this$_effects$5.update([this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.topPocketSize, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.direction, this.props.scrollLocation]);
-  }
-
-  get showOnScrollByWheel() {
-    var state = this._currentState || this.state;
-    return state.showOnScrollByWheel;
-  }
-
-  set_showOnScrollByWheel(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        showOnScrollByWheel: newValue
-      };
-    });
-  }
-
-  get hovered() {
-    var state = this._currentState || this.state;
-    return state.hovered;
-  }
-
-  set_hovered(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        hovered: newValue
-      };
-    });
-  }
-
-  get expanded() {
-    var state = this._currentState || this.state;
-    return state.expanded;
-  }
-
-  set_expanded(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        expanded: newValue
-      };
-    });
-  }
-
-  get visibility() {
-    var state = this._currentState || this.state;
-    return state.visibility;
-  }
-
-  set_visibility(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        visibility: newValue
-      };
-    });
-  }
-
-  get boundaryOffset() {
-    var state = this._currentState || this.state;
-    return state.boundaryOffset;
-  }
-
-  set_boundaryOffset(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        boundaryOffset: newValue
-      };
-    });
-  }
-
-  get maxOffset() {
-    var state = this._currentState || this.state;
-    return state.maxOffset;
-  }
-
-  set_maxOffset(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        maxOffset: newValue
-      };
-    });
-  }
-
-  get __state_pocketState() {
-    var state = this._currentState || this.state;
-    return this.props.pocketState !== undefined ? this.props.pocketState : state.pocketState;
-  }
-
-  set_pocketState(value) {
-    this.setState(state => {
-      var _this$props$pocketSta, _this$props;
-
-      this._currentState = state;
-      var newValue = value();
-      (_this$props$pocketSta = (_this$props = this.props).pocketStateChange) === null || _this$props$pocketSta === void 0 ? void 0 : _this$props$pocketSta.call(_this$props, newValue);
-      this._currentState = null;
-      return {
-        pocketState: newValue
-      };
-    });
-  }
-
-  updateBoundaryOffset() {
-    if (this.props.forceGeneratePockets) {
-      this.set_boundaryOffset(() => this.props.scrollLocation - this.topPocketSize);
-      this.set_maxOffset(() => this.boundaryOffset > 0 ? this.topPocketSize : 0);
-    }
+    (_this$_effects$3 = this._effects[3]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.topPocketSize, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.contentTranslateOffsetChange, this.props.direction, this.props.scrollLocation]);
+    (_this$_effects$4 = this._effects[4]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.forceUpdateScrollbarLocation, this.props.scrollLocation, this.props.forceGeneratePockets, this.props.pullDownEnabled, this.props.bounceEnabled, this.props.topPocketSize, this.state.pendingPullDown, this.props.contentSize, this.props.reachBottomEnabled, this.props.bottomPocketSize, this.props.containerSize, this.props.direction, this.props.rtlEnabled, this.props.scrollLocationChange, this.props.contentTranslateOffsetChange, this.props.onScroll, this.props.pocketState, this.props.pocketStateChange, this.props.onRelease]);
   }
 
   pointerDownEffect() {
@@ -305,12 +181,8 @@ export class Scrollbar extends InfernoComponent {
     });
   }
 
-  moveToBoundaryOnSizeChange() {
-    if (this.props.forceUpdateScrollbarLocation) {
-      if (this.props.scrollLocation <= this.maxOffset) {
-        this.moveTo(this.boundLocation(this.props.scrollLocation));
-      }
-    }
+  disposeHideScrollbarTimer() {
+    return () => this.clearHideScrollbarTimer();
   }
 
   updateContentTranslate() {
@@ -320,6 +192,42 @@ export class Scrollbar extends InfernoComponent {
         this.initialTopPocketSize = this.topPocketSize;
       }
     }
+  }
+
+  moveToBoundaryOnSizeChange() {
+    if (this.props.forceUpdateScrollbarLocation) {
+      if (this.props.scrollLocation <= this.maxOffset) {
+        var newScrollLocation = this.getLocationWithinRange(this.props.scrollLocation);
+
+        if (this.isHorizontal && this.props.rtlEnabled) {
+          newScrollLocation = this.minOffset - this.rightScrollLocation;
+
+          if (newScrollLocation >= 0) {
+            newScrollLocation = 0;
+          }
+        }
+
+        this.moveTo(newScrollLocation);
+      }
+    }
+  }
+
+  hide() {
+    this.setState(state => _extends({}, state, {
+      visibility: false
+    }));
+
+    if (isDefined(this.state.showOnScrollByWheel) && this.props.showScrollbar === "onScroll") {
+      this.hideScrollbarTimer = setTimeout(() => {
+        this.setState(state => _extends({}, state, {
+          showOnScrollByWheel: undefined
+        }));
+      }, HIDE_SCROLLBAR_TIMEOUT);
+    }
+  }
+
+  inRange() {
+    return inRange(this.props.scrollLocation, this.minOffset, this.maxOffset);
   }
 
   get axis() {
@@ -342,31 +250,29 @@ export class Scrollbar extends InfernoComponent {
     return this.props.direction === DIRECTION_HORIZONTAL;
   }
 
-  hide() {
-    this.set_visibility(() => false);
-
-    if (isDefined(this.showOnScrollByWheel) && this.props.showScrollbar === "onScroll") {
-      setTimeout(() => {
-        this.set_showOnScrollByWheel(() => undefined);
-      }, HIDE_SCROLLBAR_TIMEOUT);
-    }
+  clearHideScrollbarTimer() {
+    clearTimeout(this.hideScrollbarTimer);
+    this.hideScrollbarTimer = undefined;
   }
 
   onInertiaAnimatorStart(velocity) {
-    var _this$props$onAnimato, _this$props2;
+    var _this$props$onAnimato, _this$props;
 
-    (_this$props$onAnimato = (_this$props2 = this.props).onAnimatorStart) === null || _this$props$onAnimato === void 0 ? void 0 : _this$props$onAnimato.call(_this$props2, "inertia", velocity, this.thumbScrolling, this.crossThumbScrolling);
+    (_this$props$onAnimato = (_this$props = this.props).onAnimatorStart) === null || _this$props$onAnimato === void 0 ? void 0 : _this$props$onAnimato.call(_this$props, "inertia", velocity, this.thumbScrolling, this.crossThumbScrolling);
   }
 
   onBounceAnimatorStart() {
-    var _this$props$onAnimato2, _this$props3;
+    var _this$props$onAnimato2, _this$props2;
 
-    (_this$props$onAnimato2 = (_this$props3 = this.props).onAnimatorStart) === null || _this$props$onAnimato2 === void 0 ? void 0 : _this$props$onAnimato2.call(_this$props3, "bounce");
+    (_this$props$onAnimato2 = (_this$props2 = this.props).onAnimatorStart) === null || _this$props$onAnimato2 === void 0 ? void 0 : _this$props$onAnimato2.call(_this$props2, "bounce");
   }
 
   pullDownRefreshing() {
     this.setPocketState(TopPocketState.STATE_REFRESHING);
     this.onPullDown();
+    this.setState(state => _extends({}, state, {
+      pendingPullDown: false
+    }));
   }
 
   reachBottomLoading() {
@@ -374,21 +280,27 @@ export class Scrollbar extends InfernoComponent {
   }
 
   onPullDown() {
-    var _this$props$onPullDow, _this$props4;
+    var _this$props$onPullDow, _this$props3;
 
-    (_this$props$onPullDow = (_this$props4 = this.props).onPullDown) === null || _this$props$onPullDow === void 0 ? void 0 : _this$props$onPullDow.call(_this$props4);
+    (_this$props$onPullDow = (_this$props3 = this.props).onPullDown) === null || _this$props$onPullDow === void 0 ? void 0 : _this$props$onPullDow.call(_this$props3);
   }
 
   onReachBottom() {
-    var _this$props$onReachBo, _this$props5;
+    var _this$props$onReachBo, _this$props4;
 
-    (_this$props$onReachBo = (_this$props5 = this.props).onReachBottom) === null || _this$props$onReachBo === void 0 ? void 0 : _this$props$onReachBo.call(_this$props5);
+    (_this$props$onReachBo = (_this$props4 = this.props).onReachBottom) === null || _this$props$onReachBo === void 0 ? void 0 : _this$props$onReachBo.call(_this$props4);
   }
 
   scrollToBounds() {
-    if (this.inBounds()) {
+    if (this.inRange()) {
       this.hide();
       return;
+    }
+
+    if (this.isPullDown) {
+      this.setState(state => _extends({}, state, {
+        pendingPullDown: true
+      }));
     }
 
     this.onBounceAnimatorStart();
@@ -402,28 +314,30 @@ export class Scrollbar extends InfernoComponent {
   scrollBy(delta) {
     var distance = delta[this.axis];
 
-    if (!this.inBounds()) {
+    if (!this.inRange()) {
       distance *= OUT_BOUNDS_ACCELERATION;
     }
 
     this.scrollStep(distance);
   }
 
-  stopScrolling() {
+  cancelScrolling() {
     this.hide();
     this.onAnimatorCancel();
   }
 
   onAnimatorCancel() {
-    var _this$props$onAnimato3, _this$props6;
+    var _this$props$onAnimato3, _this$props5;
 
-    (_this$props$onAnimato3 = (_this$props6 = this.props).onAnimatorCancel) === null || _this$props$onAnimato3 === void 0 ? void 0 : _this$props$onAnimato3.call(_this$props6);
+    (_this$props$onAnimato3 = (_this$props5 = this.props).onAnimatorCancel) === null || _this$props$onAnimato3 === void 0 ? void 0 : _this$props$onAnimato3.call(_this$props5);
   }
 
-  prepareThumbScrolling(e, currentCrossThumbScrolling) {
-    if (isDxMouseWheelEvent(e.originalEvent)) {
+  prepareThumbScrolling(event, currentCrossThumbScrolling) {
+    if (isDxMouseWheelEvent(event.originalEvent)) {
       if (this.props.showScrollbar === "onScroll") {
-        this.set_showOnScrollByWheel(() => true);
+        this.setState(state => _extends({}, state, {
+          showOnScrollByWheel: true
+        }));
       }
 
       return;
@@ -431,11 +345,11 @@ export class Scrollbar extends InfernoComponent {
 
     var {
       target
-    } = e.originalEvent;
+    } = event.originalEvent;
     var scrollbarClicked = this.props.scrollByThumb && this.isScrollbar(target);
 
     if (scrollbarClicked) {
-      this.moveToMouseLocation(e);
+      this.moveToMouseLocation(event);
     }
 
     var currentThumbScrolling = scrollbarClicked || this.props.scrollByThumb && this.isThumb(target);
@@ -447,16 +361,16 @@ export class Scrollbar extends InfernoComponent {
     }
   }
 
-  moveToMouseLocation(e) {
-    var mouseLocation = e["page".concat(this.axis.toUpperCase())] - this.props.scrollableOffset;
+  moveToMouseLocation(event) {
+    var mouseLocation = event["page".concat(this.axis.toUpperCase())] - this.props.scrollableOffset;
     var delta = this.props.scrollLocation + mouseLocation / this.containerToContentRatio - this.props.containerSize / 2;
     this.scrollStep(-Math.round(delta));
   }
 
   updateContent(location) {
-    var _this$props$contentTr, _this$props7;
+    var _this$props$contentTr, _this$props6;
 
-    var contentTranslateOffset;
+    var contentTranslateOffset = Number.NaN;
 
     if (location > 0) {
       contentTranslateOffset = location;
@@ -470,7 +384,17 @@ export class Scrollbar extends InfernoComponent {
       contentTranslateOffset -= this.topPocketSize;
     }
 
-    (_this$props$contentTr = (_this$props7 = this.props).contentTranslateOffsetChange) === null || _this$props$contentTr === void 0 ? void 0 : _this$props$contentTr.call(_this$props7, this.scrollProp, contentTranslateOffset);
+    (_this$props$contentTr = (_this$props6 = this.props).contentTranslateOffsetChange) === null || _this$props$contentTr === void 0 ? void 0 : _this$props$contentTr.call(_this$props6, this.scrollProp, contentTranslateOffset);
+  }
+
+  get maxOffset() {
+    if (this.props.forceGeneratePockets) {
+      if (this.isPullDown && this.state.pendingPullDown) {
+        return this.topPocketSize;
+      }
+    }
+
+    return 0;
   }
 
   release() {
@@ -484,19 +408,19 @@ export class Scrollbar extends InfernoComponent {
   }
 
   onRelease() {
-    var _this$props$onRelease, _this$props8;
+    var _this$props$onRelease, _this$props7;
 
-    (_this$props$onRelease = (_this$props8 = this.props).onRelease) === null || _this$props$onRelease === void 0 ? void 0 : _this$props$onRelease.call(_this$props8);
+    (_this$props$onRelease = (_this$props7 = this.props).onRelease) === null || _this$props$onRelease === void 0 ? void 0 : _this$props$onRelease.call(_this$props7);
   }
 
-  setPocketState(state) {
-    var _this$props$pocketSta2, _this$props9;
+  setPocketState(newState) {
+    var _this$props$pocketSta, _this$props8;
 
-    (_this$props$pocketSta2 = (_this$props9 = this.props).pocketStateChange) === null || _this$props$pocketSta2 === void 0 ? void 0 : _this$props$pocketSta2.call(_this$props9, state);
+    (_this$props$pocketSta = (_this$props8 = this.props).pocketStateChange) === null || _this$props$pocketSta === void 0 ? void 0 : _this$props$pocketSta.call(_this$props8, newState);
   }
 
-  isPullDown() {
-    return this.props.pullDownEnabled && this.props.bounceEnabled && this.boundaryOffset >= 0;
+  get isPullDown() {
+    return this.props.pullDownEnabled && this.props.bounceEnabled && this.props.scrollLocation - this.props.topPocketSize >= 0;
   }
 
   isReachBottom() {
@@ -536,22 +460,30 @@ export class Scrollbar extends InfernoComponent {
   }
 
   expand() {
-    this.set_expanded(() => true);
+    this.setState(state => _extends({}, state, {
+      expanded: true
+    }));
   }
 
   collapse() {
-    this.set_expanded(() => false);
+    this.setState(state => _extends({}, state, {
+      expanded: false
+    }));
   }
 
   onHoverStart() {
     if (this.props.showScrollbar === "onHover") {
-      this.set_hovered(() => true);
+      this.setState(state => _extends({}, state, {
+        hovered: true
+      }));
     }
   }
 
   onHoverEnd() {
     if (this.props.showScrollbar === "onHover") {
-      this.set_hovered(() => false);
+      this.setState(state => _extends({}, state, {
+        hovered: false
+      }));
     }
   }
 
@@ -582,7 +514,7 @@ export class Scrollbar extends InfernoComponent {
     var classesMap = {
       [SCROLLABLE_SCROLLBAR_CLASS]: true,
       ["dx-scrollbar-".concat(direction)]: true,
-      [SCROLLABLE_SCROLLBAR_ACTIVE_CLASS]: !!this.expanded,
+      [SCROLLABLE_SCROLLBAR_ACTIVE_CLASS]: !!this.state.expanded,
       [HOVER_ENABLED_STATE]: !!this.hoverStateEnabled
     };
     return combineClasses(classesMap);
@@ -617,7 +549,7 @@ export class Scrollbar extends InfernoComponent {
   }
 
   get isVisible() {
-    return this.props.showScrollbar !== "never" && this.containerToContentRatio < 1;
+    return this.props.showScrollbar !== "never" && this.containerToContentRatio < 1 && this.props.containerSize > 15;
   }
 
   get visible() {
@@ -631,14 +563,14 @@ export class Scrollbar extends InfernoComponent {
     }
 
     if (showScrollbar === "onHover") {
-      return this.visibility || this.props.isScrollableHovered || this.hovered;
+      return this.state.visibility || this.props.isScrollableHovered || this.state.hovered;
     }
 
     if (showScrollbar === "always") {
       return true;
     }
 
-    return forceVisibility || this.visibility || !!this.showOnScrollByWheel;
+    return forceVisibility || this.state.visibility || !!this.state.showOnScrollByWheel;
   }
 
   get hoverStateEnabled() {
@@ -650,10 +582,8 @@ export class Scrollbar extends InfernoComponent {
   }
 
   get restAttributes() {
-    var _this$props$pocketSta3 = _extends({}, this.props, {
-      pocketState: this.__state_pocketState
-    }),
-        restProps = _objectWithoutPropertiesLoose(_this$props$pocketSta3, _excluded);
+    var _this$props9 = this.props,
+        restProps = _objectWithoutPropertiesLoose(_this$props9, _excluded);
 
     return restProps;
   }
@@ -668,28 +598,15 @@ export class Scrollbar extends InfernoComponent {
     return element === this.scrollbarRef.current;
   }
 
-  validateEvent(e) {
+  validateEvent(event) {
     var {
       target
-    } = e.originalEvent;
+    } = event.originalEvent;
     return this.isThumb(target) || this.isScrollbar(target);
   }
 
-  reachedMin() {
-    return this.props.scrollLocation <= this.minOffset;
-  }
-
-  reachedMax() {
-    return this.props.scrollLocation >= this.maxOffset;
-  }
-
-  inBounds() {
-    return this.boundLocation() === this.props.scrollLocation;
-  }
-
-  boundLocation(value) {
-    var currentLocation = isDefined(value) ? value : this.props.scrollLocation;
-    return Math.max(Math.min(currentLocation, this.maxOffset), this.minOffset);
+  getLocationWithinRange(value) {
+    return Math.max(Math.min(value, this.maxOffset), this.minOffset);
   }
 
   getMinOffset() {
@@ -700,13 +617,15 @@ export class Scrollbar extends InfernoComponent {
     return this.maxOffset;
   }
 
-  initHandler(e, crossThumbScrolling) {
-    this.stopScrolling();
-    this.prepareThumbScrolling(e, crossThumbScrolling);
+  initHandler(event, crossThumbScrolling) {
+    this.cancelScrolling();
+    this.prepareThumbScrolling(event, crossThumbScrolling);
   }
 
   startHandler() {
-    this.set_visibility(() => true);
+    this.setState(state => _extends({}, state, {
+      visibility: true
+    }));
   }
 
   moveHandler(delta) {
@@ -747,48 +666,64 @@ export class Scrollbar extends InfernoComponent {
 
   scrollComplete() {
     if (this.props.forceGeneratePockets) {
-      if (this.inBounds()) {
-        if (this.__state_pocketState === TopPocketState.STATE_READY) {
+      if (this.inRange()) {
+        if (this.props.pocketState === TopPocketState.STATE_READY) {
           this.pullDownRefreshing();
           return;
         }
 
-        if (this.__state_pocketState === TopPocketState.STATE_LOADING) {
+        if (this.props.pocketState === TopPocketState.STATE_LOADING) {
           this.reachBottomLoading();
           return;
         }
       }
     }
 
+    if (this.inRange()) {
+      var _this$props$onEnd, _this$props10;
+
+      this.hide();
+      (_this$props$onEnd = (_this$props10 = this.props).onEnd) === null || _this$props$onEnd === void 0 ? void 0 : _this$props$onEnd.call(_this$props10, this.props.direction);
+      return;
+    }
+
     this.scrollToBounds();
   }
-
-  stopComplete() {}
 
   scrollStep(delta) {
     if (this.props.bounceEnabled) {
       this.moveTo(this.props.scrollLocation + delta);
     } else {
-      this.moveTo(this.boundLocation(this.props.scrollLocation + delta));
+      this.moveTo(this.getLocationWithinRange(this.props.scrollLocation + delta));
     }
   }
 
   moveTo(location) {
-    var _this$props$scrollLoc, _this$props10;
+    var _this$props$scrollLoc, _this$props11;
 
-    (_this$props$scrollLoc = (_this$props10 = this.props).scrollLocationChange) === null || _this$props$scrollLoc === void 0 ? void 0 : _this$props$scrollLoc.call(_this$props10, this.fullScrollProp, location);
+    var scrollDelta = Math.abs(this.prevScrollLocation - location);
+    (_this$props$scrollLoc = (_this$props11 = this.props).scrollLocationChange) === null || _this$props$scrollLoc === void 0 ? void 0 : _this$props$scrollLoc.call(_this$props11, this.fullScrollProp, location);
     this.updateContent(location);
 
+    if (scrollDelta >= 1) {
+      var _this$props$onScroll, _this$props12;
+
+      (_this$props$onScroll = (_this$props12 = this.props).onScroll) === null || _this$props$onScroll === void 0 ? void 0 : _this$props$onScroll.call(_this$props12);
+    }
+
+    this.prevScrollLocation = location;
+    this.rightScrollLocation = this.minOffset - location;
+
     if (this.props.forceGeneratePockets) {
-      if (this.isPullDown()) {
-        if (this.__state_pocketState !== TopPocketState.STATE_READY) {
+      if (this.isPullDown) {
+        if (this.props.pocketState !== TopPocketState.STATE_READY) {
           this.setPocketState(TopPocketState.STATE_READY);
         }
       } else if (this.isReachBottom()) {
-        if (this.__state_pocketState !== TopPocketState.STATE_LOADING) {
+        if (this.props.pocketState !== TopPocketState.STATE_LOADING) {
           this.setPocketState(TopPocketState.STATE_LOADING);
         }
-      } else if (this.__state_pocketState !== TopPocketState.STATE_RELEASED) {
+      } else if (this.props.pocketState !== TopPocketState.STATE_RELEASED) {
         this.stateReleased();
       }
     }
@@ -801,23 +736,22 @@ export class Scrollbar extends InfernoComponent {
   render() {
     var props = this.props;
     return viewFunction({
-      props: _extends({}, props, {
-        pocketState: this.__state_pocketState
-      }),
-      showOnScrollByWheel: this.showOnScrollByWheel,
-      hovered: this.hovered,
-      expanded: this.expanded,
-      visibility: this.visibility,
-      boundaryOffset: this.boundaryOffset,
-      maxOffset: this.maxOffset,
+      props: _extends({}, props),
+      pendingPullDown: this.state.pendingPullDown,
+      showOnScrollByWheel: this.state.showOnScrollByWheel,
+      hovered: this.state.hovered,
+      expanded: this.state.expanded,
+      visibility: this.state.visibility,
       scrollbarRef: this.scrollbarRef,
       scrollRef: this.scrollRef,
+      hide: this.hide,
+      inRange: this.inRange,
       axis: this.axis,
       scrollProp: this.scrollProp,
       fullScrollProp: this.fullScrollProp,
       dimension: this.dimension,
       isHorizontal: this.isHorizontal,
-      hide: this.hide,
+      clearHideScrollbarTimer: this.clearHideScrollbarTimer,
       onInertiaAnimatorStart: this.onInertiaAnimatorStart,
       onBounceAnimatorStart: this.onBounceAnimatorStart,
       pullDownRefreshing: this.pullDownRefreshing,
@@ -827,11 +761,12 @@ export class Scrollbar extends InfernoComponent {
       scrollToBounds: this.scrollToBounds,
       resetThumbScrolling: this.resetThumbScrolling,
       scrollBy: this.scrollBy,
-      stopScrolling: this.stopScrolling,
+      cancelScrolling: this.cancelScrolling,
       onAnimatorCancel: this.onAnimatorCancel,
       prepareThumbScrolling: this.prepareThumbScrolling,
       moveToMouseLocation: this.moveToMouseLocation,
       updateContent: this.updateContent,
+      maxOffset: this.maxOffset,
       release: this.release,
       stateReleased: this.stateReleased,
       onRelease: this.onRelease,

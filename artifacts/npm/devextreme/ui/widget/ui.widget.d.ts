@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/widget/ui.widget.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,15 +11,11 @@ import DOMComponent, {
 } from '../../core/dom_component';
 
 import {
-    UserDefinedElement
-} from '../../core/element';
-
-import {
     EventInfo
 } from '../../events/index';
 
 /** @namespace DevExpress.ui */
-export interface WidgetOptions<T = Widget> extends DOMComponentOptions<T> {
+export interface WidgetOptions<TComponent> extends DOMComponentOptions<TComponent> {
     /**
      * @docid
      * @default undefined
@@ -66,7 +62,7 @@ export interface WidgetOptions<T = Widget> extends DOMComponentOptions<T> {
      * @action
      * @public
      */
-    onContentReady?: ((e: EventInfo<T>) => void);
+    onContentReady?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default 0
@@ -88,8 +84,7 @@ export interface WidgetOptions<T = Widget> extends DOMComponentOptions<T> {
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class Widget extends DOMComponent {
-    constructor(element: UserDefinedElement, options?: WidgetOptions)
+export default class Widget<TProperties> extends DOMComponent<TProperties> {
     /**
      * @docid
      * @publicName focus()

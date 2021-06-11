@@ -263,7 +263,16 @@ var Scrollable = _dom_component.default.inherit({
 
     this._updateIfNeed();
 
+    return this._moveIsAllowed(e);
+  },
+  _moveIsAllowed: function _moveIsAllowed(e) {
     return this._strategy.validate(e);
+  },
+  handleMove: function handleMove(e) {
+    this._strategy.handleMove(e);
+  },
+  _prepareDirections: function _prepareDirections(value) {
+    this._strategy._prepareDirections(value);
   },
   _initHandler: function _initHandler() {
     var strategy = this._strategy;
@@ -442,6 +451,9 @@ var Scrollable = _dom_component.default.inherit({
   },
   content: function content() {
     return (0, _element.getPublicElement)(this._$content);
+  },
+  container: function container() {
+    return (0, _element.getPublicElement)(this._$container);
   },
   scrollOffset: function scrollOffset() {
     return this._getScrollOffset();

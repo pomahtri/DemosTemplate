@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/dialog.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ exports.confirm = exports.alert = exports.custom = exports.title = exports.FakeD
 
 var _renderer = _interopRequireDefault(require("../core/renderer"));
 
-var _component = _interopRequireDefault(require("../core/component"));
+var _component = require("../core/component");
 
 var _action = _interopRequireDefault(require("../core/action"));
 
@@ -66,7 +66,7 @@ var DX_DIALOG_BUTTONS_CLASSNAME = "".concat(DX_DIALOG_CLASSNAME, "-buttons");
 var DX_DIALOG_BUTTON_CLASSNAME = "".concat(DX_DIALOG_CLASSNAME, "-button");
 var DX_BUTTON_CLASSNAME = 'dx-button';
 
-var FakeDialogComponent = _component.default.inherit({
+var FakeDialogComponent = _component.Component.inherit({
   ctor: function ctor(element, options) {
     this.callBase(options);
   },

@@ -4,7 +4,7 @@ import eventsEngine from '../../events/core/events_engine';
 import { addNamespace } from '../../events/utils/index';
 import { name as clickEventName } from '../../events/click';
 import { getImageContainer } from '../../core/utils/icon';
-import Overlay from '../overlay';
+import Overlay from '../overlay/ui.overlay';
 import { render } from '../widget/utils.ink_ripple';
 import { isMaterial } from '../themes';
 var FAB_CLASS = 'dx-fa-button';
@@ -120,14 +120,6 @@ class SpeedDialItem extends Overlay {
     this._$wrapper.css('zIndex', zIndex);
 
     this._$content.css('zIndex', zIndex);
-  }
-
-  _fixWrapperPosition() {
-    var $wrapper = this._$wrapper;
-
-    var $container = this._getContainer();
-
-    $wrapper.css('position', this._isWindow($container) ? 'fixed' : 'absolute');
   }
 
   _setClickAction() {

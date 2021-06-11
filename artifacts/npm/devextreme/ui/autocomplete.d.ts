@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/autocomplete.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import {
     EventInfo,
     NativeEventInfo,
@@ -18,12 +14,9 @@ import {
     ItemInfo
 } from '../events/index';
 
-import {
-    SelectionChangedInfo,
-} from './collection/ui.collection_widget.base';
-
 import dxDropDownList, {
-    dxDropDownListOptions
+    dxDropDownListOptions,
+    SelectionChangedInfo
 } from './drop_down_editor/ui.drop_down_list';
 
 import {
@@ -33,6 +26,10 @@ import {
 import {
     ValueChangedInfo
 } from './editor/editor';
+
+import {
+    Properties as PopupProperties
+} from './popup';
 
 /** @public */
 export type ChangeEvent = NativeEventInfo<dxAutocomplete>;
@@ -126,6 +123,12 @@ export interface dxAutocompleteOptions extends dxDropDownListOptions<dxAutocompl
      * @public
      */
     value?: string;
+
+    /**
+     * @docid
+     * @type dxPopupOptions
+     */
+    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -136,9 +139,7 @@ export interface dxAutocompleteOptions extends dxDropDownListOptions<dxAutocompl
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxAutocomplete extends dxDropDownList {
-    constructor(element: UserDefinedElement, options?: dxAutocompleteOptions)
-}
+export default class dxAutocomplete extends dxDropDownList<dxAutocompleteOptions> { }
 
 /** @public */
 export type Properties = dxAutocompleteOptions;

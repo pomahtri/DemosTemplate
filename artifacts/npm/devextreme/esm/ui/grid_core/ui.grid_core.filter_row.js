@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.filter_row.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -16,7 +16,7 @@ import modules from './ui.grid_core.modules';
 import gridCoreUtils from './ui.grid_core.utils';
 import messageLocalization from '../../localization/message';
 import Editor from '../editor/editor';
-import Overlay from '../overlay';
+import Overlay from '../overlay/ui.overlay';
 import Menu from '../menu';
 import { selectView } from '../shared/accessibility';
 var OPERATION_ICONS = {

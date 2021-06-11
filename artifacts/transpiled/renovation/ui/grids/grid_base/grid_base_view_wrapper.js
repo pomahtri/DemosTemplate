@@ -8,7 +8,7 @@ var _vdom = require("@devextreme/vdom");
 
 var _renderer = _interopRequireDefault(require("../../../../core/renderer"));
 
-var _excluded = ["view"];
+var _excluded = ["onRendered", "view"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56,13 +56,14 @@ var GridBaseViewWrapper = /*#__PURE__*/function (_InfernoComponent) {
     return [new _vdom.InfernoEffect(this.renderView, [])];
   };
 
-  _proto.updateEffects = function updateEffects() {};
-
   _proto.renderView = function renderView() {
+    var _this$props$onRendere, _this$props;
+
     var $element = (0, _renderer.default)(this.viewRef.current);
     this.props.view._$element = $element;
     this.props.view._$parent = $element.parent();
     this.props.view.render();
+    (_this$props$onRendere = (_this$props = this.props).onRendered) === null || _this$props$onRendere === void 0 ? void 0 : _this$props$onRendere.call(_this$props);
   };
 
   _proto.render = function render() {
@@ -77,9 +78,10 @@ var GridBaseViewWrapper = /*#__PURE__*/function (_InfernoComponent) {
   _createClass(GridBaseViewWrapper, [{
     key: "restAttributes",
     get: function get() {
-      var _this$props = this.props,
-          view = _this$props.view,
-          restProps = _objectWithoutProperties(_this$props, _excluded);
+      var _this$props2 = this.props,
+          onRendered = _this$props2.onRendered,
+          view = _this$props2.view,
+          restProps = _objectWithoutProperties(_this$props2, _excluded);
 
       return restProps;
     }

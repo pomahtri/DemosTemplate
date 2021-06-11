@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.columns_view.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -249,7 +249,6 @@ export var ColumnsView = modules.View.inherit(columnStateMixin).inherit({
         var columnIndex = $cell.index();
         var cellOptions = rowOptions && rowOptions.cells && rowOptions.cells[columnIndex];
         var column = cellOptions ? cellOptions.column : visibleColumns[columnIndex];
-        var msieCorrection = browser.msie ? 1 : 0;
 
         if (!isMasterDetailRow && !isFilterRow && (!isDataRow || isDataRow && column && !column.cellTemplate) && (!isHeaderRow || isHeaderRow && column && !column.headerCellTemplate) && (!isGroupRow || isGroupRow && column && (column.groupIndex === undefined || !column.groupCellTemplate))) {
           if ($element.data(CELL_HINT_VISIBLE)) {
@@ -257,7 +256,7 @@ export var ColumnsView = modules.View.inherit(columnStateMixin).inherit({
             $element.data(CELL_HINT_VISIBLE, false);
           }
 
-          var difference = $element[0].scrollWidth - $element[0].clientWidth - msieCorrection; // T598499
+          var difference = $element[0].scrollWidth - $element[0].clientWidth; // T598499
 
           if (difference > 0 && !isDefined($element.attr('title'))) {
             $element.attr('title', $element.text());

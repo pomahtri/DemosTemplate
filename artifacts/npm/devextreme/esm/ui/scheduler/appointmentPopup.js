@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointmentPopup.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -146,7 +146,8 @@ export default class AppointmentPopup {
     var result = extend(true, {
       repeat: !!appointment.recurrenceRule
     }, rawAppointment);
-    each(this.scheduler._resourcesManager.getResourcesFromItem(result, true) || {}, (name, value) => result[name] = value);
+    var resourceManager = this.scheduler.fire('getResourceManager');
+    each(resourceManager.getResourcesFromItem(result, true) || {}, (name, value) => result[name] = value);
     return result;
   }
 
@@ -167,7 +168,8 @@ export default class AppointmentPopup {
     AppointmentForm.prepareAppointmentFormEditors(expr, this.scheduler, this.triggerResize.bind(this), this.changeSize.bind(this), formData, allowTimeZoneEditing, readOnly);
 
     if (resources && resources.length) {
-      AppointmentForm.concatResources(this.scheduler._resourcesManager.getEditors());
+      var resourceManager = this.scheduler.fire('getResourceManager');
+      AppointmentForm.concatResources(resourceManager.getEditors());
     }
 
     return AppointmentForm.create(this.scheduler._createComponent.bind(this.scheduler), element, readOnly, formData);
@@ -175,7 +177,7 @@ export default class AppointmentPopup {
 
   _getAllowTimeZoneEditing() {
     var scheduler = this.scheduler;
-    return scheduler.option('editing.allowTimeZoneEditing') || scheduler.option('editing.allowEditingTimeZones');
+    return scheduler.option('editing.allowTimeZoneEditing');
   }
 
   _isReadOnly(rawAppointment) {
@@ -399,8 +401,9 @@ export default class AppointmentPopup {
           var startTime = startDate.getTime();
           var endTime = endDate.getTime();
           var inAllDayRow = allDay || endTime - startTime >= DAY_IN_MS;
+          var resourceManager = this.scheduler.fire('getResourceManager');
 
-          this.scheduler._workSpace.updateScrollPosition(startDate, this.scheduler._resourcesManager.getResourcesFromItem(this.state.lastEditData, true), inAllDayRow);
+          this.scheduler._workSpace.updateScrollPosition(startDate, resourceManager.getResourcesFromItem(this.state.lastEditData, true), inAllDayRow);
 
           this.state.lastEditData = null;
         }

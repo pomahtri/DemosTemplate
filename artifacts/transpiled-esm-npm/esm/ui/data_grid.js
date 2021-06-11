@@ -1,2 +1,2 @@
-import DataGrid from './data_grid/ui.data_grid';
-export default DataGrid;
+import Widget from '../renovation/ui/grids/data_grid/data_grid.j';
+export default Widget;

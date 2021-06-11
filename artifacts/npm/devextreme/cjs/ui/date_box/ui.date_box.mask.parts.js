@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/date_box/ui.date_box.mask.parts.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -17,8 +17,6 @@ var _extend = require("../../core/utils/extend");
 var _math = require("../../core/utils/math");
 
 var _common = require("../../core/utils/common");
-
-var _this = void 0;
 
 var monthGetter = function monthGetter(date) {
   return date.getMonth() + 1;
@@ -109,7 +107,7 @@ var renderDateParts = function renderDateParts(text, regExpInfo) {
   var end = 0;
   var sections = [];
 
-  for (var i = 1; i < result.length; i++) {
+  var _loop = function _loop(i) {
     start = end;
     end = start + result[i].length;
     var pattern = regExpInfo.patterns[i - 1].replace(/^'|'$/g, '');
@@ -123,10 +121,20 @@ var renderDateParts = function renderDateParts(text, regExpInfo) {
       },
       pattern: pattern,
       text: result[i],
-      limits: getLimits.bind(_this, pattern[0]),
+      limits: function limits() {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        return getLimits.apply(void 0, [pattern[0]].concat(args));
+      },
       setter: PATTERN_SETTERS[pattern[0]] || _common.noop,
       getter: getter
     });
+  };
+
+  for (var i = 1; i < result.length; i++) {
+    _loop(i);
   }
 
   return sections;
