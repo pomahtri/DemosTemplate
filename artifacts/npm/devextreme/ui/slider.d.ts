@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/slider.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -58,10 +62,12 @@ export interface dxSliderOptions extends dxSliderBaseOptions<dxSlider> {
  * @inherits dxSliderBase
  * @module ui/slider
  * @export default
- * @namespace DevExpress.ui
+* @namespace DevExpress.ui
  * @public
  */
-export default class dxSlider extends dxTrackBar<dxSliderOptions> { }
+export default class dxSlider extends dxTrackBar {
+    constructor(element: UserDefinedElement, options?: dxSliderOptions)
+}
 
 /**
  * @docid dxSliderBase
@@ -69,7 +75,7 @@ export default class dxSlider extends dxTrackBar<dxSliderOptions> { }
  * @hidden
  * @namespace DevExpress.ui
  */
-export interface dxSliderBaseOptions<TComponent> extends dxTrackBarOptions<TComponent> {
+export interface dxSliderBaseOptions<T> extends dxTrackBarOptions<T> {
     /**
      * @docid
      * @default true

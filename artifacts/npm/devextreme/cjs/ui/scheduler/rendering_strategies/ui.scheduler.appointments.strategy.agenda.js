@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/rendering_strategies/ui.scheduler.appointments.strategy.agenda.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -17,10 +17,6 @@ var _iterator = require("../../../core/utils/iterator");
 var _array = require("../../../core/utils/array");
 
 var _uiSchedulerAppointmentsStrategy = _interopRequireDefault(require("./ui.scheduler.appointments.strategy.base"));
-
-var _resourceManager = require("../resources/resourceManager");
-
-var _appointmentDataProvider = require("../appointments/DataProvider/appointmentDataProvider");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,17 +45,13 @@ var AgendaRenderingStrategy = /*#__PURE__*/function (_BaseRenderingStrateg) {
     return geometry;
   };
 
-  _proto.groupAppointmentByResources = function groupAppointmentByResources(appointments) {
-    return (0, _resourceManager.getResourceManager)().groupAppointmentsByResources(appointments, this.instance._getCurrentViewOption('groups'));
-  };
-
   _proto.createTaskPositionMap = function createTaskPositionMap(appointments) {
     var height;
     var appointmentsByResources;
 
     if (appointments.length) {
       height = this.instance.fire('getAgendaVerticalStepHeight');
-      appointmentsByResources = this.groupAppointmentByResources(appointments);
+      appointmentsByResources = this.instance.fire('groupAppointmentsByResources', appointments);
       var groupedAppts = [];
       (0, _iterator.each)(appointmentsByResources, function (i, appts) {
         var additionalAppointments = [];
@@ -177,9 +169,9 @@ var AgendaRenderingStrategy = /*#__PURE__*/function (_BaseRenderingStrateg) {
 
   _proto.calculateRows = function calculateRows(appointments, agendaDuration, currentDate, needClearSettings) {
     this._rows = [];
+    var groupedAppointments = this.instance.fire('groupAppointmentsByResources', appointments);
     currentDate = _date.default.trimTime(new Date(currentDate));
-    var groupedAppointments = this.groupAppointmentByResources(appointments);
-    (0, _iterator.each)(groupedAppointments, function (_, currentAppointments) {
+    (0, _iterator.each)(groupedAppointments, function (groupIndex, currentAppointments) {
       var groupResult = [];
       var appts = {
         indexes: [],
@@ -195,7 +187,7 @@ var AgendaRenderingStrategy = /*#__PURE__*/function (_BaseRenderingStrateg) {
       (0, _iterator.each)(currentAppointments, function (index, appointment) {
         var startDate = this.instance.fire('getField', 'startDate', appointment);
         var endDate = this.instance.fire('getField', 'endDate', appointment);
-        (0, _appointmentDataProvider.getAppointmentDataProvider)().replaceWrongEndDate(appointment, startDate, endDate);
+        this.instance.fire('replaceWrongEndDate', appointment, startDate, endDate);
         needClearSettings && delete appointment.settings;
 
         var result = this.instance.getAppointmentsInstance()._processRecurrenceAppointment(appointment, index, false);
@@ -219,7 +211,7 @@ var AgendaRenderingStrategy = /*#__PURE__*/function (_BaseRenderingStrateg) {
 
         for (var j = 0; j < appointmentCount; j++) {
           var appointmentData = currentAppointments[j].settings || currentAppointments[j];
-          var appointmentIsLong = (0, _appointmentDataProvider.getAppointmentDataProvider)().appointmentTakesSeveralDays(currentAppointments[j]);
+          var appointmentIsLong = this.instance.fire('appointmentTakesSeveralDays', currentAppointments[j]);
           var appointmentIsRecurrence = this.instance.fire('getField', 'recurrenceRule', currentAppointments[j]);
 
           if (this.instance.fire('dayHasAppointment', day, appointmentData, true) || !appointmentIsRecurrence && appointmentIsLong && this.instance.fire('dayHasAppointment', day, currentAppointments[j], true)) {

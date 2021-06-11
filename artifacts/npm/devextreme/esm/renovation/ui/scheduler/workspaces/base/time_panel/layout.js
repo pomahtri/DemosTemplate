@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/base/time_panel/layout.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -87,7 +87,6 @@ export var TimePanelTableLayoutProps = {
     bottomVirtualRowCount: 0
   }
 };
-import { createReRenderEffect } from "@devextreme/vdom";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
 
@@ -95,10 +94,6 @@ export class TimePanelTableLayout extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  createEffects() {
-    return [createReRenderEffect()];
   }
 
   get topVirtualRowHeight() {

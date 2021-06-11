@@ -22,12 +22,6 @@ var _date = _interopRequireDefault(require("../../../localization/date"));
 
 var _table_creator = _interopRequireDefault(require("../table_creator"));
 
-var _classes = require("../classes");
-
-var _resourceManager = require("../resources/resourceManager");
-
-var _appointmentDataProvider = require("../appointments/DataProvider/appointmentDataProvider");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -176,8 +170,8 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   _proto._initWorkSpaceUnits = function _initWorkSpaceUnits() {
     this._initGroupTable();
 
-    this._$timePanel = (0, _renderer.default)('<table>').addClass(_classes.TIME_PANEL_CLASS);
-    this._$dateTable = (0, _renderer.default)('<table>').addClass(_classes.DATE_TABLE_CLASS);
+    this._$timePanel = (0, _renderer.default)('<table>').addClass(this._getTimePanelClass());
+    this._$dateTable = (0, _renderer.default)('<table>').addClass(this._getDateTableClass());
   };
 
   _proto._initGroupTable = function _initGroupTable() {
@@ -307,19 +301,16 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   };
 
   _proto._makeGroupRows = function _makeGroupRows() {
-    var _getAppointmentDataPr = (0, _appointmentDataProvider.getAppointmentDataProvider)(),
-        filteredItems = _getAppointmentDataPr.filteredItems; // TODO refactoring
-
-
-    var tree = (0, _resourceManager.getResourceManager)().createReducedResourcesTree(filteredItems); // TODO refactoring
-
+    var tree = this.invoke('createReducedResourcesTree');
     var cellTemplate = this.option('resourceCellTemplate');
-    var getGroupHeaderContentClass = _classes.GROUP_HEADER_CONTENT_CLASS;
+
+    var getGroupHeaderContentClass = this._getGroupHeaderContentClass();
+
     var cellTemplates = [];
     var table = tableCreator.makeGroupedTableFromJSON(tableCreator.VERTICAL, tree, {
       cellTag: 'th',
       groupTableClass: GROUP_TABLE_CLASS,
-      groupRowClass: _classes.GROUP_ROW_CLASS,
+      groupRowClass: this._getGroupRowClass(),
       groupCellClass: this._getGroupHeaderClass(),
       groupCellCustomContent: function groupCellCustomContent(cell, cellText, index, data) {
         var container = _dom_adapter.default.createElement('div');
@@ -352,7 +343,7 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
       cellTemplate: cellTemplate
     });
     return {
-      elements: (0, _renderer.default)(table).find(".".concat(_classes.GROUP_ROW_CLASS)),
+      elements: (0, _renderer.default)(table).find('.' + this._getGroupRowClass()),
       cellTemplates: cellTemplates
     };
   };
@@ -392,7 +383,7 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
   _proto._renderDateTable = function _renderDateTable() {
     this._renderTableBody({
       container: (0, _element.getPublicElement)(this._$dateTable),
-      rowClass: _classes.DATE_TABLE_ROW_CLASS,
+      rowClass: this._getDateTableRowClass(),
       cellClass: this._getDateTableCellClass()
     });
   };
@@ -417,7 +408,7 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
     var groupsOpt = this.option('groups');
     var groups = {};
     var isGroupedView = !!groupsOpt.length;
-    var path = isGroupedView && (0, _resourceManager.getResourceManager)()._getPathToLeaf(rowIndex, groupsOpt) || [];
+    var path = isGroupedView && this._getPathToLeaf(rowIndex) || [];
     path.forEach(function (resourceValue, resourceIndex) {
       var resourceName = groupsOpt[resourceIndex].name;
       groups[resourceName] = resourceValue;
@@ -619,12 +610,6 @@ var SchedulerAgenda = /*#__PURE__*/function (_WorkSpace) {
 
     return isUpdateNeeded;
   };
-
-  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
-    return false;
-  };
-
-  _proto._setSelectedCellsByCellData = function _setSelectedCellsByCellData() {};
 
   _createClass(SchedulerAgenda, [{
     key: "renderingStrategy",

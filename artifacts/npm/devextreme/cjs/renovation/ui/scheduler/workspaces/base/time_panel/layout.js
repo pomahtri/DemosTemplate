@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/base/time_panel/layout.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -124,10 +124,6 @@ var TimePanelTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }
 
   var _proto = TimePanelTableLayout.prototype;
-
-  _proto.createEffects = function createEffects() {
-    return [(0, _vdom.createReRenderEffect)()];
-  };
 
   _proto.render = function render() {
     var props = this.props;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/page_size/large.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -68,6 +68,7 @@ var PageSizeLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.state = {
       pageSize: _this.props.pageSize !== undefined ? _this.props.pageSize : _this.props.defaultPageSize
     };
@@ -77,22 +78,29 @@ var PageSizeLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = PageSizeLarge.prototype;
 
-  _proto.onPageSizeChange = function onPageSizeChange(processedPageSize) {
+  _proto.set_pageSize = function set_pageSize(value) {
     var _this2 = this;
 
+    this.setState(function (state) {
+      var _this2$props$pageSize, _this2$props;
+
+      _this2._currentState = state;
+      var newValue = value();
+      (_this2$props$pageSize = (_this2$props = _this2.props).pageSizeChange) === null || _this2$props$pageSize === void 0 ? void 0 : _this2$props$pageSize.call(_this2$props, newValue);
+      _this2._currentState = null;
+      return {
+        pageSize: newValue
+      };
+    });
+  };
+
+  _proto.onPageSizeChange = function onPageSizeChange(processedPageSize) {
+    var _this3 = this;
+
     return function () {
-      {
-        var __newValue;
-
-        _this2.setState(function (state) {
-          __newValue = processedPageSize;
-          return {
-            pageSize: __newValue
-          };
-        });
-
-        _this2.props.pageSizeChange(__newValue);
-      }
+      _this3.set_pageSize(function () {
+        return processedPageSize;
+      });
     };
   };
 
@@ -100,7 +108,7 @@ var PageSizeLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+        pageSize: this.__state_pageSize
       }),
       pageSizesText: this.pageSizesText,
       restAttributes: this.restAttributes
@@ -108,19 +116,25 @@ var PageSizeLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
   };
 
   _createClass(PageSizeLarge, [{
+    key: "__state_pageSize",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
+    }
+  }, {
     key: "pageSizesText",
     get: function get() {
-      var _this3 = this;
+      var _this4 = this;
 
       var pageSizes = this.props.pageSizes;
       return pageSizes.map(function (_ref3) {
         var text = _ref3.text,
             processedPageSize = _ref3.value;
-        var selected = processedPageSize === (_this3.props.pageSize !== undefined ? _this3.props.pageSize : _this3.state.pageSize);
+        var selected = processedPageSize === _this4.__state_pageSize;
         var className = selected ? _consts.PAGER_SELECTED_PAGE_SIZE_CLASS : _consts.PAGER_PAGE_SIZE_CLASS;
         return {
           className: className,
-          click: _this3.onPageSizeChange(processedPageSize),
+          click: _this4.onPageSizeChange(processedPageSize),
           label: "Display ".concat(processedPageSize, " items on page"),
           text: text
         };
@@ -130,7 +144,7 @@ var PageSizeLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageSize = _extends({}, this.props, {
-        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+        pageSize: this.__state_pageSize
       }),
           defaultPageSize = _this$props$pageSize.defaultPageSize,
           pageSize = _this$props$pageSize.pageSize,

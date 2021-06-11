@@ -329,6 +329,10 @@ var SchedulerWorkSpaceMonth = /*#__PURE__*/function (_SchedulerWorkSpace) {
     return true;
   };
 
+  _proto._getDateTableBorderOffset = function _getDateTableBorderOffset() {
+    return this._getDateTableBorder();
+  };
+
   _proto._getCellPositionByIndex = function _getCellPositionByIndex(index, groupIndex) {
     var position = _SchedulerWorkSpace.prototype._getCellPositionByIndex.call(this, index, groupIndex);
 
@@ -365,6 +369,10 @@ var SchedulerWorkSpaceMonth = /*#__PURE__*/function (_SchedulerWorkSpace) {
 
   _proto._getRowCountWithAllDayRows = function _getRowCountWithAllDayRows() {
     return this._getRowCount();
+  };
+
+  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
+    return true;
   };
 
   _proto.renderRAllDayPanel = function renderRAllDayPanel() {};

@@ -1,6 +1,6 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-var _excluded = ["pocketState", "pocketTop", "pullDownIconAngle", "pullDownOpacity", "pullDownTranslateTop", "pulledDownText", "pullingDownText", "refreshStrategy", "refreshingText", "topPocketRef", "topPocketTranslateTop", "visible"];
+var _excluded = ["pocketState", "pocketTop", "pullDownIconAngle", "pullDownOpacity", "pullDownTop", "pullDownTranslateTop", "pulledDownText", "pullingDownText", "refreshStrategy", "refreshingText", "topPocketRef", "topPocketTranslateTop", "visible"];
 import { createVNode, createComponentVNode } from "inferno";
 import { BaseInfernoComponent, normalizeStyles } from "@devextreme/vdom";
 import { LoadIndicator } from "../load_indicator";
@@ -25,10 +25,9 @@ export var viewFunction = viewModel => {
     refreshVisibleClass,
     refreshingText,
     releaseVisibleClass,
-    topPocketClasses,
     topPocketStyles
   } = viewModel;
-  return createVNode(1, "div", topPocketClasses, createVNode(1, "div", pullDownClasses, [refreshStrategy !== "swipeDown" && createVNode(1, "div", SCROLLVIEW_PULLDOWN_IMAGE_CLASS), refreshStrategy === "swipeDown" && createVNode(1, "div", PULLDOWN_ICON_CLASS, null, 1, {
+  return createVNode(1, "div", SCROLLVIEW_TOP_POCKET_CLASS, createVNode(1, "div", pullDownClasses, [refreshStrategy !== "swipeDown" && createVNode(1, "div", SCROLLVIEW_PULLDOWN_IMAGE_CLASS), refreshStrategy === "swipeDown" && createVNode(1, "div", PULLDOWN_ICON_CLASS, null, 1, {
     "style": normalizeStyles(pullDownIconStyles)
   }), createVNode(1, "div", SCROLLVIEW_PULLDOWN_INDICATOR_CLASS, createComponentVNode(2, LoadIndicator), 2), refreshStrategy !== "swipeDown" && createVNode(1, "div", SCROLLVIEW_PULLDOWN_TEXT_CLASS, [createVNode(1, "div", releaseVisibleClass, pullingDownText, 0), createVNode(1, "div", readyVisibleClass, pulledDownText, 0), createVNode(1, "div", refreshVisibleClass, refreshingText, 0)], 4)], 0, {
     "style": normalizeStyles(pullDownStyles)
@@ -38,6 +37,7 @@ export var viewFunction = viewModel => {
 };
 export var TopPocketProps = {
   pocketState: TopPocketState.STATE_RELEASED,
+  pullDownTop: 0,
   pullDownTranslateTop: 0,
   pullDownIconAngle: 0,
   pullDownOpacity: 0,
@@ -46,6 +46,7 @@ export var TopPocketProps = {
 };
 export var TopPocketPropsType = {
   pocketState: TopPocketProps.pocketState,
+  pullDownTop: TopPocketProps.pullDownTop,
   pullDownTranslateTop: TopPocketProps.pullDownTranslateTop,
   pullDownIconAngle: TopPocketProps.pullDownIconAngle,
   pullDownOpacity: TopPocketProps.pullDownOpacity,
@@ -123,14 +124,6 @@ export class TopPocket extends BaseInfernoComponent {
     return combineClasses(classesMap);
   }
 
-  get topPocketClasses() {
-    var classesMap = {
-      [SCROLLVIEW_TOP_POCKET_CLASS]: true,
-      "dx-state-invisible": !this.props.visible
-    };
-    return combineClasses(classesMap);
-  }
-
   get pullDownStyles() {
     if (this.props.refreshStrategy === "swipeDown") {
       return {
@@ -145,7 +138,7 @@ export class TopPocket extends BaseInfernoComponent {
   get topPocketStyles() {
     if (this.props.refreshStrategy === "pullDown") {
       return {
-        top: "".concat(-this.props.pocketTop, "px"),
+        top: "".concat(this.props.pocketTop, "px"),
         transform: "translate(0px, ".concat(this.props.topPocketTranslateTop, "px)")
       };
     }
@@ -178,7 +171,6 @@ export class TopPocket extends BaseInfernoComponent {
       pulledDownText: this.pulledDownText,
       refreshingText: this.refreshingText,
       pullDownClasses: this.pullDownClasses,
-      topPocketClasses: this.topPocketClasses,
       pullDownStyles: this.pullDownStyles,
       topPocketStyles: this.topPocketStyles,
       pullDownIconStyles: this.pullDownIconStyles,

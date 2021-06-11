@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/pivot_grid_field_chooser.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     DxEvent,
     EventInfo,
@@ -198,7 +202,8 @@ export interface dxPivotGridFieldChooserOptions extends WidgetOptions<dxPivotGri
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxPivotGridFieldChooser extends Widget<dxPivotGridFieldChooserOptions> {
+export default class dxPivotGridFieldChooser extends Widget {
+    constructor(element: UserDefinedElement, options?: dxPivotGridFieldChooserOptions)
     /**
      * @docid
      * @publicName applyChanges()

@@ -134,7 +134,8 @@ var DateBoxMask = DateBoxBase.inherit({
       originalEvent,
       alt
     } = _ref;
-    var key = originalEvent.data || originalEvent.key;
+    var key = originalEvent.data || (normalizeKeyName(originalEvent) === 'space' ? // IE11 (T972456)
+    ' ' : originalEvent.key);
     return typeof key === 'string' && key.length === 1 && !alt && !isCommandKeyPressed(originalEvent);
   },
 
@@ -635,13 +636,19 @@ var DateBoxMask = DateBoxBase.inherit({
   },
 
   _maskCompositionEndHandler(e) {
-    this._input().val(this._getDisplayedText(this._maskValue));
+    if (browser.msie && this._isSingleDigitKey(e)) {
+      var key = e.originalEvent.data;
 
-    this._selectNextPart();
+      this._processInputKey(key);
+    } else {
+      this._input().val(this._getDisplayedText(this._maskValue));
 
-    this._maskInputHandler = () => {
-      this._renderSelectedPart();
-    };
+      this._selectNextPart();
+
+      this._maskInputHandler = () => {
+        this._renderSelectedPart();
+      };
+    }
   },
 
   _maskPasteHandler(e) {

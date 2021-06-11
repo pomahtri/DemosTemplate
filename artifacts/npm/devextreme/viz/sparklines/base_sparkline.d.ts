@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/sparklines/base_sparkline.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -28,7 +28,7 @@ import BaseWidget, {
 } from '../core/base_widget';
 
 /** @namespace DevExpress.viz */
-export interface BaseSparklineOptions<TComponent> extends BaseWidgetOptions<TComponent> {
+export interface BaseSparklineOptions<T = BaseSparkline> extends BaseWidgetOptions<T> {
     /**
      * @docid
      * @type object
@@ -52,7 +52,7 @@ export interface BaseSparklineOptions<TComponent> extends BaseWidgetOptions<TCom
      * @action
      * @public
      */
-    onTooltipHidden?: ((e: EventInfo<TComponent>) => void);
+    onTooltipHidden?: ((e: EventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -64,7 +64,7 @@ export interface BaseSparklineOptions<TComponent> extends BaseWidgetOptions<TCom
      * @action
      * @public
      */
-    onTooltipShown?: ((e: EventInfo<TComponent>) => void);
+    onTooltipShown?: ((e: EventInfo<T>) => void);
     /**
      * @docid
      * @hidden
@@ -122,7 +122,9 @@ export interface BaseSparklineTooltip extends BaseWidgetTooltip {
  * @inherits BaseWidget
  * @namespace DevExpress.viz
  */
-export default class BaseSparkline<TProperties> extends BaseWidget<TProperties> {
+export default class BaseSparkline extends BaseWidget {
+    constructor(element: UserDefinedElement, options?: BaseSparklineOptions)
+
     /**
      * @docid
      * @publicName hideLoadingIndicator()

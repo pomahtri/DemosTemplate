@@ -16,7 +16,7 @@ var _position = require("../../../core/utils/position");
 
 var _window = require("../../../core/utils/window");
 
-var _classes = require("../classes");
+var _constants = require("../constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -253,7 +253,7 @@ var SchedulerWorkSpaceIndicator = /*#__PURE__*/function (_SchedulerWorkSpace) {
     var cellClass = _SchedulerWorkSpace.prototype._getHeaderPanelCellClass.call(this, i);
 
     if (this._isCurrentTimeHeaderCell(i)) {
-      return cellClass + ' ' + _classes.HEADER_CURRENT_TIME_CELL_CLASS;
+      return cellClass + ' ' + _constants.HEADER_CURRENT_TIME_CELL_CLASS;
     }
 
     return cellClass;

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/localization/open_xml_currency_format.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED

@@ -210,7 +210,9 @@ var BaseMaskStrategy = /*#__PURE__*/function () {
 
     var result = false;
 
-    if (_browser.default.webkit) {
+    if (_browser.default.msie && _browser.default.version > 11) {
+      result = $input.hasClass('edge-autofilled');
+    } else if (_browser.default.webkit) {
       var input = $input.get(0);
       result = input && input.matches(':-webkit-autofill');
     }

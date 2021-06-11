@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/number_box/number_box.base.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -106,7 +106,7 @@ var NumberBoxBase = TextEditor.inherit({
   },
   _isSupportInputMode: function _isSupportInputMode() {
     var version = parseFloat(browser.version);
-    return browser.chrome && version >= 66 || browser.safari && version >= 12;
+    return browser.chrome && version >= 66 || browser.safari && version >= 12 || browser.msie && version >= 75;
   },
   _defaultOptionsRules: function _defaultOptionsRules() {
     return this.callBase().concat([{
@@ -154,7 +154,8 @@ var NumberBoxBase = TextEditor.inherit({
   _keyPressHandler: function _keyPressHandler(e) {
     this.callBase(e);
     var char = getChar(e);
-    var validCharRegExp = /[\d.,eE\-+]/;
+    var validCharRegExp = /[\d.,eE\-+]|Subtract/; // Workaround for IE (T592690)
+
     var isInputCharValid = validCharRegExp.test(char);
 
     if (!isInputCharValid) {

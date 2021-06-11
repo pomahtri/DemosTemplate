@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/info.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -64,6 +64,7 @@ var InfoText = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.state = {
       pageIndex: _this.props.pageIndex !== undefined ? _this.props.pageIndex : _this.props.defaultPageIndex
     };
@@ -72,11 +73,27 @@ var InfoText = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = InfoText.prototype;
 
+  _proto.set_pageIndex = function set_pageIndex(value) {
+    var _this2 = this;
+
+    this.setState(function (state) {
+      _this2._currentState = state;
+      var newValue = value();
+
+      _this2.props.pageIndexChange(newValue);
+
+      _this2._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
+  };
+
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
       infoText: this.infoText,
       text: this.text,
@@ -85,6 +102,12 @@ var InfoText = /*#__PURE__*/function (_BaseInfernoComponent) {
   };
 
   _createClass(InfoText, [{
+    key: "__state_pageIndex",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
+    }
+  }, {
     key: "infoText",
     get: function get() {
       return this.props.infoText || _message.default.getFormatter("dxPager-infoText")();
@@ -95,13 +118,13 @@ var InfoText = /*#__PURE__*/function (_BaseInfernoComponent) {
       var _this$props = this.props,
           pageCount = _this$props.pageCount,
           totalCount = _this$props.totalCount;
-      return (0, _string.format)(this.infoText, ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + 1).toString(), pageCount.toString(), totalCount.toString());
+      return (0, _string.format)(this.infoText, (this.__state_pageIndex + 1).toString(), pageCount.toString(), totalCount.toString());
     }
   }, {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex = _extends({}, this.props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
           defaultPageIndex = _this$props$pageIndex.defaultPageIndex,
           infoText = _this$props$pageIndex.infoText,

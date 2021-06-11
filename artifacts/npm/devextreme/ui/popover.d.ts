@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/popover.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -15,7 +15,8 @@ import {
 } from '../animation/position';
 
 import {
-    UserDefinedElement
+    UserDefinedElement,
+    DxElement
 } from '../core/element';
 
 import {
@@ -67,7 +68,7 @@ export type TitleRenderedEvent = EventInfo<dxPopup> & TitleRenderedInfo;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxPopoverOptions<TComponent> extends dxPopupOptions<TComponent> {
+export interface dxPopoverOptions<T = dxPopover> extends dxPopupOptions<T> {
     /**
      * @docid
      * @default { show: { type: "fade", from: 0, to: 1 }, hide: { type: "fade", to: 0 } }
@@ -145,7 +146,7 @@ export interface dxPopoverOptions<TComponent> extends dxPopupOptions<TComponent>
     showTitle?: boolean;
     /**
      * @docid
-     * @default undefined
+     * @default Window
      * @public
      */
     target?: string | UserDefinedElement;
@@ -181,7 +182,8 @@ export interface dxPopoverAnimation extends dxPopupAnimation {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxPopover<TProperties = Properties> extends dxPopup<TProperties> {
+export default class dxPopover extends dxPopup {
+    constructor(element: UserDefinedElement, options?: dxPopoverOptions)
     show(): DxPromise<boolean>;
     /**
      * @docid
@@ -194,10 +196,10 @@ export default class dxPopover<TProperties = Properties> extends dxPopup<TProper
 }
 
 /** @public */
-export type Properties = dxPopoverOptions<dxPopover<Properties>>;
+export type Properties = dxPopoverOptions;
 
 /** @deprecated use Properties instead */
-export type Options = Properties;
+export type Options = dxPopoverOptions;
 
 /** @deprecated use Properties instead */
-export type IOptions = Properties;
+export type IOptions = dxPopoverOptions;

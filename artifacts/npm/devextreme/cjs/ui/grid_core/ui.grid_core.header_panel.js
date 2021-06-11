@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.header_panel.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,6 +11,8 @@
 exports.headerPanelModule = void 0;
 
 var _renderer = _interopRequireDefault(require("../../core/renderer"));
+
+var _jquery = require("jquery");
 
 var _toolbar = _interopRequireDefault(require("../toolbar"));
 
@@ -56,7 +58,25 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
         }
       }
     };
+    var defaultButtonsByNames = {};
+    options.toolbarOptions.items.forEach(function (button) {
+      defaultButtonsByNames[button.name] = button;
+    });
+    var items = this.option('toolbar.items');
+
+    if ((0, _type.isDefined)(items)) {
+      options.toolbarOptions.items = items;
+    }
+
     this.executeAction('onToolbarPreparing', options);
+    options.toolbarOptions.items = options.toolbarOptions.items.map(function (button) {
+      if ((0, _type.isString)(button)) button = {
+        name: button
+      };
+      if (!(0, _type.isDefined)(button.name)) return button;
+      if (!(0, _type.isDefined)(defaultButtonsByNames[button.name])) return button;
+      return (0, _jquery.extend)(defaultButtonsByNames[button.name], button);
+    });
 
     if (options.toolbarOptions && !(0, _type.isDefined)(options.toolbarOptions.visible)) {
       var toolbarItems = options.toolbarOptions.items;
@@ -126,7 +146,7 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
     return this.getElementHeight();
   },
   optionChanged: function optionChanged(args) {
-    if (args.name === 'onToolbarPreparing') {
+    if (args.name === 'onToolbarPreparing' || args.name === 'toolbar') {
       this._invalidate();
 
       args.handled = true;

@@ -10,15 +10,10 @@ export var AllDayPanelTitleProps = {
   className: "",
   visible: true
 };
-import { createReRenderEffect } from "@devextreme/vdom";
 export class AllDayPanelTitle extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  createEffects() {
-    return [createReRenderEffect()];
   }
 
   get text() {

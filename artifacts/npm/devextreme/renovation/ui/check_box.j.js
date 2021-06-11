@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/check_box.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -45,13 +45,16 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
   _proto.focus = function focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus.apply(_this$viewRef, arguments);
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
   };
 
   _proto._getActionConfigs = function _getActionConfigs() {
     return {
       onFocusIn: {},
-      onClick: {}
+      onClick: {},
+      onContentReady: {
+        excludeValidators: ["disabled", "readOnly"]
+      }
     };
   };
 
@@ -59,11 +62,11 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
     key: "_propsInfo",
     get: function get() {
       return {
-        twoWay: [["value", "defaultValue", "valueChange"]],
+        twoWay: [["value", false, "valueChange"]],
         allowNull: ["validationError", "validationErrors", "defaultValue", "value"],
         elements: [],
         templates: [],
-        props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "className", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
+        props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
       };
     }
   }, {
@@ -78,6 +81,5 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = CheckBox;
 (0, _component_registrator.default)("dxCheckBox", CheckBox);
-CheckBox.defaultOptions = _check_box2.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

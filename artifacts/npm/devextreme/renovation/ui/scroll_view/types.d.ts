@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/scroll_view/types.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -27,15 +27,7 @@ export interface ScrollOffset {
   top: number;
   left: number;
 }
-
-export interface DxMouseEvent extends MouseEvent {
-  originalEvent: DxMouseEvent;
-  delta: number;
-  isScrollingEvent: boolean;
-  cancel: boolean;
-  velocity: { x: number; y: number };
-}
-
-export interface DxKeyboardEvent extends KeyboardEvent {
-  originalEvent: DxKeyboardEvent;
+export interface AllowedDirection {
+  vertical: boolean;
+  horizontal: boolean;
 }

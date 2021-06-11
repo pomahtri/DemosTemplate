@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/events/short.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 "use strict";
 
-exports.keyboard = exports.dxPointerUp = exports.dxPointerDown = exports.keyDown = exports.dxScrollCancel = exports.dxScrollStop = exports.dxScrollEnd = exports.dxScrollMove = exports.dxScrollStart = exports.dxScrollInit = exports.click = exports.dxClick = exports.focus = exports.visibility = exports.hover = exports.resize = exports.active = void 0;
+exports.keyboard = exports.dxPointerUp = exports.dxPointerDown = exports.dxScrollCancel = exports.dxScrollStop = exports.dxScrollEnd = exports.dxScrollMove = exports.dxScrollStart = exports.dxScrollInit = exports.click = exports.dxClick = exports.focus = exports.visibility = exports.hover = exports.resize = exports.active = void 0;
 
 var _dom_adapter = _interopRequireDefault(require("../core/dom_adapter"));
 
@@ -274,31 +274,16 @@ var dxScrollCancel = {
   }
 };
 exports.dxScrollCancel = dxScrollCancel;
-var keyDown = {
-  on: function on($el, onKeyDown) {
-    var _ref26 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-        namespace = _ref26.namespace;
-
-    _events_engine.default.on($el, addNamespace('keydown', namespace), onKeyDown);
-  },
-  off: function off($el) {
-    var _ref27 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        namespace = _ref27.namespace;
-
-    _events_engine.default.off($el, addNamespace('keydown', namespace));
-  }
-};
-exports.keyDown = keyDown;
 var dxPointerDown = {
   on: function on($el, onPointerDown) {
-    var _ref28 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-        namespace = _ref28.namespace;
+    var _ref26 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        namespace = _ref26.namespace;
 
     _events_engine.default.on($el, addNamespace(_pointer.default.down, namespace), onPointerDown);
   },
   off: function off($el) {
-    var _ref29 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        namespace = _ref29.namespace;
+    var _ref27 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        namespace = _ref27.namespace;
 
     _events_engine.default.off($el, addNamespace(_pointer.default.down, namespace));
   }
@@ -306,14 +291,14 @@ var dxPointerDown = {
 exports.dxPointerDown = dxPointerDown;
 var dxPointerUp = {
   on: function on($el, onPointerUp) {
-    var _ref30 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-        namespace = _ref30.namespace;
+    var _ref28 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        namespace = _ref28.namespace;
 
     _events_engine.default.on($el, addNamespace(_pointer.default.up, namespace), onPointerUp);
   },
   off: function off($el) {
-    var _ref31 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        namespace = _ref31.namespace;
+    var _ref29 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        namespace = _ref29.namespace;
 
     _events_engine.default.off($el, addNamespace(_pointer.default.up, namespace));
   }

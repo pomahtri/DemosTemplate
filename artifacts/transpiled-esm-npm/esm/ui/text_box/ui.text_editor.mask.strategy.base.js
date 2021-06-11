@@ -191,7 +191,9 @@ export default class BaseMaskStrategy {
 
     var result = false;
 
-    if (browser.webkit) {
+    if (browser.msie && browser.version > 11) {
+      result = $input.hasClass('edge-autofilled');
+    } else if (browser.webkit) {
       var input = $input.get(0);
       result = input && input.matches(':-webkit-autofill');
     }

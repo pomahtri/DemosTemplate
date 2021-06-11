@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["screenByWidth", "scrollingEnabled", "useNativeScrolling"];
+var _excluded = ["scrollingEnabled", "useNativeScrolling"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { InfernoWrapperComponent } from "@devextreme/vdom";
 import { FormProps } from "./form_props";
@@ -22,9 +22,7 @@ export var viewFunction = viewModel => {
     },
     restAttributes
   } = viewModel;
-  var rootLayoutManager = createComponentVNode(2, LayoutManager, {
-    "screenByWidth": viewModel.props.screenByWidth
-  });
+  var rootLayoutManager = createComponentVNode(2, LayoutManager);
   return scrollingEnabled ? createComponentVNode(2, Scrollable, {
     "aria": aria,
     "classes": cssClasses,
@@ -41,15 +39,10 @@ export var viewFunction = viewModel => {
     children: rootLayoutManager
   })));
 };
-import { createReRenderEffect } from "@devextreme/vdom";
 export class Form extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  createEffects() {
-    return [createReRenderEffect()];
   }
 
   get restAttributes() {

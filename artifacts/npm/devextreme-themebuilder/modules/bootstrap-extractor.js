@@ -51,33 +51,18 @@ class BootstrapExtractor {
         }
     }
     static readSassFile(fileName) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const path = require.resolve(`bootstrap/scss/${fileName}`);
-            return fs_1.promises.readFile(path, 'utf8');
-        });
+        const path = require.resolve(`bootstrap/scss/${fileName}`);
+        return fs_1.promises.readFile(path, 'utf8');
     }
     static sassRender(input) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                sass.render({ data: input }, (error, result) => (error ? reject(error.message) : resolve(result.css.toString())));
-            });
+        return new Promise((resolve, reject) => {
+            sass.render({ data: input }, (error, result) => (error ? reject(error.message) : resolve(result.css.toString())));
         });
     }
     static lessRender(input) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                less_1.default.render(input, (error, result) => (error ? reject(error.message) : resolve(result.css)));
-            });
+        return new Promise((resolve, reject) => {
+            less_1.default.render(input, (error, result) => (error ? reject(error.message) : resolve(result.css)));
         });
-    }
-    static convertRemToPx(cssValue) {
-        const remValueRegex = /(\d*?\.?\d+?)rem([;\s])?/g;
-        const replaceHandler = (_match, value, separator) => {
-            const pixelsInRem = 16;
-            const pxValue = Math.round(parseFloat(value) * pixelsInRem);
-            return `${pxValue}px${separator || ''}`;
-        };
-        return cssValue.replace(remValueRegex, replaceHandler);
     }
     sassProcessor() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -91,11 +76,9 @@ class BootstrapExtractor {
         });
     }
     lessProcessor() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return Promise.resolve(this.getSetterServiceCode()
-                + this.input
-                + this.getCollectorServiceCode());
-        });
+        return Promise.resolve(this.getSetterServiceCode()
+            + this.input
+            + this.getCollectorServiceCode());
     }
     getSetterServiceCode(postfix = '') {
         return Object.keys(this.meta)
@@ -107,6 +90,15 @@ class BootstrapExtractor {
             .map((key) => `${key}: ${this.meta[key]};`)
             .join('');
         return `dx-varibles-collector {${variables}}`;
+    }
+    static convertRemToPx(cssValue) {
+        const remValueRegex = /(\d*?\.?\d+?)rem([;\s])?/g;
+        const replaceHandler = (match, value, separator) => {
+            const pixelsInRem = 16;
+            const pxValue = Math.round(parseFloat(value) * pixelsInRem);
+            return `${pxValue}px${separator || ''}`;
+        };
+        return cssValue.replace(remValueRegex, replaceHandler);
     }
     extract() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/renderers/svg_text.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -221,9 +221,10 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
         stroke = _this$props2.stroke,
         strokeWidth = _this$props2.strokeWidth;
     var strokeOpacity = this.props.strokeOpacity || 1;
+    var tspan;
 
     for (var i = 0, ii = items.length; i < ii; ++i) {
-      var tspan = items[i].stroke;
+      tspan = items[i].stroke;
       tspan.setAttribute(KEY_STROKE, stroke);
       tspan.setAttribute("stroke-width", strokeWidth.toString());
       tspan.setAttribute("stroke-opacity", strokeOpacity.toString());
@@ -270,12 +271,12 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
   }, {
     key: "textItems",
     get: function get() {
-      var items = undefined;
-      var parsedHtml = "";
+      var items;
+      var parsedHtml;
       var text = this.props.text;
       if (!text) return;
 
-      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.includes("&"))) {
+      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.indexOf("&") !== -1)) {
         parsedHtml = (0, _utils.removeExtraAttrs)(text);
         items = (0, _utils.parseHTML)(parsedHtml);
       } else if (/\n/g.test(text)) {

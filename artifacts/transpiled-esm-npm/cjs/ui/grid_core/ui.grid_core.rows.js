@@ -830,9 +830,8 @@ var rowsModule = {
         _getHeightCorrection: function _getHeightCorrection() {
           var isZoomedWebkit = _browser.default.webkit && this._getDevicePixelRatio() >= 2; // T606935
 
-          var isChromeLatest = _browser.default.chrome && _browser.default.version >= 91;
           var hasExtraBorderTop = _browser.default.mozilla && _browser.default.version >= 70 && !this.option('showRowLines');
-          return isZoomedWebkit || hasExtraBorderTop || isChromeLatest ? 1 : 0;
+          return isZoomedWebkit || hasExtraBorderTop ? 1 : 0;
         },
         _columnOptionChanged: function _columnOptionChanged(e) {
           var optionNames = e.optionNames;

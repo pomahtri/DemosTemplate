@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/pager/info.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -34,9 +34,27 @@ var InfoTextPropsType = {
 export class InfoText extends BaseInfernoComponent {
   constructor(props) {
     super(props);
+    this._currentState = null;
     this.state = {
       pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.props.defaultPageIndex
     };
+  }
+
+  get __state_pageIndex() {
+    var state = this._currentState || this.state;
+    return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
+  }
+
+  set_pageIndex(value) {
+    this.setState(state => {
+      this._currentState = state;
+      var newValue = value();
+      this.props.pageIndexChange(newValue);
+      this._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
   }
 
   get infoText() {
@@ -48,12 +66,12 @@ export class InfoText extends BaseInfernoComponent {
       pageCount,
       totalCount
     } = this.props;
-    return format(this.infoText, ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + 1).toString(), pageCount.toString(), totalCount.toString());
+    return format(this.infoText, (this.__state_pageIndex + 1).toString(), pageCount.toString(), totalCount.toString());
   }
 
   get restAttributes() {
     var _this$props$pageIndex = _extends({}, this.props, {
-      pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+      pageIndex: this.__state_pageIndex
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex, _excluded);
 
@@ -64,7 +82,7 @@ export class InfoText extends BaseInfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
       infoText: this.infoText,
       text: this.text,

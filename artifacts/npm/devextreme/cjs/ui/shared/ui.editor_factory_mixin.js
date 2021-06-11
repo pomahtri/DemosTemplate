@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/shared/ui.editor_factory_mixin.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -63,7 +63,7 @@ var EditorFactoryMixin = function () {
   };
 
   var checkEnterBug = function checkEnterBug() {
-    return _browser.default.mozilla || _devices.default.real().ios; // Workaround for T344096, T249363, T314719, caused by https://connect.microsoft.com/IE/feedback/details/1552272/
+    return _browser.default.msie || _browser.default.mozilla || _devices.default.real().ios; // Workaround for T344096, T249363, T314719, caused by https://connect.microsoft.com/IE/feedback/details/1552272/
   };
 
   var getTextEditorConfig = function getTextEditorConfig(options) {

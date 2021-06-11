@@ -1,11 +1,10 @@
-import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
+import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 var _excluded = ["position", "source"];
 import { createVNode, createFragment } from "inferno";
 import { Fragment } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import { getImageSourceType } from "../../../core/utils/icon";
-import { combineClasses } from "../../utils/combine_classes";
 export var viewFunction = _ref => {
   var {
     cssClass,
@@ -14,20 +13,10 @@ export var viewFunction = _ref => {
     },
     sourceType
   } = _ref;
-  var generalClasses = {
-    "dx-icon": true,
-    [cssClass]: !!cssClass
-  };
-  return createFragment([sourceType === "dxIcon" && createVNode(1, "i", combineClasses(_extends({}, generalClasses, {
-    ["dx-icon-".concat(source)]: true
-  }))), sourceType === "fontIcon" && createVNode(1, "i", combineClasses(_extends({}, generalClasses, {
-    [String(source)]: !!source
-  }))), sourceType === "image" && createVNode(1, "img", combineClasses(generalClasses), null, 1, {
+  return createFragment([sourceType === "dxIcon" && createVNode(1, "i", "dx-icon dx-icon-".concat(source, " ").concat(cssClass)), sourceType === "fontIcon" && createVNode(1, "i", "dx-icon ".concat(source, " ").concat(cssClass)), sourceType === "image" && createVNode(1, "img", "dx-icon ".concat(cssClass), null, 1, {
     "alt": "",
     "src": source
-  }), sourceType === "svg" && createVNode(1, "i", combineClasses(_extends({}, generalClasses, {
-    "dx-svg-icon": true
-  })), source, 0)], 0);
+  }), sourceType === "svg" && createVNode(1, "i", "dx-icon dx-svg-icon ".concat(cssClass), source, 0)], 0);
 };
 export var IconProps = {
   position: "left",

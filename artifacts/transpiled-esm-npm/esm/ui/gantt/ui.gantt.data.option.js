@@ -97,6 +97,14 @@ class DataOption extends Component {
     return this._getStore()._array || this._dataSource.items();
   }
 
+  _reloadDataSource() {
+    var isArray = !!this._getStore()._array;
+
+    if (!isArray) {
+      this._dataSource.load();
+    }
+  }
+
 }
 
 DataOption.include(DataHelperMixin);

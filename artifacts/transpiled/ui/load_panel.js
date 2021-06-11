@@ -14,7 +14,7 @@ var _extend = require("../core/utils/extend");
 
 var _load_indicator = _interopRequireDefault(require("./load_indicator"));
 
-var _overlay = require("./overlay");
+var _overlay = _interopRequireDefault(require("./overlay"));
 
 var _deferred = require("../core/utils/deferred");
 
@@ -31,7 +31,7 @@ var LOADPANEL_CONTENT_CLASS = 'dx-loadpanel-content';
 var LOADPANEL_CONTENT_WRAPPER_CLASS = 'dx-loadpanel-content-wrapper';
 var LOADPANEL_PANE_HIDDEN_CLASS = 'dx-loadpanel-pane-hidden';
 
-var LoadPanel = _overlay.Overlay.inherit({
+var LoadPanel = _overlay.default.inherit({
   _supportedKeys: function _supportedKeys() {
     return (0, _extend.extend)(this.callBase(), {
       escape: _common.noop

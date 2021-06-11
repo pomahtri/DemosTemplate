@@ -1,6 +1,6 @@
 import registerComponent from "../../../core/component_registrator";
 import { GridPagerWrapper } from "../../component_wrapper/grid_pager";
-import { Pager as PagerComponent, defaultOptions } from "./pager";
+import { Pager as PagerComponent } from "./pager";
 export default class Pager extends GridPagerWrapper {
   getProps() {
     var props = super.getProps();
@@ -10,7 +10,7 @@ export default class Pager extends GridPagerWrapper {
 
   get _propsInfo() {
     return {
-      twoWay: [["pageIndex", "defaultPageIndex", "pageIndexChange"], ["pageSize", "defaultPageSize", "pageSizeChange"]],
+      twoWay: [["pageIndex", 1, "pageIndexChange"], ["pageSize", 5, "pageSizeChange"]],
       allowNull: [],
       elements: [],
       templates: [],
@@ -24,4 +24,3 @@ export default class Pager extends GridPagerWrapper {
 
 }
 registerComponent("dxPager", Pager);
-Pager.defaultOptions = defaultOptions;

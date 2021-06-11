@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/list.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -132,7 +132,7 @@ export type SelectionChangedEvent = EventInfo<dxList> & SelectionChangedInfo;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxListOptions extends CollectionWidgetOptions<dxList>, SearchBoxMixinOptions {
+export interface dxListOptions extends CollectionWidgetOptions<dxList>, SearchBoxMixinOptions<dxList> {
     /**
      * @docid
      * @default true
@@ -544,7 +544,8 @@ export interface dxListOptions extends CollectionWidgetOptions<dxList>, SearchBo
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxList extends CollectionWidget<dxListOptions> {
+export default class dxList extends CollectionWidget {
+    constructor(element: UserDefinedElement, options?: dxListOptions)
     /**
      * @docid
      * @publicName clientHeight()

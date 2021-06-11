@@ -36,6 +36,8 @@ if (_devextremeQuill.default) {
       _this = _BaseModule.call(this, quill, options) || this;
       var widgetName = _this.editorInstance.NAME;
 
+      _events_engine.default.on(_this.quill.root, (0, _index.addNamespace)('dragover', widgetName), _this._dragOverHandler.bind(_assertThisInitialized(_this)));
+
       _events_engine.default.on(_this.quill.root, (0, _index.addNamespace)('drop', widgetName), _this._dropHandler.bind(_assertThisInitialized(_this)));
 
       _events_engine.default.on(_this.quill.root, (0, _index.addNamespace)('paste', widgetName), _this._pasteHandler.bind(_assertThisInitialized(_this)));
@@ -44,6 +46,12 @@ if (_devextremeQuill.default) {
     }
 
     var _proto = DropImageModule.prototype;
+
+    _proto._dragOverHandler = function _dragOverHandler(e) {
+      if (_browser.default.msie) {
+        e.preventDefault();
+      }
+    };
 
     _proto._dropHandler = function _dropHandler(e) {
       var _dataTransfer$files;
@@ -78,7 +86,13 @@ if (_devextremeQuill.default) {
             return;
           }
 
-          _this2._addImage(imageData);
+          if (_browser.default.msie) {
+            setTimeout(function () {
+              _this2._addImage(imageData);
+            });
+          } else {
+            _this2._addImage(imageData);
+          }
         });
       }
     };

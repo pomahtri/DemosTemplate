@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/button_group.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -151,7 +151,9 @@ export interface dxButtonGroupOptions extends WidgetOptions<dxButtonGroup> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxButtonGroup extends Widget<dxButtonGroupOptions> { }
+export default class dxButtonGroup extends Widget {
+    constructor(element: UserDefinedElement, options?: dxButtonGroupOptions)
+}
 
 /**
  * @docid

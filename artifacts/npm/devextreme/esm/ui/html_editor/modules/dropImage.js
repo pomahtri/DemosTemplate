@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/html_editor/modules/dropImage.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -20,8 +20,15 @@ if (Quill) {
     constructor(quill, options) {
       super(quill, options);
       var widgetName = this.editorInstance.NAME;
+      eventsEngine.on(this.quill.root, addNamespace('dragover', widgetName), this._dragOverHandler.bind(this));
       eventsEngine.on(this.quill.root, addNamespace('drop', widgetName), this._dropHandler.bind(this));
       eventsEngine.on(this.quill.root, addNamespace('paste', widgetName), this._pasteHandler.bind(this));
+    }
+
+    _dragOverHandler(e) {
+      if (browser.msie) {
+        e.preventDefault();
+      }
     }
 
     _dropHandler(e) {
@@ -58,7 +65,13 @@ if (Quill) {
             return;
           }
 
-          this._addImage(imageData);
+          if (browser.msie) {
+            setTimeout(() => {
+              this._addImage(imageData);
+            });
+          } else {
+            this._addImage(imageData);
+          }
         });
       }
     }

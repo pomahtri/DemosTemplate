@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/tag_box.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -236,7 +236,9 @@ export interface dxTagBoxOptions extends dxSelectBoxOptions<dxTagBox> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTagBox extends dxSelectBox<dxTagBoxOptions> { }
+export default class dxTagBox extends dxSelectBox {
+    constructor(element: UserDefinedElement, options?: dxTagBoxOptions)
+}
 
 /** @public */
 export type Properties = dxTagBoxOptions;

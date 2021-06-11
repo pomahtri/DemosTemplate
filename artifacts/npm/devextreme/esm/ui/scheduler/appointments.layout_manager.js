@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointments.layout_manager.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,7 +13,6 @@ import HorizontalAppointmentsStrategy from './rendering_strategies/ui.scheduler.
 import HorizontalMonthLineAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.horizontal_month_line';
 import HorizontalMonthAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.horizontal_month';
 import AgendaAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.agenda';
-import { getAppointmentDataProvider } from './appointments/DataProvider/appointmentDataProvider';
 var RENDERING_STRATEGIES = {
   'horizontal': HorizontalAppointmentsStrategy,
   'horizontalMonth': HorizontalMonthAppointmentsStrategy,
@@ -90,9 +89,8 @@ class AppointmentLayoutManager {
   }
 
   _isDataChanged(data) {
-    var appointmentDataProvider = getAppointmentDataProvider();
-    var updatedData = appointmentDataProvider.getUpdatedAppointment();
-    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
+    var updatedData = this.instance.getUpdatedAppointment();
+    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
   }
 
   _isAppointmentShouldAppear(currentAppointment, sourceAppointment) {

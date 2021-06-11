@@ -6,7 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const commands_1 = __importDefault(require("./commands"));
 const themes_1 = __importDefault(require("./themes"));
-const logger_1 = require("./logger");
+const logger_1 = __importDefault(require("./logger"));
 const DEFAULT_OUT_COLOR_SCHEME = 'custom-scheme';
 const extname = (filename) => filename.substring(filename.lastIndexOf('.'));
 const getBootstrapConfig = (fileName) => {
@@ -31,7 +31,7 @@ const getOutParameters = (command, themeName, config) => {
     const base = !!config.base;
     const isColorSchemeValid = outColorScheme && /^[\w\-.]+$/.test(outColorScheme);
     if (!isColorSchemeValid) {
-        logger_1.log(`'--output-color-scheme' is not valid. '${DEFAULT_OUT_COLOR_SCHEME}' will be used.`);
+        logger_1.default.log(`'--output-color-scheme' is not valid. '${DEFAULT_OUT_COLOR_SCHEME}' will be used.`);
     }
     if (!outColorScheme || !isColorSchemeValid) {
         outColorScheme = DEFAULT_OUT_COLOR_SCHEME;
@@ -74,13 +74,13 @@ const getThemeAndColorScheme = (config) => {
         foundTheme = themes_1.default.find((t) => t.name === passedThemeName
             && t.colorScheme === passedColorScheme);
         if (!foundTheme) {
-            logger_1.log(`The base theme with name ${config.baseTheme} does not exist.`);
+            logger_1.default.log(`The base theme with name ${config.baseTheme} does not exist.`);
         }
     }
     else if (config.themeId) {
         foundTheme = themes_1.default.find((t) => t.themeId === parseInt(config.themeId.toString(), 10));
         if (!foundTheme) {
-            logger_1.log(`The theme with ID ${config.themeId} does not exist.`);
+            logger_1.default.log(`The theme with ID ${config.themeId} does not exist.`);
         }
     }
     if (foundTheme) {

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/diagram/diagram.commands_manager.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -678,11 +678,6 @@ var DiagramCommandsManager = {
         return allCommands[c];
       } else if (c.text || c.icon || c.name) {
         var internalCommand = c.name && allCommands[c.name];
-
-        if (internalCommand === SEPARATOR_COMMAND) {
-          return internalCommand;
-        }
-
         var command = {
           command: internalCommand && internalCommand.command,
           name: c.name,

@@ -10,6 +10,8 @@ var _math = require("../../core/utils/math");
 
 var _common = require("../../core/utils/common");
 
+var _this = void 0;
+
 var monthGetter = function monthGetter(date) {
   return date.getMonth() + 1;
 };
@@ -99,7 +101,7 @@ var renderDateParts = function renderDateParts(text, regExpInfo) {
   var end = 0;
   var sections = [];
 
-  var _loop = function _loop(i) {
+  for (var i = 1; i < result.length; i++) {
     start = end;
     end = start + result[i].length;
     var pattern = regExpInfo.patterns[i - 1].replace(/^'|'$/g, '');
@@ -113,20 +115,10 @@ var renderDateParts = function renderDateParts(text, regExpInfo) {
       },
       pattern: pattern,
       text: result[i],
-      limits: function limits() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return getLimits.apply(void 0, [pattern[0]].concat(args));
-      },
+      limits: getLimits.bind(_this, pattern[0]),
       setter: PATTERN_SETTERS[pattern[0]] || _common.noop,
       getter: getter
     });
-  };
-
-  for (var i = 1; i < result.length; i++) {
-    _loop(i);
   }
 
   return sections;

@@ -617,7 +617,9 @@ var ColorView = Editor.inherit({
       var rtlEnabled = this.option('rtlEnabled');
       var startColor = 'rgba(' + colorAsRgb + ', ' + (rtlEnabled ? '1' : '0') + ')';
       var finishColor = 'rgba(' + colorAsRgb + ', ' + (rtlEnabled ? '0' : '1') + ')';
-      return ['background-image: -webkit-linear-gradient(180deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -moz-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -o-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')'].join(';');
+      var startColorIE = '\'#' + (rtlEnabled ? '00' : '') + colorAsHex + '\'';
+      var finishColorIE = '\'#' + (rtlEnabled ? '' : '00') + colorAsHex + '\'';
+      return ['background-image: -webkit-linear-gradient(180deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -moz-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: -o-linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'background-image: linear-gradient(-90deg, ' + startColor + ', ' + finishColor + ')', 'filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=' + startColorIE + ', endColorstr=' + finishColorIE + ')'].join(';');
     };
 
     $el.attr('style', combineGradientString.call(this, colorAsRgb, colorAsHex));

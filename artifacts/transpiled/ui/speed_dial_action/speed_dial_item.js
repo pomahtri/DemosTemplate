@@ -14,7 +14,7 @@ var _click = require("../../events/click");
 
 var _icon = require("../../core/utils/icon");
 
-var _overlay = require("../overlay");
+var _overlay = _interopRequireDefault(require("../overlay"));
 
 var _utils = require("../widget/utils.ink_ripple");
 
@@ -250,7 +250,7 @@ var SpeedDialItem = /*#__PURE__*/function (_Overlay) {
   };
 
   return SpeedDialItem;
-}(_overlay.Overlay);
+}(_overlay.default);
 
 var _default = SpeedDialItem;
 exports.default = _default;

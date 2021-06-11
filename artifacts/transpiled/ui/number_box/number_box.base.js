@@ -120,7 +120,7 @@ var NumberBoxBase = _ui.default.inherit({
   },
   _isSupportInputMode: function _isSupportInputMode() {
     var version = parseFloat(_browser.default.version);
-    return _browser.default.chrome && version >= 66 || _browser.default.safari && version >= 12;
+    return _browser.default.chrome && version >= 66 || _browser.default.safari && version >= 12 || _browser.default.msie && version >= 75;
   },
   _defaultOptionsRules: function _defaultOptionsRules() {
     return this.callBase().concat([{
@@ -168,7 +168,8 @@ var NumberBoxBase = _ui.default.inherit({
   _keyPressHandler: function _keyPressHandler(e) {
     this.callBase(e);
     var char = (0, _index.getChar)(e);
-    var validCharRegExp = /[\d.,eE\-+]/;
+    var validCharRegExp = /[\d.,eE\-+]|Subtract/; // Workaround for IE (T592690)
+
     var isInputCharValid = validCharRegExp.test(char);
 
     if (!isInputCharValid) {

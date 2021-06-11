@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/context_menu/ui.context_menu.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -23,7 +23,7 @@ import fx from '../../animation/fx';
 import animationPosition from '../../animation/position';
 import devices from '../../core/devices';
 import { addNamespace } from '../../events/utils/index';
-import { Overlay } from '../overlay';
+import Overlay from '../overlay';
 import MenuBase from './ui.menu_base';
 import { Deferred } from '../../core/utils/deferred';
 import { name as contextMenuEventName } from '../../events/contextmenu';

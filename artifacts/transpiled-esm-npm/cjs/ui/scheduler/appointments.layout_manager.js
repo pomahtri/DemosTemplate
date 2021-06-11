@@ -14,8 +14,6 @@ var _uiSchedulerAppointmentsStrategy4 = _interopRequireDefault(require("./render
 
 var _uiSchedulerAppointmentsStrategy5 = _interopRequireDefault(require("./rendering_strategies/ui.scheduler.appointments.strategy.agenda"));
 
-var _appointmentDataProvider = require("./appointments/DataProvider/appointmentDataProvider");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -104,9 +102,8 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
   };
 
   _proto._isDataChanged = function _isDataChanged(data) {
-    var appointmentDataProvider = (0, _appointmentDataProvider.getAppointmentDataProvider)();
-    var updatedData = appointmentDataProvider.getUpdatedAppointment();
-    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(function (item) {
+    var updatedData = this.instance.getUpdatedAppointment();
+    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(function (item) {
       return data[item.key] === item.value;
     });
   };

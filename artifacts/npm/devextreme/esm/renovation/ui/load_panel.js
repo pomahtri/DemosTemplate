@@ -1,14 +1,15 @@
 /**
 * DevExtreme (esm/renovation/ui/load_panel.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["_checkParentVisibility", "accessKey", "activeStateEnabled", "animation", "className", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "delay", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "message", "onClick", "onKeyDown", "position", "propagateOutsideClick", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
+import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
+var _excluded = ["rootElementRef"],
+    _excluded2 = ["_checkParentVisibility", "_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "animation", "aria", "children", "className", "classes", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "delay", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "message", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "position", "propagateOutsideClick", "rootElementRef", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import LegacyLoadPanel from "../../ui/load_panel";
@@ -16,12 +17,17 @@ import { DomComponentWrapper } from "./common/dom_component_wrapper";
 import { OverlayProps } from "./overlay";
 export var viewFunction = _ref => {
   var {
-    props,
+    props: {
+      rootElementRef
+    },
     restAttributes
-  } = _ref;
+  } = _ref,
+      componentProps = _objectWithoutPropertiesLoose(_ref.props, _excluded);
+
   return normalizeProps(createComponentVNode(2, DomComponentWrapper, _extends({
+    "rootElementRef": rootElementRef,
     "componentType": LegacyLoadPanel,
-    "componentProps": props
+    "componentProps": componentProps
   }, restAttributes)));
 };
 export var LoadPanelProps = _extends({}, OverlayProps);
@@ -33,7 +39,7 @@ export class LoadPanel extends BaseInfernoComponent {
 
   get restAttributes() {
     var _this$props = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
+        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded2);
 
     return restProps;
   }

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/base_widget.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -34,7 +34,7 @@ var _resolve_rtl = require("../../utils/resolve_rtl");
 
 var _utils2 = require("./renderers/utils");
 
-var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "defaultCanvas", "disabled", "margin", "pointerEvents", "rootElementRef", "rtlEnabled", "size"];
+var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "defaultCanvas", "disabled", "margin", "onContentReady", "pointerEvents", "rootElementRef", "rtlEnabled", "size"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -132,13 +132,14 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.containerRef = (0, _inferno.createRef)();
     _this.svgElementRef = (0, _inferno.createRef)();
     _this.state = {
       canvas: _this.props.canvas !== undefined ? _this.props.canvas : _this.props.defaultCanvas
     };
     _this.setRootElementRef = _this.setRootElementRef.bind(_assertThisInitialized(_this));
-    _this.setCanvasEffect = _this.setCanvasEffect.bind(_assertThisInitialized(_this));
+    _this.contentReadyEffect = _this.contentReadyEffect.bind(_assertThisInitialized(_this));
     _this.svg = _this.svg.bind(_assertThisInitialized(_this));
     _this.setCanvas = _this.setCanvas.bind(_assertThisInitialized(_this));
     return _this;
@@ -147,21 +148,41 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
   var _proto = BaseWidget.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.setRootElementRef, []), new _vdom.InfernoEffect(this.setCanvasEffect, [this.state.canvas, this.props.canvas, this.props.defaultCanvas, this.props.margin, this.props.size, this.props.canvasChange])];
+    return [new _vdom.InfernoEffect(this.setRootElementRef, []), new _vdom.InfernoEffect(this.contentReadyEffect, [this.props.onContentReady, this.__state_canvas, this.props.canvasChange, this.props.defaultCanvas, this.props.margin, this.props.size])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$;
 
-    (_this$_effects$ = this._effects[1]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.canvas, this.props.canvas, this.props.defaultCanvas, this.props.margin, this.props.size, this.props.canvasChange]);
+    (_this$_effects$ = this._effects[1]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onContentReady, this.__state_canvas, this.props.canvasChange, this.props.defaultCanvas, this.props.margin, this.props.size]);
+  };
+
+  _proto.set_canvas = function set_canvas(value) {
+    var _this2 = this;
+
+    this.setState(function (state) {
+      _this2._currentState = state;
+      var newValue = value();
+
+      _this2.props.canvasChange(newValue);
+
+      _this2._currentState = null;
+      return {
+        canvas: newValue
+      };
+    });
   };
 
   _proto.setRootElementRef = function setRootElementRef() {
     this.props.rootElementRef.current = this.containerRef.current;
   };
 
-  _proto.setCanvasEffect = function setCanvasEffect() {
+  _proto.contentReadyEffect = function contentReadyEffect() {
+    var onContentReady = this.props.onContentReady;
     this.setCanvas();
+    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({
+      element: this.svgElementRef.current
+    });
   };
 
   _proto.setCanvas = function setCanvas() {
@@ -176,18 +197,10 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
       margin: margin
     });
 
-    if ((0, _type.isDefined)(newCanvas.height) && (0, _type.isDefined)(newCanvas.width) && (0, _utils.isUpdatedFlatObject)(this.props.canvas !== undefined ? this.props.canvas : this.state.canvas, newCanvas)) {
-      {
-        var __newValue;
-
-        this.setState(function (state) {
-          __newValue = newCanvas;
-          return {
-            canvas: __newValue
-          };
-        });
-        this.props.canvasChange(__newValue);
-      }
+    if ((0, _type.isDefined)(newCanvas.height) && (0, _type.isDefined)(newCanvas.width) && (0, _utils.isUpdatedFlatObject)(this.__state_canvas, newCanvas)) {
+      this.set_canvas(function () {
+        return newCanvas;
+      });
     }
   };
 
@@ -199,7 +212,7 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+        canvas: this.__state_canvas
       }),
       containerRef: this.containerRef,
       svgElementRef: this.svgElementRef,
@@ -221,6 +234,12 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
       }
 
       return _config_context.ConfigContext;
+    }
+  }, {
+    key: "__state_canvas",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.canvas !== undefined ? this.props.canvas : state.canvas;
     }
   }, {
     key: "shouldRenderConfigProvider",
@@ -254,7 +273,7 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$canvas = _extends({}, this.props, {
-        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+        canvas: this.__state_canvas
       }),
           canvas = _this$props$canvas.canvas,
           canvasChange = _this$props$canvas.canvasChange,
@@ -264,6 +283,7 @@ var BaseWidget = /*#__PURE__*/function (_InfernoComponent) {
           defaultCanvas = _this$props$canvas.defaultCanvas,
           disabled = _this$props$canvas.disabled,
           margin = _this$props$canvas.margin,
+          onContentReady = _this$props$canvas.onContentReady,
           pointerEvents = _this$props$canvas.pointerEvents,
           rootElementRef = _this$props$canvas.rootElementRef,
           rtlEnabled = _this$props$canvas.rtlEnabled,

@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "defaultCanvas", "disabled", "margin", "pointerEvents", "rootElementRef", "rtlEnabled", "size"];
+var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "defaultCanvas", "disabled", "margin", "onContentReady", "pointerEvents", "rootElementRef", "rtlEnabled", "size"];
 import { createVNode, createFragment, createComponentVNode, normalizeProps } from "inferno";
 import { Fragment } from "inferno";
 import { InfernoEffect, InfernoComponent } from "@devextreme/vdom";
@@ -83,13 +83,14 @@ import { createRef as infernoCreateRef } from "inferno";
 export class BaseWidget extends InfernoComponent {
   constructor(props) {
     super(props);
+    this._currentState = null;
     this.containerRef = infernoCreateRef();
     this.svgElementRef = infernoCreateRef();
     this.state = {
       canvas: this.props.canvas !== undefined ? this.props.canvas : this.props.defaultCanvas
     };
     this.setRootElementRef = this.setRootElementRef.bind(this);
-    this.setCanvasEffect = this.setCanvasEffect.bind(this);
+    this.contentReadyEffect = this.contentReadyEffect.bind(this);
     this.svg = this.svg.bind(this);
     this.setCanvas = this.setCanvas.bind(this);
   }
@@ -103,21 +104,44 @@ export class BaseWidget extends InfernoComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.setRootElementRef, []), new InfernoEffect(this.setCanvasEffect, [this.state.canvas, this.props.canvas, this.props.defaultCanvas, this.props.margin, this.props.size, this.props.canvasChange])];
+    return [new InfernoEffect(this.setRootElementRef, []), new InfernoEffect(this.contentReadyEffect, [this.props.onContentReady, this.__state_canvas, this.props.canvasChange, this.props.defaultCanvas, this.props.margin, this.props.size])];
   }
 
   updateEffects() {
     var _this$_effects$;
 
-    (_this$_effects$ = this._effects[1]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.canvas, this.props.canvas, this.props.defaultCanvas, this.props.margin, this.props.size, this.props.canvasChange]);
+    (_this$_effects$ = this._effects[1]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onContentReady, this.__state_canvas, this.props.canvasChange, this.props.defaultCanvas, this.props.margin, this.props.size]);
+  }
+
+  get __state_canvas() {
+    var state = this._currentState || this.state;
+    return this.props.canvas !== undefined ? this.props.canvas : state.canvas;
+  }
+
+  set_canvas(value) {
+    this.setState(state => {
+      this._currentState = state;
+      var newValue = value();
+      this.props.canvasChange(newValue);
+      this._currentState = null;
+      return {
+        canvas: newValue
+      };
+    });
   }
 
   setRootElementRef() {
     this.props.rootElementRef.current = this.containerRef.current;
   }
 
-  setCanvasEffect() {
+  contentReadyEffect() {
+    var {
+      onContentReady
+    } = this.props;
     this.setCanvas();
+    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({
+      element: this.svgElementRef.current
+    });
   }
 
   get shouldRenderConfigProvider() {
@@ -164,24 +188,14 @@ export class BaseWidget extends InfernoComponent {
       margin
     });
 
-    if (isDefined(newCanvas.height) && isDefined(newCanvas.width) && isUpdatedFlatObject(this.props.canvas !== undefined ? this.props.canvas : this.state.canvas, newCanvas)) {
-      {
-        var __newValue;
-
-        this.setState(state => {
-          __newValue = newCanvas;
-          return {
-            canvas: __newValue
-          };
-        });
-        this.props.canvasChange(__newValue);
-      }
+    if (isDefined(newCanvas.height) && isDefined(newCanvas.width) && isUpdatedFlatObject(this.__state_canvas, newCanvas)) {
+      this.set_canvas(() => newCanvas);
     }
   }
 
   get restAttributes() {
     var _this$props$canvas = _extends({}, this.props, {
-      canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+      canvas: this.__state_canvas
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$canvas, _excluded);
 
@@ -196,7 +210,7 @@ export class BaseWidget extends InfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+        canvas: this.__state_canvas
       }),
       containerRef: this.containerRef,
       svgElementRef: this.svgElementRef,

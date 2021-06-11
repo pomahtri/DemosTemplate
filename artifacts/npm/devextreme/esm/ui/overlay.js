@@ -1,11 +1,10 @@
 /**
 * DevExtreme (esm/ui/overlay.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import Overlay from './overlay/ui.overlay';
-var baseZIndex = Overlay.baseZIndex;
-export { Overlay, baseZIndex };
+export default Overlay;

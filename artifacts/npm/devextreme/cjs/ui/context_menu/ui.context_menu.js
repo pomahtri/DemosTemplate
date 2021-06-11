@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/context_menu/ui.context_menu.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -44,7 +44,7 @@ var _devices = _interopRequireDefault(require("../../core/devices"));
 
 var _index = require("../../events/utils/index");
 
-var _overlay = require("../overlay");
+var _overlay = _interopRequireDefault(require("../overlay"));
 
 var _ui = _interopRequireDefault(require("./ui.menu_base"));
 
@@ -413,7 +413,7 @@ var ContextMenu = /*#__PURE__*/function (_MenuBase) {
 
     var overlayOptions = this._getOverlayOptions();
 
-    this._overlay = this._createComponent((0, _renderer.default)('<div>').appendTo(this._$element), _overlay.Overlay, overlayOptions);
+    this._overlay = this._createComponent((0, _renderer.default)('<div>').appendTo(this._$element), _overlay.default, overlayOptions);
 
     var $overlayContent = this._overlay.$content();
 

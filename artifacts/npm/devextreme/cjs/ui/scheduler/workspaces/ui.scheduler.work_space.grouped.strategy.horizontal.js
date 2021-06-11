@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.work_space.grouped.strategy.horizontal.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,13 +12,21 @@ exports.default = void 0;
 
 var _position = require("../../../core/utils/position");
 
-var _classes = require("../classes");
+var _uiSchedulerWork_spaceGrouped = _interopRequireDefault(require("./ui.scheduler.work_space.grouped.strategy"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var HORIZONTAL_GROUPED_ATTR = 'dx-group-row-count';
 
-var HorizontalGroupedStrategy = /*#__PURE__*/function () {
-  function HorizontalGroupedStrategy(workSpace) {
-    this._workSpace = workSpace;
+var HorizontalGroupedStrategy = /*#__PURE__*/function (_GroupedStrategy) {
+  _inheritsLoose(HorizontalGroupedStrategy, _GroupedStrategy);
+
+  function HorizontalGroupedStrategy() {
+    return _GroupedStrategy.apply(this, arguments) || this;
   }
 
   var _proto = HorizontalGroupedStrategy.prototype;
@@ -81,18 +89,18 @@ var HorizontalGroupedStrategy = /*#__PURE__*/function () {
 
   _proto._addLastGroupCellClass = function _addLastGroupCellClass(cellClass, index, applyUnconditionally) {
     if (applyUnconditionally) {
-      return "".concat(cellClass, " ").concat(_classes.LAST_GROUP_CELL_CLASS);
+      return "".concat(cellClass, " ").concat(this.getLastGroupCellClass());
     }
 
     var groupByDate = this._workSpace.isGroupedByDate();
 
     if (groupByDate) {
       if (index % this._workSpace._getGroupCount() === 0) {
-        return "".concat(cellClass, " ").concat(_classes.LAST_GROUP_CELL_CLASS);
+        return "".concat(cellClass, " ").concat(this.getLastGroupCellClass());
       }
     } else {
       if (index % this._workSpace._getCellCount() === 0) {
-        return "".concat(cellClass, " ").concat(_classes.LAST_GROUP_CELL_CLASS);
+        return "".concat(cellClass, " ").concat(this.getLastGroupCellClass());
       }
     }
 
@@ -101,22 +109,26 @@ var HorizontalGroupedStrategy = /*#__PURE__*/function () {
 
   _proto._addFirstGroupCellClass = function _addFirstGroupCellClass(cellClass, index, applyUnconditionally) {
     if (applyUnconditionally) {
-      return "".concat(cellClass, " ").concat(_classes.FIRST_GROUP_CELL_CLASS);
+      return "".concat(cellClass, " ").concat(this.getFirstGroupCellClass());
     }
 
     var groupByDate = this._workSpace.isGroupedByDate();
 
     if (groupByDate) {
       if ((index - 1) % this._workSpace._getGroupCount() === 0) {
-        return "".concat(cellClass, " ").concat(_classes.FIRST_GROUP_CELL_CLASS);
+        return "".concat(cellClass, " ").concat(this.getFirstGroupCellClass());
       }
     } else {
       if ((index - 1) % this._workSpace._getCellCount() === 0) {
-        return "".concat(cellClass, " ").concat(_classes.FIRST_GROUP_CELL_CLASS);
+        return "".concat(cellClass, " ").concat(this.getFirstGroupCellClass());
       }
     }
 
     return cellClass;
+  };
+
+  _proto.getHorizontalMax = function getHorizontalMax(groupIndex) {
+    return this._workSpace.getMaxAllowedPosition(groupIndex);
   };
 
   _proto.getVerticalMax = function getVerticalMax(groupIndex) {
@@ -173,7 +185,21 @@ var HorizontalGroupedStrategy = /*#__PURE__*/function () {
     return this._createGroupBoundOffset(startCell, endCell, cellWidth);
   };
 
-  _proto.getGroupBoundsOffset = function getGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates, groupedDataMap) {
+  _proto.getGroupBoundsOffset = function getGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates) {
+    if (this._workSpace.isGroupedByDate()) {
+      return this._getGroupedByDateBoundOffset($cells, cellWidth);
+    }
+
+    var cellIndex = this._workSpace.getCellIndexByCoordinates(coordinates);
+
+    var groupIndex = coordinates.groupIndex || Math.floor(cellIndex / cellCount);
+    var startCellIndex = groupIndex * cellCount;
+    var startCell = $cells.eq(startCellIndex);
+    var endCell = $cells.eq(startCellIndex + cellCount - 1);
+    return this._createGroupBoundOffset(startCell, endCell, cellWidth);
+  };
+
+  _proto.getVirtualScrollingGroupBoundsOffset = function getVirtualScrollingGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates, groupedDataMap) {
     if (this._workSpace.isGroupedByDate()) {
       return this._getGroupedByDateBoundOffset($cells, cellWidth);
     }
@@ -246,16 +272,14 @@ var HorizontalGroupedStrategy = /*#__PURE__*/function () {
     return !allDay ? this._workSpace.getScrollable().scrollTop() : 0;
   };
 
-  _proto._getOffsetByAllDayPanel = function _getOffsetByAllDayPanel() {
-    return 0;
-  };
-
-  _proto._getGroupTop = function _getGroupTop() {
-    return 0;
+  _proto.getGroupIndexByCell = function getGroupIndexByCell($cell) {
+    var rowIndex = $cell.parent().index();
+    var cellIndex = $cell.index();
+    return this.getGroupIndex(rowIndex, cellIndex);
   };
 
   return HorizontalGroupedStrategy;
-}();
+}(_uiSchedulerWork_spaceGrouped.default);
 
 var _default = HorizontalGroupedStrategy;
 exports.default = _default;

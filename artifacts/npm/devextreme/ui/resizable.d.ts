@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/resizable.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -9,6 +9,10 @@
 import DOMComponent, {
     DOMComponentOptions
 } from '../core/dom_component';
+
+import {
+    UserDefinedElement
+} from '../core/element';
 
 import {
     EventInfo,
@@ -148,7 +152,9 @@ export interface dxResizableOptions extends DOMComponentOptions<dxResizable> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxResizable extends DOMComponent<dxResizableOptions> { }
+export default class dxResizable extends DOMComponent {
+    constructor(element: UserDefinedElement, options?: dxResizableOptions)
+}
 
 /** @public */
 export type Properties = dxResizableOptions;

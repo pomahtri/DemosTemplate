@@ -1,11 +1,15 @@
 /**
 * DevExtreme (viz/circular_gauge.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     Cancelable,
     EventInfo,
@@ -161,7 +165,9 @@ export interface dxCircularGaugeScaleLabel extends BaseGaugeScaleLabel {
  * @namespace DevExpress.viz
  * @public
  */
-export default class dxCircularGauge extends BaseGauge<dxCircularGaugeOptions> { }
+export default class dxCircularGauge extends BaseGauge {
+    constructor(element: UserDefinedElement, options?: dxCircularGaugeOptions)
+}
 
 /** @public */
 export type Properties = dxCircularGaugeOptions;

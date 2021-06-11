@@ -38,7 +38,7 @@ var Pager = /*#__PURE__*/function (_GridPagerWrapper) {
     key: "_propsInfo",
     get: function get() {
       return {
-        twoWay: [["pageIndex", "defaultPageIndex", "pageIndexChange"], ["pageSize", "defaultPageSize", "pageSizeChange"]],
+        twoWay: [["pageIndex", 1, "pageIndexChange"], ["pageSize", 5, "pageSizeChange"]],
         allowNull: [],
         elements: [],
         templates: [],
@@ -57,6 +57,5 @@ var Pager = /*#__PURE__*/function (_GridPagerWrapper) {
 
 exports.default = Pager;
 (0, _component_registrator.default)("dxPager", Pager);
-Pager.defaultOptions = _pager.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

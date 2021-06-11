@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/number_box/number_box.mask.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -15,6 +15,8 @@ var _events_engine = _interopRequireDefault(require("../../events/core/events_en
 var _extend = require("../../core/utils/extend");
 
 var _type = require("../../core/utils/type");
+
+var _browser = _interopRequireDefault(require("../../core/utils/browser"));
 
 var _devices = _interopRequireDefault(require("../../core/devices"));
 
@@ -41,8 +43,9 @@ var MOVE_FORWARD = 1;
 var MOVE_BACKWARD = -1;
 var MINUS = '-';
 var MINUS_KEY = 'minus';
+var NUMPUD_MINUS_KEY_IE = 'Subtract';
 var INPUT_EVENT = 'input';
-var CARET_TIMEOUT_DURATION = 0;
+var CARET_TIMEOUT_DURATION = _browser.default.msie ? 300 : 0; // If we move caret before the second click, IE can prevent browser text selection on double click
 
 var NumberBoxMask = _number_box2.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
@@ -582,6 +585,12 @@ var NumberBoxMask = _number_box2.default.inherit({
       this._isValuePasted = false;
     }.bind(this));
 
+    if (_browser.default.msie && _browser.default.version < 12) {
+      _events_engine.default.on($input, (0, _index.addNamespace)('paste', NUMBER_FORMATTER_NAMESPACE), function () {
+        this._isValuePasted = true;
+      }.bind(this));
+    }
+
     _events_engine.default.on($input, (0, _index.addNamespace)('dxclick', NUMBER_FORMATTER_NAMESPACE), function () {
       if (!this._caretTimeout) {
         this._caretTimeout = setTimeout(function () {
@@ -673,7 +682,17 @@ var NumberBoxMask = _number_box2.default.inherit({
         caret = (0, _number_box.getCaretWithOffset)(caret, offset);
         var caretInBoundaries = (0, _number_box.getCaretInBoundaries)(caret, currentText, format);
 
-        this._caret(caretInBoundaries);
+        if (_browser.default.msie) {
+          clearTimeout(this._caretTimeout);
+          this._caretTimeout = setTimeout(this._caret.bind(this, caretInBoundaries));
+        } else {
+          this._caret(caretInBoundaries);
+        }
+      }
+
+      if (e.key === NUMPUD_MINUS_KEY_IE) {
+        // Workaround for IE (T592690)
+        _events_engine.default.trigger(this._input(), INPUT_EVENT);
       }
     }
   },

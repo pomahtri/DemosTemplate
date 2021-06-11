@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/pager/page_size/large.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -41,10 +41,30 @@ var PageSizeLargePropsType = {
 export class PageSizeLarge extends BaseInfernoComponent {
   constructor(props) {
     super(props);
+    this._currentState = null;
     this.state = {
       pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.props.defaultPageSize
     };
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
+  }
+
+  get __state_pageSize() {
+    var state = this._currentState || this.state;
+    return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
+  }
+
+  set_pageSize(value) {
+    this.setState(state => {
+      var _this$props$pageSizeC, _this$props;
+
+      this._currentState = state;
+      var newValue = value();
+      (_this$props$pageSizeC = (_this$props = this.props).pageSizeChange) === null || _this$props$pageSizeC === void 0 ? void 0 : _this$props$pageSizeC.call(_this$props, newValue);
+      this._currentState = null;
+      return {
+        pageSize: newValue
+      };
+    });
   }
 
   get pageSizesText() {
@@ -56,7 +76,7 @@ export class PageSizeLarge extends BaseInfernoComponent {
         text,
         value: processedPageSize
       } = _ref3;
-      var selected = processedPageSize === (this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize);
+      var selected = processedPageSize === this.__state_pageSize;
       var className = selected ? PAGER_SELECTED_PAGE_SIZE_CLASS : PAGER_PAGE_SIZE_CLASS;
       return {
         className,
@@ -69,23 +89,13 @@ export class PageSizeLarge extends BaseInfernoComponent {
 
   onPageSizeChange(processedPageSize) {
     return () => {
-      {
-        var __newValue;
-
-        this.setState(state => {
-          __newValue = processedPageSize;
-          return {
-            pageSize: __newValue
-          };
-        });
-        this.props.pageSizeChange(__newValue);
-      }
+      this.set_pageSize(() => processedPageSize);
     };
   }
 
   get restAttributes() {
     var _this$props$pageSize = _extends({}, this.props, {
-      pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+      pageSize: this.__state_pageSize
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$pageSize, _excluded);
 
@@ -96,7 +106,7 @@ export class PageSizeLarge extends BaseInfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+        pageSize: this.__state_pageSize
       }),
       pageSizesText: this.pageSizesText,
       restAttributes: this.restAttributes

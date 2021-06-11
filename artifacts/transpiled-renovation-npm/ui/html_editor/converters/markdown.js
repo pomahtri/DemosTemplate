@@ -41,14 +41,11 @@ var MarkdownConverter = /*#__PURE__*/function () {
           return '<br>';
         }
       });
-
-      this._html2Markdown.keep(['table']);
     }
 
     this._markdown2Html = new showdown.Converter({
       simpleLineBreaks: true,
-      strikethrough: true,
-      tables: true
+      strikethrough: true
     });
   }
 

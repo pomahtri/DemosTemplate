@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/load_panel.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -20,13 +20,10 @@ var _dom_component_wrapper = require("./common/dom_component_wrapper");
 
 var _overlay = require("./overlay");
 
-var _excluded = ["_checkParentVisibility", "accessKey", "activeStateEnabled", "animation", "className", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "delay", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "message", "onClick", "onKeyDown", "position", "propagateOutsideClick", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
+var _excluded = ["rootElementRef"],
+    _excluded2 = ["_checkParentVisibility", "_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "animation", "aria", "children", "className", "classes", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "delay", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "message", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "position", "propagateOutsideClick", "rootElementRef", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -38,12 +35,20 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 var viewFunction = function viewFunction(_ref) {
-  var props = _ref.props,
+  var _ref$props = _ref.props,
+      rootElementRef = _ref$props.rootElementRef,
+      componentProps = _objectWithoutProperties(_ref$props, _excluded),
       restAttributes = _ref.restAttributes;
+
   return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _dom_component_wrapper.DomComponentWrapper, _extends({
+    "rootElementRef": rootElementRef,
     "componentType": _load_panel.default,
-    "componentProps": props
+    "componentProps": componentProps
   }, restAttributes)));
 };
 
@@ -79,10 +84,16 @@ var LoadPanel = /*#__PURE__*/function (_BaseInfernoComponent) {
     get: function get() {
       var _this$props = this.props,
           _checkParentVisibility = _this$props._checkParentVisibility,
+          _feedbackHideTimeout = _this$props._feedbackHideTimeout,
+          _feedbackShowTimeout = _this$props._feedbackShowTimeout,
           accessKey = _this$props.accessKey,
           activeStateEnabled = _this$props.activeStateEnabled,
+          activeStateUnit = _this$props.activeStateUnit,
           animation = _this$props.animation,
+          aria = _this$props.aria,
+          children = _this$props.children,
           className = _this$props.className,
+          classes = _this$props.classes,
           closeOnOutsideClick = _this$props.closeOnOutsideClick,
           closeOnTargetScroll = _this$props.closeOnTargetScroll,
           container = _this$props.container,
@@ -96,17 +107,29 @@ var LoadPanel = /*#__PURE__*/function (_BaseInfernoComponent) {
           integrationOptions = _this$props.integrationOptions,
           maxWidth = _this$props.maxWidth,
           message = _this$props.message,
+          name = _this$props.name,
+          onActive = _this$props.onActive,
           onClick = _this$props.onClick,
+          onContentReady = _this$props.onContentReady,
+          onDimensionChanged = _this$props.onDimensionChanged,
+          onFocusIn = _this$props.onFocusIn,
+          onFocusOut = _this$props.onFocusOut,
+          onHoverEnd = _this$props.onHoverEnd,
+          onHoverStart = _this$props.onHoverStart,
+          onInactive = _this$props.onInactive,
           onKeyDown = _this$props.onKeyDown,
+          onKeyboardHandled = _this$props.onKeyboardHandled,
+          onVisibilityChange = _this$props.onVisibilityChange,
           position = _this$props.position,
           propagateOutsideClick = _this$props.propagateOutsideClick,
+          rootElementRef = _this$props.rootElementRef,
           rtlEnabled = _this$props.rtlEnabled,
           shading = _this$props.shading,
           tabIndex = _this$props.tabIndex,
           templatesRenderAsynchronously = _this$props.templatesRenderAsynchronously,
           visible = _this$props.visible,
           width = _this$props.width,
-          restProps = _objectWithoutProperties(_this$props, _excluded);
+          restProps = _objectWithoutProperties(_this$props, _excluded2);
 
       return restProps;
     }

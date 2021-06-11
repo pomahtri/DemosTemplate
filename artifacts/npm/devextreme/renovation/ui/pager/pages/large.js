@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/pages/large.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -137,6 +137,7 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.state = {
       pageIndex: _this.props.pageIndex !== undefined ? _this.props.pageIndex : _this.props.defaultPageIndex
     };
@@ -149,10 +150,26 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = PagesLarge.prototype;
 
+  _proto.set_pageIndex = function set_pageIndex(value) {
+    var _this2 = this;
+
+    this.setState(function (state) {
+      var _this2$props$pageInde, _this2$props;
+
+      _this2._currentState = state;
+      var newValue = value();
+      (_this2$props$pageInde = (_this2$props = _this2.props).pageIndexChange) === null || _this2$props$pageInde === void 0 ? void 0 : _this2$props$pageInde.call(_this2$props, newValue);
+      _this2._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
+  };
+
   _proto.canReuseSlidingWindow = function canReuseSlidingWindow(currentPageCount, pageIndex) {
     var indexesForReuse = this.slidingWindowState.indexesForReuse;
-    var currentPageNotExistInIndexes = !indexesForReuse.includes(currentPageCount);
-    var pageIndexExistInIndexes = indexesForReuse.includes(pageIndex);
+    var currentPageNotExistInIndexes = indexesForReuse.indexOf(currentPageCount) === -1;
+    var pageIndexExistInIndexes = indexesForReuse.indexOf(pageIndex) !== -1;
     return currentPageNotExistInIndexes && pageIndexExistInIndexes;
   };
 
@@ -161,16 +178,16 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     var startIndex = 0;
     var slidingWindowIndexes = this.slidingWindowState.slidingWindowIndexes;
 
-    if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) === slidingWindowIndexes[0]) {
-      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
-    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) === slidingWindowIndexes[slidingWindowIndexes.length - 1]) {
-      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + 2 - PAGES_LIMITER;
-    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) < PAGES_LIMITER) {
+    if (this.__state_pageIndex === slidingWindowIndexes[0]) {
+      startIndex = this.__state_pageIndex - 1;
+    } else if (this.__state_pageIndex === slidingWindowIndexes[slidingWindowIndexes.length - 1]) {
+      startIndex = this.__state_pageIndex + 2 - PAGES_LIMITER;
+    } else if (this.__state_pageIndex < PAGES_LIMITER) {
       startIndex = 1;
-    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) >= pageCount - PAGES_LIMITER) {
+    } else if (this.__state_pageIndex >= pageCount - PAGES_LIMITER) {
       startIndex = pageCount - PAGES_LIMITER - 1;
     } else {
-      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
+      startIndex = this.__state_pageIndex - 1;
     }
 
     var slidingWindowSize = PAGES_LIMITER;
@@ -201,7 +218,7 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
       config: this.config,
       pageIndexes: this.pageIndexes,
@@ -218,6 +235,12 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
       }
 
       return _config_context.ConfigContext;
+    }
+  }, {
+    key: "__state_pageIndex",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
     }
   }, {
     key: "slidingWindowState",
@@ -242,7 +265,7 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
         return createPageIndexes(0, pageCount, pageCount, "none").pageIndexes;
       }
 
-      if (this.canReuseSlidingWindow(pageCount, this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex)) {
+      if (this.canReuseSlidingWindow(pageCount, this.__state_pageIndex)) {
         var slidingWindowIndexes = this.slidingWindowState.slidingWindowIndexes;
         var delimiter = getDelimiterType(slidingWindowIndexes[0], PAGES_LIMITER, pageCount);
         return createPageIndexesBySlidingWindowIndexes(slidingWindowIndexes, pageCount, delimiter).pageIndexes;
@@ -253,16 +276,16 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
   }, {
     key: "pages",
     get: function get() {
-      var _this2 = this,
+      var _this3 = this,
           _this$config;
 
       var createPage = function createPage(index) {
         var pagerProps = index === "low" || index === "high" ? null : {
           index: index,
           onClick: function onClick() {
-            return _this2.onPageClick(index);
+            return _this3.onPageClick(index);
           },
-          selected: (_this2.props.pageIndex !== undefined ? _this2.props.pageIndex : _this2.state.pageIndex) === index
+          selected: _this3.__state_pageIndex === index
         };
         return {
           key: index.toString(),
@@ -279,7 +302,7 @@ var PagesLarge = /*#__PURE__*/function (_BaseInfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex2 = _extends({}, this.props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
           defaultPageIndex = _this$props$pageIndex2.defaultPageIndex,
           maxPagesCount = _this$props$pageIndex2.maxPagesCount,

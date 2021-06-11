@@ -110,8 +110,8 @@ export function getCloudPoints(size, coordinates, rotationAngle, options, bounde
   var arrowBaseTop = max(arrowY - halfArrowWidth, yt);
   var arrowBaseLeft = max(arrowX - halfArrowWidth, xl);
   var cornerRadius = Math.min(halfWidth, halfHeight, options.cornerRadius);
-  var points = "";
-  var arrowArc = "";
+  var points;
+  var arrowArc;
   leftTopCorner[1] += cornerRadius;
   rightTopCorner[0] -= cornerRadius;
   rightBottomCorner[1] -= cornerRadius;
@@ -252,8 +252,8 @@ export function recalculateCoordinates(_ref4) {
     return false;
   }
 
-  var x = Number.NaN;
-  var y = Number.NaN;
+  var x;
+  var y;
   var correctedAnchorY = anchorY;
 
   if (bounds.width < size.width) {

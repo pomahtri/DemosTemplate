@@ -1,22 +1,28 @@
-import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["accessKey", "activeStateEnabled", "className", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "indicatorSrc", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"];
+import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
+var _excluded = ["rootElementRef"],
+    _excluded2 = ["_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "aria", "children", "className", "classes", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "indicatorSrc", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "rootElementRef", "rtlEnabled", "tabIndex", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import LegacyLoadIndicator from "../../ui/load_indicator";
+import { WidgetProps } from "./common/widget";
 import { DomComponentWrapper } from "./common/dom_component_wrapper";
-import { BaseWidgetProps } from "./common/base_props";
 export var viewFunction = _ref => {
   var {
-    props,
+    props: {
+      rootElementRef
+    },
     restAttributes
-  } = _ref;
+  } = _ref,
+      componentProps = _objectWithoutPropertiesLoose(_ref.props, _excluded);
+
   return normalizeProps(createComponentVNode(2, DomComponentWrapper, _extends({
+    "rootElementRef": rootElementRef,
     "componentType": LegacyLoadIndicator,
-    "componentProps": props
+    "componentProps": componentProps
   }, restAttributes)));
 };
-export var LoadIndicatorProps = _extends({}, BaseWidgetProps);
+export var LoadIndicatorProps = _extends({}, WidgetProps);
 export class LoadIndicator extends BaseInfernoComponent {
   constructor(props) {
     super(props);
@@ -25,7 +31,7 @@ export class LoadIndicator extends BaseInfernoComponent {
 
   get restAttributes() {
     var _this$props = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
+        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded2);
 
     return restProps;
   }

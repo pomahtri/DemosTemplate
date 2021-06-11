@@ -8,9 +8,6 @@ import WorkSpace from './ui.scheduler.work_space';
 import { extend } from '../../../core/utils/extend';
 import dateLocalization from '../../../localization/date';
 import tableCreatorModule from '../table_creator';
-import { TIME_PANEL_CLASS, DATE_TABLE_CLASS, DATE_TABLE_ROW_CLASS, GROUP_ROW_CLASS, GROUP_HEADER_CONTENT_CLASS } from '../classes';
-import { getResourceManager } from '../resources/resourceManager';
-import { getAppointmentDataProvider } from '../appointments/DataProvider/appointmentDataProvider';
 var {
   tableCreator
 } = tableCreatorModule;
@@ -147,8 +144,8 @@ class SchedulerAgenda extends WorkSpace {
   _initWorkSpaceUnits() {
     this._initGroupTable();
 
-    this._$timePanel = $('<table>').addClass(TIME_PANEL_CLASS);
-    this._$dateTable = $('<table>').addClass(DATE_TABLE_CLASS);
+    this._$timePanel = $('<table>').addClass(this._getTimePanelClass());
+    this._$dateTable = $('<table>').addClass(this._getDateTableClass());
   }
 
   _initGroupTable() {
@@ -278,19 +275,16 @@ class SchedulerAgenda extends WorkSpace {
   }
 
   _makeGroupRows() {
-    var {
-      filteredItems
-    } = getAppointmentDataProvider(); // TODO refactoring
-
-    var tree = getResourceManager().createReducedResourcesTree(filteredItems); // TODO refactoring
-
+    var tree = this.invoke('createReducedResourcesTree');
     var cellTemplate = this.option('resourceCellTemplate');
-    var getGroupHeaderContentClass = GROUP_HEADER_CONTENT_CLASS;
+
+    var getGroupHeaderContentClass = this._getGroupHeaderContentClass();
+
     var cellTemplates = [];
     var table = tableCreator.makeGroupedTableFromJSON(tableCreator.VERTICAL, tree, {
       cellTag: 'th',
       groupTableClass: GROUP_TABLE_CLASS,
-      groupRowClass: GROUP_ROW_CLASS,
+      groupRowClass: this._getGroupRowClass(),
       groupCellClass: this._getGroupHeaderClass(),
 
       groupCellCustomContent(cell, cellText, index, data) {
@@ -323,7 +317,7 @@ class SchedulerAgenda extends WorkSpace {
       cellTemplate: cellTemplate
     });
     return {
-      elements: $(table).find(".".concat(GROUP_ROW_CLASS)),
+      elements: $(table).find('.' + this._getGroupRowClass()),
       cellTemplates: cellTemplates
     };
   }
@@ -363,7 +357,7 @@ class SchedulerAgenda extends WorkSpace {
   _renderDateTable() {
     this._renderTableBody({
       container: getPublicElement(this._$dateTable),
-      rowClass: DATE_TABLE_ROW_CLASS,
+      rowClass: this._getDateTableRowClass(),
       cellClass: this._getDateTableCellClass()
     });
   }
@@ -388,7 +382,7 @@ class SchedulerAgenda extends WorkSpace {
     var groupsOpt = this.option('groups');
     var groups = {};
     var isGroupedView = !!groupsOpt.length;
-    var path = isGroupedView && getResourceManager()._getPathToLeaf(rowIndex, groupsOpt) || [];
+    var path = isGroupedView && this._getPathToLeaf(rowIndex) || [];
     path.forEach(function (resourceValue, resourceIndex) {
       var resourceName = groupsOpt[resourceIndex].name;
       groups[resourceName] = resourceValue;
@@ -590,12 +584,6 @@ class SchedulerAgenda extends WorkSpace {
 
     return isUpdateNeeded;
   }
-
-  renovatedRenderSupported() {
-    return false;
-  }
-
-  _setSelectedCellsByCellData() {}
 
 }
 

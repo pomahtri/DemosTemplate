@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["accessKey", "activeStateEnabled", "className", "defaultValue", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "isValid", "name", "onClick", "onFocusIn", "onKeyDown", "readOnly", "rtlEnabled", "saveValueChangeEvent", "tabIndex", "text", "useInkRipple", "validationError", "validationErrors", "validationMessageMode", "validationStatus", "value", "valueChange", "visible", "width"];
+var _excluded = ["accessKey", "activeStateEnabled", "defaultValue", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "isValid", "name", "onClick", "onContentReady", "onFocusIn", "onKeyDown", "readOnly", "rtlEnabled", "saveValueChangeEvent", "tabIndex", "text", "useInkRipple", "validationError", "validationErrors", "validationMessageMode", "validationStatus", "value", "valueChange", "visible", "width"];
 import { createVNode, createComponentVNode, normalizeProps } from "inferno";
 import { InfernoEffect, InfernoWrapperComponent } from "@devextreme/vdom";
 import { createDefaultOptionRules, convertRulesToOptions } from "../../core/options/utils";
@@ -48,7 +48,6 @@ export var viewFunction = viewModel => {
     "rootElementRef": viewModel.target,
     "accessKey": viewModel.props.accessKey,
     "activeStateEnabled": viewModel.props.activeStateEnabled,
-    "className": viewModel.props.className,
     "classes": viewModel.cssClasses,
     "disabled": viewModel.props.disabled,
     "focusStateEnabled": viewModel.props.focusStateEnabled,
@@ -59,6 +58,7 @@ export var viewFunction = viewModel => {
     "onFocusIn": viewModel.onFocusIn,
     "onFocusOut": viewModel.onFocusOut,
     "aria": viewModel.aria,
+    "onContentReady": viewModel.props.onContentReady,
     "onClick": viewModel.onWidgetClick,
     "onInactive": viewModel.onInactive,
     "onKeyDown": viewModel.onWidgetKeyDown,
@@ -111,11 +111,11 @@ export var defaultOptionRules = createDefaultOptionRules([{
     useInkRipple: false
   }
 }]);
-import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 export class CheckBox extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
+    this._currentState = null;
     this.iconRef = infernoCreateRef();
     this.inkRippleRef = infernoCreateRef();
     this.inputRef = infernoCreateRef();
@@ -127,6 +127,7 @@ export class CheckBox extends InfernoWrapperComponent {
     };
     this.updateValidationMessageVisibility = this.updateValidationMessageVisibility.bind(this);
     this.focus = this.focus.bind(this);
+    this.contentReadyEffect = this.contentReadyEffect.bind(this);
     this.onActive = this.onActive.bind(this);
     this.onInactive = this.onInactive.bind(this);
     this.onFocusIn = this.onFocusIn.bind(this);
@@ -137,20 +138,58 @@ export class CheckBox extends InfernoWrapperComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.updateValidationMessageVisibility, [this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]), createReRenderEffect()];
+    return [new InfernoEffect(this.updateValidationMessageVisibility, [this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]), new InfernoEffect(this.contentReadyEffect, [this.props.onContentReady])];
   }
 
   updateEffects() {
-    var _this$_effects$;
+    var _this$_effects$, _this$_effects$2;
 
     (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.onContentReady]);
+  }
+
+  get showValidationMessage() {
+    var state = this._currentState || this.state;
+    return state.showValidationMessage;
+  }
+
+  set_showValidationMessage(value) {
+    this.setState(state => {
+      this._currentState = state;
+      var newValue = value();
+      this._currentState = null;
+      return {
+        showValidationMessage: newValue
+      };
+    });
+  }
+
+  get __state_value() {
+    var state = this._currentState || this.state;
+    return this.props.value !== undefined ? this.props.value : state.value;
+  }
+
+  set_value(value) {
+    this.setState(state => {
+      this._currentState = state;
+      var newValue = value();
+      this.props.valueChange(newValue);
+      this._currentState = null;
+      return {
+        value: newValue
+      };
+    });
   }
 
   updateValidationMessageVisibility() {
-    this.setState(state => _extends({}, state, {
-      showValidationMessage: this.shouldShowValidationMessage
-    }));
-    return undefined;
+    this.set_showValidationMessage(() => this.shouldShowValidationMessage);
+  }
+
+  contentReadyEffect() {
+    var {
+      onContentReady
+    } = this.props;
+    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({});
   }
 
   onActive(event) {
@@ -181,17 +220,7 @@ export class CheckBox extends InfernoWrapperComponent {
 
     if (!readOnly) {
       saveValueChangeEvent === null || saveValueChangeEvent === void 0 ? void 0 : saveValueChangeEvent(event);
-      {
-        var __newValue;
-
-        this.setState(state => {
-          __newValue = !(this.props.value !== undefined ? this.props.value : state.value);
-          return {
-            value: __newValue
-          };
-        });
-        this.props.valueChange(__newValue);
-      }
+      this.set_value(() => !this.__state_value);
     }
   }
 
@@ -220,7 +249,7 @@ export class CheckBox extends InfernoWrapperComponent {
 
   get cssClasses() {
     return getCssClasses(_extends({}, this.props, {
-      value: this.props.value !== undefined ? this.props.value : this.state.value
+      value: this.__state_value
     }));
   }
 
@@ -239,8 +268,8 @@ export class CheckBox extends InfernoWrapperComponent {
       isValid,
       readOnly
     } = this.props;
-    var checked = !!(this.props.value !== undefined ? this.props.value : this.state.value);
-    var indeterminate = (this.props.value !== undefined ? this.props.value : this.state.value) === null;
+    var checked = !!this.__state_value;
+    var indeterminate = this.__state_value === null;
     var result = {
       role: "checkbox",
       checked: indeterminate ? "mixed" : "".concat(checked),
@@ -288,7 +317,7 @@ export class CheckBox extends InfernoWrapperComponent {
 
   get restAttributes() {
     var _this$props$value = _extends({}, this.props, {
-      value: this.props.value !== undefined ? this.props.value : this.state.value
+      value: this.__state_value
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$value, _excluded);
 
@@ -303,9 +332,9 @@ export class CheckBox extends InfernoWrapperComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        value: this.props.value !== undefined ? this.props.value : this.state.value
+        value: this.__state_value
       }),
-      showValidationMessage: this.state.showValidationMessage,
+      showValidationMessage: this.showValidationMessage,
       iconRef: this.iconRef,
       inputRef: this.inputRef,
       target: this.target,

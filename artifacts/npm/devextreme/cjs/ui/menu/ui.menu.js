@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/menu/ui.menu.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -36,7 +36,7 @@ var _hover = require("../../events/hover");
 
 var _ui = _interopRequireDefault(require("../context_menu/ui.menu_base"));
 
-var _overlay = require("../overlay");
+var _overlay = _interopRequireDefault(require("../overlay"));
 
 var _ui2 = _interopRequireDefault(require("./ui.submenu"));
 
@@ -441,7 +441,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     var $hamburger = this._renderHamburgerButton();
 
     this._treeView = this._createComponent((0, _renderer.default)('<div>'), _tree_view.default, this._getTreeViewOptions());
-    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _overlay.Overlay, this._getAdaptiveOverlayOptions());
+    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _overlay.default, this._getAdaptiveOverlayOptions());
 
     this._overlay.$content().append(this._treeView.$element()).addClass(DX_ADAPTIVE_MODE_CLASS).addClass(this.option('cssClass'));
 

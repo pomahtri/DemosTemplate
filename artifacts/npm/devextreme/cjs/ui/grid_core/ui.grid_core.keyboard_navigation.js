@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.keyboard_navigation.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -1819,7 +1819,6 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
       type: 'input',
       target: $input.get(0)
     });
-    $input.get(0).select();
 
     _events_engine.default.trigger($input, keyDownEvent);
 

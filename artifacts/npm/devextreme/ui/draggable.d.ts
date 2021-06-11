@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/draggable.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -32,7 +32,7 @@ import dxSortable from './sortable';
 /**
  * @namespace DevExpress.ui
  */
-export interface DraggableBaseOptions<TComponent> extends DOMComponentOptions<TComponent> {
+export interface DraggableBaseOptions<T = DraggableBase & DOMComponent> extends DOMComponentOptions<T> {
     /**
      * @docid
      * @default true
@@ -243,7 +243,9 @@ export interface dxDraggableOptions extends DraggableBaseOptions<dxDraggable> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxDraggable extends DOMComponent<dxDraggableOptions> implements DraggableBase { }
+export default class dxDraggable extends DOMComponent implements DraggableBase {
+    constructor(element: UserDefinedElement, options?: dxDraggableOptions)
+}
 
 /** @public */
 export type Properties = dxDraggableOptions;

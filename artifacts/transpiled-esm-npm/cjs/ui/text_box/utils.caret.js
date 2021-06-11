@@ -6,6 +6,8 @@ var _renderer = _interopRequireDefault(require("../../core/renderer"));
 
 var _type = require("../../core/utils/type");
 
+var _browser = _interopRequireDefault(require("../../core/utils/browser"));
+
 var _devices = _interopRequireDefault(require("../../core/devices"));
 
 var _dom_adapter = _interopRequireDefault(require("../../core/dom_adapter"));
@@ -16,7 +18,7 @@ var _devices$real = _devices.default.real(),
     ios = _devices$real.ios,
     mac = _devices$real.mac;
 
-var isFocusingOnCaretChange = ios || mac;
+var isFocusingOnCaretChange = _browser.default.msie || ios || mac;
 
 var getCaret = function getCaret(input) {
   var range;
@@ -53,7 +55,7 @@ var caret = function caret(input, position) {
 
   if (!(0, _type.isDefined)(position)) {
     return getCaret(input);
-  } // NOTE: AppleWebKit-based browsers focuses element input after caret position has changed
+  } // NOTE: IE and AppleWebKit-based browsers focuses element input after caret position has changed
 
 
   if (!force && isFocusingOnCaretChange && _dom_adapter.default.getActiveElement() !== input) {

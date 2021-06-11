@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/drop_down_button.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -38,7 +38,7 @@ import {
 } from './list';
 
 import {
-    Properties as PopupProperties
+    dxPopupOptions
 } from './popup';
 
 import Widget, {
@@ -112,9 +112,8 @@ export interface dxDropDownButtonOptions extends WidgetOptions<dxDropDownButton>
      * @docid
      * @default {}
      * @public
-     * @type dxPopupOptions
      */
-    dropDownOptions?: PopupProperties;
+    dropDownOptions?: dxPopupOptions;
     /**
      * @docid
      * @default true
@@ -272,7 +271,8 @@ export interface dxDropDownButtonOptions extends WidgetOptions<dxDropDownButton>
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxDropDownButton extends Widget<dxDropDownButtonOptions> {
+export default class dxDropDownButton extends Widget {
+    constructor(element: UserDefinedElement, options?: dxDropDownButtonOptions)
     /**
      * @docid
      * @publicName close()

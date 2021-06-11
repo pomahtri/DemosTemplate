@@ -42,7 +42,7 @@ var _message = _interopRequireDefault(require("../localization/message"));
 
 var _button = _interopRequireDefault(require("./button"));
 
-var _overlay = require("./overlay");
+var _overlay = _interopRequireDefault(require("./overlay"));
 
 var _themes = require("./themes");
 
@@ -71,6 +71,7 @@ var BUTTON_DEFAULT_TYPE = 'default';
 var BUTTON_NORMAL_TYPE = 'normal';
 var BUTTON_TEXT_MODE = 'text';
 var BUTTON_CONTAINED_MODE = 'contained';
+var IS_IE11 = _browser.default.msie && parseInt(_browser.default.version) === 11;
 var IS_OLD_SAFARI = _browser.default.safari && (0, _version.compare)(_browser.default.version, [11]) < 0;
 var HEIGHT_STRATEGIES = {
   static: '',
@@ -118,7 +119,7 @@ var getButtonPlace = function getButtonPlace(name) {
   };
 };
 
-var Popup = _overlay.Overlay.inherit({
+var Popup = _overlay.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       fullScreen: false,
@@ -572,7 +573,9 @@ var Popup = _overlay.Overlay.inherit({
 
     if (this._isAutoHeight() && this.option('autoResizeEnabled')) {
       if (isAutoWidth || IS_OLD_SAFARI) {
-        currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
+        if (!IS_IE11) {
+          currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
+        }
       } else {
         currentHeightStrategyClass = HEIGHT_STRATEGIES.flex;
       }

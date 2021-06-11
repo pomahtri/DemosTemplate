@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/date_box/ui.date_box.mask.parts.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -95,7 +95,7 @@ export var renderDateParts = (text, regExpInfo) => {
   var end = 0;
   var sections = [];
 
-  var _loop = function _loop(i) {
+  for (var i = 1; i < result.length; i++) {
     start = end;
     end = start + result[i].length;
     var pattern = regExpInfo.patterns[i - 1].replace(/^'|'$/g, '');
@@ -109,20 +109,10 @@ export var renderDateParts = (text, regExpInfo) => {
       },
       pattern: pattern,
       text: result[i],
-      limits: function limits() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return getLimits(pattern[0], ...args);
-      },
+      limits: getLimits.bind(this, pattern[0]),
       setter: PATTERN_SETTERS[pattern[0]] || noop,
       getter: getter
     });
-  };
-
-  for (var i = 1; i < result.length; i++) {
-    _loop(i);
   }
 
   return sections;

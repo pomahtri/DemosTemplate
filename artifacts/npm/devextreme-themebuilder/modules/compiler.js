@@ -50,13 +50,6 @@ class Compiler {
         this.userItems = [];
         this.dartClient = new dart_client_1.default();
     }
-    static getImportType(url) {
-        if (url.endsWith('tb_index'))
-            return ImportType.Index;
-        if (url.startsWith('tb_'))
-            return ImportType.Color;
-        return ImportType.Unknown;
-    }
     compile(items, options) {
         return __awaiter(this, void 0, void 0, function* () {
             this.changedVariables = {};
@@ -121,6 +114,13 @@ class Compiler {
             }
         });
     }
+    static getImportType(url) {
+        if (url.endsWith('tb_index'))
+            return ImportType.Index;
+        if (url.startsWith('tb_'))
+            return ImportType.Color;
+        return ImportType.Unknown;
+    }
     getMatchingUserItemsAsString(theme) {
         const meta = theme === 'generic' ? this.meta.generic : this.meta.material;
         const themeKeys = meta.map((item) => item.Key);
@@ -145,15 +145,12 @@ class Compiler {
     }
     collector(map) {
         for (let mapIndex = 0; mapIndex < map.getLength(); mapIndex += 1) {
-            const keyMap = map.getKey(mapIndex);
-            if (keyMap instanceof sass.types.String) {
-                const variableKey = keyMap.getValue();
-                const variableValue = map.getValue(mapIndex).toString();
-                // eslint-disable-next-line no-continue
-                if (variableValue === 'null')
-                    continue;
-                this.changedVariables[variableKey] = variableValue;
-            }
+            const variableKey = map.getKey(mapIndex).getValue();
+            const variableValue = map.getValue(mapIndex).toString();
+            // eslint-disable-next-line no-continue
+            if (variableValue === 'null')
+                continue;
+            this.changedVariables[variableKey] = variableValue;
         }
         return sass.types.Null.NULL;
     }

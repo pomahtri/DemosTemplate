@@ -20,13 +20,17 @@ var _common = require("../../core/utils/common");
 
 var _extend = require("../../core/utils/extend");
 
+var _deferred = require("../../core/utils/deferred");
+
 var _date2 = _interopRequireDefault(require("../../localization/date"));
 
 var _utils = _interopRequireDefault(require("./utils.timeZone"));
 
-var _classes = require("./classes");
+var _constants = require("./constants");
 
 var _utils2 = _interopRequireDefault(require("./utils"));
+
+var _utils3 = require("./resources/utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46,9 +50,6 @@ var subscribes = {
   },
   getOption: function getOption(name) {
     return this.option(name);
-  },
-  getWorkspaceOption: function getWorkspaceOption(name) {
-    return this.getWorkSpace().option(name);
   },
   isVirtualScrolling: function isVirtualScrolling() {
     return this.isVirtualScrolling();
@@ -134,8 +135,40 @@ var subscribes = {
     this.checkAndDeleteAppointment(options.data, targetedData);
     this.hideAppointmentTooltip();
   },
+  getAppointmentColor: function getAppointmentColor(options) {
+    var resourcesManager = this._resourcesManager;
+    var resourceForPainting = resourcesManager.getResourceForPainting(this._getCurrentViewOption('groups'));
+    var response = new _deferred.Deferred().resolve().promise();
+
+    if (resourceForPainting) {
+      var field = (0, _utils3.getFieldExpr)(resourceForPainting);
+      var groupIndex = options.groupIndex;
+
+      var groups = this._workSpace._getCellGroups(groupIndex);
+
+      var resourceValues = (0, _array.wrapToArray)(resourcesManager.getDataAccessors(field, 'getter')(options.itemData));
+      var groupId = resourceValues.length ? resourceValues[0] : undefined;
+
+      for (var i = 0; i < groups.length; i++) {
+        if (groups[i].name === field) {
+          groupId = groups[i].id;
+          break;
+        }
+      }
+
+      response = resourcesManager.getResourceColor(field, groupId);
+    }
+
+    return response;
+  },
   getHeaderHeight: function getHeaderHeight() {
     return this._header._$element && parseInt(this._header._$element.outerHeight(), 10);
+  },
+  getResourcesFromItem: function getResourcesFromItem(itemData) {
+    return this._resourcesManager.getResourcesFromItem(itemData);
+  },
+  appointmentTakesSeveralDays: function appointmentTakesSeveralDays(appointment) {
+    return this._appointmentModel.appointmentTakesSeveralDays(appointment);
   },
   getTextAndFormatDate: function getTextAndFormatDate(appointmentRaw, targetedAppointmentRaw, format) {
     // TODO: rename to createFormattedDateText
@@ -409,6 +442,49 @@ var subscribes = {
   dayHasAppointment: function dayHasAppointment(day, appointment, trimTime) {
     return this.dayHasAppointment(day, appointment, trimTime);
   },
+  createResourcesTree: function createResourcesTree() {
+    return this._resourcesManager.createResourcesTree(this._loadedResources);
+  },
+  getResourceTreeLeaves: function getResourceTreeLeaves(tree, appointmentResources) {
+    return this._resourcesManager.getResourceTreeLeaves(tree, appointmentResources);
+  },
+  createReducedResourcesTree: function createReducedResourcesTree() {
+    var tree = this._resourcesManager.createResourcesTree(this._loadedResources);
+
+    return this._resourcesManager.reduceResourcesTree(tree, this.getFilteredItems());
+  },
+  groupAppointmentsByResources: function groupAppointmentsByResources(appointments) {
+    var result = {
+      '0': appointments
+    };
+
+    var groups = this._getCurrentViewOption('groups');
+
+    if (groups && groups.length && this._resourcesManager.getResourcesData().length) {
+      result = this._resourcesManager.groupAppointmentsByResources(appointments, this._loadedResources);
+    }
+
+    var totalResourceCount = 0;
+    (0, _iterator.each)(this._loadedResources, function (i, resource) {
+      if (!i) {
+        totalResourceCount = resource.items.length;
+      } else {
+        totalResourceCount *= resource.items.length;
+      }
+    });
+
+    for (var j = 0; j < totalResourceCount; j++) {
+      var index = j.toString();
+
+      if (result[index]) {
+        continue;
+      }
+
+      result[index] = [];
+    }
+
+    return result;
+  },
   getLayoutManager: function getLayoutManager() {
     return this._layoutManager;
   },
@@ -437,7 +513,7 @@ var subscribes = {
 
     var applyClass = function applyClass(_, count) {
       var index = count + total - 1;
-      $appts.eq(index).addClass(_classes.AGENDA_LAST_IN_DATE_APPOINTMENT_CLASS);
+      $appts.eq(index).addClass(_constants.AGENDA_LAST_IN_DATE_APPOINTMENT_CLASS);
       total += count;
     };
 
@@ -497,6 +573,12 @@ var subscribes = {
     }
 
     return result;
+  },
+  replaceWrongEndDate: function replaceWrongEndDate(appointment, startDate, endDate) {
+    this._appointmentModel.replaceWrongEndDate(appointment, startDate, endDate);
+  },
+  calculateAppointmentEndDate: function calculateAppointmentEndDate(isAllDay, startDate) {
+    return this._appointmentModel._calculateAppointmentEndDate(isAllDay, startDate);
   },
   getEndDayHour: function getEndDayHour() {
     return this._workSpace.option('endDayHour') || this.option('endDayHour');

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/calendar/ui.calendar.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -35,6 +35,8 @@ var _uiCalendar = _interopRequireDefault(require("./ui.calendar.navigator"));
 var _uiCalendar2 = _interopRequireDefault(require("./ui.calendar.views"));
 
 var _translator = require("../../animation/translator");
+
+var _browser = _interopRequireDefault(require("../../core/utils/browser"));
 
 var _date2 = _interopRequireDefault(require("../../core/utils/date"));
 
@@ -81,6 +83,7 @@ var ZOOM_LEVEL = {
   DECADE: 'decade',
   CENTURY: 'century'
 };
+var isIE11 = _browser.default.msie && parseInt(_browser.default.version) <= 11;
 
 var Calendar = _editor.default.inherit({
   _activeStateUnit: '.' + CALENDAR_CELL_CLASS,
@@ -700,7 +703,7 @@ var Calendar = _editor.default.inherit({
     });
   },
   _getViewPosition: function _getViewPosition(coefficient) {
-    var rtlCorrection = this.option('rtlEnabled') ? -1 : 1;
+    var rtlCorrection = this.option('rtlEnabled') && !_browser.default.msie ? -1 : 1;
     return coefficient * 100 * rtlCorrection + '%';
   },
   _cellClickHandler: function _cellClickHandler(e) {
@@ -1008,7 +1011,13 @@ var Calendar = _editor.default.inherit({
     });
   },
   _getDate: function _getDate(value) {
-    return _date2.default.createDate(value);
+    var result = _date2.default.createDate(value);
+
+    if (isIE11 && (0, _type.isDate)(value)) {
+      result.setMilliseconds(0);
+    }
+
+    return result;
   },
   _toTodayView: function _toTodayView(args) {
     this._saveValueChangeEvent(args.event);

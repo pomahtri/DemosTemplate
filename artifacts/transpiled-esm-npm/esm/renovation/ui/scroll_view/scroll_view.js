@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "height", "inertiaEnabled", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
+var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "height", "inertiaEnabled", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onStop", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "updateManually", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { InfernoWrapperComponent } from "@devextreme/vdom";
 import { current, isMaterial } from "../../../ui/themes";
@@ -26,12 +26,15 @@ export var viewFunction = viewModel => {
       onReachBottom,
       onScroll,
       onStart,
+      onStop,
       onUpdated,
       pullDownEnabled,
+      reachBottomEnabled,
       rtlEnabled,
       scrollByContent,
       scrollByThumb,
       showScrollbar,
+      updateManually,
       useKeyboard,
       useNative,
       useSimulatedScrollbar,
@@ -40,7 +43,6 @@ export var viewFunction = viewModel => {
     },
     pulledDownText,
     pullingDownText,
-    reachBottomEnabled,
     reachBottomText,
     refreshingText,
     restAttributes,
@@ -58,6 +60,7 @@ export var viewFunction = viewModel => {
     "direction": direction,
     "showScrollbar": showScrollbar,
     "scrollByThumb": scrollByThumb,
+    "updateManually": updateManually,
     "pullDownEnabled": pullDownEnabled,
     "reachBottomEnabled": reachBottomEnabled,
     "onScroll": onScroll,
@@ -78,7 +81,8 @@ export var viewFunction = viewModel => {
     "useKeyboard": useKeyboard,
     "onStart": onStart,
     "onEnd": onEnd,
-    "onBounce": onBounce
+    "onBounce": onBounce,
+    "onStop": onStop
   }, restAttributes, {
     children: children
   }), null, scrollableRef));
@@ -91,6 +95,7 @@ var ScrollViewPropsType = {
   bounceEnabled: ScrollableProps.bounceEnabled,
   scrollByContent: ScrollableProps.scrollByContent,
   scrollByThumb: ScrollableProps.scrollByThumb,
+  updateManually: ScrollableProps.updateManually,
   pullDownEnabled: ScrollableProps.pullDownEnabled,
   reachBottomEnabled: ScrollableProps.reachBottomEnabled,
   aria: WidgetProps.aria,
@@ -100,15 +105,12 @@ var ScrollViewPropsType = {
   useKeyboard: ScrollableSimulatedProps.useKeyboard
 };
 import { convertRulesToOptions } from "../../../core/options/utils";
-import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 export class ScrollView extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
+    this.state = {};
     this.scrollableRef = infernoCreateRef();
-    this.state = {
-      forceReachBottom: undefined
-    };
     this.update = this.update.bind(this);
     this.release = this.release.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -116,7 +118,6 @@ export class ScrollView extends InfernoWrapperComponent {
     this.scrollBy = this.scrollBy.bind(this);
     this.scrollTo = this.scrollTo.bind(this);
     this.scrollToElement = this.scrollToElement.bind(this);
-    this.scrollToElementTopLeft = this.scrollToElementTopLeft.bind(this);
     this.scrollHeight = this.scrollHeight.bind(this);
     this.scrollWidth = this.scrollWidth.bind(this);
     this.scrollOffset = this.scrollOffset.bind(this);
@@ -124,20 +125,6 @@ export class ScrollView extends InfernoWrapperComponent {
     this.scrollLeft = this.scrollLeft.bind(this);
     this.clientHeight = this.clientHeight.bind(this);
     this.clientWidth = this.clientWidth.bind(this);
-    this.toggleLoading = this.toggleLoading.bind(this);
-    this.isFull = this.isFull.bind(this);
-  }
-
-  createEffects() {
-    return [createReRenderEffect()];
-  }
-
-  get reachBottomEnabled() {
-    if (isDefined(this.state.forceReachBottom)) {
-      return this.state.forceReachBottom;
-    }
-
-    return this.props.reachBottomEnabled;
   }
 
   get pullingDownText() {
@@ -203,11 +190,7 @@ export class ScrollView extends InfernoWrapperComponent {
     this.scrollable.update();
   }
 
-  release(preventScrollBottom) {
-    if (preventScrollBottom !== undefined) {
-      this.toggleLoading(!preventScrollBottom);
-    }
-
+  release() {
     this.scrollable.release();
   }
 
@@ -231,10 +214,6 @@ export class ScrollView extends InfernoWrapperComponent {
 
   scrollToElement(element) {
     this.scrollable.scrollToElement(element);
-  }
-
-  scrollToElementTopLeft(element) {
-    this.scrollable.scrollToElementTopLeft(element);
   }
 
   scrollHeight() {
@@ -265,23 +244,11 @@ export class ScrollView extends InfernoWrapperComponent {
     return this.scrollable.clientWidth();
   }
 
-  toggleLoading(showOrHide) {
-    this.setState(state => _extends({}, state, {
-      forceReachBottom: showOrHide
-    }));
-  }
-
-  isFull() {
-    return this.content().clientHeight > this.clientHeight();
-  }
-
   render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      forceReachBottom: this.state.forceReachBottom,
       scrollableRef: this.scrollableRef,
-      reachBottomEnabled: this.reachBottomEnabled,
       pullingDownText: this.pullingDownText,
       pulledDownText: this.pulledDownText,
       refreshingText: this.refreshingText,

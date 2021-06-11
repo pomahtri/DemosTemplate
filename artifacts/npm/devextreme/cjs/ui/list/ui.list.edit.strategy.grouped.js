@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/list/ui.list.edit.strategy.grouped.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -27,7 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LIST_ITEM_CLASS = 'dx-list-item';
 var LIST_GROUP_CLASS = 'dx-list-group';
 var SELECTION_SHIFT = 20;
-var SELECTION_MASK = (1 << SELECTION_SHIFT) - 1;
+var SELECTION_MASK = 0x8FF;
 
 var combineIndex = function combineIndex(indices) {
   return (indices.group << SELECTION_SHIFT) + indices.item;

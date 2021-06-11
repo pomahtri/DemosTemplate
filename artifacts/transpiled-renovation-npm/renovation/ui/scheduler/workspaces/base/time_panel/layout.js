@@ -117,10 +117,6 @@ var TimePanelTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
 
   var _proto = TimePanelTableLayout.prototype;
 
-  _proto.createEffects = function createEffects() {
-    return [(0, _vdom.createReRenderEffect)()];
-  };
-
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({

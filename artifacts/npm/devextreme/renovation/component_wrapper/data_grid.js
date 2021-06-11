@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/component_wrapper/data_grid.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,11 +10,11 @@
 
 exports.default = void 0;
 
-var _component = _interopRequireDefault(require("./common/component"));
+var _component = _interopRequireDefault(require("./component"));
 
 var _uiData_grid = _interopRequireDefault(require("../../ui/data_grid/ui.data_grid.core"));
 
-var _updatePropsImmutable = require("./utils/update-props-immutable");
+var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,8 +32,6 @@ var DataGridWrapper = /*#__PURE__*/function (_Component) {
   }
 
   var _proto = DataGridWrapper.prototype;
-
-  _proto._fireContentReady = function _fireContentReady() {};
 
   _proto.beginUpdate = function beginUpdate() {
     var _this$viewRef;
@@ -95,7 +93,7 @@ var DataGridWrapper = /*#__PURE__*/function (_Component) {
 
       var prevProps = _extends({}, this.viewRef.prevProps);
 
-      (0, _updatePropsImmutable.updatePropsImmutable)(prevProps, this.option(), name, fullName);
+      (0, _utils.updatePropsImmutable)(prevProps, this.option(), name, fullName);
       this.viewRef.prevProps = prevProps;
     }
   };

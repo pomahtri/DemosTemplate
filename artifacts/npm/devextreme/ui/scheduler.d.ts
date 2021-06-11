@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/scheduler.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -398,6 +398,17 @@ export interface dxSchedulerOptions extends WidgetOptions<dxScheduler> {
     descriptionExpr?: string;
     /**
      * @docid
+     * @default "dropDownAppointment"
+     * @type_function_param1 itemData:object
+     * @type_function_param2 itemIndex:number
+     * @type_function_param3 contentElement:DxElement
+     * @type_function_return string|Element|jQuery
+     * @deprecated dxSchedulerOptions.appointmentTooltipTemplate
+     * @public
+     */
+    dropDownAppointmentTemplate?: template | ((itemData: any, itemIndex: number, contentElement: DxElement) => string | UserDefinedElement);
+    /**
+     * @docid
      * @default true
      * @public
      */
@@ -434,6 +445,12 @@ export interface dxSchedulerOptions extends WidgetOptions<dxScheduler> {
        * @default true
        */
       allowUpdating?: boolean,
+      /**
+       * @docid
+       * @default false
+       * @deprecated dxSchedulerOptions.editing.allowTimeZoneEditing
+       */
+      allowEditingTimeZones?: boolean
     };
     /**
      * @docid
@@ -893,6 +910,16 @@ export interface dxSchedulerOptions extends WidgetOptions<dxScheduler> {
       dateCellTemplate?: template | ((itemData: any, itemIndex: number, itemElement: DxElement) => string | UserDefinedElement),
       /**
        * @docid
+       * @default "dropDownAppointment"
+       * @type_function_param1 itemData:object
+       * @type_function_param2 itemIndex:number
+       * @type_function_param3 contentElement:DxElement
+       * @type_function_return string|Element|jQuery
+       * @deprecated dxSchedulerOptions.views.appointmentTooltipTemplate
+       */
+      dropDownAppointmentTemplate?: template | ((itemData: any, itemIndex: number, contentElement: DxElement) => string | UserDefinedElement),
+      /**
+       * @docid
        * @extends EndDayHour
        */
       endDayHour?: number,
@@ -973,7 +1000,8 @@ export interface dxSchedulerOptions extends WidgetOptions<dxScheduler> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxScheduler extends Widget<dxSchedulerOptions> {
+export default class dxScheduler extends Widget {
+    constructor(element: UserDefinedElement, options?: dxSchedulerOptions)
     /**
      * @docid
      * @publicName addAppointment(appointment)

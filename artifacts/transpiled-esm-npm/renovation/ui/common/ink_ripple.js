@@ -51,12 +51,12 @@ var InkRipple = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = InkRipple.prototype;
 
-  _proto.hideWave = function hideWave(opts) {
-    (0, _utils.hideWave)(this.getConfig, opts);
+  _proto.hideWave = function hideWave(event) {
+    (0, _utils.hideWave)(this.getConfig, event);
   };
 
-  _proto.showWave = function showWave(opts) {
-    (0, _utils.showWave)(this.getConfig, opts);
+  _proto.showWave = function showWave(event) {
+    (0, _utils.showWave)(this.getConfig, event);
   };
 
   _proto.render = function render() {

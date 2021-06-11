@@ -119,14 +119,14 @@ export class TextSvgElement extends InfernoComponent {
   }
 
   get textItems() {
-    var items = undefined;
-    var parsedHtml = "";
+    var items;
+    var parsedHtml;
     var {
       text
     } = this.props;
     if (!text) return;
 
-    if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.includes("&"))) {
+    if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.indexOf("&") !== -1)) {
       parsedHtml = removeExtraAttrs(text);
       items = parseHTML(parsedHtml);
     } else if (/\n/g.test(text)) {
@@ -220,9 +220,10 @@ export class TextSvgElement extends InfernoComponent {
       strokeWidth
     } = this.props;
     var strokeOpacity = this.props.strokeOpacity || 1;
+    var tspan;
 
     for (var i = 0, ii = items.length; i < ii; ++i) {
-      var tspan = items[i].stroke;
+      tspan = items[i].stroke;
       tspan.setAttribute(KEY_STROKE, stroke);
       tspan.setAttribute("stroke-width", strokeWidth.toString());
       tspan.setAttribute("stroke-opacity", strokeOpacity.toString());

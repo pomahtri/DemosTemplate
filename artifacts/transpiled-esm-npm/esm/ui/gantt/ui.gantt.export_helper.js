@@ -151,7 +151,7 @@ export class GanttExportHelper {
   _getDataCell(rowIndex, colIndex) {
     var treeList = this._treeList;
     var cellElement = treeList.getCellElement(rowIndex, colIndex);
-    return cellElement && cellElement[0];
+    return cellElement && cellElement.length ? cellElement[0] : cellElement;
   }
 
   _getHeaderElement(index) {

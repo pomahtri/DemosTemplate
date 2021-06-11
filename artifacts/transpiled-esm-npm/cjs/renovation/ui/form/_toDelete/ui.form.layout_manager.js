@@ -105,6 +105,7 @@ var LayoutManager = _ui2.default.inherit({
       alignItemLabels: true,
       minColWidth: 200,
       showRequiredMark: true,
+      screenByWidth: null,
       showOptionalMark: false,
       requiredMark: '*',
       optionalMark: _message.default.format('dxForm-optionalMark'),
@@ -346,15 +347,15 @@ var LayoutManager = _ui2.default.inherit({
     if (that._items && that._items.length) {
       var colCount = that._getColCount();
 
+      var $container = (0, _renderer.default)('<div>').appendTo(that.$element());
+
       that._prepareItemsWithMerging(colCount);
 
       var layoutItems = that._generateLayoutItems();
 
       that._extendItemsWithDefaultTemplateOptions(layoutItems, that._items);
 
-      that._responsiveBox = that._createComponent(
-      /* $container, */
-      _responsive_box.default, that._getResponsiveBoxConfig(layoutItems, colCount, templatesInfo));
+      that._responsiveBox = that._createComponent($container, _responsive_box.default, that._getResponsiveBoxConfig(layoutItems, colCount, templatesInfo));
 
       if (!(0, _window.hasWindow)()) {
         that._renderTemplates(templatesInfo);
@@ -469,6 +470,7 @@ var LayoutManager = _ui2.default.inherit({
       cols: that._generateRatio(colCount),
       rows: that._generateRatio(that._getRowsCount(), true),
       dataSource: layoutItems,
+      screenByWidth: that.option('screenByWidth'),
       singleColumnScreen: xsColCount ? false : 'xs'
     };
   },

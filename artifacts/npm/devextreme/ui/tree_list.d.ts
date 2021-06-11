@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/tree_list.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -970,7 +970,8 @@ export interface Selection extends SelectionBase {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTreeList extends Widget<dxTreeListOptions> implements GridBase {
+export default class dxTreeList extends Widget implements GridBase {
+    constructor(element: UserDefinedElement, options?: dxTreeListOptions)
     /**
      * @docid
      * @publicName addColumn(columnOptions)
@@ -1335,18 +1336,7 @@ export interface ColumnButton extends ColumnButtonBase {
      * @type_function_return Boolean
      * @public
      */
-    visible?: boolean | ((options: { readonly component: dxTreeList, readonly row?: RowObject, readonly column: Column }) => boolean);
-    /**
-     * @docid dxTreeListColumnButton.visible
-     * @default false
-     * @type_function_param1 options:object
-     * @type_function_param1_field1 component:dxTreeList
-     * @type_function_param1_field2 row:dxTreeListRowObject
-     * @type_function_param1_field3 column:dxTreeListColumn
-     * @type_function_return Boolean
-     * @public
-     */
-    disabled?: boolean | ((options: { readonly component: dxTreeList, readonly row?: RowObject, readonly column: Column }) => boolean);
+    visible?: boolean | ((options: { readonly component: dxTreeList, row?: RowObject, readonly column: Column }) => boolean);
 }
 
 /**

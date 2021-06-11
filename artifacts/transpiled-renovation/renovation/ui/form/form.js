@@ -16,7 +16,7 @@ var _layout_manager = require("./layout_manager");
 
 var _scrollable = require("../scroll_view/scrollable");
 
-var _excluded = ["screenByWidth", "scrollingEnabled", "useNativeScrolling"];
+var _excluded = ["scrollingEnabled", "useNativeScrolling"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -43,9 +43,7 @@ var viewFunction = function viewFunction(viewModel) {
       scrollingEnabled = _viewModel$props.scrollingEnabled,
       useNativeScrolling = _viewModel$props.useNativeScrolling,
       restAttributes = viewModel.restAttributes;
-  var rootLayoutManager = (0, _inferno.createComponentVNode)(2, _layout_manager.LayoutManager, {
-    "screenByWidth": viewModel.props.screenByWidth
-  });
+  var rootLayoutManager = (0, _inferno.createComponentVNode)(2, _layout_manager.LayoutManager);
   return scrollingEnabled ? (0, _inferno.createComponentVNode)(2, _scrollable.Scrollable, {
     "aria": aria,
     "classes": cssClasses,
@@ -78,10 +76,6 @@ var Form = /*#__PURE__*/function (_InfernoWrapperCompon) {
 
   var _proto = Form.prototype;
 
-  _proto.createEffects = function createEffects() {
-    return [(0, _vdom.createReRenderEffect)()];
-  };
-
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
@@ -94,7 +88,6 @@ var Form = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "restAttributes",
     get: function get() {
       var _this$props = this.props,
-          screenByWidth = _this$props.screenByWidth,
           scrollingEnabled = _this$props.scrollingEnabled,
           useNativeScrolling = _this$props.useNativeScrolling,
           restProps = _objectWithoutProperties(_this$props, _excluded);

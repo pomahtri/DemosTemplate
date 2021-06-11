@@ -87,8 +87,16 @@ var POSITION_ALIASES = {
   }
 };
 var realDevice = devices.real();
+var firefoxDesktop = browser.mozilla && realDevice.deviceType === 'desktop';
 var iOS = realDevice.platform === 'ios';
 var hasSafariAddressBar = browser.safari && realDevice.deviceType !== 'desktop';
+
+var forceRepaint = $element => {
+  // NOTE: force layout recalculation on FF desktop (T581681)
+  if (firefoxDesktop) {
+    $element.width();
+  }
+};
 
 var getElement = value => {
   if (isEvent(value)) {
@@ -150,7 +158,6 @@ var Overlay = Widget.inherit({
       deferRendering: true,
       shading: true,
       shadingColor: '',
-      wrapperAttr: {},
       position: {
         my: 'center',
         at: 'center'
@@ -241,17 +248,6 @@ var Overlay = Widget.inherit({
   _eventBindingTarget: function _eventBindingTarget() {
     return this._$content;
   },
-
-  _setDeprecatedOptions() {
-    this.callBase();
-    extend(this._deprecatedOptions, {
-      'elementAttr': {
-        since: '21.2',
-        message: 'Use the "wrapperAttr" option instead'
-      }
-    });
-  },
-
   _init: function _init() {
     this.callBase();
 
@@ -272,8 +268,10 @@ var Overlay = Widget.inherit({
 
     $element.addClass(OVERLAY_CLASS);
 
-    this._$wrapper.attr('data-bind', 'dxControlsDescendantBindings: true'); // NOTE: bootstrap integration T342292
+    this._$wrapper.attr('data-bind', 'dxControlsDescendantBindings: true'); // NOTE: hack to fix B251087
 
+
+    eventsEngine.on(this._$wrapper, 'MSPointerDown', noop); // NOTE: bootstrap integration T342292
 
     eventsEngine.on(this._$wrapper, 'focusin', e => {
       e.stopPropagation();
@@ -347,13 +345,6 @@ var Overlay = Widget.inherit({
       return that._documentDownHandler(...arguments);
     };
   },
-
-  _initMarkup() {
-    this.callBase();
-
-    this._renderWrapperAttributes();
-  },
-
   _documentDownHandler: function _documentDownHandler(e) {
     if (this._showAnimationProcessing) {
       this._stopAnimation();
@@ -427,15 +418,6 @@ var Overlay = Widget.inherit({
 
     this._refresh();
   },
-
-  _renderWrapperAttributes() {
-    var {
-      wrapperAttr
-    } = this.option();
-
-    this._$wrapper.attr(wrapperAttr !== null && wrapperAttr !== void 0 ? wrapperAttr : {});
-  },
-
   _renderVisibilityAnimate: function _renderVisibilityAnimate(visible) {
     this._stopAnimation();
 
@@ -1221,6 +1203,7 @@ var Overlay = Widget.inherit({
       var position = this._transformStringPosition(this._position, POSITION_ALIASES);
 
       var resultPosition = positionUtils.setup(this._$content, position);
+      forceRepaint(this._$content);
       return resultPosition;
     }
   },
@@ -1429,11 +1412,6 @@ var Overlay = Widget.inherit({
 
       case '_fixedPosition':
         this._fixWrapperPosition();
-
-        break;
-
-      case 'wrapperAttr':
-        this._renderWrapperAttributes();
 
         break;
 

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/button.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,7 @@
 */
 import registerComponent from "../../core/component_registrator";
 import BaseComponent from "../component_wrapper/button";
-import { Button as ButtonComponent, defaultOptions } from "./button";
+import { Button as ButtonComponent } from "./button";
 export default class Button extends BaseComponent {
   getProps() {
     var props = super.getProps();
@@ -19,7 +19,7 @@ export default class Button extends BaseComponent {
   focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus(...arguments);
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
   }
 
   _getActionConfigs() {
@@ -27,7 +27,10 @@ export default class Button extends BaseComponent {
       onClick: {
         excludeValidators: ["readOnly"]
       },
-      onSubmit: {}
+      onSubmit: {},
+      onContentReady: {
+        excludeValidators: ["disabled", "readOnly"]
+      }
     };
   }
 
@@ -37,7 +40,7 @@ export default class Button extends BaseComponent {
       allowNull: [],
       elements: ["onSubmit"],
       templates: ["template"],
-      props: ["activeStateEnabled", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onSubmit", "pressed", "stylingMode", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "templateData", "className", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
+      props: ["activeStateEnabled", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onSubmit", "pressed", "stylingMode", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
     };
   }
 
@@ -47,4 +50,3 @@ export default class Button extends BaseComponent {
 
 }
 registerComponent("dxButton", Button);
-Button.defaultOptions = defaultOptions;

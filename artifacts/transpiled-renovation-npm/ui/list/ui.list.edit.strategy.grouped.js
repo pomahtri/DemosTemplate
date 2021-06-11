@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LIST_ITEM_CLASS = 'dx-list-item';
 var LIST_GROUP_CLASS = 'dx-list-group';
 var SELECTION_SHIFT = 20;
-var SELECTION_MASK = (1 << SELECTION_SHIFT) - 1;
+var SELECTION_MASK = 0x8FF;
 
 var combineIndex = function combineIndex(indices) {
   return (indices.group << SELECTION_SHIFT) + indices.item;

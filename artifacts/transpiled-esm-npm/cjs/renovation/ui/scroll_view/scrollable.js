@@ -1,7 +1,7 @@
 "use strict";
 
 exports.defaultOptions = defaultOptions;
-exports.Scrollable = exports.defaultOptionRules = exports.viewFunction = void 0;
+exports.Scrollable = exports.defaultOptionRules = exports.ScrollablePropsType = exports.viewFunction = void 0;
 
 var _inferno = require("inferno");
 
@@ -25,7 +25,7 @@ var _widget = require("../common/widget");
 
 var _scrollable_simulated_props = require("./scrollable_simulated_props");
 
-var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "forceGeneratePockets", "height", "inertiaEnabled", "needScrollViewContentWrapper", "needScrollViewLoadPanel", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
+var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "forceGeneratePockets", "height", "inertiaEnabled", "needScrollViewContentWrapper", "needScrollViewLoadPanel", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onStop", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "updateManually", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,7 +50,6 @@ var viewFunction = function viewFunction(viewModel) {
       aria = _viewModel$props.aria,
       bounceEnabled = _viewModel$props.bounceEnabled,
       children = _viewModel$props.children,
-      classes = _viewModel$props.classes,
       direction = _viewModel$props.direction,
       disabled = _viewModel$props.disabled,
       forceGeneratePockets = _viewModel$props.forceGeneratePockets,
@@ -64,6 +63,7 @@ var viewFunction = function viewFunction(viewModel) {
       onReachBottom = _viewModel$props.onReachBottom,
       onScroll = _viewModel$props.onScroll,
       onStart = _viewModel$props.onStart,
+      onStop = _viewModel$props.onStop,
       onUpdated = _viewModel$props.onUpdated,
       pullDownEnabled = _viewModel$props.pullDownEnabled,
       pulledDownText = _viewModel$props.pulledDownText,
@@ -75,6 +75,7 @@ var viewFunction = function viewFunction(viewModel) {
       scrollByContent = _viewModel$props.scrollByContent,
       scrollByThumb = _viewModel$props.scrollByThumb,
       showScrollbar = _viewModel$props.showScrollbar,
+      updateManually = _viewModel$props.updateManually,
       useKeyboard = _viewModel$props.useKeyboard,
       useNative = _viewModel$props.useNative,
       useSimulatedScrollbar = _viewModel$props.useSimulatedScrollbar,
@@ -85,7 +86,6 @@ var viewFunction = function viewFunction(viewModel) {
       scrollableSimulatedRef = viewModel.scrollableSimulatedRef;
   return useNative ? (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _scrollable_native.ScrollableNative, _extends({
     "aria": aria,
-    "classes": classes,
     "width": width,
     "height": height,
     "disabled": disabled,
@@ -93,6 +93,8 @@ var viewFunction = function viewFunction(viewModel) {
     "rtlEnabled": rtlEnabled,
     "direction": direction,
     "showScrollbar": showScrollbar,
+    "scrollByThumb": scrollByThumb,
+    "updateManually": updateManually,
     "pullDownEnabled": pullDownEnabled,
     "reachBottomEnabled": reachBottomEnabled,
     "forceGeneratePockets": forceGeneratePockets,
@@ -111,7 +113,6 @@ var viewFunction = function viewFunction(viewModel) {
     children: children
   }), null, scrollableNativeRef)) : (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _scrollable_simulated.ScrollableSimulated, _extends({
     "aria": aria,
-    "classes": classes,
     "width": width,
     "height": height,
     "disabled": disabled,
@@ -120,6 +121,7 @@ var viewFunction = function viewFunction(viewModel) {
     "direction": direction,
     "showScrollbar": showScrollbar,
     "scrollByThumb": scrollByThumb,
+    "updateManually": updateManually,
     "pullDownEnabled": pullDownEnabled,
     "reachBottomEnabled": reachBottomEnabled,
     "forceGeneratePockets": forceGeneratePockets,
@@ -139,7 +141,8 @@ var viewFunction = function viewFunction(viewModel) {
     "useKeyboard": useKeyboard,
     "onStart": onStart,
     "onEnd": onEnd,
-    "onBounce": onBounce
+    "onBounce": onBounce,
+    "onStop": onStop
   }, restAttributes, {
     children: children
   }), null, scrollableSimulatedRef));
@@ -153,6 +156,7 @@ var ScrollablePropsType = {
   bounceEnabled: _scrollable_props.ScrollableProps.bounceEnabled,
   scrollByContent: _scrollable_props.ScrollableProps.scrollByContent,
   scrollByThumb: _scrollable_props.ScrollableProps.scrollByThumb,
+  updateManually: _scrollable_props.ScrollableProps.updateManually,
   pullDownEnabled: _scrollable_props.ScrollableProps.pullDownEnabled,
   reachBottomEnabled: _scrollable_props.ScrollableProps.reachBottomEnabled,
   forceGeneratePockets: _scrollable_props.ScrollableProps.forceGeneratePockets,
@@ -164,6 +168,7 @@ var ScrollablePropsType = {
   inertiaEnabled: _scrollable_simulated_props.ScrollableSimulatedProps.inertiaEnabled,
   useKeyboard: _scrollable_simulated_props.ScrollableSimulatedProps.useKeyboard
 };
+exports.ScrollablePropsType = ScrollablePropsType;
 var defaultOptionRules = (0, _utils.createDefaultOptionRules)([{
   device: function device(_device) {
     return !_devices.default.isSimulator() && _devices.default.real().deviceType === "desktop" && _device.platform === "generic";
@@ -208,20 +213,15 @@ var Scrollable = /*#__PURE__*/function (_InfernoWrapperCompon) {
     _this.scrollLeft = _this.scrollLeft.bind(_assertThisInitialized(_this));
     _this.clientHeight = _this.clientHeight.bind(_assertThisInitialized(_this));
     _this.clientWidth = _this.clientWidth.bind(_assertThisInitialized(_this));
-    _this.getScrollElementPosition = _this.getScrollElementPosition.bind(_assertThisInitialized(_this));
-    _this.scrollToElementTopLeft = _this.scrollToElementTopLeft.bind(_assertThisInitialized(_this));
     _this.validate = _this.validate.bind(_assertThisInitialized(_this));
+    _this.getScrollElementPosition = _this.getScrollElementPosition.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   var _proto = Scrollable.prototype;
 
-  _proto.createEffects = function createEffects() {
-    return [(0, _vdom.createReRenderEffect)()];
-  };
-
-  _proto.validate = function validate(event) {
-    return this.scrollableRef.validate(event);
+  _proto.validate = function validate(e) {
+    return this.scrollableRef.validate(e);
   };
 
   _proto.content = function content() {
@@ -284,13 +284,6 @@ var Scrollable = /*#__PURE__*/function (_InfernoWrapperCompon) {
     return this.scrollableRef.getElementLocation(element, direction);
   };
 
-  _proto.scrollToElementTopLeft = function scrollToElementTopLeft(element) {
-    this.scrollableRef.scrollToElement(element, {
-      block: "start",
-      inline: "start"
-    });
-  };
-
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
@@ -333,6 +326,7 @@ var Scrollable = /*#__PURE__*/function (_InfernoWrapperCompon) {
           onReachBottom = _this$props.onReachBottom,
           onScroll = _this$props.onScroll,
           onStart = _this$props.onStart,
+          onStop = _this$props.onStop,
           onUpdated = _this$props.onUpdated,
           pullDownEnabled = _this$props.pullDownEnabled,
           pulledDownText = _this$props.pulledDownText,
@@ -344,6 +338,7 @@ var Scrollable = /*#__PURE__*/function (_InfernoWrapperCompon) {
           scrollByContent = _this$props.scrollByContent,
           scrollByThumb = _this$props.scrollByThumb,
           showScrollbar = _this$props.showScrollbar,
+          updateManually = _this$props.updateManually,
           useKeyboard = _this$props.useKeyboard,
           useNative = _this$props.useNative,
           useSimulatedScrollbar = _this$props.useSimulatedScrollbar,

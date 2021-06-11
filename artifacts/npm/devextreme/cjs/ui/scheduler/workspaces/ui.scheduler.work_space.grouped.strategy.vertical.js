@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.work_space.grouped.strategy.vertical.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,17 +12,25 @@ exports.default = void 0;
 
 var _position = require("../../../core/utils/position");
 
+var _uiSchedulerWork_spaceGrouped = _interopRequireDefault(require("./ui.scheduler.work_space.grouped.strategy"));
+
 var _cache = require("./cache");
 
-var _classes = require("../classes");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var VERTICAL_GROUPED_ATTR = 'dx-group-column-count';
 var DATE_HEADER_OFFSET = 10;
 var WORK_SPACE_BORDER = 1;
 
-var VerticalGroupedStrategy = /*#__PURE__*/function () {
-  function VerticalGroupedStrategy(workSpace) {
-    this._workSpace = workSpace;
+var VerticalGroupedStrategy = /*#__PURE__*/function (_GroupedStrategy) {
+  _inheritsLoose(VerticalGroupedStrategy, _GroupedStrategy);
+
+  function VerticalGroupedStrategy() {
+    return _GroupedStrategy.apply(this, arguments) || this;
   }
 
   var _proto = VerticalGroupedStrategy.prototype;
@@ -76,7 +84,7 @@ var VerticalGroupedStrategy = /*#__PURE__*/function () {
 
   _proto._addLastGroupCellClass = function _addLastGroupCellClass(cellClass, index) {
     if (index % this._workSpace._getRowCount() === 0) {
-      return "".concat(cellClass, " ").concat(_classes.LAST_GROUP_CELL_CLASS);
+      return cellClass + ' ' + this.getLastGroupCellClass();
     }
 
     return cellClass;
@@ -84,10 +92,18 @@ var VerticalGroupedStrategy = /*#__PURE__*/function () {
 
   _proto._addFirstGroupCellClass = function _addFirstGroupCellClass(cellClass, index) {
     if ((index - 1) % this._workSpace._getRowCount() === 0) {
-      return "".concat(cellClass, " ").concat(_classes.FIRST_GROUP_CELL_CLASS);
+      return cellClass + ' ' + this.getFirstGroupCellClass();
     }
 
     return cellClass;
+  };
+
+  _proto.getHorizontalMax = function getHorizontalMax(groupIndex) {
+    if (this._workSpace.isRenovatedRender()) {
+      return this._workSpace.getMaxAllowedPosition(groupIndex);
+    }
+
+    return this._workSpace.getMaxAllowedPosition(0);
   };
 
   _proto.getVerticalMax = function getVerticalMax(groupIndex) {
@@ -176,6 +192,10 @@ var VerticalGroupedStrategy = /*#__PURE__*/function () {
     });
   };
 
+  _proto.getVirtualScrollingGroupBoundsOffset = function getVirtualScrollingGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates) {
+    return this.getGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates);
+  };
+
   _proto.shiftIndicator = function shiftIndicator($indicator, height, rtlOffset, i) {
     var offset = this._workSpace.getIndicatorOffset(0);
 
@@ -228,8 +248,16 @@ var VerticalGroupedStrategy = /*#__PURE__*/function () {
     return this._workSpace.getScrollable().scrollTop();
   };
 
+  _proto.getGroupIndexByCell = function getGroupIndexByCell($cell) {
+    var rowIndex = $cell.parent().index();
+
+    var rowCount = this._workSpace._getRowCountWithAllDayRows();
+
+    return Math.ceil((rowIndex + 1) / rowCount);
+  };
+
   return VerticalGroupedStrategy;
-}();
+}(_uiSchedulerWork_spaceGrouped.default);
 
 var _default = VerticalGroupedStrategy;
 exports.default = _default;

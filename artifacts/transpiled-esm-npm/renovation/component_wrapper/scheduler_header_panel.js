@@ -2,7 +2,7 @@
 
 exports.default = void 0;
 
-var _component = _interopRequireDefault(require("./common/component"));
+var _component = _interopRequireDefault(require("./component"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

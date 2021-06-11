@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.virtual_scrolling.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -809,8 +809,7 @@ export var virtualScrollingModule = {
                   var rowElement = component.getRowElement(rowIndex);
                   var $rowElement = rowElement && rowElement[0] && $(rowElement[0]);
                   var top = $rowElement && $rowElement.position().top;
-                  var isChromeLatest = browser.chrome && browser.version >= 91;
-                  var allowedTopOffset = browser.mozilla || browser.msie || isChromeLatest ? 1 : 0; // T884308
+                  var allowedTopOffset = browser.mozilla || browser.msie ? 1 : 0; // T884308
 
                   if (top > allowedTopOffset) {
                     top = Math.round(top + $rowElement.outerHeight() * (itemIndex % 1));

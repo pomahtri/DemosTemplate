@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/tooltip_strategies/mobileTooltipStrategy.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,7 @@
 
 exports.MobileTooltipStrategy = void 0;
 
-var _overlay = require("../../overlay");
+var _overlay = _interopRequireDefault(require("../../overlay"));
 
 var _tooltipStrategyBase = require("./tooltipStrategyBase");
 
@@ -129,7 +129,7 @@ var MobileTooltipStrategy = /*#__PURE__*/function (_TooltipStrategyBase) {
 
     var element = this._createTooltipElement(SLIDE_PANEL_CLASS_NAME);
 
-    return this._options.createComponent(element, _overlay.Overlay, {
+    return this._options.createComponent(element, _overlay.default, {
       target: (0, _window.getWindow)(),
       closeOnOutsideClick: true,
       animation: animationConfig,

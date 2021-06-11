@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/scroll_view/scroll_view.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,23 +12,11 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../core/component_registrator"));
 
-var _scroll_view = require("../../component_wrapper/scroll_view");
+var _component = _interopRequireDefault(require("../../component_wrapper/component"));
 
-var _scroll_view2 = require("./scroll_view");
+var _scroll_view = require("./scroll_view");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -38,11 +26,11 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var ScrollView = /*#__PURE__*/function (_ScrollViewWrapper) {
-  _inheritsLoose(ScrollView, _ScrollViewWrapper);
+var ScrollView = /*#__PURE__*/function (_BaseComponent) {
+  _inheritsLoose(ScrollView, _BaseComponent);
 
   function ScrollView() {
-    return _ScrollViewWrapper.apply(this, arguments) || this;
+    return _BaseComponent.apply(this, arguments) || this;
   }
 
   var _proto = ScrollView.prototype;
@@ -50,105 +38,85 @@ var ScrollView = /*#__PURE__*/function (_ScrollViewWrapper) {
   _proto.update = function update() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.update.apply(_this$viewRef, arguments);
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.update();
   };
 
-  _proto.release = function release(preventScrollBottom) {
+  _proto.release = function release() {
     var _this$viewRef2;
 
-    return (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : _this$viewRef2.release.apply(_this$viewRef2, arguments);
+    return (_this$viewRef2 = this.viewRef) === null || _this$viewRef2 === void 0 ? void 0 : _this$viewRef2.release();
   };
 
   _proto.refresh = function refresh() {
     var _this$viewRef3;
 
-    return (_this$viewRef3 = this.viewRef) === null || _this$viewRef3 === void 0 ? void 0 : _this$viewRef3.refresh.apply(_this$viewRef3, arguments);
+    return (_this$viewRef3 = this.viewRef) === null || _this$viewRef3 === void 0 ? void 0 : _this$viewRef3.refresh();
   };
 
   _proto.content = function content() {
     var _this$viewRef4;
 
-    return this._toPublicElement((_this$viewRef4 = this.viewRef) === null || _this$viewRef4 === void 0 ? void 0 : _this$viewRef4.content.apply(_this$viewRef4, arguments));
+    return this._toPublicElement((_this$viewRef4 = this.viewRef) === null || _this$viewRef4 === void 0 ? void 0 : _this$viewRef4.content());
   };
 
   _proto.scrollBy = function scrollBy(distance) {
     var _this$viewRef5;
 
-    return (_this$viewRef5 = this.viewRef) === null || _this$viewRef5 === void 0 ? void 0 : _this$viewRef5.scrollBy.apply(_this$viewRef5, arguments);
+    return (_this$viewRef5 = this.viewRef) === null || _this$viewRef5 === void 0 ? void 0 : _this$viewRef5.scrollBy(distance);
   };
 
   _proto.scrollTo = function scrollTo(targetLocation) {
     var _this$viewRef6;
 
-    return (_this$viewRef6 = this.viewRef) === null || _this$viewRef6 === void 0 ? void 0 : _this$viewRef6.scrollTo.apply(_this$viewRef6, arguments);
+    return (_this$viewRef6 = this.viewRef) === null || _this$viewRef6 === void 0 ? void 0 : _this$viewRef6.scrollTo(targetLocation);
   };
 
   _proto.scrollToElement = function scrollToElement(element) {
     var _this$viewRef7;
 
-    var params = [this._patchElementParam(element)];
-    return (_this$viewRef7 = this.viewRef) === null || _this$viewRef7 === void 0 ? void 0 : _this$viewRef7.scrollToElement.apply(_this$viewRef7, _toConsumableArray(params.slice(0, arguments.length)));
-  };
-
-  _proto.scrollToElementTopLeft = function scrollToElementTopLeft(element) {
-    var _this$viewRef8;
-
-    var params = [this._patchElementParam(element)];
-    return (_this$viewRef8 = this.viewRef) === null || _this$viewRef8 === void 0 ? void 0 : _this$viewRef8.scrollToElementTopLeft.apply(_this$viewRef8, _toConsumableArray(params.slice(0, arguments.length)));
+    return (_this$viewRef7 = this.viewRef) === null || _this$viewRef7 === void 0 ? void 0 : _this$viewRef7.scrollToElement(this._patchElementParam(element));
   };
 
   _proto.scrollHeight = function scrollHeight() {
-    var _this$viewRef9;
+    var _this$viewRef8;
 
-    return (_this$viewRef9 = this.viewRef) === null || _this$viewRef9 === void 0 ? void 0 : _this$viewRef9.scrollHeight.apply(_this$viewRef9, arguments);
+    return (_this$viewRef8 = this.viewRef) === null || _this$viewRef8 === void 0 ? void 0 : _this$viewRef8.scrollHeight();
   };
 
   _proto.scrollWidth = function scrollWidth() {
-    var _this$viewRef10;
+    var _this$viewRef9;
 
-    return (_this$viewRef10 = this.viewRef) === null || _this$viewRef10 === void 0 ? void 0 : _this$viewRef10.scrollWidth.apply(_this$viewRef10, arguments);
+    return (_this$viewRef9 = this.viewRef) === null || _this$viewRef9 === void 0 ? void 0 : _this$viewRef9.scrollWidth();
   };
 
   _proto.scrollOffset = function scrollOffset() {
-    var _this$viewRef11;
+    var _this$viewRef10;
 
-    return (_this$viewRef11 = this.viewRef) === null || _this$viewRef11 === void 0 ? void 0 : _this$viewRef11.scrollOffset.apply(_this$viewRef11, arguments);
+    return (_this$viewRef10 = this.viewRef) === null || _this$viewRef10 === void 0 ? void 0 : _this$viewRef10.scrollOffset();
   };
 
   _proto.scrollTop = function scrollTop() {
-    var _this$viewRef12;
+    var _this$viewRef11;
 
-    return (_this$viewRef12 = this.viewRef) === null || _this$viewRef12 === void 0 ? void 0 : _this$viewRef12.scrollTop.apply(_this$viewRef12, arguments);
+    return (_this$viewRef11 = this.viewRef) === null || _this$viewRef11 === void 0 ? void 0 : _this$viewRef11.scrollTop();
   };
 
   _proto.scrollLeft = function scrollLeft() {
-    var _this$viewRef13;
+    var _this$viewRef12;
 
-    return (_this$viewRef13 = this.viewRef) === null || _this$viewRef13 === void 0 ? void 0 : _this$viewRef13.scrollLeft.apply(_this$viewRef13, arguments);
+    return (_this$viewRef12 = this.viewRef) === null || _this$viewRef12 === void 0 ? void 0 : _this$viewRef12.scrollLeft();
   };
 
   _proto.clientHeight = function clientHeight() {
-    var _this$viewRef14;
+    var _this$viewRef13;
 
-    return (_this$viewRef14 = this.viewRef) === null || _this$viewRef14 === void 0 ? void 0 : _this$viewRef14.clientHeight.apply(_this$viewRef14, arguments);
+    return (_this$viewRef13 = this.viewRef) === null || _this$viewRef13 === void 0 ? void 0 : _this$viewRef13.clientHeight();
   };
 
   _proto.clientWidth = function clientWidth() {
-    var _this$viewRef15;
+    var _this$viewRef14;
 
-    return (_this$viewRef15 = this.viewRef) === null || _this$viewRef15 === void 0 ? void 0 : _this$viewRef15.clientWidth.apply(_this$viewRef15, arguments);
-  };
-
-  _proto.toggleLoading = function toggleLoading(showOrHide) {
-    var _this$viewRef16;
-
-    return (_this$viewRef16 = this.viewRef) === null || _this$viewRef16 === void 0 ? void 0 : _this$viewRef16.toggleLoading.apply(_this$viewRef16, arguments);
-  };
-
-  _proto.isFull = function isFull() {
-    var _this$viewRef17;
-
-    return (_this$viewRef17 = this.viewRef) === null || _this$viewRef17 === void 0 ? void 0 : _this$viewRef17.isFull.apply(_this$viewRef17, arguments);
+    return (_this$viewRef14 = this.viewRef) === null || _this$viewRef14 === void 0 ? void 0 : _this$viewRef14.clientWidth();
   };
 
   _proto._getActionConfigs = function _getActionConfigs() {
@@ -159,7 +127,8 @@ var ScrollView = /*#__PURE__*/function (_ScrollViewWrapper) {
       onReachBottom: {},
       onStart: {},
       onEnd: {},
-      onBounce: {}
+      onBounce: {},
+      onStop: {}
     };
   };
 
@@ -171,21 +140,20 @@ var ScrollView = /*#__PURE__*/function (_ScrollViewWrapper) {
         allowNull: [],
         elements: [],
         templates: [],
-        props: ["useNative", "direction", "showScrollbar", "bounceEnabled", "scrollByContent", "scrollByThumb", "classes", "pullDownEnabled", "reachBottomEnabled", "onScroll", "onUpdated", "onPullDown", "onReachBottom", "useSimulatedScrollbar", "pullingDownText", "pulledDownText", "refreshingText", "reachBottomText", "aria", "disabled", "height", "rtlEnabled", "visible", "width", "inertiaEnabled", "useKeyboard", "onStart", "onEnd", "onBounce"]
+        props: ["useNative", "direction", "showScrollbar", "bounceEnabled", "scrollByContent", "scrollByThumb", "updateManually", "classes", "pullDownEnabled", "reachBottomEnabled", "onScroll", "onUpdated", "onPullDown", "onReachBottom", "pullingDownText", "pulledDownText", "refreshingText", "reachBottomText", "aria", "disabled", "height", "rtlEnabled", "visible", "width", "useSimulatedScrollbar", "inertiaEnabled", "useKeyboard", "onStart", "onEnd", "onBounce", "onStop"]
       };
     }
   }, {
     key: "_viewComponent",
     get: function get() {
-      return _scroll_view2.ScrollView;
+      return _scroll_view.ScrollView;
     }
   }]);
 
   return ScrollView;
-}(_scroll_view.ScrollViewWrapper);
+}(_component.default);
 
 exports.default = ScrollView;
 (0, _component_registrator.default)("dxScrollView", ScrollView);
-ScrollView.defaultOptions = _scroll_view2.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

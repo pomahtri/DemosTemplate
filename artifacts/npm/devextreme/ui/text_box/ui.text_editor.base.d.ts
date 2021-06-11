@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/text_box/ui.text_editor.base.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../../core/element';
+
 import {
     NativeEventInfo
 } from '../../events/index';
@@ -19,7 +23,7 @@ import Editor, {
 } from '../editor/editor';
 
 /** @namespace DevExpress.ui */
-export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponent> {
+export interface dxTextEditorOptions<T = dxTextEditor> extends EditorOptions<T> {
     /**
      * @docid
      * @type Array<string, Enums.TextBoxButtonName, dxTextEditorButton>
@@ -86,7 +90,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onChange?: ((e: NativeEventInfo<TComponent>) => void);
+    onChange?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -98,7 +102,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onCopy?: ((e: NativeEventInfo<TComponent>) => void);
+    onCopy?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -110,7 +114,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onCut?: ((e: NativeEventInfo<TComponent>) => void);
+    onCut?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -122,7 +126,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onEnterKey?: ((e: NativeEventInfo<TComponent>) => void);
+    onEnterKey?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -134,7 +138,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onFocusIn?: ((e: NativeEventInfo<TComponent>) => void);
+    onFocusIn?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -146,7 +150,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onFocusOut?: ((e: NativeEventInfo<TComponent>) => void);
+    onFocusOut?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -158,7 +162,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onInput?: ((e: NativeEventInfo<TComponent>) => void);
+    onInput?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -170,7 +174,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onKeyDown?: ((e: NativeEventInfo<TComponent>) => void);
+    onKeyDown?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -183,7 +187,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onKeyPress?: ((e: NativeEventInfo<TComponent>) => void);
+    onKeyPress?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -195,7 +199,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onKeyUp?: ((e: NativeEventInfo<TComponent>) => void);
+    onKeyUp?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default null
@@ -207,7 +211,7 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
      * @action
      * @public
      */
-    onPaste?: ((e: NativeEventInfo<TComponent>) => void);
+    onPaste?: ((e: NativeEventInfo<T>) => void);
     /**
      * @docid
      * @default ""
@@ -272,7 +276,8 @@ export interface dxTextEditorOptions<TComponent> extends EditorOptions<TComponen
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxTextEditor<TProperties = Properties> extends Editor<TProperties> {
+export default class dxTextEditor extends Editor {
+    constructor(element: UserDefinedElement, options?: dxTextEditorOptions)
     /**
      * @docid
      * @publicName blur()
@@ -321,5 +326,3 @@ export interface dxTextEditorButton {
      */
     options?: dxButtonOptions;
 }
-
-type Properties = dxTextEditorOptions<dxTextEditor<Properties>>;

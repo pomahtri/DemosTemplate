@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/core/utils/dom.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,7 +8,6 @@
 */
 import domAdapter from '../../core/dom_adapter';
 import $ from '../../core/renderer';
-import { each } from './iterator';
 import { isDefined, isRenderer, isWindow } from './type';
 import { getWindow } from './window';
 var window = getWindow();
@@ -131,20 +130,4 @@ export var createTextElementHiddenCopy = function createTextElementHiddenCopy(el
     'position': 'absolute',
     'float': 'left'
   });
-};
-export var insertBefore = (element, newElement) => {
-  if (newElement) {
-    domAdapter.insertElement(element.parentNode, newElement, element);
-  }
-
-  return element;
-};
-export var replaceWith = (element, newElement) => {
-  if (!(newElement && newElement[0])) return;
-  if (newElement.is(element)) return element;
-  each(newElement, (_, currentElement) => {
-    insertBefore(element[0], currentElement);
-  });
-  element.remove();
-  return newElement;
 };

@@ -1,11 +1,8 @@
-import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["screenByWidth"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import { combineClasses } from "../../utils/combine_classes";
 import { Widget } from "../common/widget";
-import { ResponsiveBox } from "../responsive_box/responsive_box";
 import { LayoutManagerProps } from "./layout_manager_props";
 export var viewFunction = viewModel => {
   var {
@@ -14,11 +11,7 @@ export var viewFunction = viewModel => {
   } = viewModel;
   return normalizeProps(createComponentVNode(2, Widget, _extends({
     "classes": cssClasses
-  }, restAttributes, {
-    children: createComponentVNode(2, ResponsiveBox, {
-      "screenByWidth": viewModel.props.screenByWidth
-    })
-  })));
+  }, restAttributes)));
 };
 export class LayoutManager extends BaseInfernoComponent {
   constructor(props) {
@@ -33,8 +26,7 @@ export class LayoutManager extends BaseInfernoComponent {
   }
 
   get restAttributes() {
-    var _this$props = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
+    var restProps = _extends({}, this.props);
 
     return restProps;
   }

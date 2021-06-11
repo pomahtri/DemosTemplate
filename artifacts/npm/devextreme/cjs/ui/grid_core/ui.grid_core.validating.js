@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.validating.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,7 +40,7 @@ var _validation_engine = _interopRequireDefault(require("../validation_engine"))
 
 var _validator = _interopRequireDefault(require("../validator"));
 
-var _overlay = require("../overlay");
+var _overlay = _interopRequireDefault(require("../overlay"));
 
 var _ui = _interopRequireDefault(require("../widget/ui.errors"));
 
@@ -1163,7 +1163,7 @@ var validatingModule = {
               },
               onPositioned: this._positionedHandler.bind(this)
             };
-            return new _overlay.Overlay($tooltipElement, tooltipOptions);
+            return new _overlay.default($tooltipElement, tooltipOptions);
           },
           _hideFixedGroupCell: function _hideFixedGroupCell($cell, overlayOptions) {
             var $nextFixedRowElement;
@@ -1252,7 +1252,7 @@ var validatingModule = {
 
             this._hideFixedGroupCell($cell, overlayOptions);
 
-            new _overlay.Overlay($overlayElement, overlayOptions);
+            new _overlay.default($overlayElement, overlayOptions);
           },
           _normalizeValidationMessagePositionAndMaxWidth: function _normalizeValidationMessagePositionAndMaxWidth(options, isRevertButton, isOverlayVisible) {
             var fixedColumns = this._columnsController.getFixedColumns();

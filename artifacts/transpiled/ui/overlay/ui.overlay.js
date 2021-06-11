@@ -134,8 +134,16 @@ var POSITION_ALIASES = {
 
 var realDevice = _devices.default.real();
 
+var firefoxDesktop = _browser.default.mozilla && realDevice.deviceType === 'desktop';
 var iOS = realDevice.platform === 'ios';
 var hasSafariAddressBar = _browser.default.safari && realDevice.deviceType !== 'desktop';
+
+var forceRepaint = function forceRepaint($element) {
+  // NOTE: force layout recalculation on FF desktop (T581681)
+  if (firefoxDesktop) {
+    $element.width();
+  }
+};
 
 var getElement = function getElement(value) {
   if ((0, _type.isEvent)(value)) {
@@ -200,7 +208,6 @@ var Overlay = _ui.default.inherit({
       deferRendering: true,
       shading: true,
       shadingColor: '',
-      wrapperAttr: {},
       position: {
         my: 'center',
         at: 'center'
@@ -291,15 +298,6 @@ var Overlay = _ui.default.inherit({
   _eventBindingTarget: function _eventBindingTarget() {
     return this._$content;
   },
-  _setDeprecatedOptions: function _setDeprecatedOptions() {
-    this.callBase();
-    (0, _extend.extend)(this._deprecatedOptions, {
-      'elementAttr': {
-        since: '21.2',
-        message: 'Use the "wrapperAttr" option instead'
-      }
-    });
-  },
   _init: function _init() {
     this.callBase();
 
@@ -320,7 +318,10 @@ var Overlay = _ui.default.inherit({
 
     $element.addClass(OVERLAY_CLASS);
 
-    this._$wrapper.attr('data-bind', 'dxControlsDescendantBindings: true'); // NOTE: bootstrap integration T342292
+    this._$wrapper.attr('data-bind', 'dxControlsDescendantBindings: true'); // NOTE: hack to fix B251087
+
+
+    _events_engine.default.on(this._$wrapper, 'MSPointerDown', _common.noop); // NOTE: bootstrap integration T342292
 
 
     _events_engine.default.on(this._$wrapper, 'focusin', function (e) {
@@ -397,11 +398,6 @@ var Overlay = _ui.default.inherit({
       return that._documentDownHandler.apply(that, arguments);
     };
   },
-  _initMarkup: function _initMarkup() {
-    this.callBase();
-
-    this._renderWrapperAttributes();
-  },
   _documentDownHandler: function _documentDownHandler(e) {
     if (this._showAnimationProcessing) {
       this._stopAnimation();
@@ -472,12 +468,6 @@ var Overlay = _ui.default.inherit({
     this._initContainer(this.option('container'));
 
     this._refresh();
-  },
-  _renderWrapperAttributes: function _renderWrapperAttributes() {
-    var _this$option = this.option(),
-        wrapperAttr = _this$option.wrapperAttr;
-
-    this._$wrapper.attr(wrapperAttr !== null && wrapperAttr !== void 0 ? wrapperAttr : {});
   },
   _renderVisibilityAnimate: function _renderVisibilityAnimate(visible) {
     this._stopAnimation();
@@ -1283,6 +1273,7 @@ var Overlay = _ui.default.inherit({
 
       var resultPosition = _position.default.setup(this._$content, position);
 
+      forceRepaint(this._$content);
       return resultPosition;
     }
   },
@@ -1496,11 +1487,6 @@ var Overlay = _ui.default.inherit({
 
       case '_fixedPosition':
         this._fixWrapperPosition();
-
-        break;
-
-      case 'wrapperAttr':
-        this._renderWrapperAttributes();
 
         break;
 

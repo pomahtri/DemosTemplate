@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/drop_down_box.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,10 +40,6 @@ import {
 import {
     DataExpressionMixinOptions
 } from './editor/ui.data_expression';
-
-import {
-    Properties as PopupProperties
-} from './popup';
 
 /** @public */
 export type ChangeEvent = NativeEventInfo<dxDropDownBox>;
@@ -166,12 +162,6 @@ export interface dxDropDownBoxOptions extends DataExpressionMixinOptions<dxDropD
      * @public
      */
     valueChangeEvent?: string;
-
-    /**
-     * @docid
-     * @type dxPopupOptions
-     */
-    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -183,7 +173,8 @@ export interface dxDropDownBoxOptions extends DataExpressionMixinOptions<dxDropD
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxDropDownBox extends dxDropDownEditor<dxDropDownBoxOptions> {
+export default class dxDropDownBox extends dxDropDownEditor {
+    constructor(element: UserDefinedElement, options?: dxDropDownBoxOptions)
     getDataSource(): DataSource;
 }
 

@@ -1,17 +1,21 @@
 /**
 * DevExtreme (ui/hierarchical_collection/ui.hierarchical_collection_widget.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../../core/element';
+
 import CollectionWidget, {
     CollectionWidgetOptions
 } from '../collection/ui.collection_widget.base';
 
 /** @namespace DevExpress.ui */
-export interface HierarchicalCollectionWidgetOptions<TComponent> extends CollectionWidgetOptions<TComponent> {
+export interface HierarchicalCollectionWidgetOptions<T = HierarchicalCollectionWidget> extends CollectionWidgetOptions<T> {
     /**
      * @docid
      * @default 'disabled'
@@ -65,4 +69,6 @@ export interface HierarchicalCollectionWidgetOptions<TComponent> extends Collect
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class HierarchicalCollectionWidget<TProperties> extends CollectionWidget<TProperties> { }
+export default class HierarchicalCollectionWidget extends CollectionWidget {
+    constructor(element: UserDefinedElement, options?: HierarchicalCollectionWidgetOptions)
+}

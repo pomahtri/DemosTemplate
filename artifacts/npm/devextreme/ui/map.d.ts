@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/map.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     DxPromise
 } from '../core/utils/deferred';
@@ -351,7 +355,8 @@ export interface dxMapOptions extends WidgetOptions<dxMap> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxMap extends Widget<dxMapOptions> {
+export default class dxMap extends Widget {
+    constructor(element: UserDefinedElement, options?: dxMapOptions)
     /**
      * @docid
      * @publicName addMarker(markerOptions)

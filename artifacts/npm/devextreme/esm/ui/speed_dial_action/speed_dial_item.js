@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/speed_dial_action/speed_dial_item.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ import eventsEngine from '../../events/core/events_engine';
 import { addNamespace } from '../../events/utils/index';
 import { name as clickEventName } from '../../events/click';
 import { getImageContainer } from '../../core/utils/icon';
-import { Overlay } from '../overlay';
+import Overlay from '../overlay';
 import { render } from '../widget/utils.ink_ripple';
 import { isMaterial } from '../themes';
 var FAB_CLASS = 'dx-fa-button';

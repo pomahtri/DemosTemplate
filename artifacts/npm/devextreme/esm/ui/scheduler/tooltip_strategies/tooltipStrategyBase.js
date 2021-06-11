@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/tooltip_strategies/tooltipStrategyBase.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -127,12 +127,14 @@ export class TooltipStrategyBase {
   }
 
   _createFunctionTemplate(template, data, targetData, index) {
+    var isEmptyDropDownAppointmentTemplate = this._isEmptyDropDownAppointmentTemplate();
+
     return new FunctionTemplate(options => {
       return template.render({
-        model: {
+        model: isEmptyDropDownAppointmentTemplate ? {
           appointmentData: data,
           targetedAppointmentData: targetData
-        },
+        } : data,
         container: options.container,
         index: index
       });
@@ -140,7 +142,11 @@ export class TooltipStrategyBase {
   }
 
   _getItemListTemplateName() {
-    return 'appointmentTooltip';
+    return this._isEmptyDropDownAppointmentTemplate() ? 'appointmentTooltip' : 'dropDownAppointment';
+  }
+
+  _isEmptyDropDownAppointmentTemplate() {
+    return !this._extraOptions.dropDownAppointmentTemplate || this._extraOptions.dropDownAppointmentTemplate === 'dropDownAppointment';
   }
 
   _onListItemClick(e) {

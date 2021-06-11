@@ -1753,7 +1753,6 @@ var KeyboardNavigationController = core.ViewController.inherit({
       type: 'input',
       target: $input.get(0)
     });
-    $input.get(0).select();
     eventsEngine.trigger($input, keyDownEvent);
 
     if (!keyDownEvent.isDefaultPrevented()) {

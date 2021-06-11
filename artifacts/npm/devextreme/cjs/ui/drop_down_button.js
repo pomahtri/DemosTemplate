@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/drop_down_button.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -295,14 +295,6 @@ var DropDownButton = _ui.default.inherit({
   _buttonGroupOptions: function _buttonGroupOptions() {
     var _this2 = this;
 
-    var buttonTemplate = this.option('splitButton') || !this.option('showArrowIcon') ? 'content' : function (_ref4, buttonContent) {
-      var text = _ref4.text,
-          icon = _ref4.icon;
-      var $firstIcon = (0, _icon.getImageContainer)(icon);
-      var $textContainer = text ? (0, _renderer.default)('<span>').text(text).addClass(DX_BUTTON_TEXT_CLASS) : undefined;
-      var $secondIcon = (0, _icon.getImageContainer)('spindown').addClass(DX_ICON_RIGHT_CLASS);
-      (0, _renderer.default)(buttonContent).append($firstIcon, $textContainer, $secondIcon);
-    };
     return (0, _extend.extend)({
       items: this._getButtonGroupItems(),
       focusStateEnabled: this.option('focusStateEnabled'),
@@ -316,7 +308,19 @@ var DropDownButton = _ui.default.inherit({
       onKeyboardHandled: function onKeyboardHandled(e) {
         return _this2._keyboardHandler(e);
       },
-      buttonTemplate: buttonTemplate
+      buttonTemplate: function buttonTemplate(_ref4, buttonContent) {
+        var text = _ref4.text,
+            icon = _ref4.icon;
+
+        if (_this2.option('splitButton') || !_this2.option('showArrowIcon')) {
+          return 'content';
+        }
+
+        var $firstIcon = (0, _icon.getImageContainer)(icon);
+        var $textContainer = text ? (0, _renderer.default)('<span>').text(text).addClass(DX_BUTTON_TEXT_CLASS) : undefined;
+        var $secondIcon = (0, _icon.getImageContainer)('spindown').addClass(DX_ICON_RIGHT_CLASS);
+        (0, _renderer.default)(buttonContent).append($firstIcon, $textContainer, $secondIcon);
+      }
     }, this._options.cache('buttonGroupOptions'));
   },
   _renderPopupContent: function _renderPopupContent() {
@@ -726,7 +730,7 @@ var DropDownButton = _ui.default.inherit({
       case 'showArrowIcon':
         this._updateArrowClass();
 
-        this._renderButtonGroup();
+        this._buttonGroup.repaint();
 
         this._popup && this._popup.repaint();
         break;

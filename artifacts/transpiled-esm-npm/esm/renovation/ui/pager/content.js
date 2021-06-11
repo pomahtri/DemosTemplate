@@ -85,17 +85,58 @@ import { createRef as infernoCreateRef } from "inferno";
 export class PagerContent extends InfernoComponent {
   constructor(props) {
     super(props);
+    this._currentState = null;
     this.widgetRootElementRef = infernoCreateRef();
     this.state = {
       pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.props.defaultPageIndex,
       pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.props.defaultPageSize
     };
-    this.setRootElementRef = this.setRootElementRef.bind(this);
     this.createFakeInstance = this.createFakeInstance.bind(this);
+    this.setRootElementRef = this.setRootElementRef.bind(this);
   }
 
   createEffects() {
     return [new InfernoEffect(this.setRootElementRef, [])];
+  }
+
+  updateEffects() {}
+
+  get __state_pageIndex() {
+    var state = this._currentState || this.state;
+    return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
+  }
+
+  set_pageIndex(value) {
+    this.setState(state => {
+      var _this$props$pageIndex, _this$props;
+
+      this._currentState = state;
+      var newValue = value();
+      (_this$props$pageIndex = (_this$props = this.props).pageIndexChange) === null || _this$props$pageIndex === void 0 ? void 0 : _this$props$pageIndex.call(_this$props, newValue);
+      this._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
+  }
+
+  get __state_pageSize() {
+    var state = this._currentState || this.state;
+    return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
+  }
+
+  set_pageSize(value) {
+    this.setState(state => {
+      var _this$props$pageSizeC, _this$props2;
+
+      this._currentState = state;
+      var newValue = value();
+      (_this$props$pageSizeC = (_this$props2 = this.props).pageSizeChange) === null || _this$props$pageSizeC === void 0 ? void 0 : _this$props$pageSizeC.call(_this$props2, newValue);
+      this._currentState = null;
+      return {
+        pageSize: newValue
+      };
+    });
   }
 
   getChildContext() {
@@ -119,9 +160,9 @@ export class PagerContent extends InfernoComponent {
       option: () => false,
       element: () => this.widgetRootElementRef.current,
       _createActionByOption: () => e => {
-        var _this$props$onKeyDown, _this$props;
+        var _this$props$onKeyDown, _this$props3;
 
-        (_this$props$onKeyDown = (_this$props = this.props).onKeyDown) === null || _this$props$onKeyDown === void 0 ? void 0 : _this$props$onKeyDown.call(_this$props, e);
+        (_this$props$onKeyDown = (_this$props3 = this.props).onKeyDown) === null || _this$props$onKeyDown === void 0 ? void 0 : _this$props$onKeyDown.call(_this$props3, e);
       }
     };
   }
@@ -144,7 +185,7 @@ export class PagerContent extends InfernoComponent {
   }
 
   get pageIndexSelectorVisible() {
-    return (this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize) !== 0;
+    return this.__state_pageSize !== 0;
   }
 
   get normalizedDisplayMode() {
@@ -195,11 +236,11 @@ export class PagerContent extends InfernoComponent {
   }
 
   get restAttributes() {
-    var _this$props$pageIndex = _extends({}, this.props, {
-      pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
-      pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+    var _this$props$pageIndex2 = _extends({}, this.props, {
+      pageIndex: this.__state_pageIndex,
+      pageSize: this.__state_pageSize
     }),
-        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex, _excluded);
+        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex2, _excluded);
 
     return restProps;
   }
@@ -208,8 +249,8 @@ export class PagerContent extends InfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex,
-        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
+        pageIndex: this.__state_pageIndex,
+        pageSize: this.__state_pageSize
       }),
       widgetRootElementRef: this.widgetRootElementRef,
       keyboardAction: this.keyboardAction,

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/common/ink_ripple.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -59,12 +59,12 @@ var InkRipple = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = InkRipple.prototype;
 
-  _proto.hideWave = function hideWave(opts) {
-    (0, _utils.hideWave)(this.getConfig, opts);
+  _proto.hideWave = function hideWave(event) {
+    (0, _utils.hideWave)(this.getConfig, event);
   };
 
-  _proto.showWave = function showWave(opts) {
-    (0, _utils.showWave)(this.getConfig, opts);
+  _proto.showWave = function showWave(event) {
+    (0, _utils.showWave)(this.getConfig, event);
   };
 
   _proto.render = function render() {

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/scheduler/workspaces/base/date_table/layout.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../../../../component_wrapper/common/component"));
+var _component = _interopRequireDefault(require("../../../../../component_wrapper/component"));
 
 var _layout = require("./layout");
 
@@ -56,6 +56,5 @@ var DateTableLayoutBase = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = DateTableLayoutBase;
 (0, _component_registrator.default)("dxDateTableLayoutBase", DateTableLayoutBase);
-DateTableLayoutBase.defaultOptions = _layout.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

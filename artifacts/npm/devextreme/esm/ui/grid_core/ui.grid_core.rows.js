@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.rows.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -796,9 +796,8 @@ export var rowsModule = {
         _getHeightCorrection: function _getHeightCorrection() {
           var isZoomedWebkit = browser.webkit && this._getDevicePixelRatio() >= 2; // T606935
 
-          var isChromeLatest = browser.chrome && browser.version >= 91;
           var hasExtraBorderTop = browser.mozilla && browser.version >= 70 && !this.option('showRowLines');
-          return isZoomedWebkit || hasExtraBorderTop || isChromeLatest ? 1 : 0;
+          return isZoomedWebkit || hasExtraBorderTop ? 1 : 0;
         },
         _columnOptionChanged: function _columnOptionChanged(e) {
           var optionNames = e.optionNames;

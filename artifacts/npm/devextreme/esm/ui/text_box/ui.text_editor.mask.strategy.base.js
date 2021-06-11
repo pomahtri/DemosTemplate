@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/text_box/ui.text_editor.mask.strategy.base.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -199,7 +199,9 @@ export default class BaseMaskStrategy {
 
     var result = false;
 
-    if (browser.webkit) {
+    if (browser.msie && browser.version > 11) {
+      result = $input.hasClass('edge-autofilled');
+    } else if (browser.webkit) {
       var input = $input.get(0);
       result = input && input.matches(':-webkit-autofill');
     }

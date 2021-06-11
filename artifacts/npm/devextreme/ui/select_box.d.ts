@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/select_box.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -38,10 +38,6 @@ import dxDropDownList, {
 import {
     ValueChangedInfo
 } from './editor/editor';
-
-import {
-    Properties as PopupProperties
-} from './popup';
 
 export interface CustomItemCreatingInfo {
     readonly text?: string;
@@ -117,7 +113,7 @@ export type DropDownButtonTemplateData = DropDownButtonTemplateDataModel;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxSelectBoxOptions<TComponent> extends dxDropDownListOptions<TComponent> {
+export interface dxSelectBoxOptions<T = dxSelectBox> extends dxDropDownListOptions<T> {
     /**
      * @docid
      * @default false
@@ -176,12 +172,6 @@ export interface dxSelectBoxOptions<TComponent> extends dxDropDownListOptions<TC
      * @public
      */
     valueChangeEvent?: string;
-
-    /**
-     * @docid
-     * @type dxPopupOptions
-     */
-    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -192,13 +182,15 @@ export interface dxSelectBoxOptions<TComponent> extends dxDropDownListOptions<TC
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxSelectBox<TProperties = Properties> extends dxDropDownList<TProperties> { }
+export default class dxSelectBox extends dxDropDownList {
+    constructor(element: UserDefinedElement, options?: dxSelectBoxOptions)
+}
 
 /** @public */
-export type Properties = dxSelectBoxOptions<dxSelectBox<Properties>>;
+export type Properties = dxSelectBoxOptions;
 
 /** @deprecated use Properties instead */
-export type Options = Properties;
+export type Options = dxSelectBoxOptions;
 
 /** @deprecated use Properties instead */
-export type IOptions = Properties;
+export type IOptions = dxSelectBoxOptions;

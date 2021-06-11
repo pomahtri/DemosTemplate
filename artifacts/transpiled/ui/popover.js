@@ -28,8 +28,6 @@ var _math = require("../core/utils/math");
 
 var _index = require("../events/utils/index");
 
-var _ui = _interopRequireDefault(require("./widget/ui.errors"));
-
 var _popup = _interopRequireDefault(require("./popup"));
 
 var _position2 = require("../core/utils/position");
@@ -38,6 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+var window = (0, _window.getWindow)();
 // STYLE popover
 var POPOVER_CLASS = 'dx-popover';
 var POPOVER_WRAPPER_CLASS = 'dx-popover-wrapper';
@@ -102,21 +101,11 @@ var getEventDelay = function getEventDelay(that, optionName) {
 };
 
 var attachEvent = function attachEvent(that, name) {
-  var _that$option = that.option(),
-      target = _that$option.target,
-      shading = _that$option.shading,
-      disabled = _that$option.disabled,
-      hideEvent = _that$option.hideEvent;
-
+  var target = that.option('target');
   var isSelector = (0, _type.isString)(target);
-  var shouldIgnoreHideEvent = shading && name === 'hide';
-  var event = shouldIgnoreHideEvent ? null : getEventName(that, "".concat(name, "Event"));
+  var event = getEventName(that, name + 'Event');
 
-  if (shouldIgnoreHideEvent && hideEvent) {
-    _ui.default.log('W1020');
-  }
-
-  if (!event || disabled) {
+  if (!event || that.option('disabled')) {
     return;
   }
 
@@ -179,7 +168,7 @@ var detachEvent = function detachEvent(that, target, name, event) {
 var Popover = _popup.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
-      target: undefined,
+      target: window,
       shading: false,
       position: 'bottom',
       closeOnOutsideClick: true,
@@ -441,8 +430,6 @@ var Popover = _popup.default.inherit({
     this.$wrapper().toggleClass('dx-popover-flipped-horizontal', isFlippedHorizontal).toggleClass('dx-popover-flipped-vertical', isFlippedVertical);
   },
   _renderArrowPosition: function _renderArrowPosition(side) {
-    var _$target$get;
-
     var arrowRect = (0, _position2.getBoundingRect)(this._$arrow.get(0));
     var arrowFlip = -(this._isVerticalSide(side) ? arrowRect.height : arrowRect.width);
 
@@ -462,7 +449,7 @@ var Popover = _popup.default.inherit({
     var contentLocation = contentOffset[axis];
     var contentSize = (0, _position2.getBoundingRect)(this.$overlayContent().get(0))[sizeProperty];
     var targetLocation = targetOffset[axis];
-    var targetSize = (_$target$get = $target.get(0)) !== null && _$target$get !== void 0 && _$target$get.preventDefault ? 0 : (0, _position2.getBoundingRect)($target.get(0))[sizeProperty];
+    var targetSize = $target.get(0).preventDefault ? 0 : (0, _position2.getBoundingRect)($target.get(0))[sizeProperty];
     var min = Math.max(contentLocation, targetLocation);
     var max = Math.min(contentLocation + contentSize, targetLocation + targetSize);
     var arrowLocation;

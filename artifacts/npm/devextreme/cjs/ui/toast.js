@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/toast.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -32,7 +32,7 @@ var _pointer = _interopRequireDefault(require("../events/pointer"));
 
 var _component_registrator = _interopRequireDefault(require("../core/component_registrator"));
 
-var _overlay = require("./overlay");
+var _overlay = _interopRequireDefault(require("./overlay"));
 
 var _themes = require("./themes");
 
@@ -94,7 +94,7 @@ ready(function () {
   });
 });
 
-var Toast = _overlay.Overlay.inherit({
+var Toast = _overlay.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       message: '',

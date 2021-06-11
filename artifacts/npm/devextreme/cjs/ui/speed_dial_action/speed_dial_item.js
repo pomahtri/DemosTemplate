@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/speed_dial_action/speed_dial_item.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -22,7 +22,7 @@ var _click = require("../../events/click");
 
 var _icon = require("../../core/utils/icon");
 
-var _overlay = require("../overlay");
+var _overlay = _interopRequireDefault(require("../overlay"));
 
 var _utils = require("../widget/utils.ink_ripple");
 
@@ -258,7 +258,7 @@ var SpeedDialItem = /*#__PURE__*/function (_Overlay) {
   };
 
   return SpeedDialItem;
-}(_overlay.Overlay);
+}(_overlay.default);
 
 var _default = SpeedDialItem;
 exports.default = _default;

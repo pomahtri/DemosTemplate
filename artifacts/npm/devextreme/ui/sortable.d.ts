@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/sortable.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -348,7 +348,8 @@ export interface dxSortableOptions extends DraggableBaseOptions<dxSortable> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxSortable extends DOMComponent<dxSortableOptions> implements DraggableBase {
+export default class dxSortable extends DOMComponent implements DraggableBase {
+    constructor(element: UserDefinedElement, options?: dxSortableOptions)
     /**
      * @docid
      * @publicName update()

@@ -1,10 +1,8 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
-import Component from "./common/component";
+import Component from "./component";
 import gridCore from "../../ui/data_grid/ui.data_grid.core";
-import { updatePropsImmutable } from "./utils/update-props-immutable";
+import { updatePropsImmutable } from "./utils";
 export default class DataGridWrapper extends Component {
-  _fireContentReady() {}
-
   beginUpdate() {
     var _this$viewRef;
 

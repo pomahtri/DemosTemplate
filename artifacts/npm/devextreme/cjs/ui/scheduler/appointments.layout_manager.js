@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/appointments.layout_manager.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -21,8 +21,6 @@ var _uiSchedulerAppointmentsStrategy3 = _interopRequireDefault(require("./render
 var _uiSchedulerAppointmentsStrategy4 = _interopRequireDefault(require("./rendering_strategies/ui.scheduler.appointments.strategy.horizontal_month"));
 
 var _uiSchedulerAppointmentsStrategy5 = _interopRequireDefault(require("./rendering_strategies/ui.scheduler.appointments.strategy.agenda"));
-
-var _appointmentDataProvider = require("./appointments/DataProvider/appointmentDataProvider");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,9 +110,8 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
   };
 
   _proto._isDataChanged = function _isDataChanged(data) {
-    var appointmentDataProvider = (0, _appointmentDataProvider.getAppointmentDataProvider)();
-    var updatedData = appointmentDataProvider.getUpdatedAppointment();
-    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(function (item) {
+    var updatedData = this.instance.getUpdatedAppointment();
+    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(function (item) {
       return data[item.key] === item.value;
     });
   };

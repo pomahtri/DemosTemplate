@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/tabs.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import DataSource, {
     DataSourceOptions
 } from '../data/data_source';
@@ -57,7 +61,7 @@ export type SelectionChangedEvent = EventInfo<dxTabs> & SelectionChangedInfo;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxTabsOptions<TComponent> extends CollectionWidgetOptions<TComponent> {
+export interface dxTabsOptions<T = dxTabs> extends CollectionWidgetOptions<T> {
     /**
      * @docid
      * @default null
@@ -129,7 +133,9 @@ export interface dxTabsOptions<TComponent> extends CollectionWidgetOptions<TComp
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTabs<TProperties = Properties> extends CollectionWidget<TProperties> { }
+export default class dxTabs extends CollectionWidget {
+    constructor(element: UserDefinedElement, options?: dxTabsOptions)
+}
 
 /**
  * @docid
@@ -151,10 +157,10 @@ export interface dxTabsItem extends CollectionWidgetItem {
 }
 
 /** @public */
-export type Properties = dxTabsOptions<dxTabs<Properties>>;
+export type Properties = dxTabsOptions;
 
 /** @deprecated use Properties instead */
-export type Options = Properties;
+export type Options = dxTabsOptions;
 
 /** @deprecated use Properties instead */
-export type IOptions = Properties;
+export type IOptions = dxTabsOptions;

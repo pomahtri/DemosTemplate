@@ -1,23 +1,19 @@
 /**
 * DevExtreme (esm/ui/scheduler/workspaces/ui.scheduler.work_space.grouped.strategy.vertical.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import { getBoundingRect } from '../../../core/utils/position';
+import GroupedStrategy from './ui.scheduler.work_space.grouped.strategy';
 import { cache } from './cache';
-import { FIRST_GROUP_CELL_CLASS, LAST_GROUP_CELL_CLASS } from '../classes';
 var VERTICAL_GROUPED_ATTR = 'dx-group-column-count';
 var DATE_HEADER_OFFSET = 10;
 var WORK_SPACE_BORDER = 1;
 
-class VerticalGroupedStrategy {
-  constructor(workSpace) {
-    this._workSpace = workSpace;
-  }
-
+class VerticalGroupedStrategy extends GroupedStrategy {
   prepareCellIndexes(cellCoordinates, groupIndex, inAllDayRow) {
     var rowIndex = cellCoordinates.rowIndex + groupIndex * this._workSpace._getRowCount();
 
@@ -67,7 +63,7 @@ class VerticalGroupedStrategy {
 
   _addLastGroupCellClass(cellClass, index) {
     if (index % this._workSpace._getRowCount() === 0) {
-      return "".concat(cellClass, " ").concat(LAST_GROUP_CELL_CLASS);
+      return cellClass + ' ' + this.getLastGroupCellClass();
     }
 
     return cellClass;
@@ -75,10 +71,18 @@ class VerticalGroupedStrategy {
 
   _addFirstGroupCellClass(cellClass, index) {
     if ((index - 1) % this._workSpace._getRowCount() === 0) {
-      return "".concat(cellClass, " ").concat(FIRST_GROUP_CELL_CLASS);
+      return cellClass + ' ' + this.getFirstGroupCellClass();
     }
 
     return cellClass;
+  }
+
+  getHorizontalMax(groupIndex) {
+    if (this._workSpace.isRenovatedRender()) {
+      return this._workSpace.getMaxAllowedPosition(groupIndex);
+    }
+
+    return this._workSpace.getMaxAllowedPosition(0);
   }
 
   getVerticalMax(groupIndex) {
@@ -164,6 +168,10 @@ class VerticalGroupedStrategy {
     });
   }
 
+  getVirtualScrollingGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates) {
+    return this.getGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates);
+  }
+
   shiftIndicator($indicator, height, rtlOffset, i) {
     var offset = this._workSpace.getIndicatorOffset(0);
 
@@ -214,6 +222,14 @@ class VerticalGroupedStrategy {
 
   getScrollableScrollTop() {
     return this._workSpace.getScrollable().scrollTop();
+  }
+
+  getGroupIndexByCell($cell) {
+    var rowIndex = $cell.parent().index();
+
+    var rowCount = this._workSpace._getRowCountWithAllDayRows();
+
+    return Math.ceil((rowIndex + 1) / rowCount);
   }
 
 }

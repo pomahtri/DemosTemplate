@@ -1,6 +1,6 @@
 import registerComponent from "../../../core/component_registrator";
-import BaseComponent from "../../component_wrapper/common/component";
-import { Widget as WidgetComponent, defaultOptions } from "./widget";
+import BaseComponent from "../../component_wrapper/component";
+import { Widget as WidgetComponent } from "./widget";
 export default class Widget extends BaseComponent {
   getProps() {
     var props = super.getProps();
@@ -11,7 +11,7 @@ export default class Widget extends BaseComponent {
   focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus(...arguments);
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
   }
 
   _getActionConfigs() {
@@ -19,12 +19,16 @@ export default class Widget extends BaseComponent {
       onActive: {},
       onDimensionChanged: {},
       onInactive: {},
+      onKeyboardHandled: {},
       onVisibilityChange: {},
       onFocusIn: {},
       onFocusOut: {},
       onHoverStart: {},
       onHoverEnd: {},
-      onClick: {}
+      onClick: {},
+      onContentReady: {
+        excludeValidators: ["disabled", "readOnly"]
+      }
     };
   }
 
@@ -34,7 +38,7 @@ export default class Widget extends BaseComponent {
       allowNull: [],
       elements: [],
       templates: [],
-      props: ["_feedbackHideTimeout", "_feedbackShowTimeout", "activeStateUnit", "aria", "classes", "name", "addWidgetClass", "onActive", "onDimensionChanged", "onInactive", "onVisibilityChange", "onFocusIn", "onFocusOut", "onHoverStart", "onHoverEnd", "className", "accessKey", "activeStateEnabled", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
+      props: ["_feedbackHideTimeout", "_feedbackShowTimeout", "activeStateUnit", "aria", "classes", "className", "name", "onActive", "onDimensionChanged", "onInactive", "onKeyboardHandled", "onVisibilityChange", "onFocusIn", "onFocusOut", "onHoverStart", "onHoverEnd", "accessKey", "activeStateEnabled", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "onClick", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
     };
   }
 
@@ -44,4 +48,3 @@ export default class Widget extends BaseComponent {
 
 }
 registerComponent("dxWidget", Widget);
-Widget.defaultOptions = defaultOptions;

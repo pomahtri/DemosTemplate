@@ -1,5 +1,4 @@
 export var BaseWidgetProps = {
-  className: "",
   activeStateEnabled: false,
   disabled: false,
   focusStateEnabled: false,

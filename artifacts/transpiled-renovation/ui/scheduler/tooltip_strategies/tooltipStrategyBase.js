@@ -140,12 +140,14 @@ var TooltipStrategyBase = /*#__PURE__*/function () {
   };
 
   _proto._createFunctionTemplate = function _createFunctionTemplate(template, data, targetData, index) {
+    var isEmptyDropDownAppointmentTemplate = this._isEmptyDropDownAppointmentTemplate();
+
     return new _function_template.FunctionTemplate(function (options) {
       return template.render({
-        model: {
+        model: isEmptyDropDownAppointmentTemplate ? {
           appointmentData: data,
           targetedAppointmentData: targetData
-        },
+        } : data,
         container: options.container,
         index: index
       });
@@ -153,7 +155,11 @@ var TooltipStrategyBase = /*#__PURE__*/function () {
   };
 
   _proto._getItemListTemplateName = function _getItemListTemplateName() {
-    return 'appointmentTooltip';
+    return this._isEmptyDropDownAppointmentTemplate() ? 'appointmentTooltip' : 'dropDownAppointment';
+  };
+
+  _proto._isEmptyDropDownAppointmentTemplate = function _isEmptyDropDownAppointmentTemplate() {
+    return !this._extraOptions.dropDownAppointmentTemplate || this._extraOptions.dropDownAppointmentTemplate === 'dropDownAppointment';
   };
 
   _proto._onListItemClick = function _onListItemClick(e) {

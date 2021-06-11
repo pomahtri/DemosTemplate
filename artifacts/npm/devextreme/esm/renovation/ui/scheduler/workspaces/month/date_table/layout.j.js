@@ -1,14 +1,14 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/month/date_table/layout.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import registerComponent from "../../../../../../core/component_registrator";
-import BaseComponent from "../../../../../component_wrapper/common/component";
-import { MonthDateTableLayout as MonthDateTableLayoutComponent, defaultOptions } from "./layout";
+import BaseComponent from "../../../../../component_wrapper/component";
+import { MonthDateTableLayout as MonthDateTableLayoutComponent } from "./layout";
 export default class MonthDateTableLayout extends BaseComponent {
   get _propsInfo() {
     return {
@@ -26,4 +26,3 @@ export default class MonthDateTableLayout extends BaseComponent {
 
 }
 registerComponent("dxMonthDateTableLayout", MonthDateTableLayout);
-MonthDateTableLayout.defaultOptions = defaultOptions;

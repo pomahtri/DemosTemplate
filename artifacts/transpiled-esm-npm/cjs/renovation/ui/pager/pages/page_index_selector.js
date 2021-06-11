@@ -106,45 +106,38 @@ var PageIndexSelector = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.state = {
       pageIndex: _this.props.pageIndex !== undefined ? _this.props.pageIndex : _this.props.defaultPageIndex
     };
-    _this.pageIndexChange = _this.pageIndexChange.bind(_assertThisInitialized(_this));
-    _this.navigateToNextPage = _this.navigateToNextPage.bind(_assertThisInitialized(_this));
-    _this.navigateToPrevPage = _this.navigateToPrevPage.bind(_assertThisInitialized(_this));
     _this.getNextDirection = _this.getNextDirection.bind(_assertThisInitialized(_this));
     _this.getPrevDirection = _this.getPrevDirection.bind(_assertThisInitialized(_this));
     _this.canNavigateToPage = _this.canNavigateToPage.bind(_assertThisInitialized(_this));
     _this.getNextPageIndex = _this.getNextPageIndex.bind(_assertThisInitialized(_this));
     _this.canNavigateTo = _this.canNavigateTo.bind(_assertThisInitialized(_this));
     _this.navigateToPage = _this.navigateToPage.bind(_assertThisInitialized(_this));
+    _this.pageIndexChange = _this.pageIndexChange.bind(_assertThisInitialized(_this));
+    _this.navigateToNextPage = _this.navigateToNextPage.bind(_assertThisInitialized(_this));
+    _this.navigateToPrevPage = _this.navigateToPrevPage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   var _proto = PageIndexSelector.prototype;
 
-  _proto.pageIndexChange = function pageIndexChange(pageIndex) {
-    if (this.canNavigateToPage(pageIndex)) {
-      {
-        var __newValue;
+  _proto.set_pageIndex = function set_pageIndex(value) {
+    var _this2 = this;
 
-        this.setState(function (state) {
-          __newValue = pageIndex;
-          return {
-            pageIndex: __newValue
-          };
-        });
-        this.props.pageIndexChange(__newValue);
-      }
-    }
-  };
+    this.setState(function (state) {
+      var _this2$props$pageInde, _this2$props;
 
-  _proto.navigateToNextPage = function navigateToNextPage() {
-    this.navigateToPage(this.getNextDirection());
-  };
-
-  _proto.navigateToPrevPage = function navigateToPrevPage() {
-    this.navigateToPage(this.getPrevDirection());
+      _this2._currentState = state;
+      var newValue = value();
+      (_this2$props$pageInde = (_this2$props = _this2.props).pageIndexChange) === null || _this2$props$pageInde === void 0 ? void 0 : _this2$props$pageInde.call(_this2$props, newValue);
+      _this2._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
   };
 
   _proto.getNextDirection = function getNextDirection() {
@@ -168,7 +161,7 @@ var PageIndexSelector = /*#__PURE__*/function (_BaseInfernoComponent) {
   };
 
   _proto.getNextPageIndex = function getNextPageIndex(direction) {
-    return (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + getIncrement(direction);
+    return this.__state_pageIndex + getIncrement(direction);
   };
 
   _proto.canNavigateTo = function canNavigateTo(direction) {
@@ -179,20 +172,36 @@ var PageIndexSelector = /*#__PURE__*/function (_BaseInfernoComponent) {
     this.pageIndexChange(this.getNextPageIndex(direction));
   };
 
+  _proto.pageIndexChange = function pageIndexChange(pageIndex) {
+    if (this.canNavigateToPage(pageIndex)) {
+      this.set_pageIndex(function () {
+        return pageIndex;
+      });
+    }
+  };
+
+  _proto.navigateToNextPage = function navigateToNextPage() {
+    this.navigateToPage(this.getNextDirection());
+  };
+
+  _proto.navigateToPrevPage = function navigateToPrevPage() {
+    this.navigateToPage(this.getPrevDirection());
+  };
+
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
       config: this.config,
-      pageIndexChange: this.pageIndexChange,
-      navigateToNextPage: this.navigateToNextPage,
-      navigateToPrevPage: this.navigateToPrevPage,
       renderPrevButton: this.renderPrevButton,
       renderNextButton: this.renderNextButton,
       nextClassName: this.nextClassName,
       prevClassName: this.prevClassName,
+      pageIndexChange: this.pageIndexChange,
+      navigateToNextPage: this.navigateToNextPage,
+      navigateToPrevPage: this.navigateToPrevPage,
       restAttributes: this.restAttributes
     });
   };
@@ -205,6 +214,12 @@ var PageIndexSelector = /*#__PURE__*/function (_BaseInfernoComponent) {
       }
 
       return _config_context.ConfigContext;
+    }
+  }, {
+    key: "__state_pageIndex",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
     }
   }, {
     key: "renderPrevButton",
@@ -237,7 +252,7 @@ var PageIndexSelector = /*#__PURE__*/function (_BaseInfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex = _extends({}, this.props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
           defaultPageIndex = _this$props$pageIndex.defaultPageIndex,
           hasKnownLastPage = _this$props$pageIndex.hasKnownLastPage,

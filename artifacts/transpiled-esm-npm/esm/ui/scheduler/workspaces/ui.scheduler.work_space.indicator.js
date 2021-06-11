@@ -5,7 +5,7 @@ import dateUtils from '../../../core/utils/date';
 import { extend } from '../../../core/utils/extend';
 import { getBoundingRect } from '../../../core/utils/position';
 import { hasWindow } from '../../../core/utils/window';
-import { HEADER_CURRENT_TIME_CELL_CLASS } from '../classes';
+import { HEADER_CURRENT_TIME_CELL_CLASS } from '../constants';
 var toMs = dateUtils.dateToMilliseconds;
 var SCHEDULER_DATE_TIME_INDICATOR_CLASS = 'dx-scheduler-date-time-indicator';
 var TIME_PANEL_CURRENT_TIME_CELL_CLASS = 'dx-scheduler-time-panel-current-time-cell';

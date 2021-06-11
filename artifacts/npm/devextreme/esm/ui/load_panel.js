@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/load_panel.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ import messageLocalization from '../localization/message';
 import registerComponent from '../core/component_registrator';
 import { extend } from '../core/utils/extend';
 import LoadIndicator from './load_indicator';
-import { Overlay } from './overlay';
+import Overlay from './overlay';
 import { Deferred } from '../core/utils/deferred';
 import { isMaterial } from './themes'; // STYLE loadPanel
 

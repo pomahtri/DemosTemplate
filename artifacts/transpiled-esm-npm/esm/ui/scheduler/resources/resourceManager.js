@@ -11,12 +11,7 @@ import { AgendaResourceProcessor } from './agendaResourceProcessor';
 import { getDisplayExpr, getFieldExpr, getValueExpr, getWrappedDataSource } from './utils';
 export class ResourceManager {
   constructor(resources) {
-    this.loadedResources = [];
     this._resourceLoader = {};
-    this._dataAccessors = {
-      getter: {},
-      setter: {}
-    };
     this.agendaProcessor = new AgendaResourceProcessor();
     this.setResources(resources);
   }
@@ -186,20 +181,7 @@ export class ResourceManager {
     return result;
   }
 
-  isLoaded() {
-    return isDefined(this.loadedResources);
-  }
-
   loadResources(groups) {
-    var result = new Deferred();
-    this.loadResourcesCore(groups).done(resources => {
-      this.loadedResources = resources;
-      result.resolve(resources);
-    });
-    return result.promise();
-  }
-
-  loadResourcesCore(groups) {
     var result = new Deferred();
     var that = this;
     var deferreds = [];
@@ -397,38 +379,7 @@ export class ResourceManager {
     return result;
   }
 
-  groupAppointmentsByResources(appointments, groups) {
-    var result = {
-      '0': appointments
-    };
-
-    if (groups && groups.length && this.getResourcesData().length) {
-      result = this.groupAppointmentsByResourcesCore(appointments, this.loadedResources);
-    }
-
-    var totalResourceCount = 0;
-    each(this.loadedResources, function (i, resource) {
-      if (!i) {
-        totalResourceCount = resource.items.length;
-      } else {
-        totalResourceCount *= resource.items.length;
-      }
-    });
-
-    for (var j = 0; j < totalResourceCount; j++) {
-      var index = j.toString();
-
-      if (result[index]) {
-        continue;
-      }
-
-      result[index] = [];
-    }
-
-    return result;
-  }
-
-  groupAppointmentsByResourcesCore(appointments, resources) {
+  groupAppointmentsByResources(appointments, resources) {
     var tree = this.createResourcesTree(resources);
     var result = {};
     each(appointments, function (_, appointment) {
@@ -445,68 +396,6 @@ export class ResourceManager {
       }
     }.bind(this));
     return result;
-  }
-
-  getAppointmentColor(options) {
-    var {
-      groups
-    } = options;
-    var resourceForPainting = this.getResourceForPainting(groups);
-    var response = new Deferred().resolve().promise();
-
-    if (resourceForPainting) {
-      var field = getFieldExpr(resourceForPainting);
-      var {
-        groupIndex,
-        itemData
-      } = options;
-      var cellGroups = this.getCellGroups(groupIndex, this.loadedResources);
-      var resourceValues = wrapToArray(this.getDataAccessors(field, 'getter')(itemData));
-      var groupId = resourceValues.length ? resourceValues[0] : undefined;
-
-      for (var i = 0; i < cellGroups.length; i++) {
-        if (cellGroups[i].name === field) {
-          groupId = cellGroups[i].id;
-          break;
-        }
-      }
-
-      response = this.getResourceColor(field, groupId);
-    }
-
-    return response;
-  }
-
-  _getPathToLeaf(leafIndex, groups) {
-    var tree = this.createResourcesTree(groups);
-
-    function findLeafByIndex(data, index) {
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].leafIndex === index) {
-          return data[i];
-        } else {
-          var _leaf = findLeafByIndex(data[i].children, index);
-
-          if (_leaf) {
-            return _leaf;
-          }
-        }
-      }
-    }
-
-    function makeBranch(leaf, result) {
-      result = result || [];
-      result.push(leaf.value);
-
-      if (leaf.parent) {
-        makeBranch(leaf.parent, result);
-      }
-
-      return result;
-    }
-
-    var leaf = findLeafByIndex(tree, leafIndex);
-    return makeBranch(leaf).reverse();
   }
 
   reduceResourcesTree(tree, existingAppointments, _result) {
@@ -610,51 +499,4 @@ export class ResourceManager {
     return result;
   }
 
-  createReducedResourcesTree(appointments) {
-    var tree = this.createResourcesTree(this.loadedResources);
-    return this.reduceResourcesTree(tree, appointments);
-  } // TODO rework
-
-
-  getCellGroups(groupIndex, groups) {
-    var result = [];
-
-    if (this.getGroupCount(groups)) {
-      if (groupIndex < 0) {
-        return;
-      }
-
-      var path = this._getPathToLeaf(groupIndex, groups);
-
-      for (var i = 0; i < groups.length; i++) {
-        result.push({
-          name: groups[i].name,
-          id: path[i]
-        });
-      }
-    }
-
-    return result;
-  }
-
-  getGroupCount(groups) {
-    // TODO replace with viewDataProvider method
-    var result = 0;
-
-    for (var i = 0, len = groups.length; i < len; i++) {
-      if (!i) {
-        result = groups[i].items.length;
-      } else {
-        result *= groups[i].items.length;
-      }
-    }
-
-    return result;
-  }
-
 }
-var resourceManager;
-export var createResourceManager = resources => {
-  resourceManager = new ResourceManager(resources);
-};
-export var getResourceManager = () => resourceManager;

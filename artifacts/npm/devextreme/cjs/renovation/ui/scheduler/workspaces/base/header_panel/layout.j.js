@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/base/header_panel/layout.j.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -56,6 +56,5 @@ var HeaderPanelLayout = /*#__PURE__*/function (_HeaderPanel) {
 
 exports.default = HeaderPanelLayout;
 (0, _component_registrator.default)("dxHeaderPanelLayout", HeaderPanelLayout);
-HeaderPanelLayout.defaultOptions = _layout.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

@@ -4,7 +4,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../../../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../../../../../component_wrapper/common/component"));
+var _component = _interopRequireDefault(require("../../../../../../component_wrapper/component"));
 
 var _title = require("./title");
 
@@ -48,6 +48,5 @@ var AllDayPanelTitle = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = AllDayPanelTitle;
 (0, _component_registrator.default)("dxAllDayPanelTitle", AllDayPanelTitle);
-AllDayPanelTitle.defaultOptions = _title.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

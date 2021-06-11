@@ -1,6 +1,6 @@
 /**
 * DevExtreme (core/component.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,7 +11,7 @@ import {
 } from './element';
 
 /** @namespace DevExpress */
-export interface ComponentOptions<TComponent> {
+export interface ComponentOptions<T = Component> {
   /**
    * @docid
    * @type_function_param1 e:object
@@ -20,7 +20,7 @@ export interface ComponentOptions<TComponent> {
    * @action
    * @public
    */
-  onDisposing?: ((e: { component: TComponent }) => void);
+  onDisposing?: ((e: { component: T }) => void);
   /**
    * @docid
    * @type_function_param1 e:object
@@ -29,7 +29,7 @@ export interface ComponentOptions<TComponent> {
    * @default null
    * @public
    */
-  onInitialized?: ((e: { component?: TComponent, element?: DxElement }) => void);
+  onInitialized?: ((e: { component?: T, element?: DxElement }) => void);
   /**
    * @docid
    * @type_function_param1 e:object
@@ -41,7 +41,7 @@ export interface ComponentOptions<TComponent> {
    * @action
    * @public
    */
-  onOptionChanged?: ((e: { component?: TComponent, name?: string, fullName?: string, value?: any }) => void);
+  onOptionChanged?: ((e: { component?: T, name?: string, fullName?: string, value?: any }) => void);
 }
 /**
  * @docid
@@ -51,8 +51,8 @@ export interface ComponentOptions<TComponent> {
  * @hidden
  * @wrappable
  */
-export default class Component<TProperties> {
-  constructor(options?: TProperties);
+export default class Component {
+  constructor(options?: ComponentOptions);
   /**
    * @docid
    * @publicName beginUpdate()
@@ -112,7 +112,7 @@ export default class Component<TProperties> {
    * @return object
    * @public
    */
-  option(): TProperties;
+  option(): any;
   /**
    * @docid
    * @publicName option(optionName)
@@ -120,7 +120,7 @@ export default class Component<TProperties> {
    * @return any
    * @public
    */
-   option<TPropertyName extends string>(optionName: TPropertyName): TPropertyName extends (keyof TProperties) ? TProperties[TPropertyName] : unknown;
+  option(optionName: string): any;
   /**
    * @docid
    * @publicName option(optionName, optionValue)
@@ -128,14 +128,14 @@ export default class Component<TProperties> {
    * @param2 optionValue:any
    * @public
    */
-   option<TPropertyName extends string>(optionName: TPropertyName, optionValue: TPropertyName extends keyof TProperties ? TProperties[TPropertyName] : unknown): void;
+  option(optionName: string, optionValue: any): void;
   /**
    * @docid
    * @publicName option(options)
    * @param1 options:object
    * @public
    */
-   option(options: Partial<TProperties>): void;
+  option(options: any): void;
   /**
    * @docid
    * @publicName resetOption(optionName)

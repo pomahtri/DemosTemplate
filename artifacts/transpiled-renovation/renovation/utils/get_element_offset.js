@@ -1,6 +1,6 @@
 "use strict";
 
-exports.getElementOffset = getElementOffset;
+exports.default = getElementOffset;
 
 function getElementOffset(elem) {
   if (!elem) return null;
@@ -10,3 +10,6 @@ function getElementOffset(elem) {
     left: rect.left + window.scrollX
   };
 }
+
+module.exports = exports.default;
+module.exports.default = exports.default;

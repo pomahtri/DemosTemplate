@@ -1,12 +1,11 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointment_form.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import _extends from "@babel/runtime/helpers/esm/extends";
 import Form from '../form';
 import dateSerialization from '../../core/utils/date_serialization';
 import messageLocalization from '../../localization/message';
@@ -140,17 +139,6 @@ var SchedulerAppointmentForm = {
       });
     }), this._createTimezoneEditor(dataExprs.endDateTimeZoneExpr, dataExprs.startDateTimeZoneExpr, 3, colSpan, false, allowTimeZoneEditing)];
   },
-  _changeFormItemDateType: function _changeFormItemDateType(itemPath, isAllDay) {
-    var itemEditorOptions = this._appointmentForm.itemOption(itemPath).editorOptions;
-
-    var type = isAllDay ? 'date' : 'datetime';
-
-    var newEditorOption = _extends({}, itemEditorOptions, {
-      type
-    });
-
-    this._appointmentForm.itemOption(itemPath, 'editorOptions', newEditorOption);
-  },
   _createMainItems: function _createMainItems(dataExprs, schedulerInst, triggerResize, changeSize, allowTimeZoneEditing) {
     return [{
       dataField: dataExprs.textExpr,
@@ -208,12 +196,8 @@ var SchedulerAppointmentForm = {
               }
             }
 
-            var startDateItemPath = "".concat(APPOINTMENT_FORM_GROUP_NAMES.Main, ".").concat(dataExprs.startDateExpr);
-            var endDateItemPath = "".concat(APPOINTMENT_FORM_GROUP_NAMES.Main, ".").concat(dataExprs.endDateExpr);
-
-            this._changeFormItemDateType(startDateItemPath, value);
-
-            this._changeFormItemDateType(endDateItemPath, value);
+            startDateEditor.option('type', value ? 'date' : 'datetime');
+            endDateEditor.option('type', value ? 'date' : 'datetime');
           }
         }
       }, {

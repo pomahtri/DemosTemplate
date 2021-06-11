@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scroll_view/ui.scroll_view.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -163,6 +163,11 @@ var ScrollView = _ui.default.inherit(isServerSide ? scrollViewServerConfig : {
   _createStrategy: function _createStrategy() {
     var strategyName = this.option('useNative') ? this.option('refreshStrategy') : 'simulated';
     var strategyClass = refreshStrategies[strategyName];
+
+    if (!strategyClass) {
+      throw Error('E1030', this.option('refreshStrategy'));
+    }
+
     this._strategy = new strategyClass(this);
 
     this._strategy.pullDownCallbacks.add(this._pullDownHandler.bind(this));

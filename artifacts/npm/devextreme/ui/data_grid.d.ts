@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/data_grid.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -55,7 +55,7 @@ import {
 } from './form';
 
 import {
-    Properties as PopupProperties
+    dxPopupOptions
 } from './popup';
 
 import dxScrollable from './scroll_view/ui.scrollable';
@@ -207,7 +207,7 @@ export interface RowDraggingTemplateDataModel {
   readonly itemElement: DxElement;
 }
 
-export interface FilterPanelCustomizeTextArg<T> {
+export interface FilterPanelCustomizeTextArg<T> { 
   readonly component: T,
   readonly filterValue: any,
   readonly text: string
@@ -456,7 +456,7 @@ export interface RowDragging<T extends GridBase> {
 /**
  * @namespace DevExpress.ui
  */
-export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOptions<TComponent> {
+export interface GridBaseOptions<T extends GridBase> extends WidgetOptions<T> {
     /**
      * @docid
      * @default false
@@ -571,16 +571,15 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @docid
      * @default {}
      * @public
-     * @type dxPopupOptions
      */
-    filterBuilderPopup?: PopupProperties;
+    filterBuilderPopup?: dxPopupOptions;
     /**
      * @docid
      * @type object
      * @default {}
      * @public
      */
-    filterPanel?: FilterPanel<TComponent>;
+    filterPanel?: FilterPanel<T>;
     /**
      * @docid
      * @type object
@@ -670,7 +669,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onAdaptiveDetailRowPreparing?: ((e: EventInfo<TComponent> & AdaptiveDetailRowPreparingInfo) => void);
+    onAdaptiveDetailRowPreparing?: ((e: EventInfo<T> & AdaptiveDetailRowPreparingInfo) => void);
     /**
      * @docid
      * @default null
@@ -682,7 +681,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onDataErrorOccurred?: ((e: EventInfo<TComponent> & DataErrorOccurredInfo) => void);
+    onDataErrorOccurred?: ((e: EventInfo<T> & DataErrorOccurredInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -694,7 +693,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onEditCanceled?: ((e: EventInfo<TComponent> & DataChangeInfo) => void);
+    onEditCanceled?: ((e: EventInfo<T> & DataChangeInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -707,7 +706,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onEditCanceling?: ((e: Cancelable & EventInfo<TComponent> & DataChangeInfo) => void);
+    onEditCanceling?: ((e: Cancelable & EventInfo<T> & DataChangeInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -720,7 +719,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onInitNewRow?: ((e: EventInfo<TComponent> & NewRowInfo) => void);
+    onInitNewRow?: ((e: EventInfo<T> & NewRowInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -733,7 +732,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onKeyDown?: ((e: NativeEventInfo<TComponent> & KeyDownInfo) => void);
+    onKeyDown?: ((e: NativeEventInfo<T> & KeyDownInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -745,32 +744,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowCollapsed?: ((e: EventInfo<TComponent> & RowKeyInfo) => void);
-    /**
-     * @docid
-     * @type_function_param1 e:object
-     * @type_function_param1_field1 component:this
-     * @type_function_param1_field2 element:DxElement
-     * @type_function_param1_field3 model:any
-     * @type_function_param1_field4 key:any
-     * @type_function_param1_field5 cancel:boolean
-     * @default null
-     * @action
-     * @public
-     */
-    onRowCollapsing?: ((e: Cancelable & EventInfo<TComponent> & RowKeyInfo) => void);
-    /**
-     * @docid
-     * @type_function_param1 e:object
-     * @type_function_param1_field1 component:this
-     * @type_function_param1_field2 element:DxElement
-     * @type_function_param1_field3 model:any
-     * @type_function_param1_field4 key:any
-     * @default null
-     * @action
-     * @public
-     */
-    onRowExpanded?: ((e: EventInfo<TComponent> & RowKeyInfo) => void);
+    onRowCollapsed?: ((e: EventInfo<T> & RowKeyInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -783,7 +757,32 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowExpanding?: ((e: Cancelable & EventInfo<TComponent> & RowKeyInfo) => void);
+    onRowCollapsing?: ((e: Cancelable & EventInfo<T> & RowKeyInfo) => void);
+    /**
+     * @docid
+     * @type_function_param1 e:object
+     * @type_function_param1_field1 component:this
+     * @type_function_param1_field2 element:DxElement
+     * @type_function_param1_field3 model:any
+     * @type_function_param1_field4 key:any
+     * @default null
+     * @action
+     * @public
+     */
+    onRowExpanded?: ((e: EventInfo<T> & RowKeyInfo) => void);
+    /**
+     * @docid
+     * @type_function_param1 e:object
+     * @type_function_param1_field1 component:this
+     * @type_function_param1_field2 element:DxElement
+     * @type_function_param1_field3 model:any
+     * @type_function_param1_field4 key:any
+     * @type_function_param1_field5 cancel:boolean
+     * @default null
+     * @action
+     * @public
+     */
+    onRowExpanding?: ((e: Cancelable & EventInfo<T> & RowKeyInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -797,7 +796,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowInserted?: ((e: EventInfo<TComponent> & RowInsertedInfo) => void);
+    onRowInserted?: ((e: EventInfo<T> & RowInsertedInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -810,7 +809,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowInserting?: ((e: EventInfo<TComponent> & RowInsertingInfo) => void);
+    onRowInserting?: ((e: EventInfo<T> & RowInsertingInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -824,7 +823,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowRemoved?: ((e: EventInfo<TComponent> & RowRemovedInfo) => void);
+    onRowRemoved?: ((e: EventInfo<T> & RowRemovedInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -838,7 +837,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowRemoving?: ((e: EventInfo<TComponent> & RowRemovingInfo) => void);
+    onRowRemoving?: ((e: EventInfo<T> & RowRemovingInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -852,7 +851,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowUpdated?: ((e: EventInfo<TComponent> & RowUpdatedInfo) => void);
+    onRowUpdated?: ((e: EventInfo<T> & RowUpdatedInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -867,7 +866,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowUpdating?: ((e: EventInfo<TComponent> & RowUpdatingInfo) => void);
+    onRowUpdating?: ((e: EventInfo<T> & RowUpdatingInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -885,7 +884,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onRowValidating?: ((e: EventInfo<TComponent> & RowValidatingInfo) => void);
+    onRowValidating?: ((e: EventInfo<T> & RowValidatingInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -897,7 +896,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onSaved?: ((e: EventInfo<TComponent> & DataChangeInfo) => void);
+    onSaved?: ((e: EventInfo<T> & DataChangeInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -911,7 +910,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onSaving?: ((e: EventInfo<TComponent> & SavingInfo) => void);
+    onSaving?: ((e: EventInfo<T> & SavingInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -926,7 +925,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onSelectionChanged?: ((e: EventInfo<TComponent> & SelectionChangedInfo) => void);
+    onSelectionChanged?: ((e: EventInfo<T> & SelectionChangedInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -938,7 +937,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @action
      * @public
      */
-    onToolbarPreparing?: ((e: EventInfo<TComponent> & ToolbarPreparingInfo) => void);
+    onToolbarPreparing?: ((e: EventInfo<T> & ToolbarPreparingInfo) => void);
     /**
      * @docid
      * @type object
@@ -974,7 +973,7 @@ export interface GridBaseOptions<TComponent extends GridBase> extends WidgetOpti
      * @type object
      * @public
      */
-    rowDragging?: RowDragging<TComponent>;
+    rowDragging?: RowDragging<T>;
     /**
      * @docid
      * @public
@@ -1575,9 +1574,8 @@ export interface EditingBase {
     /**
      * @docid GridBaseOptions.editing.popup
      * @public
-     * @type dxPopupOptions
      */
-    popup?: PopupProperties;
+    popup?: dxPopupOptions;
     /**
      * @docid GridBaseOptions.editing.refreshMode
      * @type Enums.GridEditRefreshMode
@@ -3075,7 +3073,7 @@ export type RowDraggingRemoveEvent = RowDraggingEventInfo<dxDataGrid>;
 /** @public */
 export type RowDraggingReorderEvent = RowDraggingEventInfo<dxDataGrid> & DragReorderInfo;
 
-/** @public */
+/** @public */ 
 export type ColumnButtonClickEvent = NativeEventInfo<dxDataGrid> & {
   row?: RowObject;
   column?: Column;
@@ -4204,7 +4202,8 @@ export interface Selection extends SelectionBase {
  * @namespace DevExpress.ui
  * @public
  */
-declare class dxDataGrid extends Widget<dxDataGridOptions> implements GridBase {
+declare class dxDataGrid extends Widget implements GridBase {
+    constructor(element: UserDefinedElement, options?: dxDataGridOptions)
     /**
      * @docid
      * @publicName addColumn(columnOptions)
@@ -4598,17 +4597,6 @@ export interface ColumnButton extends ColumnButtonBase {
      * @public
      */
     visible?: boolean | ((options: { component?: dxDataGrid, row?: RowObject, column?: Column }) => boolean);
-    /**
-     * @docid dxDataGridColumnButton.visible
-     * @default false
-     * @type_function_param1 options:object
-     * @type_function_param1_field1 component:dxDataGrid
-     * @type_function_param1_field2 row:dxDataGridRowObject
-     * @type_function_param1_field3 column:dxDataGridColumn
-     * @type_function_return Boolean
-     * @public
-     */
-    disabled?: boolean | ((options: { component?: dxDataGrid, row?: RowObject, column?: Column }) => boolean);
 }
 
 /**

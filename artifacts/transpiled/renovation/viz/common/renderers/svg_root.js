@@ -79,6 +79,8 @@ var RootSvgElement = /*#__PURE__*/function (_InfernoComponent) {
     return [new _vdom.InfernoEffect(this.setRootElementRef, [])];
   };
 
+  _proto.updateEffects = function updateEffects() {};
+
   _proto.setRootElementRef = function setRootElementRef() {
     var rootElementRef = this.props.rootElementRef;
 

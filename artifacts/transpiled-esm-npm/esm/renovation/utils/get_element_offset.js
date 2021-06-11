@@ -1,4 +1,4 @@
-export function getElementOffset(elem) {
+export default function getElementOffset(elem) {
   if (!elem) return null;
   var rect = elem.getBoundingClientRect();
   return {

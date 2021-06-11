@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/drop_down_editor/ui.drop_down_list.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,7 +40,7 @@ import {
 } from '../collection/ui.collection_widget.base';
 
 /** @namespace DevExpress.ui */
-export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOptions<TComponent>, dxDropDownEditorOptions<TComponent> {
+export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressionMixinOptions<T>, dxDropDownEditorOptions<T> {
     /**
      * @docid
      * @readonly
@@ -91,7 +91,7 @@ export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOp
      * @action
      * @public
      */
-    onItemClick?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void);
+    onItemClick?: ((e: NativeEventInfo<T> & ItemInfo) => void);
     /**
      * @docid
      * @default null
@@ -103,7 +103,7 @@ export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOp
      * @action
      * @public
      */
-    onSelectionChanged?: ((e: EventInfo<TComponent> & SelectionChangedInfo) => void);
+    onSelectionChanged?: ((e: EventInfo<T> & SelectionChangedInfo) => void);
     /**
      * @docid
      * @default null
@@ -117,7 +117,7 @@ export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOp
      * @action
      * @public
      */
-    onValueChanged?: ((e:  NativeEventInfo<TComponent> & ValueChangedInfo) => void);
+    onValueChanged?: ((e:  NativeEventInfo<T> & ValueChangedInfo) => void);
     /**
      * @docid
      * @default false
@@ -191,6 +191,7 @@ export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOp
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxDropDownList<TProperties> extends dxDropDownEditor<TProperties> {
+export default class dxDropDownList extends dxDropDownEditor {
+    constructor(element: UserDefinedElement, options?: dxDropDownListOptions)
     getDataSource(): DataSource;
 }

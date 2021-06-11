@@ -1,6 +1,5 @@
 import domAdapter from '../../core/dom_adapter';
 import $ from '../../core/renderer';
-import { each } from './iterator';
 import { isDefined, isRenderer, isWindow } from './type';
 import { getWindow } from './window';
 var window = getWindow();
@@ -123,20 +122,4 @@ export var createTextElementHiddenCopy = function createTextElementHiddenCopy(el
     'position': 'absolute',
     'float': 'left'
   });
-};
-export var insertBefore = (element, newElement) => {
-  if (newElement) {
-    domAdapter.insertElement(element.parentNode, newElement, element);
-  }
-
-  return element;
-};
-export var replaceWith = (element, newElement) => {
-  if (!(newElement && newElement[0])) return;
-  if (newElement.is(element)) return element;
-  each(newElement, (_, currentElement) => {
-    insertBefore(element[0], currentElement);
-  });
-  element.remove();
-  return newElement;
 };

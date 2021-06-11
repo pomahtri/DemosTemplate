@@ -2,11 +2,11 @@
 
 exports.default = void 0;
 
-var _renovationPagerHelper = require("/testing/helpers/renovationPagerHelper.js");
+var _renovationPagerHelper = require("../../../testing/helpers/renovationPagerHelper.js");
 
 var _component_registrator = _interopRequireDefault(require("../core/component_registrator"));
 
-var _wrapRenovatedWidget = require("/testing/helpers/wrapRenovatedWidget.js");
+var _wrapRenovatedWidget = require("../../../testing/helpers/wrapRenovatedWidget.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

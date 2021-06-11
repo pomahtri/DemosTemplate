@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/workspaces/ui.scheduler.work_space_month.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -305,6 +305,10 @@ class SchedulerWorkSpaceMonth extends SchedulerWorkSpace {
     return true;
   }
 
+  _getDateTableBorderOffset() {
+    return this._getDateTableBorder();
+  }
+
   _getCellPositionByIndex(index, groupIndex) {
     var position = super._getCellPositionByIndex(index, groupIndex);
 
@@ -341,6 +345,10 @@ class SchedulerWorkSpaceMonth extends SchedulerWorkSpace {
 
   _getRowCountWithAllDayRows() {
     return this._getRowCount();
+  }
+
+  renovatedRenderSupported() {
+    return true;
   }
 
   renderRAllDayPanel() {}

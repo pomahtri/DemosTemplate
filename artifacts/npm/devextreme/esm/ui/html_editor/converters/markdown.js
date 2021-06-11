@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/html_editor/converters/markdown.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -39,14 +39,11 @@ class MarkdownConverter {
           return '<br>';
         }
       });
-
-      this._html2Markdown.keep(['table']);
     }
 
     this._markdown2Html = new showdown.Converter({
       simpleLineBreaks: true,
-      strikethrough: true,
-      tables: true
+      strikethrough: true
     });
   }
 

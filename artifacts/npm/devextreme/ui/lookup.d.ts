@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/lookup.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -49,7 +49,7 @@ import {
 } from './list';
 
 import {
-    Properties as PopoverProperties,
+    dxPopoverOptions,
 } from './popover';
 
 import {
@@ -427,9 +427,8 @@ export interface dxLookupOptions extends dxDropDownListOptions<dxLookup> {
     dropDownCentered?: boolean;
     /**
      * @docid
-     * @type dxPopoverOptions
      */
-    dropDownOptions?: PopoverProperties;
+    dropDownOptions?: dxPopoverOptions;
 
 }
 /**
@@ -441,7 +440,9 @@ export interface dxLookupOptions extends dxDropDownListOptions<dxLookup> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxLookup extends dxDropDownList<dxLookupOptions> { }
+export default class dxLookup extends dxDropDownList {
+    constructor(element: UserDefinedElement, options?: dxLookupOptions)
+}
 
 /** @public */
 export type Properties = dxLookupOptions;

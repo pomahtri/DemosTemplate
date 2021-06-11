@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/validation_summary.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -53,7 +57,9 @@ export interface dxValidationSummaryOptions extends CollectionWidgetOptions<dxVa
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxValidationSummary extends CollectionWidget<dxValidationSummaryOptions> { }
+export default class dxValidationSummary extends CollectionWidget {
+    constructor(element: UserDefinedElement, options?: dxValidationSummaryOptions)
+}
 
 /** @public */
 export type Properties = dxValidationSummaryOptions;

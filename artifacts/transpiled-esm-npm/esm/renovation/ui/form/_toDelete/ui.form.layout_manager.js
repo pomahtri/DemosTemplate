@@ -54,6 +54,7 @@ var LayoutManager = Widget.inherit({
       alignItemLabels: true,
       minColWidth: 200,
       showRequiredMark: true,
+      screenByWidth: null,
       showOptionalMark: false,
       requiredMark: '*',
       optionalMark: messageLocalization.format('dxForm-optionalMark'),
@@ -293,15 +294,15 @@ var LayoutManager = Widget.inherit({
     if (that._items && that._items.length) {
       var colCount = that._getColCount();
 
+      var $container = $('<div>').appendTo(that.$element());
+
       that._prepareItemsWithMerging(colCount);
 
       var layoutItems = that._generateLayoutItems();
 
       that._extendItemsWithDefaultTemplateOptions(layoutItems, that._items);
 
-      that._responsiveBox = that._createComponent(
-      /* $container, */
-      ResponsiveBox, that._getResponsiveBoxConfig(layoutItems, colCount, templatesInfo));
+      that._responsiveBox = that._createComponent($container, ResponsiveBox, that._getResponsiveBoxConfig(layoutItems, colCount, templatesInfo));
 
       if (!hasWindow()) {
         that._renderTemplates(templatesInfo);
@@ -416,6 +417,7 @@ var LayoutManager = Widget.inherit({
       cols: that._generateRatio(colCount),
       rows: that._generateRatio(that._getRowsCount(), true),
       dataSource: layoutItems,
+      screenByWidth: that.option('screenByWidth'),
       singleColumnScreen: xsColCount ? false : 'xs'
     };
   },

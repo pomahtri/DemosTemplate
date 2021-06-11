@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/number_box.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -153,7 +157,9 @@ export interface dxNumberBoxOptions extends dxTextEditorOptions<dxNumberBox> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxNumberBox extends dxTextEditor<dxNumberBoxOptions> { }
+export default class dxNumberBox extends dxTextEditor {
+    constructor(element: UserDefinedElement, options?: dxNumberBoxOptions)
+}
 
 /** @public */
 export type Properties = dxNumberBoxOptions;

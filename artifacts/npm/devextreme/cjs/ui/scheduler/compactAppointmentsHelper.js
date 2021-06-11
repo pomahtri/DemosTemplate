@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/compactAppointmentsHelper.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -101,6 +101,8 @@ var CompactAppointmentsHelper = /*#__PURE__*/function () {
     return {
       clickEvent: this._clickEvent(options.onAppointmentClick).bind(this),
       dragBehavior: options.allowDrag && this._createTooltipDragBehavior().bind(this),
+      dropDownAppointmentTemplate: this.instance.option().dropDownAppointmentTemplate,
+      // deprecated option
       isButtonClick: true
     };
   };

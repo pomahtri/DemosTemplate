@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/validation_message.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -14,7 +14,7 @@ var _renderer = _interopRequireDefault(require("../core/renderer"));
 
 var _component_registrator = _interopRequireDefault(require("../core/component_registrator"));
 
-var _overlay = require("./overlay");
+var _overlay = _interopRequireDefault(require("./overlay"));
 
 var _extend = require("../core/utils/extend");
 
@@ -30,7 +30,7 @@ var INVALID_MESSAGE_ALWAYS = 'dx-invalid-message-always';
 var INVALID_MESSAGE_CONTENT = 'dx-invalid-message-content';
 var VALIDATION_MESSAGE_MIN_WIDTH = 100;
 
-var ValidationMessage = _overlay.Overlay.inherit({
+var ValidationMessage = _overlay.default.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       integrationOptions: {},

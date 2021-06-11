@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/action_sheet.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -144,7 +144,8 @@ export interface dxActionSheetOptions extends CollectionWidgetOptions<dxActionSh
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxActionSheet extends CollectionWidget<dxActionSheetOptions> {
+export default class dxActionSheet extends CollectionWidget {
+    constructor(element: UserDefinedElement, options?: dxActionSheetOptions)
     /**
      * @docid
      * @publicName hide()

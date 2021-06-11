@@ -34,7 +34,6 @@ export var viewFunction = _ref => {
     "timeCellTemplate": timeCellTemplate
   });
 };
-import { createReRenderEffect } from "@devextreme/vdom";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
 
@@ -42,10 +41,6 @@ export class TimelineHeaderPanelLayout extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  createEffects() {
-    return [createReRenderEffect()];
   }
 
   get restAttributes() {

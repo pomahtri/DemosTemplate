@@ -1,5 +1,5 @@
-import Editor from "./common/editor";
-import { addAttributes, getAriaName } from "./utils/utils";
+import Editor from "./editor";
+import { addAttributes, getAriaName } from "./utils";
 export default class CheckBox extends Editor {
   _useTemplates() {
     return false;
@@ -23,6 +23,9 @@ export default class CheckBox extends Editor {
           event: this._valueChangeEventInstance
         });
         this._valueChangeEventInstance = undefined;
+
+        super._optionChanged(option);
+
         break;
 
       case "onValueChanged":
@@ -32,10 +35,11 @@ export default class CheckBox extends Editor {
         break;
 
       default:
-        break;
+        super._optionChanged(option);
+
     }
 
-    super._optionChanged(option);
+    this._invalidate();
   }
 
   setAria(name, value) {

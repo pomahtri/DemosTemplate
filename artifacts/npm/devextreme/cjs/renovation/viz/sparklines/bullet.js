@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/viz/sparklines/bullet.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -18,7 +18,7 @@ var _combine_classes = require("../../utils/combine_classes");
 
 var _resolve_rtl = require("../../utils/resolve_rtl");
 
-var _get_element_offset = require("../../utils/get_element_offset");
+var _get_element_offset = _interopRequireDefault(require("../../utils/get_element_offset"));
 
 var _base_props = require("../common/base_props");
 
@@ -44,7 +44,7 @@ var _dom_adapter = _interopRequireDefault(require("../../../core/dom_adapter"));
 
 var _number = _interopRequireDefault(require("../../../core/polyfills/number"));
 
-var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "color", "defaultCanvas", "disabled", "endScaleValue", "margin", "onTooltipHidden", "onTooltipShown", "pointerEvents", "rtlEnabled", "showTarget", "showZeroLevel", "size", "startScaleValue", "target", "targetColor", "targetWidth", "tooltip", "value"];
+var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "color", "defaultCanvas", "disabled", "endScaleValue", "margin", "onContentReady", "onTooltipHidden", "onTooltipShown", "pointerEvents", "rtlEnabled", "showTarget", "showZeroLevel", "size", "startScaleValue", "target", "targetColor", "targetWidth", "tooltip", "value"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -120,6 +120,7 @@ var viewFunction = function viewFunction(viewModel) {
       color = _viewModel$props.color,
       disabled = _viewModel$props.disabled,
       margin = _viewModel$props.margin,
+      onContentReady = _viewModel$props.onContentReady,
       size = _viewModel$props.size,
       targetColor = _viewModel$props.targetColor,
       targetWidth = _viewModel$props.targetWidth;
@@ -139,6 +140,7 @@ var viewFunction = function viewFunction(viewModel) {
     "defaultCanvas": viewModel.defaultCanvas,
     "disabled": disabled,
     "rtlEnabled": viewModel.rtlEnabled,
+    "onContentReady": onContentReady,
     "canvasChange": viewModel.onCanvasChange,
     "pointerEvents": "visible"
   }, viewModel.restAttributes, {
@@ -194,6 +196,7 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var _this;
 
     _this = _InfernoWrapperCompon.call(this, props) || this;
+    _this._currentState = null;
     _this.widgetRef = (0, _inferno.createRef)();
     _this.tooltipRef = (0, _inferno.createRef)();
     _this.widgetRootRef = (0, _inferno.createRef)();
@@ -226,18 +229,99 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   var _proto = Bullet.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.tooltipEffect, [this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.state.canvasState, this.state.offsetState]), new _vdom.InfernoEffect(this.tooltipOutEffect, [this.state.tooltipVisible, this.state.canvasState]), (0, _vdom.createReRenderEffect)()];
+    return [new _vdom.InfernoEffect(this.tooltipEffect, [this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.canvasState, this.offsetState]), new _vdom.InfernoEffect(this.tooltipOutEffect, [this.tooltipVisible, this.canvasState])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$, _this$_effects$2;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.state.canvasState, this.state.offsetState]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.state.tooltipVisible, this.state.canvasState]);
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.canvasState, this.offsetState]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.tooltipVisible, this.canvasState]);
+  };
+
+  _proto.set_argumentAxis = function set_argumentAxis(value) {
+    var _this2 = this;
+
+    this.setState(function (state) {
+      _this2._currentState = state;
+      var newValue = value();
+      _this2._currentState = null;
+      return {
+        argumentAxis: newValue
+      };
+    });
+  };
+
+  _proto.set_valueAxis = function set_valueAxis(value) {
+    var _this3 = this;
+
+    this.setState(function (state) {
+      _this3._currentState = state;
+      var newValue = value();
+      _this3._currentState = null;
+      return {
+        valueAxis: newValue
+      };
+    });
+  };
+
+  _proto.set_canvasState = function set_canvasState(value) {
+    var _this4 = this;
+
+    this.setState(function (state) {
+      _this4._currentState = state;
+      var newValue = value();
+      _this4._currentState = null;
+      return {
+        canvasState: newValue
+      };
+    });
+  };
+
+  _proto.set_offsetState = function set_offsetState(value) {
+    var _this5 = this;
+
+    this.setState(function (state) {
+      _this5._currentState = state;
+      var newValue = value();
+      _this5._currentState = null;
+      return {
+        offsetState: newValue
+      };
+    });
+  };
+
+  _proto.set_tooltipVisible = function set_tooltipVisible(value) {
+    var _this6 = this;
+
+    this.setState(function (state) {
+      _this6._currentState = state;
+      var newValue = value();
+      _this6._currentState = null;
+      return {
+        tooltipVisible: newValue
+      };
+    });
+  };
+
+  _proto.set_canvas = function set_canvas(value) {
+    var _this7 = this;
+
+    this.setState(function (state) {
+      _this7._currentState = state;
+      var newValue = value();
+
+      _this7.props.canvasChange(newValue);
+
+      _this7._currentState = null;
+      return {
+        canvas: newValue
+      };
+    });
   };
 
   _proto.tooltipEffect = function tooltipEffect() {
-    var _this2 = this;
+    var _this8 = this;
 
     var disabled = this.props.disabled;
 
@@ -249,7 +333,7 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
       _events_engine.default.on(svg, POINTER_ACTION, this.pointerHandler);
 
       return function () {
-        _events_engine.default.off(svg, POINTER_ACTION, _this2.pointerHandler);
+        _events_engine.default.off(svg, POINTER_ACTION, _this8.pointerHandler);
       };
     }
 
@@ -257,15 +341,15 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _proto.tooltipOutEffect = function tooltipOutEffect() {
-    var _this3 = this;
+    var _this9 = this;
 
-    if (this.state.tooltipVisible) {
+    if (this.tooltipVisible) {
       var document = _dom_adapter.default.getDocument();
 
       _events_engine.default.on(document, POINTER_ACTION, this.pointerOutHandler);
 
       return function () {
-        _events_engine.default.off(document, POINTER_ACTION, _this3.pointerOutHandler);
+        _events_engine.default.off(document, POINTER_ACTION, _this9.pointerOutHandler);
       };
     }
 
@@ -275,18 +359,14 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   _proto.onCanvasChange = function onCanvasChange(canvas) {
     var _this$widgetRef$curre2;
 
-    this.setState(function (state) {
-      return _extends({}, state, {
-        canvasState: canvas
-      });
+    this.set_canvasState(function () {
+      return canvas;
     });
     var svgElement = ((_this$widgetRef$curre2 = this.widgetRef.current) === null || _this$widgetRef$curre2 === void 0 ? void 0 : _this$widgetRef$curre2.svg()) || undefined;
-    this.setState(function (state) {
+    this.set_offsetState(function () {
       var _getElementOffset;
 
-      return _extends({}, state, {
-        offsetState: (_getElementOffset = (0, _get_element_offset.getElementOffset)(svgElement)) !== null && _getElementOffset !== void 0 ? _getElementOffset : DEFAULT_OFFSET
-      });
+      return (_getElementOffset = (0, _get_element_offset.default)(svgElement)) !== null && _getElementOffset !== void 0 ? _getElementOffset : DEFAULT_OFFSET;
     });
   };
 
@@ -336,33 +416,29 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _proto.getSimpleShape = function getSimpleShape(value) {
-    var translatorY = this.state.valueAxis.getTranslator();
-    var x = this.state.argumentAxis.getTranslator().translate(value);
+    var translatorY = this.valueAxis.getTranslator();
+    var x = this.argumentAxis.getTranslator().translate(value);
     return [x, translatorY.translate(TARGET_MIN_Y), x, translatorY.translate(TARGET_MAX_Y)];
   };
 
   _proto.pointerHandler = function pointerHandler() {
-    this.setState(function (state) {
-      return _extends({}, state, {
-        tooltipVisible: true
-      });
+    this.set_tooltipVisible(function () {
+      return true;
     });
   };
 
   _proto.pointerOutHandler = function pointerOutHandler(_ref3) {
     var pageX = _ref3.pageX,
         pageY = _ref3.pageY;
-    var _this$state$offsetSta = this.state.offsetState,
-        left = _this$state$offsetSta.left,
-        top = _this$state$offsetSta.top;
+    var _this$offsetState = this.offsetState,
+        left = _this$offsetState.left,
+        top = _this$offsetState.top;
     var x = Math.floor(pageX - left);
     var y = Math.floor(pageY - top);
 
-    if (!inCanvas(this.state.canvasState, x, y)) {
-      this.setState(function (state) {
-        return _extends({}, state, {
-          tooltipVisible: false
-        });
+    if (!inCanvas(this.canvasState, x, y)) {
+      this.set_tooltipVisible(function () {
+        return false;
       });
     }
   };
@@ -371,13 +447,13 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+        canvas: this.__state_canvas
       }),
-      argumentAxis: this.state.argumentAxis,
-      valueAxis: this.state.valueAxis,
-      canvasState: this.state.canvasState,
-      offsetState: this.state.offsetState,
-      tooltipVisible: this.state.tooltipVisible,
+      argumentAxis: this.argumentAxis,
+      valueAxis: this.valueAxis,
+      canvasState: this.canvasState,
+      offsetState: this.offsetState,
+      tooltipVisible: this.tooltipVisible,
       widgetRootRef: this.widgetRootRef,
       widgetRef: this.widgetRef,
       tooltipRef: this.tooltipRef,
@@ -415,6 +491,42 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
       }
 
       return _config_context.ConfigContext;
+    }
+  }, {
+    key: "argumentAxis",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.argumentAxis;
+    }
+  }, {
+    key: "valueAxis",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.valueAxis;
+    }
+  }, {
+    key: "canvasState",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.canvasState;
+    }
+  }, {
+    key: "offsetState",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.offsetState;
+    }
+  }, {
+    key: "tooltipVisible",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.tooltipVisible;
+    }
+  }, {
+    key: "__state_canvas",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.canvas !== undefined ? this.props.canvas : state.canvas;
     }
   }, {
     key: "cssClasses",
@@ -467,8 +579,8 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }, {
     key: "tooltipCoords",
     get: function get() {
-      var canvas = this.state.canvasState;
-      var rootOffset = this.state.offsetState;
+      var canvas = this.canvasState;
+      var rootOffset = this.offsetState;
       return {
         x: canvas.width / 2 + rootOffset.left,
         y: canvas.height / 2 + rootOffset.top
@@ -517,10 +629,10 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "scaleProps",
     get: function get() {
       var props = this.prepareScaleProps();
-      var canvas = this.state.canvasState;
+      var canvas = this.canvasState;
       var ranges = this.getRange(props);
-      this.state.argumentAxis.update(ranges.arg, canvas, undefined);
-      this.state.valueAxis.update(ranges.val, canvas, undefined);
+      this.argumentAxis.update(ranges.arg, canvas, undefined);
+      this.valueAxis.update(ranges.val, canvas, undefined);
       return props;
     }
   }, {
@@ -568,12 +680,12 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }, {
     key: "barValueShape",
     get: function get() {
-      var translatorX = this.state.argumentAxis.getTranslator();
-      var translatorY = this.state.valueAxis.getTranslator();
+      var translatorX = this.argumentAxis.getTranslator();
+      var translatorY = this.valueAxis.getTranslator();
       var y2 = translatorY.translate(BAR_VALUE_MIN_Y);
       var y1 = translatorY.translate(BAR_VALUE_MAX_Y);
-      var x1 = _number.default.NaN;
-      var x2 = _number.default.NaN;
+      var x1;
+      var x2;
 
       if (this.scaleProps.value > 0) {
         x1 = Math.max(0, this.scaleProps.startScaleValue);
@@ -591,7 +703,7 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "restAttributes",
     get: function get() {
       var _this$props$canvas = _extends({}, this.props, {
-        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
+        canvas: this.__state_canvas
       }),
           canvas = _this$props$canvas.canvas,
           canvasChange = _this$props$canvas.canvasChange,
@@ -603,6 +715,7 @@ var Bullet = /*#__PURE__*/function (_InfernoWrapperCompon) {
           disabled = _this$props$canvas.disabled,
           endScaleValue = _this$props$canvas.endScaleValue,
           margin = _this$props$canvas.margin,
+          onContentReady = _this$props$canvas.onContentReady,
           onTooltipHidden = _this$props$canvas.onTooltipHidden,
           onTooltipShown = _this$props$canvas.onTooltipShown,
           pointerEvents = _this$props$canvas.pointerEvents,

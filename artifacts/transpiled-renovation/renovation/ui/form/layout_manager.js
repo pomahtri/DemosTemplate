@@ -10,15 +10,7 @@ var _combine_classes = require("../../utils/combine_classes");
 
 var _widget = require("../common/widget");
 
-var _responsive_box = require("../responsive_box/responsive_box");
-
 var _layout_manager_props = require("./layout_manager_props");
-
-var _excluded = ["screenByWidth"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -35,11 +27,7 @@ var viewFunction = function viewFunction(viewModel) {
       restAttributes = viewModel.restAttributes;
   return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _widget.Widget, _extends({
     "classes": cssClasses
-  }, restAttributes, {
-    children: (0, _inferno.createComponentVNode)(2, _responsive_box.ResponsiveBox, {
-      "screenByWidth": viewModel.props.screenByWidth
-    })
-  })));
+  }, restAttributes)));
 };
 
 exports.viewFunction = viewFunction;
@@ -76,9 +64,7 @@ var LayoutManager = /*#__PURE__*/function (_BaseInfernoComponent) {
   }, {
     key: "restAttributes",
     get: function get() {
-      var _this$props = this.props,
-          screenByWidth = _this$props.screenByWidth,
-          restProps = _objectWithoutProperties(_this$props, _excluded);
+      var restProps = _extends({}, this.props);
 
       return restProps;
     }

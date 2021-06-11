@@ -1,6 +1,6 @@
 /*!
 * DevExtreme (dx.all.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,257 +11,253 @@
   interface JQuery<TElement = HTMLElement> {
     dxAccordion(): JQuery;
     dxAccordion(options: 'instance'): DevExpress.ui.dxAccordion;
-    dxAccordion(options: DevExpress.ui.dxAccordion.Properties): JQuery;
+    dxAccordion(options: DevExpress.ui.dxAccordionOptions): JQuery;
     dxAccordion(options: string): any;
     dxAccordion(options: string, ...params: any[]): any;
 
     dxActionSheet(): JQuery;
     dxActionSheet(options: 'instance'): DevExpress.ui.dxActionSheet;
-    dxActionSheet(options: DevExpress.ui.dxActionSheet.Properties): JQuery;
+    dxActionSheet(options: DevExpress.ui.dxActionSheetOptions): JQuery;
     dxActionSheet(options: string): any;
     dxActionSheet(options: string, ...params: any[]): any;
 
     dxAutocomplete(): JQuery;
     dxAutocomplete(options: 'instance'): DevExpress.ui.dxAutocomplete;
-    dxAutocomplete(options: DevExpress.ui.dxAutocomplete.Properties): JQuery;
+    dxAutocomplete(options: DevExpress.ui.dxAutocompleteOptions): JQuery;
     dxAutocomplete(options: string): any;
     dxAutocomplete(options: string, ...params: any[]): any;
 
     dxBarGauge(): JQuery;
     dxBarGauge(options: 'instance'): DevExpress.viz.dxBarGauge;
-    dxBarGauge(options: DevExpress.viz.dxBarGauge.Properties): JQuery;
+    dxBarGauge(options: DevExpress.viz.dxBarGaugeOptions): JQuery;
     dxBarGauge(options: string): any;
     dxBarGauge(options: string, ...params: any[]): any;
 
     dxBox(): JQuery;
     dxBox(options: 'instance'): DevExpress.ui.dxBox;
-    dxBox(options: DevExpress.ui.dxBox.Properties): JQuery;
+    dxBox(options: DevExpress.ui.dxBoxOptions): JQuery;
     dxBox(options: string): any;
     dxBox(options: string, ...params: any[]): any;
 
     dxBullet(): JQuery;
     dxBullet(options: 'instance'): DevExpress.viz.dxBullet;
-    dxBullet(options: DevExpress.viz.dxBullet.Properties): JQuery;
+    dxBullet(options: DevExpress.viz.dxBulletOptions): JQuery;
     dxBullet(options: string): any;
     dxBullet(options: string, ...params: any[]): any;
 
     dxButton(): JQuery;
     dxButton(options: 'instance'): DevExpress.ui.dxButton;
-    dxButton(options: DevExpress.ui.dxButton.Properties): JQuery;
+    dxButton(options: DevExpress.ui.dxButtonOptions): JQuery;
     dxButton(options: string): any;
     dxButton(options: string, ...params: any[]): any;
 
     dxButtonGroup(): JQuery;
     dxButtonGroup(options: 'instance'): DevExpress.ui.dxButtonGroup;
-    dxButtonGroup(options: DevExpress.ui.dxButtonGroup.Properties): JQuery;
+    dxButtonGroup(options: DevExpress.ui.dxButtonGroupOptions): JQuery;
     dxButtonGroup(options: string): any;
     dxButtonGroup(options: string, ...params: any[]): any;
 
     dxCalendar(): JQuery;
     dxCalendar(options: 'instance'): DevExpress.ui.dxCalendar;
-    dxCalendar(options: DevExpress.ui.dxCalendar.Properties): JQuery;
+    dxCalendar(options: DevExpress.ui.dxCalendarOptions): JQuery;
     dxCalendar(options: string): any;
     dxCalendar(options: string, ...params: any[]): any;
 
     dxChart(): JQuery;
     dxChart(options: 'instance'): DevExpress.viz.dxChart;
-    dxChart(options: DevExpress.viz.dxChart.Properties): JQuery;
+    dxChart(options: DevExpress.viz.dxChartOptions): JQuery;
     dxChart(options: string): any;
     dxChart(options: string, ...params: any[]): any;
 
     dxCheckBox(): JQuery;
     dxCheckBox(options: 'instance'): DevExpress.ui.dxCheckBox;
-    dxCheckBox(options: DevExpress.ui.dxCheckBox.Properties): JQuery;
+    dxCheckBox(options: DevExpress.ui.dxCheckBoxOptions): JQuery;
     dxCheckBox(options: string): any;
     dxCheckBox(options: string, ...params: any[]): any;
 
     dxCircularGauge(): JQuery;
     dxCircularGauge(options: 'instance'): DevExpress.viz.dxCircularGauge;
-    dxCircularGauge(options: DevExpress.viz.dxCircularGauge.Properties): JQuery;
+    dxCircularGauge(options: DevExpress.viz.dxCircularGaugeOptions): JQuery;
     dxCircularGauge(options: string): any;
     dxCircularGauge(options: string, ...params: any[]): any;
 
     dxColorBox(): JQuery;
     dxColorBox(options: 'instance'): DevExpress.ui.dxColorBox;
-    dxColorBox(options: DevExpress.ui.dxColorBox.Properties): JQuery;
+    dxColorBox(options: DevExpress.ui.dxColorBoxOptions): JQuery;
     dxColorBox(options: string): any;
     dxColorBox(options: string, ...params: any[]): any;
 
     dxContextMenu(): JQuery;
     dxContextMenu(options: 'instance'): DevExpress.ui.dxContextMenu;
-    dxContextMenu(options: DevExpress.ui.dxContextMenu.Properties): JQuery;
+    dxContextMenu(options: DevExpress.ui.dxContextMenuOptions): JQuery;
     dxContextMenu(options: string): any;
     dxContextMenu(options: string, ...params: any[]): any;
 
     dxDataGrid(): JQuery;
     dxDataGrid(options: 'instance'): DevExpress.ui.dxDataGrid;
-    dxDataGrid(options: DevExpress.ui.dxDataGrid.Properties): JQuery;
+    dxDataGrid(options: DevExpress.ui.dxDataGridOptions): JQuery;
     dxDataGrid(options: string): any;
     dxDataGrid(options: string, ...params: any[]): any;
 
     dxDateBox(): JQuery;
     dxDateBox(options: 'instance'): DevExpress.ui.dxDateBox;
-    dxDateBox(options: DevExpress.ui.dxDateBox.Properties): JQuery;
+    dxDateBox(options: DevExpress.ui.dxDateBoxOptions): JQuery;
     dxDateBox(options: string): any;
     dxDateBox(options: string, ...params: any[]): any;
 
     dxDeferRendering(): JQuery;
     dxDeferRendering(options: 'instance'): DevExpress.ui.dxDeferRendering;
-    dxDeferRendering(
-      options: DevExpress.ui.dxDeferRendering.Properties
-    ): JQuery;
+    dxDeferRendering(options: DevExpress.ui.dxDeferRenderingOptions): JQuery;
     dxDeferRendering(options: string): any;
     dxDeferRendering(options: string, ...params: any[]): any;
 
     dxDiagram(): JQuery;
     dxDiagram(options: 'instance'): DevExpress.ui.dxDiagram;
-    dxDiagram(options: DevExpress.ui.dxDiagram.Properties): JQuery;
+    dxDiagram(options: DevExpress.ui.dxDiagramOptions): JQuery;
     dxDiagram(options: string): any;
     dxDiagram(options: string, ...params: any[]): any;
 
     dxDraggable(): JQuery;
     dxDraggable(options: 'instance'): DevExpress.ui.dxDraggable;
-    dxDraggable(options: DevExpress.ui.dxDraggable.Properties): JQuery;
+    dxDraggable(options: DevExpress.ui.dxDraggableOptions): JQuery;
     dxDraggable(options: string): any;
     dxDraggable(options: string, ...params: any[]): any;
 
     dxDrawer(): JQuery;
     dxDrawer(options: 'instance'): DevExpress.ui.dxDrawer;
-    dxDrawer(options: DevExpress.ui.dxDrawer.Properties): JQuery;
+    dxDrawer(options: DevExpress.ui.dxDrawerOptions): JQuery;
     dxDrawer(options: string): any;
     dxDrawer(options: string, ...params: any[]): any;
 
     dxDropDownBox(): JQuery;
     dxDropDownBox(options: 'instance'): DevExpress.ui.dxDropDownBox;
-    dxDropDownBox(options: DevExpress.ui.dxDropDownBox.Properties): JQuery;
+    dxDropDownBox(options: DevExpress.ui.dxDropDownBoxOptions): JQuery;
     dxDropDownBox(options: string): any;
     dxDropDownBox(options: string, ...params: any[]): any;
 
     dxDropDownButton(): JQuery;
     dxDropDownButton(options: 'instance'): DevExpress.ui.dxDropDownButton;
-    dxDropDownButton(
-      options: DevExpress.ui.dxDropDownButton.Properties
-    ): JQuery;
+    dxDropDownButton(options: DevExpress.ui.dxDropDownButtonOptions): JQuery;
     dxDropDownButton(options: string): any;
     dxDropDownButton(options: string, ...params: any[]): any;
 
     dxFileManager(): JQuery;
     dxFileManager(options: 'instance'): DevExpress.ui.dxFileManager;
-    dxFileManager(options: DevExpress.ui.dxFileManager.Properties): JQuery;
+    dxFileManager(options: DevExpress.ui.dxFileManagerOptions): JQuery;
     dxFileManager(options: string): any;
     dxFileManager(options: string, ...params: any[]): any;
 
     dxFileUploader(): JQuery;
     dxFileUploader(options: 'instance'): DevExpress.ui.dxFileUploader;
-    dxFileUploader(options: DevExpress.ui.dxFileUploader.Properties): JQuery;
+    dxFileUploader(options: DevExpress.ui.dxFileUploaderOptions): JQuery;
     dxFileUploader(options: string): any;
     dxFileUploader(options: string, ...params: any[]): any;
 
     dxFilterBuilder(): JQuery;
     dxFilterBuilder(options: 'instance'): DevExpress.ui.dxFilterBuilder;
-    dxFilterBuilder(options: DevExpress.ui.dxFilterBuilder.Properties): JQuery;
+    dxFilterBuilder(options: DevExpress.ui.dxFilterBuilderOptions): JQuery;
     dxFilterBuilder(options: string): any;
     dxFilterBuilder(options: string, ...params: any[]): any;
 
     dxForm(): JQuery;
     dxForm(options: 'instance'): DevExpress.ui.dxForm;
-    dxForm(options: DevExpress.ui.dxForm.Properties): JQuery;
+    dxForm(options: DevExpress.ui.dxFormOptions): JQuery;
     dxForm(options: string): any;
     dxForm(options: string, ...params: any[]): any;
 
     dxFunnel(): JQuery;
     dxFunnel(options: 'instance'): DevExpress.viz.dxFunnel;
-    dxFunnel(options: DevExpress.viz.dxFunnel.Properties): JQuery;
+    dxFunnel(options: DevExpress.viz.dxFunnelOptions): JQuery;
     dxFunnel(options: string): any;
     dxFunnel(options: string, ...params: any[]): any;
 
     dxGallery(): JQuery;
     dxGallery(options: 'instance'): DevExpress.ui.dxGallery;
-    dxGallery(options: DevExpress.ui.dxGallery.Properties): JQuery;
+    dxGallery(options: DevExpress.ui.dxGalleryOptions): JQuery;
     dxGallery(options: string): any;
     dxGallery(options: string, ...params: any[]): any;
 
     dxGantt(): JQuery;
     dxGantt(options: 'instance'): DevExpress.ui.dxGantt;
-    dxGantt(options: DevExpress.ui.dxGantt.Properties): JQuery;
+    dxGantt(options: DevExpress.ui.dxGanttOptions): JQuery;
     dxGantt(options: string): any;
     dxGantt(options: string, ...params: any[]): any;
 
     dxHtmlEditor(): JQuery;
     dxHtmlEditor(options: 'instance'): DevExpress.ui.dxHtmlEditor;
-    dxHtmlEditor(options: DevExpress.ui.dxHtmlEditor.Properties): JQuery;
+    dxHtmlEditor(options: DevExpress.ui.dxHtmlEditorOptions): JQuery;
     dxHtmlEditor(options: string): any;
     dxHtmlEditor(options: string, ...params: any[]): any;
 
     dxLinearGauge(): JQuery;
     dxLinearGauge(options: 'instance'): DevExpress.viz.dxLinearGauge;
-    dxLinearGauge(options: DevExpress.viz.dxLinearGauge.Properties): JQuery;
+    dxLinearGauge(options: DevExpress.viz.dxLinearGaugeOptions): JQuery;
     dxLinearGauge(options: string): any;
     dxLinearGauge(options: string, ...params: any[]): any;
 
     dxList(): JQuery;
     dxList(options: 'instance'): DevExpress.ui.dxList;
-    dxList(options: DevExpress.ui.dxList.Properties): JQuery;
+    dxList(options: DevExpress.ui.dxListOptions): JQuery;
     dxList(options: string): any;
     dxList(options: string, ...params: any[]): any;
 
     dxLoadIndicator(): JQuery;
     dxLoadIndicator(options: 'instance'): DevExpress.ui.dxLoadIndicator;
-    dxLoadIndicator(options: DevExpress.ui.dxLoadIndicator.Properties): JQuery;
+    dxLoadIndicator(options: DevExpress.ui.dxLoadIndicatorOptions): JQuery;
     dxLoadIndicator(options: string): any;
     dxLoadIndicator(options: string, ...params: any[]): any;
 
     dxLoadPanel(): JQuery;
     dxLoadPanel(options: 'instance'): DevExpress.ui.dxLoadPanel;
-    dxLoadPanel(options: DevExpress.ui.dxLoadPanel.Properties): JQuery;
+    dxLoadPanel(options: DevExpress.ui.dxLoadPanelOptions): JQuery;
     dxLoadPanel(options: string): any;
     dxLoadPanel(options: string, ...params: any[]): any;
 
     dxLookup(): JQuery;
     dxLookup(options: 'instance'): DevExpress.ui.dxLookup;
-    dxLookup(options: DevExpress.ui.dxLookup.Properties): JQuery;
+    dxLookup(options: DevExpress.ui.dxLookupOptions): JQuery;
     dxLookup(options: string): any;
     dxLookup(options: string, ...params: any[]): any;
 
     dxMap(): JQuery;
     dxMap(options: 'instance'): DevExpress.ui.dxMap;
-    dxMap(options: DevExpress.ui.dxMap.Properties): JQuery;
+    dxMap(options: DevExpress.ui.dxMapOptions): JQuery;
     dxMap(options: string): any;
     dxMap(options: string, ...params: any[]): any;
 
     dxMenu(): JQuery;
     dxMenu(options: 'instance'): DevExpress.ui.dxMenu;
-    dxMenu(options: DevExpress.ui.dxMenu.Properties): JQuery;
+    dxMenu(options: DevExpress.ui.dxMenuOptions): JQuery;
     dxMenu(options: string): any;
     dxMenu(options: string, ...params: any[]): any;
 
     dxMultiView(): JQuery;
     dxMultiView(options: 'instance'): DevExpress.ui.dxMultiView;
-    dxMultiView(options: DevExpress.ui.dxMultiView.Properties): JQuery;
+    dxMultiView(options: DevExpress.ui.dxMultiViewOptions): JQuery;
     dxMultiView(options: string): any;
     dxMultiView(options: string, ...params: any[]): any;
 
     dxNavBar(): JQuery;
     dxNavBar(options: 'instance'): DevExpress.ui.dxNavBar;
-    dxNavBar(options: DevExpress.ui.dxNavBar.Properties): JQuery;
+    dxNavBar(options: DevExpress.ui.dxNavBarOptions): JQuery;
     dxNavBar(options: string): any;
     dxNavBar(options: string, ...params: any[]): any;
 
     dxNumberBox(): JQuery;
     dxNumberBox(options: 'instance'): DevExpress.ui.dxNumberBox;
-    dxNumberBox(options: DevExpress.ui.dxNumberBox.Properties): JQuery;
+    dxNumberBox(options: DevExpress.ui.dxNumberBoxOptions): JQuery;
     dxNumberBox(options: string): any;
     dxNumberBox(options: string, ...params: any[]): any;
 
     dxPieChart(): JQuery;
     dxPieChart(options: 'instance'): DevExpress.viz.dxPieChart;
-    dxPieChart(options: DevExpress.viz.dxPieChart.Properties): JQuery;
+    dxPieChart(options: DevExpress.viz.dxPieChartOptions): JQuery;
     dxPieChart(options: string): any;
     dxPieChart(options: string, ...params: any[]): any;
 
     dxPivotGrid(): JQuery;
     dxPivotGrid(options: 'instance'): DevExpress.ui.dxPivotGrid;
-    dxPivotGrid(options: DevExpress.ui.dxPivotGrid.Properties): JQuery;
+    dxPivotGrid(options: DevExpress.ui.dxPivotGridOptions): JQuery;
     dxPivotGrid(options: string): any;
     dxPivotGrid(options: string, ...params: any[]): any;
 
@@ -270,225 +266,221 @@
       options: 'instance'
     ): DevExpress.ui.dxPivotGridFieldChooser;
     dxPivotGridFieldChooser(
-      options: DevExpress.ui.dxPivotGridFieldChooser.Properties
+      options: DevExpress.ui.dxPivotGridFieldChooserOptions
     ): JQuery;
     dxPivotGridFieldChooser(options: string): any;
     dxPivotGridFieldChooser(options: string, ...params: any[]): any;
 
     dxPolarChart(): JQuery;
     dxPolarChart(options: 'instance'): DevExpress.viz.dxPolarChart;
-    dxPolarChart(options: DevExpress.viz.dxPolarChart.Properties): JQuery;
+    dxPolarChart(options: DevExpress.viz.dxPolarChartOptions): JQuery;
     dxPolarChart(options: string): any;
     dxPolarChart(options: string, ...params: any[]): any;
 
     dxPopover(): JQuery;
     dxPopover(options: 'instance'): DevExpress.ui.dxPopover;
-    dxPopover(options: DevExpress.ui.dxPopover.Properties): JQuery;
+    dxPopover(options: DevExpress.ui.dxPopoverOptions): JQuery;
     dxPopover(options: string): any;
     dxPopover(options: string, ...params: any[]): any;
 
     dxPopup(): JQuery;
     dxPopup(options: 'instance'): DevExpress.ui.dxPopup;
-    dxPopup(options: DevExpress.ui.dxPopup.Properties): JQuery;
+    dxPopup(options: DevExpress.ui.dxPopupOptions): JQuery;
     dxPopup(options: string): any;
     dxPopup(options: string, ...params: any[]): any;
 
     dxProgressBar(): JQuery;
     dxProgressBar(options: 'instance'): DevExpress.ui.dxProgressBar;
-    dxProgressBar(options: DevExpress.ui.dxProgressBar.Properties): JQuery;
+    dxProgressBar(options: DevExpress.ui.dxProgressBarOptions): JQuery;
     dxProgressBar(options: string): any;
     dxProgressBar(options: string, ...params: any[]): any;
 
     dxRadioGroup(): JQuery;
     dxRadioGroup(options: 'instance'): DevExpress.ui.dxRadioGroup;
-    dxRadioGroup(options: DevExpress.ui.dxRadioGroup.Properties): JQuery;
+    dxRadioGroup(options: DevExpress.ui.dxRadioGroupOptions): JQuery;
     dxRadioGroup(options: string): any;
     dxRadioGroup(options: string, ...params: any[]): any;
 
     dxRangeSelector(): JQuery;
     dxRangeSelector(options: 'instance'): DevExpress.viz.dxRangeSelector;
-    dxRangeSelector(options: DevExpress.viz.dxRangeSelector.Properties): JQuery;
+    dxRangeSelector(options: DevExpress.viz.dxRangeSelectorOptions): JQuery;
     dxRangeSelector(options: string): any;
     dxRangeSelector(options: string, ...params: any[]): any;
 
     dxRangeSlider(): JQuery;
     dxRangeSlider(options: 'instance'): DevExpress.ui.dxRangeSlider;
-    dxRangeSlider(options: DevExpress.ui.dxRangeSlider.Properties): JQuery;
+    dxRangeSlider(options: DevExpress.ui.dxRangeSliderOptions): JQuery;
     dxRangeSlider(options: string): any;
     dxRangeSlider(options: string, ...params: any[]): any;
 
     dxRecurrenceEditor(): JQuery;
     dxRecurrenceEditor(options: 'instance'): DevExpress.ui.dxRecurrenceEditor;
     dxRecurrenceEditor(
-      options: DevExpress.ui.dxRecurrenceEditor.Properties
+      options: DevExpress.ui.dxRecurrenceEditorOptions
     ): JQuery;
     dxRecurrenceEditor(options: string): any;
     dxRecurrenceEditor(options: string, ...params: any[]): any;
 
     dxResizable(): JQuery;
     dxResizable(options: 'instance'): DevExpress.ui.dxResizable;
-    dxResizable(options: DevExpress.ui.dxResizable.Properties): JQuery;
+    dxResizable(options: DevExpress.ui.dxResizableOptions): JQuery;
     dxResizable(options: string): any;
     dxResizable(options: string, ...params: any[]): any;
 
     dxResponsiveBox(): JQuery;
     dxResponsiveBox(options: 'instance'): DevExpress.ui.dxResponsiveBox;
-    dxResponsiveBox(options: DevExpress.ui.dxResponsiveBox.Properties): JQuery;
+    dxResponsiveBox(options: DevExpress.ui.dxResponsiveBoxOptions): JQuery;
     dxResponsiveBox(options: string): any;
     dxResponsiveBox(options: string, ...params: any[]): any;
 
     dxSankey(): JQuery;
     dxSankey(options: 'instance'): DevExpress.viz.dxSankey;
-    dxSankey(options: DevExpress.viz.dxSankey.Properties): JQuery;
+    dxSankey(options: DevExpress.viz.dxSankeyOptions): JQuery;
     dxSankey(options: string): any;
     dxSankey(options: string, ...params: any[]): any;
 
     dxScheduler(): JQuery;
     dxScheduler(options: 'instance'): DevExpress.ui.dxScheduler;
-    dxScheduler(options: DevExpress.ui.dxScheduler.Properties): JQuery;
+    dxScheduler(options: DevExpress.ui.dxSchedulerOptions): JQuery;
     dxScheduler(options: string): any;
     dxScheduler(options: string, ...params: any[]): any;
 
     dxScrollView(): JQuery;
     dxScrollView(options: 'instance'): DevExpress.ui.dxScrollView;
-    dxScrollView(options: DevExpress.ui.dxScrollView.Properties): JQuery;
+    dxScrollView(options: DevExpress.ui.dxScrollViewOptions): JQuery;
     dxScrollView(options: string): any;
     dxScrollView(options: string, ...params: any[]): any;
 
     dxSelectBox(): JQuery;
     dxSelectBox(options: 'instance'): DevExpress.ui.dxSelectBox;
-    dxSelectBox(options: DevExpress.ui.dxSelectBox.Properties): JQuery;
+    dxSelectBox(options: DevExpress.ui.dxSelectBoxOptions): JQuery;
     dxSelectBox(options: string): any;
     dxSelectBox(options: string, ...params: any[]): any;
 
     dxSlideOut(): JQuery;
     dxSlideOut(options: 'instance'): DevExpress.ui.dxSlideOut;
-    dxSlideOut(options: DevExpress.ui.dxSlideOut.Properties): JQuery;
+    dxSlideOut(options: DevExpress.ui.dxSlideOutOptions): JQuery;
     dxSlideOut(options: string): any;
     dxSlideOut(options: string, ...params: any[]): any;
 
     dxSlideOutView(): JQuery;
     dxSlideOutView(options: 'instance'): DevExpress.ui.dxSlideOutView;
-    dxSlideOutView(options: DevExpress.ui.dxSlideOutView.Properties): JQuery;
+    dxSlideOutView(options: DevExpress.ui.dxSlideOutViewOptions): JQuery;
     dxSlideOutView(options: string): any;
     dxSlideOutView(options: string, ...params: any[]): any;
 
     dxSlider(): JQuery;
     dxSlider(options: 'instance'): DevExpress.ui.dxSlider;
-    dxSlider(options: DevExpress.ui.dxSlider.Properties): JQuery;
+    dxSlider(options: DevExpress.ui.dxSliderOptions): JQuery;
     dxSlider(options: string): any;
     dxSlider(options: string, ...params: any[]): any;
 
     dxSortable(): JQuery;
     dxSortable(options: 'instance'): DevExpress.ui.dxSortable;
-    dxSortable(options: DevExpress.ui.dxSortable.Properties): JQuery;
+    dxSortable(options: DevExpress.ui.dxSortableOptions): JQuery;
     dxSortable(options: string): any;
     dxSortable(options: string, ...params: any[]): any;
 
     dxSparkline(): JQuery;
     dxSparkline(options: 'instance'): DevExpress.viz.dxSparkline;
-    dxSparkline(options: DevExpress.viz.dxSparkline.Properties): JQuery;
+    dxSparkline(options: DevExpress.viz.dxSparklineOptions): JQuery;
     dxSparkline(options: string): any;
     dxSparkline(options: string, ...params: any[]): any;
 
     dxSpeedDialAction(): JQuery;
     dxSpeedDialAction(options: 'instance'): DevExpress.ui.dxSpeedDialAction;
-    dxSpeedDialAction(
-      options: DevExpress.ui.dxSpeedDialAction.Properties
-    ): JQuery;
+    dxSpeedDialAction(options: DevExpress.ui.dxSpeedDialActionOptions): JQuery;
     dxSpeedDialAction(options: string): any;
     dxSpeedDialAction(options: string, ...params: any[]): any;
 
     dxSwitch(): JQuery;
     dxSwitch(options: 'instance'): DevExpress.ui.dxSwitch;
-    dxSwitch(options: DevExpress.ui.dxSwitch.Properties): JQuery;
+    dxSwitch(options: DevExpress.ui.dxSwitchOptions): JQuery;
     dxSwitch(options: string): any;
     dxSwitch(options: string, ...params: any[]): any;
 
     dxTabPanel(): JQuery;
     dxTabPanel(options: 'instance'): DevExpress.ui.dxTabPanel;
-    dxTabPanel(options: DevExpress.ui.dxTabPanel.Properties): JQuery;
+    dxTabPanel(options: DevExpress.ui.dxTabPanelOptions): JQuery;
     dxTabPanel(options: string): any;
     dxTabPanel(options: string, ...params: any[]): any;
 
     dxTabs(): JQuery;
     dxTabs(options: 'instance'): DevExpress.ui.dxTabs;
-    dxTabs(options: DevExpress.ui.dxTabs.Properties): JQuery;
+    dxTabs(options: DevExpress.ui.dxTabsOptions): JQuery;
     dxTabs(options: string): any;
     dxTabs(options: string, ...params: any[]): any;
 
     dxTagBox(): JQuery;
     dxTagBox(options: 'instance'): DevExpress.ui.dxTagBox;
-    dxTagBox(options: DevExpress.ui.dxTagBox.Properties): JQuery;
+    dxTagBox(options: DevExpress.ui.dxTagBoxOptions): JQuery;
     dxTagBox(options: string): any;
     dxTagBox(options: string, ...params: any[]): any;
 
     dxTextArea(): JQuery;
     dxTextArea(options: 'instance'): DevExpress.ui.dxTextArea;
-    dxTextArea(options: DevExpress.ui.dxTextArea.Properties): JQuery;
+    dxTextArea(options: DevExpress.ui.dxTextAreaOptions): JQuery;
     dxTextArea(options: string): any;
     dxTextArea(options: string, ...params: any[]): any;
 
     dxTextBox(): JQuery;
     dxTextBox(options: 'instance'): DevExpress.ui.dxTextBox;
-    dxTextBox(options: DevExpress.ui.dxTextBox.Properties): JQuery;
+    dxTextBox(options: DevExpress.ui.dxTextBoxOptions): JQuery;
     dxTextBox(options: string): any;
     dxTextBox(options: string, ...params: any[]): any;
 
     dxTileView(): JQuery;
     dxTileView(options: 'instance'): DevExpress.ui.dxTileView;
-    dxTileView(options: DevExpress.ui.dxTileView.Properties): JQuery;
+    dxTileView(options: DevExpress.ui.dxTileViewOptions): JQuery;
     dxTileView(options: string): any;
     dxTileView(options: string, ...params: any[]): any;
 
     dxToast(): JQuery;
     dxToast(options: 'instance'): DevExpress.ui.dxToast;
-    dxToast(options: DevExpress.ui.dxToast.Properties): JQuery;
+    dxToast(options: DevExpress.ui.dxToastOptions): JQuery;
     dxToast(options: string): any;
     dxToast(options: string, ...params: any[]): any;
 
     dxToolbar(): JQuery;
     dxToolbar(options: 'instance'): DevExpress.ui.dxToolbar;
-    dxToolbar(options: DevExpress.ui.dxToolbar.Properties): JQuery;
+    dxToolbar(options: DevExpress.ui.dxToolbarOptions): JQuery;
     dxToolbar(options: string): any;
     dxToolbar(options: string, ...params: any[]): any;
 
     dxTooltip(): JQuery;
     dxTooltip(options: 'instance'): DevExpress.ui.dxTooltip;
-    dxTooltip(options: DevExpress.ui.dxTooltip.Properties): JQuery;
+    dxTooltip(options: DevExpress.ui.dxTooltipOptions): JQuery;
     dxTooltip(options: string): any;
     dxTooltip(options: string, ...params: any[]): any;
 
     dxTreeList(): JQuery;
     dxTreeList(options: 'instance'): DevExpress.ui.dxTreeList;
-    dxTreeList(options: DevExpress.ui.dxTreeList.Properties): JQuery;
+    dxTreeList(options: DevExpress.ui.dxTreeListOptions): JQuery;
     dxTreeList(options: string): any;
     dxTreeList(options: string, ...params: any[]): any;
 
     dxTreeMap(): JQuery;
     dxTreeMap(options: 'instance'): DevExpress.viz.dxTreeMap;
-    dxTreeMap(options: DevExpress.viz.dxTreeMap.Properties): JQuery;
+    dxTreeMap(options: DevExpress.viz.dxTreeMapOptions): JQuery;
     dxTreeMap(options: string): any;
     dxTreeMap(options: string, ...params: any[]): any;
 
     dxTreeView(): JQuery;
     dxTreeView(options: 'instance'): DevExpress.ui.dxTreeView;
-    dxTreeView(options: DevExpress.ui.dxTreeView.Properties): JQuery;
+    dxTreeView(options: DevExpress.ui.dxTreeViewOptions): JQuery;
     dxTreeView(options: string): any;
     dxTreeView(options: string, ...params: any[]): any;
 
     dxValidationGroup(): JQuery;
     dxValidationGroup(options: 'instance'): DevExpress.ui.dxValidationGroup;
-    dxValidationGroup(
-      options: DevExpress.ui.dxValidationGroup.Properties
-    ): JQuery;
+    dxValidationGroup(options: DevExpress.ui.dxValidationGroupOptions): JQuery;
     dxValidationGroup(options: string): any;
     dxValidationGroup(options: string, ...params: any[]): any;
 
     dxValidationMessage(): JQuery;
     dxValidationMessage(options: 'instance'): DevExpress.ui.dxValidationMessage;
     dxValidationMessage(
-      options: DevExpress.ui.dxValidationMessage.Properties
+      options: DevExpress.ui.dxValidationMessageOptions
     ): JQuery;
     dxValidationMessage(options: string): any;
     dxValidationMessage(options: string, ...params: any[]): any;
@@ -496,20 +488,20 @@
     dxValidationSummary(): JQuery;
     dxValidationSummary(options: 'instance'): DevExpress.ui.dxValidationSummary;
     dxValidationSummary(
-      options: DevExpress.ui.dxValidationSummary.Properties
+      options: DevExpress.ui.dxValidationSummaryOptions
     ): JQuery;
     dxValidationSummary(options: string): any;
     dxValidationSummary(options: string, ...params: any[]): any;
 
     dxValidator(): JQuery;
     dxValidator(options: 'instance'): DevExpress.ui.dxValidator;
-    dxValidator(options: DevExpress.ui.dxValidator.Properties): JQuery;
+    dxValidator(options: DevExpress.ui.dxValidatorOptions): JQuery;
     dxValidator(options: string): any;
     dxValidator(options: string, ...params: any[]): any;
 
     dxVectorMap(): JQuery;
     dxVectorMap(options: 'instance'): DevExpress.viz.dxVectorMap;
-    dxVectorMap(options: DevExpress.viz.dxVectorMap.Properties): JQuery;
+    dxVectorMap(options: DevExpress.viz.dxVectorMapOptions): JQuery;
     dxVectorMap(options: string): any;
     dxVectorMap(options: string, ...params: any[]): any;
   }
@@ -639,8 +631,8 @@ declare module DevExpress {
    * [descr:Component]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class Component<TProperties> {
-    constructor(options?: TProperties);
+  export class Component {
+    constructor(options?: ComponentOptions);
     /**
      * [descr:Component.beginUpdate()]
      */
@@ -672,28 +664,19 @@ declare module DevExpress {
     /**
      * [descr:Component.option()]
      */
-    option(): TProperties;
+    option(): any;
     /**
      * [descr:Component.option(optionName)]
      */
-    option<TPropertyName extends string>(
-      optionName: TPropertyName
-    ): TPropertyName extends keyof TProperties
-      ? TProperties[TPropertyName]
-      : unknown;
+    option(optionName: string): any;
     /**
      * [descr:Component.option(optionName, optionValue)]
      */
-    option<TPropertyName extends string>(
-      optionName: TPropertyName,
-      optionValue: TPropertyName extends keyof TProperties
-        ? TProperties[TPropertyName]
-        : unknown
-    ): void;
+    option(optionName: string, optionValue: any): void;
     /**
      * [descr:Component.option(options)]
      */
-    option(options: Partial<TProperties>): void;
+    option(options: any): void;
     /**
      * [descr:Component.resetOption(optionName)]
      */
@@ -715,23 +698,23 @@ declare module DevExpress {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface ComponentOptions<TComponent> {
+  export interface ComponentOptions<T = Component> {
     /**
      * [descr:ComponentOptions.onDisposing]
      */
-    onDisposing?: (e: { component: TComponent }) => void;
+    onDisposing?: (e: { component: T }) => void;
     /**
      * [descr:ComponentOptions.onInitialized]
      */
     onInitialized?: (e: {
-      component?: TComponent;
+      component?: T;
       element?: DevExpress.core.DxElement;
     }) => void;
     /**
      * [descr:ComponentOptions.onOptionChanged]
      */
     onOptionChanged?: (e: {
-      component?: TComponent;
+      component?: T;
       name?: string;
       fullName?: string;
       value?: any;
@@ -840,12 +823,10 @@ declare module DevExpress {
    * [descr:DOMComponent]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class DOMComponent<
-    TProperties = DevExpress.DOMComponent.Properties
-  > extends Component<TProperties> {
+  export class DOMComponent extends Component {
     constructor(
       element: DevExpress.core.UserDefinedElement,
-      options?: TProperties
+      options?: DOMComponentOptions
     );
     /**
      * [descr:DOMComponent.defaultOptions(rule)]
@@ -867,7 +848,7 @@ declare module DevExpress {
      */
     static getInstance(
       element: DevExpress.core.UserDefinedElement
-    ): DOMComponent<DevExpress.DOMComponent.Properties>;
+    ): DOMComponent;
 
     $element(): DevExpress.core.UserDefinedElement;
     _getTemplate(template: unknown): DevExpress.core.FunctionTemplate;
@@ -875,17 +856,11 @@ declare module DevExpress {
     _refresh(): void;
     _templateManager: DevExpress.core.TemplateManager;
   }
-  module DOMComponent {
-    /**
-     * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
-     */
-    type Properties = DOMComponentOptions<DOMComponent<Properties>>;
-  }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface DOMComponentOptions<TComponent>
-    extends ComponentOptions<TComponent> {
+  export interface DOMComponentOptions<T = DOMComponent>
+    extends ComponentOptions<T> {
     /**
      * [descr:DOMComponentOptions.bindingOptions]
      */
@@ -902,7 +877,7 @@ declare module DevExpress {
      * [descr:DOMComponentOptions.onDisposing]
      */
     onDisposing?: (e: {
-      component?: TComponent;
+      component?: T;
       element?: DevExpress.core.DxElement;
       model?: any;
     }) => void;
@@ -910,7 +885,7 @@ declare module DevExpress {
      * [descr:DOMComponentOptions.onOptionChanged]
      */
     onOptionChanged?: (e: {
-      component?: TComponent;
+      component?: T;
       element?: DevExpress.core.DxElement;
       model?: any;
       name?: string;
@@ -1400,7 +1375,6 @@ declare module DevExpress.core {
    */
   export class TemplateManager {
     anonymousTemplateName: string;
-    addDefaultTemplates(templates: Record<string, unknown>): void;
   }
   /**
    * [descr:UserDefinedElement]
@@ -3739,7 +3713,11 @@ declare module DevExpress.ui {
    * [descr:CollectionWidget]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class CollectionWidget<TProperties> extends Widget<TProperties> {
+  export class CollectionWidget extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: CollectionWidgetOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
   }
   module CollectionWidget {
@@ -3786,8 +3764,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface CollectionWidgetOptions<TComponent>
-    extends WidgetOptions<TComponent> {
+  export interface CollectionWidgetOptions<T = CollectionWidget>
+    extends WidgetOptions<T> {
     /**
      * [descr:CollectionWidgetOptions.dataSource]
      */
@@ -3828,36 +3806,32 @@ declare module DevExpress.ui {
      */
     onItemClick?:
       | ((
-          e: DevExpress.events.NativeEventInfo<TComponent> &
-            DevExpress.events.ItemInfo
+          e: DevExpress.events.NativeEventInfo<T> & DevExpress.events.ItemInfo
         ) => void)
       | string;
     /**
      * [descr:CollectionWidgetOptions.onItemContextMenu]
      */
     onItemContextMenu?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
-        DevExpress.events.ItemInfo
+      e: DevExpress.events.NativeEventInfo<T> & DevExpress.events.ItemInfo
     ) => void;
     /**
      * [descr:CollectionWidgetOptions.onItemHold]
      */
     onItemHold?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
-        DevExpress.events.ItemInfo
+      e: DevExpress.events.NativeEventInfo<T> & DevExpress.events.ItemInfo
     ) => void;
     /**
      * [descr:CollectionWidgetOptions.onItemRendered]
      */
     onItemRendered?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
-        DevExpress.events.ItemInfo
+      e: DevExpress.events.NativeEventInfo<T> & DevExpress.events.ItemInfo
     ) => void;
     /**
      * [descr:CollectionWidgetOptions.onSelectionChanged]
      */
     onSelectionChanged?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.CollectionWidget.SelectionChangedInfo
     ) => void;
     /**
@@ -4023,8 +3997,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface DraggableBaseOptions<TComponent>
-    extends DOMComponentOptions<TComponent> {
+  export interface DraggableBaseOptions<T = DraggableBase & DOMComponent>
+    extends DOMComponentOptions<T> {
     /**
      * [descr:DraggableBaseOptions.autoScroll]
      */
@@ -4080,7 +4054,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxAccordion]
    */
-  export class dxAccordion extends CollectionWidget<dxAccordionOptions> {
+  export class dxAccordion extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxAccordionOptions
+    );
     /**
      * [descr:dxAccordion.collapseItem(index)]
      */
@@ -4219,7 +4197,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxActionSheet]
    */
-  export class dxActionSheet extends CollectionWidget<dxActionSheetOptions> {
+  export class dxActionSheet extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxActionSheetOptions
+    );
     /**
      * [descr:dxActionSheet.hide()]
      */
@@ -4339,7 +4321,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxAutocomplete]
    */
-  export class dxAutocomplete extends dxDropDownList<dxAutocompleteOptions> {}
+  export class dxAutocomplete extends dxDropDownList {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxAutocompleteOptions
+    );
+  }
   module dxAutocomplete {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxAutocomplete>;
     export type ClosedEvent = DevExpress.events.EventInfo<dxAutocomplete>;
@@ -4401,16 +4388,16 @@ declare module DevExpress.ui {
      * [descr:dxAutocompleteOptions.value]
      */
     value?: string;
-
-    /**
-     * [descr:dxAutocompleteOptions.dropDownOptions]
-     */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
   }
   /**
    * [descr:dxBox]
    */
-  export class dxBox extends CollectionWidget<dxBoxOptions> {}
+  export class dxBox extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxBoxOptions
+    );
+  }
   module dxBox {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxBox>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxBox>;
@@ -4484,7 +4471,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxButton]
    */
-  export class dxButton extends Widget<dxButtonOptions> {}
+  export class dxButton extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxButtonOptions
+    );
+  }
   module dxButton {
     export type ClickEvent = DevExpress.events.NativeEventInfo<dxButton> & {
       validationGroup?: any;
@@ -4504,7 +4496,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxButtonGroup]
    */
-  export class dxButtonGroup extends Widget<dxButtonGroupOptions> {}
+  export class dxButtonGroup extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxButtonGroupOptions
+    );
+  }
   module dxButtonGroup {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxButtonGroup>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxButtonGroup>;
@@ -4654,7 +4651,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxCalendar]
    */
-  export class dxCalendar extends Editor<dxCalendarOptions> {}
+  export class dxCalendar extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxCalendarOptions
+    );
+  }
   module dxCalendar {
     export type CellTemplateData = {
       readonly date: Date;
@@ -4753,7 +4755,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxCheckBox]
    */
-  export class dxCheckBox extends Editor<dxCheckBoxOptions> {}
+  export class dxCheckBox extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxCheckBoxOptions
+    );
+  }
   module dxCheckBox {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxCheckBox>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxCheckBox>;
@@ -4799,7 +4806,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxColorBox]
    */
-  export class dxColorBox extends dxDropDownEditor<dxColorBoxOptions> {}
+  export class dxColorBox extends dxDropDownEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxColorBoxOptions
+    );
+  }
   module dxColorBox {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxColorBox>;
     export type ClosedEvent = DevExpress.events.EventInfo<dxColorBox>;
@@ -4865,16 +4877,15 @@ declare module DevExpress.ui {
      * [descr:dxColorBoxOptions.value]
      */
     value?: string;
-
-    /**
-     * [descr:dxColorBoxOptions.dropDownOptions]
-     */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
   }
   /**
    * [descr:dxContextMenu]
    */
-  export class dxContextMenu extends dxMenuBase<dxContextMenuOptions> {
+  export class dxContextMenu extends dxMenuBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxContextMenuOptions
+    );
     /**
      * [descr:dxContextMenu.hide()]
      */
@@ -5010,10 +5021,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDataGrid]
    */
-  export class dxDataGrid
-    extends Widget<dxDataGridOptions>
-    implements GridBase
-  {
+  export class dxDataGrid extends Widget implements GridBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDataGridOptions
+    );
     /**
      * [descr:dxDataGrid.addColumn(columnOptions)]
      */
@@ -5615,16 +5627,6 @@ declare module DevExpress.ui {
             row?: RowObject;
             column?: Column;
           }) => boolean);
-      /**
-       * [descr:dxDataGridColumnButton.visible]
-       */
-      disabled?:
-        | boolean
-        | ((options: {
-            component?: dxDataGrid;
-            row?: RowObject;
-            column?: Column;
-          }) => boolean);
     }
     /**
      * [descr:GridBaseColumnButton]
@@ -6004,7 +6006,7 @@ declare module DevExpress.ui {
       /**
        * [descr:GridBaseOptions.editing.popup]
        */
-      popup?: DevExpress.ui.dxPopup.Properties;
+      popup?: dxPopupOptions;
       /**
        * [descr:GridBaseOptions.editing.refreshMode]
        */
@@ -7624,7 +7626,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDateBox]
    */
-  export class dxDateBox extends dxDropDownEditor<dxDateBoxOptions> {
+  export class dxDateBox extends dxDropDownEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDateBoxOptions
+    );
     /**
      * [descr:dxDateBox.close()]
      */
@@ -7742,16 +7748,16 @@ declare module DevExpress.ui {
      * [descr:dxDateBoxOptions.value]
      */
     value?: Date | number | string;
-
-    /**
-     * [descr:dxDateBoxOptions.dropDownOptions]
-     */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
   }
   /**
    * [descr:dxDeferRendering]
    */
-  export class dxDeferRendering extends Widget<dxDeferRenderingOptions> {}
+  export class dxDeferRendering extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDeferRenderingOptions
+    );
+  }
   module dxDeferRendering {
     export type ContentReadyEvent =
       DevExpress.events.EventInfo<dxDeferRendering>;
@@ -7807,7 +7813,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDiagram]
    */
-  export class dxDiagram extends Widget<dxDiagramOptions> {
+  export class dxDiagram extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDiagramOptions
+    );
     /**
      * [descr:dxDiagram.getNodeDataSource()]
      */
@@ -9637,9 +9647,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDraggable]
    */
-  export class dxDraggable
-    extends DOMComponent<dxDraggableOptions>
-    implements DraggableBase {}
+  export class dxDraggable extends DOMComponent implements DraggableBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDraggableOptions
+    );
+  }
   module dxDraggable {
     export type DisposingEvent = DevExpress.events.EventInfo<dxDraggable>;
     export type DragEndEvent = DevExpress.events.Cancelable &
@@ -9711,7 +9724,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDrawer]
    */
-  export class dxDrawer extends Widget<dxDrawerOptions> {
+  export class dxDrawer extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDrawerOptions
+    );
     /**
      * [descr:dxDrawer.content()]
      */
@@ -9799,7 +9816,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxDropDownBox]
    */
-  export class dxDropDownBox extends dxDropDownEditor<dxDropDownBoxOptions> {
+  export class dxDropDownBox extends dxDropDownEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDropDownBoxOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
   }
   module dxDropDownBox {
@@ -9890,16 +9911,15 @@ declare module DevExpress.ui {
      * [descr:dxDropDownBoxOptions.valueChangeEvent]
      */
     valueChangeEvent?: string;
-
-    /**
-     * [descr:dxDropDownBoxOptions.dropDownOptions]
-     */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
   }
   /**
    * [descr:dxDropDownButton]
    */
-  export class dxDropDownButton extends Widget<dxDropDownButtonOptions> {
+  export class dxDropDownButton extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDropDownButtonOptions
+    );
     /**
      * [descr:dxDropDownButton.close()]
      */
@@ -9995,7 +10015,7 @@ declare module DevExpress.ui {
     /**
      * [descr:dxDropDownButtonOptions.dropDownOptions]
      */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
+    dropDownOptions?: dxPopupOptions;
     /**
      * [descr:dxDropDownButtonOptions.focusStateEnabled]
      */
@@ -10093,7 +10113,11 @@ declare module DevExpress.ui {
    * [descr:dxDropDownEditor]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxDropDownEditor<TProperties> extends dxTextBox<TProperties> {
+  export class dxDropDownEditor extends dxTextBox {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDropDownEditorOptions
+    );
     /**
      * [descr:dxDropDownEditor.close()]
      */
@@ -10123,8 +10147,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxDropDownEditorOptions<TComponent>
-    extends dxTextBoxOptions<TComponent> {
+  export interface dxDropDownEditorOptions<T = dxDropDownEditor>
+    extends dxTextBoxOptions<T> {
     /**
      * [descr:dxDropDownEditorOptions.acceptCustomValue]
      */
@@ -10140,9 +10164,7 @@ declare module DevExpress.ui {
     /**
      * [descr:dxDropDownEditorOptions.dropDownOptions]
      */
-    dropDownOptions?:
-      | DevExpress.ui.dxPopup.Properties
-      | DevExpress.ui.dxPopover.Properties;
+    dropDownOptions?: dxPopupOptions;
     /**
      * [descr:dxDropDownEditorOptions.buttons]
      */
@@ -10163,11 +10185,11 @@ declare module DevExpress.ui {
     /**
      * [descr:dxDropDownEditorOptions.onClosed]
      */
-    onClosed?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onClosed?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:dxDropDownEditorOptions.onOpened]
      */
-    onOpened?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onOpened?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:dxDropDownEditorOptions.openOnFieldClick]
      */
@@ -10189,17 +10211,19 @@ declare module DevExpress.ui {
    * [descr:dxDropDownList]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxDropDownList<
-    TProperties
-  > extends dxDropDownEditor<TProperties> {
+  export class dxDropDownList extends dxDropDownEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxDropDownListOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
   }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxDropDownListOptions<TComponent>
-    extends DataExpressionMixinOptions<TComponent>,
-      dxDropDownEditorOptions<TComponent> {
+  export interface dxDropDownListOptions<T = dxDropDownList>
+    extends DataExpressionMixinOptions<T>,
+      dxDropDownEditorOptions<T> {
     /**
      * [descr:dxDropDownListOptions.displayValue]
      */
@@ -10230,21 +10254,20 @@ declare module DevExpress.ui {
      * [descr:dxDropDownListOptions.onItemClick]
      */
     onItemClick?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
-        DevExpress.events.ItemInfo
+      e: DevExpress.events.NativeEventInfo<T> & DevExpress.events.ItemInfo
     ) => void;
     /**
      * [descr:dxDropDownListOptions.onSelectionChanged]
      */
     onSelectionChanged?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.CollectionWidget.SelectionChangedInfo
     ) => void;
     /**
      * [descr:dxDropDownListOptions.onValueChanged]
      */
     onValueChanged?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
+      e: DevExpress.events.NativeEventInfo<T> &
         DevExpress.ui.Editor.ValueChangedInfo
     ) => void;
     /**
@@ -10291,7 +10314,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxFileManager]
    */
-  export class dxFileManager extends Widget<dxFileManagerOptions> {
+  export class dxFileManager extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxFileManagerOptions
+    );
     /**
      * [descr:dxFileManager.getCurrentDirectory()]
      */
@@ -10751,7 +10778,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxFileUploader]
    */
-  export class dxFileUploader extends Editor<dxFileUploaderOptions> {
+  export class dxFileUploader extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxFileUploaderOptions
+    );
     /**
      * [descr:dxFileUploader.upload()]
      */
@@ -11050,7 +11081,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxFilterBuilder]
    */
-  export class dxFilterBuilder extends Widget<dxFilterBuilderOptions> {
+  export class dxFilterBuilder extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxFilterBuilderOptions
+    );
     /**
      * [descr:dxFilterBuilder.getFilterExpression()]
      */
@@ -11398,7 +11433,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxForm]
    */
-  export class dxForm extends Widget<dxFormOptions> {
+  export class dxForm extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxFormOptions
+    );
     /**
      * [descr:dxForm.getButton(name)]
      */
@@ -11928,7 +11967,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxGallery]
    */
-  export class dxGallery extends CollectionWidget<dxGalleryOptions> {
+  export class dxGallery extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxGalleryOptions
+    );
     /**
      * [descr:dxGallery.goToItem(itemIndex, animation)]
      */
@@ -12056,7 +12099,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxGantt]
    */
-  export class dxGantt extends Widget<dxGanttOptions> {
+  export class dxGantt extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxGanttOptions
+    );
     /**
      * [descr:dxGantt.getTaskData(key)]
      */
@@ -12219,7 +12266,6 @@ declare module DevExpress.ui {
       DevExpress.events.Cancelable &
         DevExpress.events.EventInfo<dxGantt> & {
           readonly values: Array<any>;
-          readonly key: any;
         };
     export type ResourceUnassignedEvent =
       DevExpress.events.EventInfo<dxGantt> & {
@@ -12321,6 +12367,7 @@ declare module DevExpress.ui {
       | 'zoomOut'
       | 'deleteDependency'
       | 'taskDetails'
+      | 'resourceManager'
     >;
   }
   /**
@@ -12342,6 +12389,7 @@ declare module DevExpress.ui {
       | 'zoomOut'
       | 'deleteDependency'
       | 'taskDetails'
+      | 'resourceManager'
       | string;
   }
   /**
@@ -12834,7 +12882,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxHtmlEditor]
    */
-  export class dxHtmlEditor extends Editor<dxHtmlEditorOptions> {
+  export class dxHtmlEditor extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxHtmlEditorOptions
+    );
     /**
      * [descr:dxHtmlEditor.blur()]
      */
@@ -13346,7 +13398,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxList]
    */
-  export class dxList extends CollectionWidget<dxListOptions> {
+  export class dxList extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxListOptions
+    );
     /**
      * [descr:dxList.clientHeight()]
      */
@@ -13539,7 +13595,7 @@ declare module DevExpress.ui {
    */
   export interface dxListOptions
     extends CollectionWidgetOptions<dxList>,
-      SearchBoxMixinOptions {
+      SearchBoxMixinOptions<dxList> {
     /**
      * [descr:dxListOptions.activeStateEnabled]
      */
@@ -13748,7 +13804,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxLoadIndicator]
    */
-  export class dxLoadIndicator extends Widget<dxLoadIndicatorOptions> {}
+  export class dxLoadIndicator extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxLoadIndicatorOptions
+    );
+  }
   module dxLoadIndicator {
     export type ContentReadyEvent =
       DevExpress.events.EventInfo<dxLoadIndicator>;
@@ -13774,7 +13835,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxLoadPanel]
    */
-  export class dxLoadPanel extends dxOverlay<dxLoadPanelOptions> {}
+  export class dxLoadPanel extends dxOverlay {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxLoadPanelOptions
+    );
+  }
   module dxLoadPanel {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxLoadPanel>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxLoadPanel>;
@@ -13878,7 +13944,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxLookup]
    */
-  export class dxLookup extends dxDropDownList<dxLookupOptions> {}
+  export class dxLookup extends dxDropDownList {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxLookupOptions
+    );
+  }
   module dxLookup {
     export type ClosedEvent = DevExpress.events.EventInfo<dxLookup>;
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxLookup>;
@@ -14104,12 +14175,16 @@ declare module DevExpress.ui {
     /**
      * [descr:dxLookupOptions.dropDownOptions]
      */
-    dropDownOptions?: DevExpress.ui.dxPopover.Properties;
+    dropDownOptions?: dxPopoverOptions;
   }
   /**
    * [descr:dxMap]
    */
-  export class dxMap extends Widget<dxMapOptions> {
+  export class dxMap extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxMapOptions
+    );
     /**
      * [descr:dxMap.addMarker(markerOptions)]
      */
@@ -14328,7 +14403,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxMenu]
    */
-  export class dxMenu extends dxMenuBase<dxMenuOptions> {}
+  export class dxMenu extends dxMenuBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxMenuOptions
+    );
+  }
   module dxMenu {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxMenu>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxMenu>;
@@ -14363,9 +14443,11 @@ declare module DevExpress.ui {
    * [descr:dxMenuBase]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxMenuBase<
-    TProperties
-  > extends HierarchicalCollectionWidget<TProperties> {
+  export class dxMenuBase extends HierarchicalCollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxMenuBaseOptions
+    );
     /**
      * [descr:dxMenuBase.selectItem(itemElement)]
      */
@@ -14420,8 +14502,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxMenuBaseOptions<TComponent>
-    extends HierarchicalCollectionWidgetOptions<TComponent> {
+  export interface dxMenuBaseOptions<T = dxMenuBase>
+    extends HierarchicalCollectionWidgetOptions<T> {
     /**
      * [descr:dxMenuBaseOptions.activeStateEnabled]
      */
@@ -14583,9 +14665,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxMultiView]
    */
-  export class dxMultiView<
-    TProperties = DevExpress.ui.dxMultiView.Properties
-  > extends CollectionWidget<TProperties> {}
+  export class dxMultiView extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxMultiViewOptions
+    );
+  }
   module dxMultiView {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxMultiView>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxMultiView>;
@@ -14604,7 +14689,7 @@ declare module DevExpress.ui {
         DevExpress.events.ItemInfo;
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxMultiView> &
       DevExpress.events.ChangedOptionInfo;
-    export type Properties = dxMultiViewOptions<dxMultiView<Properties>>;
+    export type Properties = dxMultiViewOptions;
     export type SelectionChangedEvent =
       DevExpress.events.EventInfo<dxMultiView> &
         DevExpress.ui.CollectionWidget.SelectionChangedInfo;
@@ -14618,8 +14703,8 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxMultiViewOptions<TComponent>
-    extends CollectionWidgetOptions<TComponent> {
+  export interface dxMultiViewOptions<T = dxMultiView>
+    extends CollectionWidgetOptions<T> {
     /**
      * [descr:dxMultiViewOptions.animationEnabled]
      */
@@ -14661,7 +14746,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxNavBar]
    */
-  export class dxNavBar extends dxTabs<dxNavBarOptions> {}
+  export class dxNavBar extends dxTabs {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxNavBarOptions
+    );
+  }
   module dxNavBar {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxNavBar>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxNavBar>;
@@ -14704,7 +14794,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxNumberBox]
    */
-  export class dxNumberBox extends dxTextEditor<dxNumberBoxOptions> {}
+  export class dxNumberBox extends dxTextEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxNumberBoxOptions
+    );
+  }
   module dxNumberBox {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxNumberBox>;
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxNumberBox>;
@@ -14778,7 +14873,11 @@ declare module DevExpress.ui {
    * [descr:dxOverlay]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxOverlay<TProperties> extends Widget<TProperties> {
+  export class dxOverlay extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxOverlayOptions
+    );
     /**
      * [descr:dxOverlay.content()]
      */
@@ -14816,8 +14915,7 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxOverlayOptions<TComponent>
-    extends WidgetOptions<TComponent> {
+  export interface dxOverlayOptions<T = dxOverlay> extends WidgetOptions<T> {
     /**
      * [descr:dxOverlayOptions.animation]
      */
@@ -14845,11 +14943,6 @@ declare module DevExpress.ui {
      */
     dragEnabled?: boolean;
     /**
-     * [descr:dxOverlayOptions.elementAttr]
-     * @deprecated [depNote:dxOverlayOptions.elementAttr]
-     */
-    elementAttr?: any;
-    /**
      * [descr:dxOverlayOptions.height]
      */
     height?: number | string | (() => number | string);
@@ -14872,21 +14965,21 @@ declare module DevExpress.ui {
     /**
      * [descr:dxOverlayOptions.onHidden]
      */
-    onHidden?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onHidden?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:dxOverlayOptions.onHiding]
      */
     onHiding?: (
-      e: DevExpress.events.Cancelable & DevExpress.events.EventInfo<TComponent>
+      e: DevExpress.events.Cancelable & DevExpress.events.EventInfo<T>
     ) => void;
     /**
      * [descr:dxOverlayOptions.onShowing]
      */
-    onShowing?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onShowing?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:dxOverlayOptions.onShown]
      */
-    onShown?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onShown?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:dxOverlayOptions.position]
      */
@@ -14907,15 +15000,15 @@ declare module DevExpress.ui {
      * [descr:dxOverlayOptions.width]
      */
     width?: number | string | (() => number | string);
-    /**
-     * [descr:dxOverlayOptions.wrapperAttr]
-     */
-    wrapperAttr?: any;
   }
   /**
    * [descr:dxPivotGrid]
    */
-  export class dxPivotGrid extends Widget<dxPivotGridOptions> {
+  export class dxPivotGrid extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPivotGridOptions
+    );
     /**
      * [descr:dxPivotGrid.bindChart(chart, integrationOptions)]
      */
@@ -15004,7 +15097,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxPivotGridFieldChooser]
    */
-  export class dxPivotGridFieldChooser extends Widget<dxPivotGridFieldChooserOptions> {
+  export class dxPivotGridFieldChooser extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPivotGridFieldChooserOptions
+    );
     /**
      * [descr:dxPivotGridFieldChooser.applyChanges()]
      */
@@ -15690,9 +15787,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxPopover]
    */
-  export class dxPopover<
-    TProperties = DevExpress.ui.dxPopover.Properties
-  > extends dxPopup<TProperties> {
+  export class dxPopover extends dxPopup {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPopoverOptions
+    );
     show(): DevExpress.core.utils.DxPromise<boolean>;
     /**
      * [descr:dxPopover.show(target)]
@@ -15711,7 +15810,7 @@ declare module DevExpress.ui {
       DevExpress.events.InitializedEventInfo<dxPopover>;
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxPopover> &
       DevExpress.events.ChangedOptionInfo;
-    export type Properties = dxPopoverOptions<dxPopover<Properties>>;
+    export type Properties = dxPopoverOptions;
     export type ShowingEvent = DevExpress.events.EventInfo<dxPopover>;
     export type ShownEvent = DevExpress.events.EventInfo<dxPopover>;
     export type TitleRenderedEvent = DevExpress.events.EventInfo<dxPopup> &
@@ -15734,8 +15833,7 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxPopoverOptions<TComponent>
-    extends dxPopupOptions<TComponent> {
+  export interface dxPopoverOptions<T = dxPopover> extends dxPopupOptions<T> {
     /**
      * [descr:dxPopoverOptions.animation]
      */
@@ -15804,9 +15902,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxPopup]
    */
-  export class dxPopup<
-    TProperties = DevExpress.ui.dxPopup.Properties
-  > extends dxOverlay<TProperties> {}
+  export class dxPopup extends dxOverlay {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPopupOptions
+    );
+  }
   module dxPopup {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxPopup>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxPopup>;
@@ -15817,7 +15918,7 @@ declare module DevExpress.ui {
       DevExpress.events.InitializedEventInfo<dxPopup>;
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxPopup> &
       DevExpress.events.ChangedOptionInfo;
-    export type Properties = dxPopupOptions<dxPopup<Properties>>;
+    export type Properties = dxPopupOptions;
     export type ResizeEndEvent = DevExpress.events.NativeEventInfo<dxPopup> &
       DevExpress.ui.dxResizable.ResizeInfo;
     export type ResizeEvent = DevExpress.events.NativeEventInfo<dxPopup> &
@@ -15852,8 +15953,7 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxPopupOptions<TComponent>
-    extends dxOverlayOptions<TComponent> {
+  export interface dxPopupOptions<T = dxPopup> extends dxOverlayOptions<T> {
     /**
      * [descr:dxPopupOptions.animation]
      */
@@ -15996,7 +16096,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxProgressBar]
    */
-  export class dxProgressBar extends dxTrackBar<dxProgressBarOptions> {}
+  export class dxProgressBar extends dxTrackBar {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxProgressBarOptions
+    );
+  }
   module dxProgressBar {
     export type CompleteEvent =
       DevExpress.events.NativeEventInfo<dxProgressBar>;
@@ -16038,7 +16143,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxRadioGroup]
    */
-  export class dxRadioGroup extends Editor<dxRadioGroupOptions> {
+  export class dxRadioGroup extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxRadioGroupOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
   }
   module dxRadioGroup {
@@ -16088,7 +16197,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxRangeSlider]
    */
-  export class dxRangeSlider extends dxTrackBar<dxRangeSliderOptions> {}
+  export class dxRangeSlider extends dxTrackBar {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxRangeSliderOptions
+    );
+  }
   module dxRangeSlider {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxRangeSlider>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxRangeSlider>;
@@ -16140,12 +16254,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxRecurrenceEditor]
    */
-  export class dxRecurrenceEditor extends Editor<dxRecurrenceEditorOptions> {}
-  module dxRecurrenceEditor {
-    /**
-     * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
-     */
-    export type Properties = dxRecurrenceEditorOptions;
+  export class dxRecurrenceEditor extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxRecurrenceEditorOptions
+    );
   }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
@@ -16160,7 +16273,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxResizable]
    */
-  export class dxResizable extends DOMComponent<dxResizableOptions> {}
+  export class dxResizable extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxResizableOptions
+    );
+  }
   module dxResizable {
     export type DisposingEvent = DevExpress.events.EventInfo<dxResizable>;
     export type InitializedEvent =
@@ -16237,7 +16355,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxResponsiveBox]
    */
-  export class dxResponsiveBox extends CollectionWidget<dxResponsiveBoxOptions> {}
+  export class dxResponsiveBox extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxResponsiveBoxOptions
+    );
+  }
   module dxResponsiveBox {
     export type ContentReadyEvent =
       DevExpress.events.EventInfo<dxResponsiveBox>;
@@ -16381,7 +16504,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxScheduler]
    */
-  export class dxScheduler extends Widget<dxSchedulerOptions> {
+  export class dxScheduler extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSchedulerOptions
+    );
     /**
      * [descr:dxScheduler.addAppointment(appointment)]
      */
@@ -16788,6 +16915,17 @@ declare module DevExpress.ui {
      */
     descriptionExpr?: string;
     /**
+     * [descr:dxSchedulerOptions.dropDownAppointmentTemplate]
+     * @deprecated [depNote:dxSchedulerOptions.dropDownAppointmentTemplate]
+     */
+    dropDownAppointmentTemplate?:
+      | DevExpress.core.template
+      | ((
+          itemData: any,
+          itemIndex: number,
+          contentElement: DevExpress.core.DxElement
+        ) => string | DevExpress.core.UserDefinedElement);
+    /**
      * [descr:dxSchedulerOptions.editing]
      */
     editing?:
@@ -16817,6 +16955,11 @@ declare module DevExpress.ui {
            * [descr:dxSchedulerOptions.editing.allowUpdating]
            */
           allowUpdating?: boolean;
+          /**
+           * [descr:dxSchedulerOptions.editing.allowEditingTimeZones]
+           * @deprecated [depNote:dxSchedulerOptions.editing.allowEditingTimeZones]
+           */
+          allowEditingTimeZones?: boolean;
         };
     /**
      * [descr:dxSchedulerOptions.endDateExpr]
@@ -17138,6 +17281,17 @@ declare module DevExpress.ui {
                 itemElement: DevExpress.core.DxElement
               ) => string | DevExpress.core.UserDefinedElement);
           /**
+           * [descr:dxSchedulerOptions.views.dropDownAppointmentTemplate]
+           * @deprecated [depNote:dxSchedulerOptions.views.dropDownAppointmentTemplate]
+           */
+          dropDownAppointmentTemplate?:
+            | DevExpress.core.template
+            | ((
+                itemData: any,
+                itemIndex: number,
+                contentElement: DevExpress.core.DxElement
+              ) => string | DevExpress.core.UserDefinedElement);
+          /**
            * [descr:dxSchedulerOptions.views.endDayHour]
            */
           endDayHour?: number;
@@ -17230,9 +17384,11 @@ declare module DevExpress.ui {
    * [descr:dxScrollable]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxScrollable<
-    TProperties = DevExpress.ui.dxScrollable.Properties
-  > extends DOMComponent<TProperties> {
+  export class dxScrollable extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxScrollableOptions
+    );
     /**
      * [descr:dxScrollable.clientHeight()]
      */
@@ -17286,11 +17442,7 @@ declare module DevExpress.ui {
     /**
      * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
      */
-    type Properties = dxScrollableOptions<dxScrollable<Properties>>;
-    /**
-     * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
-     */
-    export interface ScrollEventInfo<T>
+    export interface ScrollEventInfo<T = dxScrollable>
       extends DevExpress.events.NativeEventInfo<T> {
       readonly scrollOffset?: any;
       readonly reachedLeft?: boolean;
@@ -17302,8 +17454,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxScrollableOptions<TComponent>
-    extends DOMComponentOptions<TComponent> {
+  export interface dxScrollableOptions<T = dxScrollable>
+    extends DOMComponentOptions<T> {
     /**
      * [descr:dxScrollableOptions.bounceEnabled]
      */
@@ -17319,15 +17471,11 @@ declare module DevExpress.ui {
     /**
      * [descr:dxScrollableOptions.onScroll]
      */
-    onScroll?: (
-      e: DevExpress.ui.dxScrollable.ScrollEventInfo<TComponent>
-    ) => void;
+    onScroll?: (e: DevExpress.ui.dxScrollable.ScrollEventInfo<T>) => void;
     /**
      * [descr:dxScrollableOptions.onUpdated]
      */
-    onUpdated?: (
-      e: DevExpress.ui.dxScrollable.ScrollEventInfo<TComponent>
-    ) => void;
+    onUpdated?: (e: DevExpress.ui.dxScrollable.ScrollEventInfo<T>) => void;
     /**
      * [descr:dxScrollableOptions.scrollByContent]
      */
@@ -17348,7 +17496,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxScrollView]
    */
-  export class dxScrollView extends dxScrollable<dxScrollViewOptions> {
+  export class dxScrollView extends dxScrollable {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxScrollViewOptions
+    );
     /**
      * [descr:dxScrollView.refresh()]
      */
@@ -17408,9 +17560,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSelectBox]
    */
-  export class dxSelectBox<
-    TProperties = DevExpress.ui.dxSelectBox.Properties
-  > extends dxDropDownList<TProperties> {}
+  export class dxSelectBox extends dxDropDownList {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSelectBoxOptions
+    );
+  }
   module dxSelectBox {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxSelectBox>;
     export type ClosedEvent = DevExpress.events.EventInfo<dxSelectBox>;
@@ -17445,7 +17600,7 @@ declare module DevExpress.ui {
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxSelectBox> &
       DevExpress.events.ChangedOptionInfo;
     export type PasteEvent = DevExpress.events.NativeEventInfo<dxSelectBox>;
-    export type Properties = dxSelectBoxOptions<dxSelectBox<Properties>>;
+    export type Properties = dxSelectBoxOptions;
     export type SelectionChangedEvent =
       DevExpress.events.EventInfo<dxSelectBox> &
         DevExpress.ui.CollectionWidget.SelectionChangedInfo;
@@ -17457,8 +17612,8 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxSelectBoxOptions<TComponent>
-    extends dxDropDownListOptions<TComponent> {
+  export interface dxSelectBoxOptions<T = dxSelectBox>
+    extends dxDropDownListOptions<T> {
     /**
      * [descr:dxSelectBoxOptions.acceptCustomValue]
      */
@@ -17498,16 +17653,15 @@ declare module DevExpress.ui {
      * [descr:dxSelectBoxOptions.valueChangeEvent]
      */
     valueChangeEvent?: string;
-
-    /**
-     * [descr:dxSelectBoxOptions.dropDownOptions]
-     */
-    dropDownOptions?: DevExpress.ui.dxPopup.Properties;
   }
   /**
    * [descr:dxSlideOut]
    */
-  export class dxSlideOut extends CollectionWidget<dxSlideOutOptions> {
+  export class dxSlideOut extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSlideOutOptions
+    );
     /**
      * [descr:dxSlideOut.hideMenu()]
      */
@@ -17647,7 +17801,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSlideOutView]
    */
-  export class dxSlideOutView extends Widget<dxSlideOutViewOptions> {
+  export class dxSlideOutView extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSlideOutViewOptions
+    );
     /**
      * [descr:dxSlideOutView.content()]
      */
@@ -17711,7 +17869,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSlider]
    */
-  export class dxSlider extends dxTrackBar<dxSliderOptions> {}
+  export class dxSlider extends dxTrackBar {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSliderOptions
+    );
+  }
   module dxSlider {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxSlider>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxSlider>;
@@ -17728,8 +17891,7 @@ declare module DevExpress.ui {
    * [descr:dxSliderBase]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxSliderBaseOptions<TComponent>
-    extends dxTrackBarOptions<TComponent> {
+  export interface dxSliderBaseOptions<T> extends dxTrackBarOptions<T> {
     /**
      * [descr:dxSliderBaseOptions.activeStateEnabled]
      */
@@ -17810,10 +17972,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSortable]
    */
-  export class dxSortable
-    extends DOMComponent<dxSortableOptions>
-    implements DraggableBase
-  {
+  export class dxSortable extends DOMComponent implements DraggableBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSortableOptions
+    );
     /**
      * [descr:dxSortable.update()]
      */
@@ -17982,7 +18145,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSpeedDialAction]
    */
-  export class dxSpeedDialAction extends Widget<dxSpeedDialActionOptions> {}
+  export class dxSpeedDialAction extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSpeedDialActionOptions
+    );
+  }
   module dxSpeedDialAction {
     export type ClickEvent =
       DevExpress.events.NativeEventInfo<dxSpeedDialAction> & {
@@ -18036,7 +18204,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxSwitch]
    */
-  export class dxSwitch extends Editor<dxSwitchOptions> {}
+  export class dxSwitch extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSwitchOptions
+    );
+  }
   module dxSwitch {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxSwitch>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxSwitch>;
@@ -18086,7 +18259,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTabPanel]
    */
-  export class dxTabPanel extends dxMultiView<dxTabPanelOptions> {}
+  export class dxTabPanel extends dxMultiView {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTabPanelOptions
+    );
+  }
   module dxTabPanel {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxTabPanel>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxTabPanel>;
@@ -18221,9 +18399,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTabs]
    */
-  export class dxTabs<
-    TProperties = DevExpress.ui.dxTabs.Properties
-  > extends CollectionWidget<TProperties> {}
+  export class dxTabs extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTabsOptions
+    );
+  }
   module dxTabs {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxTabs>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxTabs>;
@@ -18239,7 +18420,7 @@ declare module DevExpress.ui {
       DevExpress.events.ItemInfo;
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxTabs> &
       DevExpress.events.ChangedOptionInfo;
-    export type Properties = dxTabsOptions<dxTabs<Properties>>;
+    export type Properties = dxTabsOptions;
     export type SelectionChangedEvent = DevExpress.events.EventInfo<dxTabs> &
       DevExpress.ui.CollectionWidget.SelectionChangedInfo;
   }
@@ -18261,8 +18442,8 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxTabsOptions<TComponent>
-    extends CollectionWidgetOptions<TComponent> {
+  export interface dxTabsOptions<T = dxTabs>
+    extends CollectionWidgetOptions<T> {
     /**
      * [descr:dxTabsOptions.dataSource]
      */
@@ -18312,7 +18493,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTagBox]
    */
-  export class dxTagBox extends dxSelectBox<dxTagBoxOptions> {}
+  export class dxTagBox extends dxSelectBox {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTagBoxOptions
+    );
+  }
   module dxTagBox {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxTagBox>;
     export type ClosedEvent = DevExpress.events.EventInfo<dxTagBox>;
@@ -18432,7 +18618,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTextArea]
    */
-  export class dxTextArea extends dxTextBox<dxTextAreaOptions> {}
+  export class dxTextArea extends dxTextBox {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTextAreaOptions
+    );
+  }
   module dxTextArea {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxTextArea>;
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxTextArea>;
@@ -18481,9 +18672,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTextBox]
    */
-  export class dxTextBox<
-    TProperties = DevExpress.ui.dxTextBox.Properties
-  > extends dxTextEditor<TProperties> {}
+  export class dxTextBox extends dxTextEditor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTextBoxOptions
+    );
+  }
   module dxTextBox {
     export type ChangeEvent = DevExpress.events.NativeEventInfo<dxTextBox>;
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxTextBox>;
@@ -18502,7 +18696,7 @@ declare module DevExpress.ui {
     export type OptionChangedEvent = DevExpress.events.EventInfo<dxTextBox> &
       DevExpress.events.ChangedOptionInfo;
     export type PasteEvent = DevExpress.events.NativeEventInfo<dxTextBox>;
-    export type Properties = dxTextBoxOptions<dxTextBox<Properties>>;
+    export type Properties = dxTextBoxOptions;
     export type ValueChangedEvent =
       DevExpress.events.NativeEventInfo<dxTextBox> &
         DevExpress.ui.Editor.ValueChangedInfo;
@@ -18511,8 +18705,8 @@ declare module DevExpress.ui {
    * @deprecated use Properties instead
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxTextBoxOptions<TComponent>
-    extends dxTextEditorOptions<TComponent> {
+  export interface dxTextBoxOptions<T = dxTextBox>
+    extends dxTextEditorOptions<T> {
     /**
      * [descr:dxTextBoxOptions.maxLength]
      */
@@ -18530,9 +18724,11 @@ declare module DevExpress.ui {
    * [descr:dxTextEditor]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxTextEditor<
-    TProperties = DevExpress.ui.dxTextEditor.Properties
-  > extends Editor<TProperties> {
+  export class dxTextEditor extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTextEditorOptions
+    );
     /**
      * [descr:dxTextEditor.blur()]
      */
@@ -18545,12 +18741,6 @@ declare module DevExpress.ui {
      * [descr:dxTextEditor.getButton(name)]
      */
     getButton(name: string): dxButton | undefined;
-  }
-  module dxTextEditor {
-    /**
-     * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
-     */
-    type Properties = dxTextEditorOptions<dxTextEditor<Properties>>;
   }
   /**
    * [descr:dxTextEditorButton]
@@ -18573,8 +18763,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxTextEditorOptions<TComponent>
-    extends EditorOptions<TComponent> {
+  export interface dxTextEditorOptions<T = dxTextEditor>
+    extends EditorOptions<T> {
     /**
      * [descr:dxTextEditorOptions.buttons]
      */
@@ -18614,48 +18804,48 @@ declare module DevExpress.ui {
     /**
      * [descr:dxTextEditorOptions.onChange]
      */
-    onChange?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onChange?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onCopy]
      */
-    onCopy?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onCopy?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onCut]
      */
-    onCut?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onCut?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onEnterKey]
      */
-    onEnterKey?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onEnterKey?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onFocusIn]
      */
-    onFocusIn?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onFocusIn?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onFocusOut]
      */
-    onFocusOut?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onFocusOut?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onInput]
      */
-    onInput?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onInput?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onKeyDown]
      */
-    onKeyDown?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onKeyDown?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onKeyPress]
      * @deprecated [depNote:dxTextEditorOptions.onKeyPress]
      */
-    onKeyPress?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onKeyPress?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onKeyUp]
      */
-    onKeyUp?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onKeyUp?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.onPaste]
      */
-    onPaste?: (e: DevExpress.events.NativeEventInfo<TComponent>) => void;
+    onPaste?: (e: DevExpress.events.NativeEventInfo<T>) => void;
     /**
      * [descr:dxTextEditorOptions.placeholder]
      */
@@ -18696,7 +18886,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTileView]
    */
-  export class dxTileView extends CollectionWidget<dxTileViewOptions> {
+  export class dxTileView extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTileViewOptions
+    );
     /**
      * [descr:dxTileView.scrollPosition()]
      */
@@ -18794,7 +18988,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxToast]
    */
-  export class dxToast extends dxOverlay<dxToastOptions> {}
+  export class dxToast extends dxOverlay {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxToastOptions
+    );
+  }
   module dxToast {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxToast>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxToast>;
@@ -18885,7 +19084,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxToolbar]
    */
-  export class dxToolbar extends CollectionWidget<dxToolbarOptions> {}
+  export class dxToolbar extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxToolbarOptions
+    );
+  }
   module dxToolbar {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxToolbar>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxToolbar>;
@@ -18986,7 +19190,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTooltip]
    */
-  export class dxTooltip extends dxPopover<dxTooltipOptions> {}
+  export class dxTooltip extends dxPopover {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTooltipOptions
+    );
+  }
   module dxTooltip {
     export type ContentReadyEvent = DevExpress.events.EventInfo<dxTooltip>;
     export type DisposingEvent = DevExpress.events.EventInfo<dxTooltip>;
@@ -19010,12 +19219,16 @@ declare module DevExpress.ui {
    * [descr:dxTrackBar]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxTrackBar<TProperties> extends Editor<TProperties> {}
+  export class dxTrackBar extends Editor {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTrackBarOptions
+    );
+  }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxTrackBarOptions<TComponent>
-    extends EditorOptions<TComponent> {
+  export interface dxTrackBarOptions<T = dxTrackBar> extends EditorOptions<T> {
     /**
      * [descr:dxTrackBarOptions.max]
      */
@@ -19028,10 +19241,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTreeList]
    */
-  export class dxTreeList
-    extends Widget<dxTreeListOptions>
-    implements GridBase
-  {
+  export class dxTreeList extends Widget implements GridBase {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTreeListOptions
+    );
     /**
      * [descr:dxTreeList.addColumn(columnOptions)]
      */
@@ -19332,17 +19546,7 @@ declare module DevExpress.ui {
         | boolean
         | ((options: {
             readonly component: dxTreeList;
-            readonly row?: RowObject;
-            readonly column: Column;
-          }) => boolean);
-      /**
-       * [descr:dxTreeListColumnButton.visible]
-       */
-      disabled?:
-        | boolean
-        | ((options: {
-            readonly component: dxTreeList;
-            readonly row?: RowObject;
+            row?: RowObject;
             readonly column: Column;
           }) => boolean);
     }
@@ -19962,7 +20166,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxTreeView]
    */
-  export class dxTreeView extends HierarchicalCollectionWidget<dxTreeViewOptions> {
+  export class dxTreeView extends HierarchicalCollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTreeViewOptions
+    );
     /**
      * [descr:dxTreeView.collapseAll()]
      */
@@ -20193,7 +20401,7 @@ declare module DevExpress.ui {
    */
   export interface dxTreeViewOptions
     extends HierarchicalCollectionWidgetOptions<dxTreeView>,
-      SearchBoxMixinOptions {
+      SearchBoxMixinOptions<dxTreeView> {
     /**
      * [descr:dxTreeViewOptions.animationEnabled]
      */
@@ -20325,7 +20533,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxValidationGroup]
    */
-  export class dxValidationGroup extends DOMComponent<dxValidationGroupOptions> {
+  export class dxValidationGroup extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxValidationGroupOptions
+    );
     /**
      * [descr:dxValidationGroup.reset()]
      */
@@ -20389,15 +20601,17 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class dxValidationMessage extends dxOverlay<dxValidationMessageOptions> {}
-  module dxValidationMessage {
-    export type Properties = dxValidationMessageOptions;
+  export class dxValidationMessage extends dxOverlay {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxValidationMessageOptions
+    );
   }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface dxValidationMessageOptions
-    extends dxOverlayOptions<dxValidationMessage> {
+  export interface dxValidationMessageOptions<T = dxValidationMessage>
+    extends dxOverlayOptions<T> {
     mode?: string;
 
     validationErrors?: Array<object> | null;
@@ -20411,7 +20625,12 @@ declare module DevExpress.ui {
   /**
    * [descr:dxValidationSummary]
    */
-  export class dxValidationSummary extends CollectionWidget<dxValidationSummaryOptions> {}
+  export class dxValidationSummary extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxValidationSummaryOptions
+    );
+  }
   module dxValidationSummary {
     export type ContentReadyEvent =
       DevExpress.events.EventInfo<dxValidationSummary>;
@@ -20441,7 +20660,11 @@ declare module DevExpress.ui {
   /**
    * [descr:dxValidator]
    */
-  export class dxValidator extends DOMComponent<dxValidatorOptions> {
+  export class dxValidator extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxValidatorOptions
+    );
     /**
      * [descr:dxValidator.focus()]
      */
@@ -20567,19 +20790,17 @@ declare module DevExpress.ui {
    * [descr:Editor]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class Editor<
-    TProperties = DevExpress.ui.Editor.Properties
-  > extends Widget<TProperties> {
+  export class Editor extends Widget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: EditorOptions
+    );
     /**
      * [descr:Editor.reset()]
      */
     reset(): void;
   }
   module Editor {
-    /**
-     * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
-     */
-    type Properties = EditorOptions<Editor<Properties>>;
     /**
      * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
      */
@@ -20591,7 +20812,7 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface EditorOptions<TComponent> extends WidgetOptions<TComponent> {
+  export interface EditorOptions<T = Editor> extends WidgetOptions<T> {
     /**
      * [descr:EditorOptions.isValid]
      */
@@ -20600,7 +20821,7 @@ declare module DevExpress.ui {
      * [descr:EditorOptions.onValueChanged]
      */
     onValueChanged?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
+      e: DevExpress.events.NativeEventInfo<T> &
         DevExpress.ui.Editor.ValueChangedInfo
     ) => void;
     /**
@@ -21034,8 +21255,8 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface GridBaseOptions<TComponent extends GridBase>
-    extends WidgetOptions<TComponent> {
+  export interface GridBaseOptions<T extends GridBase>
+    extends WidgetOptions<T> {
     /**
      * [descr:GridBaseOptions.allowColumnReordering]
      */
@@ -21116,11 +21337,11 @@ declare module DevExpress.ui {
     /**
      * [descr:GridBaseOptions.filterBuilderPopup]
      */
-    filterBuilderPopup?: DevExpress.ui.dxPopup.Properties;
+    filterBuilderPopup?: dxPopupOptions;
     /**
      * [descr:GridBaseOptions.filterPanel]
      */
-    filterPanel?: DevExpress.ui.dxDataGrid.FilterPanel<TComponent>;
+    filterPanel?: DevExpress.ui.dxDataGrid.FilterPanel<T>;
     /**
      * [descr:GridBaseOptions.filterRow]
      */
@@ -21173,21 +21394,21 @@ declare module DevExpress.ui {
      * [descr:GridBaseOptions.onAdaptiveDetailRowPreparing]
      */
     onAdaptiveDetailRowPreparing?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.AdaptiveDetailRowPreparingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onDataErrorOccurred]
      */
     onDataErrorOccurred?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.DataErrorOccurredInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onEditCanceled]
      */
     onEditCanceled?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.DataChangeInfo
     ) => void;
     /**
@@ -21195,128 +21416,124 @@ declare module DevExpress.ui {
      */
     onEditCanceling?: (
       e: DevExpress.events.Cancelable &
-        DevExpress.events.EventInfo<TComponent> &
+        DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.DataChangeInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onInitNewRow]
      */
     onInitNewRow?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.ui.dxDataGrid.NewRowInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.ui.dxDataGrid.NewRowInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onKeyDown]
      */
     onKeyDown?: (
-      e: DevExpress.events.NativeEventInfo<TComponent> &
+      e: DevExpress.events.NativeEventInfo<T> &
         DevExpress.ui.dxDataGrid.KeyDownInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowCollapsed]
      */
     onRowCollapsed?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.ui.dxDataGrid.RowKeyInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.ui.dxDataGrid.RowKeyInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowCollapsing]
      */
     onRowCollapsing?: (
       e: DevExpress.events.Cancelable &
-        DevExpress.events.EventInfo<TComponent> &
+        DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowKeyInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowExpanded]
      */
     onRowExpanded?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.ui.dxDataGrid.RowKeyInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.ui.dxDataGrid.RowKeyInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowExpanding]
      */
     onRowExpanding?: (
       e: DevExpress.events.Cancelable &
-        DevExpress.events.EventInfo<TComponent> &
+        DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowKeyInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowInserted]
      */
     onRowInserted?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowInsertedInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowInserting]
      */
     onRowInserting?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowInsertingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowRemoved]
      */
     onRowRemoved?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowRemovedInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowRemoving]
      */
     onRowRemoving?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowRemovingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowUpdated]
      */
     onRowUpdated?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowUpdatedInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowUpdating]
      */
     onRowUpdating?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowUpdatingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onRowValidating]
      */
     onRowValidating?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.RowValidatingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onSaved]
      */
     onSaved?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.DataChangeInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onSaving]
      */
     onSaving?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.ui.dxDataGrid.SavingInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.ui.dxDataGrid.SavingInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onSelectionChanged]
      */
     onSelectionChanged?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.SelectionChangedInfo
     ) => void;
     /**
      * [descr:GridBaseOptions.onToolbarPreparing]
      */
     onToolbarPreparing?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.ui.dxDataGrid.ToolbarPreparingInfo
     ) => void;
     /**
@@ -21342,7 +21559,7 @@ declare module DevExpress.ui {
     /**
      * [descr:GridBaseOptions.rowDragging]
      */
-    rowDragging?: DevExpress.ui.dxDataGrid.RowDragging<TComponent>;
+    rowDragging?: DevExpress.ui.dxDataGrid.RowDragging<T>;
     /**
      * [descr:GridBaseOptions.scrolling]
      */
@@ -21408,14 +21625,18 @@ declare module DevExpress.ui {
    * [descr:HierarchicalCollectionWidget]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class HierarchicalCollectionWidget<
-    TProperties
-  > extends CollectionWidget<TProperties> {}
+  export class HierarchicalCollectionWidget extends CollectionWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: HierarchicalCollectionWidgetOptions
+    );
+  }
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface HierarchicalCollectionWidgetOptions<TComponent>
-    extends CollectionWidgetOptions<TComponent> {
+  export interface HierarchicalCollectionWidgetOptions<
+    T = HierarchicalCollectionWidget
+  > extends CollectionWidgetOptions<T> {
     /**
      * [descr:HierarchicalCollectionWidgetOptions.disabledExpr]
      */
@@ -21573,11 +21794,11 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface SearchBoxMixinOptions {
+  export interface SearchBoxMixinOptions<T = SearchBoxMixin> {
     /**
      * [descr:SearchBoxMixinOptions.searchEditorOptions]
      */
-    searchEditorOptions?: DevExpress.ui.dxTextBox.Properties;
+    searchEditorOptions?: dxTextBoxOptions;
     /**
      * [descr:SearchBoxMixinOptions.searchEnabled]
      */
@@ -21681,7 +21902,11 @@ declare module DevExpress.ui {
    * [descr:Widget]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class Widget<TProperties> extends DOMComponent<TProperties> {
+  export class Widget extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: WidgetOptions
+    );
     /**
      * [descr:Widget.focus()]
      */
@@ -21698,8 +21923,7 @@ declare module DevExpress.ui {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface WidgetOptions<TComponent>
-    extends DOMComponentOptions<TComponent> {
+  export interface WidgetOptions<T = Widget> extends DOMComponentOptions<T> {
     /**
      * [descr:WidgetOptions.accessKey]
      */
@@ -21727,7 +21951,7 @@ declare module DevExpress.ui {
     /**
      * [descr:WidgetOptions.onContentReady]
      */
-    onContentReady?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onContentReady?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:WidgetOptions.tabIndex]
      */
@@ -21819,7 +22043,11 @@ declare module DevExpress.viz {
    * [descr:BaseChart]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class BaseChart<TProperties> extends BaseWidget<TProperties> {
+  export class BaseChart extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: BaseChartOptions
+    );
     /**
      * [descr:BaseChart.clearSelection()]
      */
@@ -21934,8 +22162,8 @@ declare module DevExpress.viz {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface BaseChartOptions<TComponent>
-    extends BaseWidgetOptions<TComponent> {
+  export interface BaseChartOptions<T = BaseChart>
+    extends BaseWidgetOptions<T> {
     /**
      * [descr:BaseChartOptions.adaptiveLayout]
      */
@@ -21987,13 +22215,13 @@ declare module DevExpress.viz {
     /**
      * [descr:BaseChartOptions.onDone]
      */
-    onDone?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onDone?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:BaseChartOptions.onPointClick]
      */
     onPointClick?:
       | ((
-          e: DevExpress.events.NativeEventInfo<TComponent> &
+          e: DevExpress.events.NativeEventInfo<T> &
             DevExpress.viz.BaseChart.PointInteractionInfo
         ) => void)
       | string;
@@ -22001,29 +22229,27 @@ declare module DevExpress.viz {
      * [descr:BaseChartOptions.onPointHoverChanged]
      */
     onPointHoverChanged?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.viz.BaseChart.PointInteractionInfo
     ) => void;
     /**
      * [descr:BaseChartOptions.onPointSelectionChanged]
      */
     onPointSelectionChanged?: (
-      e: DevExpress.events.EventInfo<TComponent> &
+      e: DevExpress.events.EventInfo<T> &
         DevExpress.viz.BaseChart.PointInteractionInfo
     ) => void;
     /**
      * [descr:BaseChartOptions.onTooltipHidden]
      */
     onTooltipHidden?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseChart.TooltipInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseChart.TooltipInfo
     ) => void;
     /**
      * [descr:BaseChartOptions.onTooltipShown]
      */
     onTooltipShown?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseChart.TooltipInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseChart.TooltipInfo
     ) => void;
     /**
      * [descr:BaseChartOptions.palette]
@@ -22080,7 +22306,11 @@ declare module DevExpress.viz {
    * [descr:BaseGauge]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class BaseGauge<TProperties> extends BaseWidget<TProperties> {
+  export class BaseGauge extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: BaseGaugeOptions
+    );
     /**
      * [descr:BaseGauge.subvalues()]
      */
@@ -22149,8 +22379,8 @@ declare module DevExpress.viz {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface BaseGaugeOptions<TComponent>
-    extends BaseWidgetOptions<TComponent> {
+  export interface BaseGaugeOptions<T = BaseGauge>
+    extends BaseWidgetOptions<T> {
     /**
      * [descr:BaseGaugeOptions.animation]
      */
@@ -22167,15 +22397,13 @@ declare module DevExpress.viz {
      * [descr:BaseGaugeOptions.onTooltipHidden]
      */
     onTooltipHidden?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseGauge.TooltipInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseGauge.TooltipInfo
     ) => void;
     /**
      * [descr:BaseGaugeOptions.onTooltipShown]
      */
     onTooltipShown?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseGauge.TooltipInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseGauge.TooltipInfo
     ) => void;
     /**
      * [descr:BaseGaugeOptions.rangeContainer]
@@ -22794,7 +23022,12 @@ declare module DevExpress.viz {
    * [descr:BaseSparkline]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class BaseSparkline<TProperties> extends BaseWidget<TProperties> {
+  export class BaseSparkline extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: BaseSparklineOptions
+    );
+
     /**
      * [descr:BaseSparkline.hideLoadingIndicator()]
      */
@@ -22807,8 +23040,8 @@ declare module DevExpress.viz {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface BaseSparklineOptions<TComponent>
-    extends BaseWidgetOptions<TComponent> {
+  export interface BaseSparklineOptions<T = BaseSparkline>
+    extends BaseWidgetOptions<T> {
     /**
      * [descr:BaseSparklineOptions.export]
      */
@@ -22820,11 +23053,11 @@ declare module DevExpress.viz {
     /**
      * [descr:BaseSparklineOptions.onTooltipHidden]
      */
-    onTooltipHidden?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onTooltipHidden?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:BaseSparklineOptions.onTooltipShown]
      */
-    onTooltipShown?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onTooltipShown?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:BaseSparklineOptions.redrawOnResize]
      */
@@ -22868,7 +23101,11 @@ declare module DevExpress.viz {
    * [descr:BaseWidget]
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export class BaseWidget<TProperties> extends DOMComponent<TProperties> {
+  export class BaseWidget extends DOMComponent {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: BaseWidgetOptions
+    );
     /**
      * [descr:BaseWidget.defaultOptions(rule)]
      * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
@@ -23192,8 +23429,8 @@ declare module DevExpress.viz {
   /**
    * @deprecated Warning! This type is used for internal purposes. Do not import it directly.
    */
-  export interface BaseWidgetOptions<TComponent>
-    extends DOMComponentOptions<TComponent> {
+  export interface BaseWidgetOptions<T = BaseWidget>
+    extends DOMComponentOptions<T> {
     /**
      * [descr:BaseWidgetOptions.disabled]
      */
@@ -23217,30 +23454,28 @@ declare module DevExpress.viz {
     /**
      * [descr:BaseWidgetOptions.onDrawn]
      */
-    onDrawn?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onDrawn?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:BaseWidgetOptions.onExported]
      */
-    onExported?: (e: DevExpress.events.EventInfo<TComponent>) => void;
+    onExported?: (e: DevExpress.events.EventInfo<T>) => void;
     /**
      * [descr:BaseWidgetOptions.onExporting]
      */
     onExporting?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseWidget.ExportInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseWidget.ExportInfo
     ) => void;
     /**
      * [descr:BaseWidgetOptions.onFileSaving]
      */
     onFileSaving?: (
-      e: DevExpress.viz.BaseWidget.FileSavingEventInfo<TComponent>
+      e: DevExpress.viz.BaseWidget.FileSavingEventInfo<T>
     ) => void;
     /**
      * [descr:BaseWidgetOptions.onIncidentOccurred]
      */
     onIncidentOccurred?: (
-      e: DevExpress.events.EventInfo<TComponent> &
-        DevExpress.viz.BaseWidget.IncidentInfo
+      e: DevExpress.events.EventInfo<T> & DevExpress.viz.BaseWidget.IncidentInfo
     ) => void;
     /**
      * [descr:BaseWidgetOptions.pathModified]
@@ -23757,7 +23992,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxBarGauge]
    */
-  export class dxBarGauge extends BaseWidget<dxBarGaugeOptions> {
+  export class dxBarGauge extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxBarGaugeOptions
+    );
     /**
      * [descr:dxBarGauge.values()]
      */
@@ -23988,7 +24227,12 @@ declare module DevExpress.viz {
   /**
    * [descr:dxBullet]
    */
-  export class dxBullet extends BaseSparkline<dxBulletOptions> {}
+  export class dxBullet extends BaseSparkline {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxBulletOptions
+    );
+  }
   module dxBullet {
     export type DisposingEvent = DevExpress.events.EventInfo<dxBullet>;
     export type DrawnEvent = DevExpress.events.EventInfo<dxBullet>;
@@ -24052,7 +24296,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxChart]
    */
-  export class dxChart extends BaseChart<dxChartOptions> {
+  export class dxChart extends BaseChart {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxChartOptions
+    );
     /**
      * [descr:dxChart.getArgumentAxis()]
      */
@@ -27672,7 +27920,12 @@ declare module DevExpress.viz {
   /**
    * [descr:dxCircularGauge]
    */
-  export class dxCircularGauge extends BaseGauge<dxCircularGaugeOptions> {}
+  export class dxCircularGauge extends BaseGauge {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxCircularGaugeOptions
+    );
+  }
   module dxCircularGauge {
     export type DisposingEvent = DevExpress.events.EventInfo<dxCircularGauge>;
     export type DrawnEvent = DevExpress.events.EventInfo<dxCircularGauge>;
@@ -27776,7 +28029,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxFunnel]
    */
-  export class dxFunnel extends BaseWidget<dxFunnelOptions> {
+  export class dxFunnel extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxFunnelOptions
+    );
     /**
      * [descr:dxFunnel.clearSelection()]
      */
@@ -28257,7 +28514,12 @@ declare module DevExpress.viz {
   /**
    * [descr:dxLinearGauge]
    */
-  export class dxLinearGauge extends BaseGauge<dxLinearGaugeOptions> {}
+  export class dxLinearGauge extends BaseGauge {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxLinearGaugeOptions
+    );
+  }
   module dxLinearGauge {
     export type DisposingEvent = DevExpress.events.EventInfo<dxLinearGauge>;
     export type DrawnEvent = DevExpress.events.EventInfo<dxLinearGauge>;
@@ -28374,7 +28636,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxPieChart]
    */
-  export class dxPieChart extends BaseChart<dxPieChartOptions> {
+  export class dxPieChart extends BaseChart {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPieChartOptions
+    );
     /**
      * [descr:dxPieChart.getInnerRadius()]
      */
@@ -28918,7 +29184,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxPolarChart]
    */
-  export class dxPolarChart extends BaseChart<dxPolarChartOptions> {
+  export class dxPolarChart extends BaseChart {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxPolarChartOptions
+    );
     /**
      * [descr:dxPolarChart.getValueAxis()]
      */
@@ -30504,7 +30774,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxRangeSelector]
    */
-  export class dxRangeSelector extends BaseWidget<dxRangeSelectorOptions> {
+  export class dxRangeSelector extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxRangeSelectorOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
     /**
      * [descr:dxRangeSelector.getValue()]
@@ -31086,7 +31360,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxSankey]
    */
-  export class dxSankey extends BaseWidget<dxSankeyOptions> {
+  export class dxSankey extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSankeyOptions
+    );
     /**
      * [descr:dxSankey.getAllLinks()]
      */
@@ -31600,7 +31878,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxSparkline]
    */
-  export class dxSparkline extends BaseSparkline<dxSparklineOptions> {
+  export class dxSparkline extends BaseSparkline {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxSparklineOptions
+    );
     getDataSource(): DevExpress.data.DataSource;
   }
   module dxSparkline {
@@ -31733,7 +32015,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxTreeMap]
    */
-  export class dxTreeMap extends BaseWidget<dxTreeMapOptions> {
+  export class dxTreeMap extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxTreeMapOptions
+    );
     /**
      * [descr:dxTreeMap.clearSelection()]
      */
@@ -32234,7 +32520,11 @@ declare module DevExpress.viz {
   /**
    * [descr:dxVectorMap]
    */
-  export class dxVectorMap extends BaseWidget<dxVectorMapOptions> {
+  export class dxVectorMap extends BaseWidget {
+    constructor(
+      element: DevExpress.core.UserDefinedElement,
+      options?: dxVectorMapOptions
+    );
     /**
      * [descr:dxVectorMap.center()]
      */

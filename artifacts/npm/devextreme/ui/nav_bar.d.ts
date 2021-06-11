@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/nav_bar.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -69,7 +73,9 @@ export interface dxNavBarOptions extends dxTabsOptions<dxNavBar> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxNavBar extends dxTabs<dxNavBarOptions> { }
+export default class dxNavBar extends dxTabs {
+    constructor(element: UserDefinedElement, options?: dxNavBarOptions)
+}
 
 /**
  * @docid

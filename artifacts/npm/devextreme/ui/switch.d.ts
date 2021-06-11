@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/switch.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -90,7 +94,9 @@ export interface dxSwitchOptions extends EditorOptions<dxSwitch> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxSwitch extends Editor<dxSwitchOptions> { }
+export default class dxSwitch extends Editor {
+    constructor(element: UserDefinedElement, options?: dxSwitchOptions)
+}
 
 /** @public */
 export type Properties = dxSwitchOptions;

@@ -72,7 +72,11 @@ var _appointmentCollection = _interopRequireDefault(require("./appointments/appo
 
 var _appointments = _interopRequireDefault(require("./appointments.layout_manager"));
 
+var _appointment_model = _interopRequireDefault(require("./appointment_model"));
+
 var _header = require("./header/header");
+
+var _resourceManager = require("./resources/resourceManager");
 
 var _subscribes = _interopRequireDefault(require("./subscribes"));
 
@@ -106,19 +110,19 @@ var _dataStructures = require("./dataStructures");
 
 var _appointmentSettingsGenerator = require("./appointmentSettingsGenerator");
 
+var _appointmentFilter = _interopRequireDefault(require("./appointments/appointmentFilter"));
+
 var _utils2 = _interopRequireDefault(require("./utils"));
-
-var _instanceFactory = require("./instanceFactory");
-
-var _resourceManager = require("./resources/resourceManager");
-
-var _appointmentDataProvider = require("./appointments/DataProvider/appointmentDataProvider");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
 
@@ -308,6 +312,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       dataSource: null,
       customizeDateNavigatorText: undefined,
       appointmentTemplate: 'item',
+      dropDownAppointmentTemplate: 'dropDownAppointment',
       appointmentCollectorTemplate: 'appointmentCollector',
       dataCellTemplate: null,
       timeCellTemplate: null,
@@ -321,7 +326,8 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
         allowDragging: true,
         allowResizing: true,
         allowUpdating: true,
-        allowTimeZoneEditing: false
+        allowTimeZoneEditing: false,
+        allowEditingTimeZones: false
       },
       showAllDayPanel: true,
       showCurrentTimeIndicator: true,
@@ -462,6 +468,21 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     }]);
   };
 
+  _proto._setDeprecatedOptions = function _setDeprecatedOptions() {
+    _Widget.prototype._setDeprecatedOptions.call(this);
+
+    (0, _extend.extend)(this._deprecatedOptions, {
+      dropDownAppointmentTemplate: {
+        since: '19.2',
+        message: 'appointmentTooltipTemplate'
+      },
+      allowEditingTimeZones: {
+        since: '20.1',
+        alias: 'allowTimeZoneEditing'
+      }
+    });
+  };
+
   _proto._getAppointmentSettingsGenerator = function _getAppointmentSettingsGenerator() {
     return new _appointmentSettingsGenerator.AppointmentSettingsGenerator(this);
   };
@@ -473,10 +494,8 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   _proto._postponeResourceLoading = function _postponeResourceLoading() {
     var _this = this;
 
-    var whenLoaded = this.postponedOperations.add('loadResources', function () {
-      var groups = _this._getCurrentViewOption('groups');
-
-      return (0, _resourceManager.getResourceManager)().loadResources(groups);
+    var whenLoaded = this.postponedOperations.add('_loadResources', function () {
+      return _this._loadResources();
     });
     var resolveCallbacks = new _deferred.Deferred();
     whenLoaded.done(function (resources) {
@@ -529,7 +548,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       case 'dataSource':
         this._initDataSource();
 
-        (0, _appointmentDataProvider.getAppointmentDataProvider)().setDataSource(this._dataSource);
+        this._appointmentModel.setDataSource(this._dataSource);
 
         this._postponeResourceLoading().done(function (resources) {
           _this2._filterAppointmentsByDate();
@@ -616,8 +635,9 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
         break;
 
       case 'resources':
-        (0, _resourceManager.getResourceManager)().setResources(this.option('resources'));
-        (0, _appointmentDataProvider.getAppointmentDataProvider)().updateDataAccessors(this._dataAccessors);
+        this._resourcesManager.setResources(this.option('resources'));
+
+        this._appointmentModel.setDataAccessors(this._combineDataAccessors());
 
         this._postponeResourceLoading().done(function (resources) {
           _this2._appointments.option('items', []);
@@ -790,6 +810,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       case 'recurrenceEditMode':
       case 'remoteFiltering':
       case 'timeZone':
+      case 'dropDownAppointmentTemplate':
       case 'appointmentCollectorTemplate':
       case '_appointmentTooltipOffset':
       case '_appointmentTooltipButtonsPosition':
@@ -819,7 +840,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       case 'disabledExpr':
         this._updateExpression(name, value);
 
-        (0, _appointmentDataProvider.getAppointmentDataProvider)().updateDataAccessors(this._dataAccessors);
+        this._appointmentModel.setDataAccessors(this._combineDataAccessors());
 
         this._initAppointmentTemplate();
 
@@ -930,7 +951,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._isAllDayExpanded = function _isAllDayExpanded(items) {
-    return this.option('showAllDayPanel') && (0, _appointmentDataProvider.getAppointmentDataProvider)().hasAllDayAppointments(items);
+    return this.option('showAllDayPanel') && this.appointmentFilter.hasAllDayAppointments(items);
   };
 
   _proto._getTimezoneOffsetByOption = function _getTimezoneOffsetByOption(date) {
@@ -946,7 +967,21 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     var endDate = this.timeZoneCalculator.createDate(dateRange[1], {
       path: 'fromGrid'
     });
-    (0, _appointmentDataProvider.getAppointmentDataProvider)().filterByDate(startDate, endDate, this.option('remoteFiltering'), this.option('dateSerializationFormat'));
+
+    this._appointmentModel.filterByDate(startDate, endDate, this.option('remoteFiltering'), this.option('dateSerializationFormat'));
+  };
+
+  _proto._loadResources = function _loadResources() {
+    var groups = this._getCurrentViewOption('groups');
+
+    var result = new _deferred.Deferred();
+
+    this._resourcesManager.loadResources(groups).done(function (resources) {
+      this._loadedResources = resources;
+      result.resolve(resources);
+    }.bind(this));
+
+    return result.promise();
   };
 
   _proto._reloadDataSource = function _reloadDataSource() {
@@ -995,8 +1030,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._dimensionChanged = function _dimensionChanged() {
-    var _getAppointmentDataPr = (0, _appointmentDataProvider.getAppointmentDataProvider)(),
-        filteredItems = _getAppointmentDataPr.filteredItems;
+    var filteredItems = this.getFilteredItems();
 
     this._toggleSmallClass();
 
@@ -1064,16 +1098,16 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
 
     this._initDataSource();
 
+    this._loadedResources = [];
     this.$element().addClass(WIDGET_CLASS).toggleClass(WIDGET_WIN_NO_TOUCH_CLASS, !!(_browser.default.msie && _support.touch));
 
     this._initEditing();
 
-    (0, _instanceFactory.createInstances)({
-      scheduler: this,
-      resources: this.option('resources'),
-      dataSource: this._dataSource,
-      appointmentDataAccessors: this._dataAccessors
-    });
+    this._resourcesManager = new _resourceManager.ResourceManager(this.option('resources'));
+
+    var combinedDataAccessors = this._combineDataAccessors();
+
+    this._appointmentModel = new _appointment_model.default(this._dataSource, combinedDataAccessors, this.getAppointmentDurationInMinutes());
 
     this._initActions();
 
@@ -1139,6 +1173,15 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     })));
   };
 
+  _proto._combineDataAccessors = function _combineDataAccessors() {
+    var resourcesDataAccessors = this._resourcesManager._dataAccessors;
+    var result = (0, _extend.extend)(true, {}, this._dataAccessors);
+    (0, _iterator.each)(resourcesDataAccessors, function (type, accessor) {
+      result[type].resources = accessor;
+    }.bind(this));
+    return result;
+  };
+
   _proto._renderContent = function _renderContent() {
     this._renderContentImpl();
   };
@@ -1148,60 +1191,41 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       this._workSpaceRecalculation.done(function () {
         this._renderAppointments();
 
-        var _getAppointmentDataPr2 = (0, _appointmentDataProvider.getAppointmentDataProvider)(),
-            filteredItems = _getAppointmentDataPr2.filteredItems;
-
+        var filteredItems = this.getFilteredItems();
         this.getWorkSpace().onDataSourceChanged(filteredItems);
       }.bind(this));
     }
   };
 
   _proto.isVirtualScrolling = function isVirtualScrolling() {
-    var _currentViewOptions$s;
+    var _this$getWorkSpace;
 
-    var workspace = this.getWorkSpace();
-
-    if (workspace) {
-      return workspace.isVirtualScrolling();
-    }
-
-    var currentViewOptions = this._getCurrentViewOptions();
-
-    var scrolling = this.option('scrolling');
-    return (scrolling === null || scrolling === void 0 ? void 0 : scrolling.mode) === 'virtual' || (currentViewOptions === null || currentViewOptions === void 0 ? void 0 : (_currentViewOptions$s = currentViewOptions.scrolling) === null || _currentViewOptions$s === void 0 ? void 0 : _currentViewOptions$s.mode) === 'virtual';
+    return (_this$getWorkSpace = this.getWorkSpace()) === null || _this$getWorkSpace === void 0 ? void 0 : _this$getWorkSpace.isVirtualScrolling();
   };
 
   _proto._filterAppointments = function _filterAppointments() {
-    (0, _appointmentDataProvider.getAppointmentDataProvider)().filter();
+    return this.appointmentFilter.filter();
   };
 
   _proto._renderAppointments = function _renderAppointments() {
     var workspace = this.getWorkSpace();
-
-    this._filterAppointments();
-
-    var _getAppointmentDataPr3 = (0, _appointmentDataProvider.getAppointmentDataProvider)(),
-        filteredItems = _getAppointmentDataPr3.filteredItems;
-
+    this._filteredItems = this._filterAppointments();
     workspace.preRenderAppointments({
-      allDayExpanded: this._isAllDayExpanded(filteredItems),
-      appointments: filteredItems
+      allDayExpanded: this._isAllDayExpanded(this._filteredItems),
+      appointments: this._filteredItems
     });
 
-    if (filteredItems.length && this._isVisible()) {
+    if (this._filteredItems.length && this._isVisible()) {
       this._appointments.option('items', this._getAppointmentsToRepaint());
 
-      (0, _appointmentDataProvider.getAppointmentDataProvider)().cleanState();
+      this._appointmentModel.cleanModelState();
     } else {
       this._appointments.option('items', []);
     }
   };
 
   _proto._getAppointmentsToRepaint = function _getAppointmentsToRepaint() {
-    var _getAppointmentDataPr4 = (0, _appointmentDataProvider.getAppointmentDataProvider)(),
-        filteredItems = _getAppointmentDataPr4.filteredItems;
-
-    var appointments = this._layoutManager.createAppointmentsMap(filteredItems);
+    var appointments = this._layoutManager.createAppointmentsMap(this._filteredItems);
 
     return this._layoutManager.getRepaintedAppointments(appointments, this.getAppointmentsInstance().option('items'));
   };
@@ -1344,8 +1368,6 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._initMarkup = function _initMarkup() {
-    var _this5 = this;
-
     _Widget.prototype._initMarkup.call(this);
 
     this.fire('validateDayHours');
@@ -1365,24 +1387,22 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     this._appointmentPopup = new _appointmentPopup.default(this);
 
     if (this._isLoaded() || this._isDataSourceLoading()) {
-      this._initMarkupCore((0, _resourceManager.getResourceManager)().loadedResources);
+      this._initMarkupCore(this._loadedResources);
 
       this._dataSourceChangedHandler(this._dataSource.items());
 
       this._fireContentReadyAction();
     } else {
-      var groups = this._getCurrentViewOption('groups');
+      this._loadResources().done(function (resources) {
+        this._initMarkupCore(resources);
 
-      (0, _resourceManager.getResourceManager)().loadResources(groups).done(function (resources) {
-        _this5._initMarkupCore(resources);
-
-        _this5._reloadDataSource();
-      });
+        this._reloadDataSource();
+      }.bind(this));
     }
   };
 
   _proto._getAppointmentTooltipOptions = function _getAppointmentTooltipOptions() {
-    var _this6 = this;
+    var _this5 = this;
 
     var that = this;
     return {
@@ -1395,21 +1415,21 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       checkAndDeleteAppointment: that.checkAndDeleteAppointment.bind(that),
       isAppointmentInAllDayPanel: that.isAppointmentInAllDayPanel.bind(that),
       createFormattedDateText: function createFormattedDateText(appointment, targetedAppointment, format) {
-        return _this6.fire('getTextAndFormatDate', appointment, targetedAppointment, format);
+        return _this5.fire('getTextAndFormatDate', appointment, targetedAppointment, format);
       },
       getAppointmentDisabled: function getAppointmentDisabled(appointment) {
-        return _this6.createAppointmentAdapter(appointment).disabled;
+        return _this5.createAppointmentAdapter(appointment).disabled;
       }
     };
   };
 
   _proto.checkAndDeleteAppointment = function checkAndDeleteAppointment(appointment, targetedAppointment) {
-    var _this7 = this;
+    var _this6 = this;
 
     var targetedAdapter = this.createAppointmentAdapter(targetedAppointment);
 
     this._checkRecurringAppointment(appointment, targetedAppointment, targetedAdapter.startDate, function () {
-      _this7.deleteAppointment(appointment);
+      _this6.deleteAppointment(appointment);
     }, true);
   };
 
@@ -1429,7 +1449,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._initMarkupCore = function _initMarkupCore(resources) {
-    var _this8 = this;
+    var _this7 = this;
 
     this._readyToRenderAppointments = (0, _window.hasWindow)();
     this._workSpace && this._cleanWorkspace();
@@ -1442,16 +1462,20 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     });
 
     this._waitAsyncTemplate(function () {
-      var _this8$_workSpaceReca;
+      var _this7$_workSpaceReca;
 
-      return (_this8$_workSpaceReca = _this8._workSpaceRecalculation) === null || _this8$_workSpaceReca === void 0 ? void 0 : _this8$_workSpaceReca.resolve();
+      return (_this7$_workSpaceReca = _this7._workSpaceRecalculation) === null || _this7$_workSpaceReca === void 0 ? void 0 : _this7$_workSpaceReca.resolve();
     });
 
     this._filterAppointmentsByDate();
   };
 
   _proto._isLoaded = function _isLoaded() {
-    return (0, _resourceManager.getResourceManager)().isLoaded() && this._isDataSourceLoaded();
+    return this._isResourcesLoaded() && this._isDataSourceLoaded();
+  };
+
+  _proto._isResourcesLoaded = function _isResourcesLoaded() {
+    return (0, _type.isDefined)(this._loadedResources);
   };
 
   _proto._isDataSourceLoaded = function _isDataSourceLoaded() {
@@ -1473,7 +1497,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._headerConfig = function _headerConfig() {
-    var _this9 = this;
+    var _this8 = this;
 
     var currentViewOptions = this._getCurrentViewOptions();
 
@@ -1499,7 +1523,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     result.currentDate = _date.default.trimTime(new Date(this._dateOption('currentDate')));
 
     result.todayDate = function () {
-      var result = _this9.timeZoneCalculator.createDate(new Date(), {
+      var result = _this8.timeZoneCalculator.createDate(new Date(), {
         path: 'toGrid'
       });
 
@@ -1510,8 +1534,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._appointmentsConfig = function _appointmentsConfig() {
-    var _this10 = this;
-
+    var that = this;
     var config = {
       observer: this,
       onItemRendered: this._getAppointmentRenderedAction(),
@@ -1526,12 +1549,8 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       allowAllDayResize: this._allowAllDayResizing(),
       rtlEnabled: this.option('rtlEnabled'),
       currentView: this.option('currentView'),
-      groups: this._getCurrentViewOption('groups'),
       onContentReady: function onContentReady() {
-        var _this10$_workSpace;
-
-        var filteredItems = (0, _appointmentDataProvider.getAppointmentDataProvider)().filteredItems;
-        (_this10$_workSpace = _this10._workSpace) === null || _this10$_workSpace === void 0 ? void 0 : _this10$_workSpace.option('allDayExpanded', _this10._isAllDayExpanded(filteredItems));
+        that._workSpace && that._workSpace.option('allDayExpanded', that._isAllDayExpanded(that.getFilteredItems()));
       }
     };
     return config;
@@ -1642,29 +1661,29 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._recalculateWorkspace = function _recalculateWorkspace() {
-    var _this11 = this;
+    var _this9 = this;
 
     this._workSpaceRecalculation = new _deferred.Deferred();
 
     this._waitAsyncTemplate(function () {
-      (0, _visibility_change.triggerResizeEvent)(_this11._workSpace.$element());
+      (0, _visibility_change.triggerResizeEvent)(_this9._workSpace.$element());
 
-      _this11._workSpace._refreshDateTimeIndication();
+      _this9._workSpace._refreshDateTimeIndication();
     });
   };
 
   _proto._workSpaceConfig = function _workSpaceConfig(groups, countConfig) {
-    var _currentViewOptions$s2,
-        _this12 = this;
+    var _currentViewOptions$s,
+        _this10 = this;
 
     var currentViewOptions = this._getCurrentViewOptions();
 
     var scrolling = this.option('scrolling');
-    var isVirtualScrolling = scrolling.mode === 'virtual' || ((_currentViewOptions$s2 = currentViewOptions.scrolling) === null || _currentViewOptions$s2 === void 0 ? void 0 : _currentViewOptions$s2.mode) === 'virtual';
+    var isVirtualScrolling = scrolling.mode === 'virtual' || ((_currentViewOptions$s = currentViewOptions.scrolling) === null || _currentViewOptions$s === void 0 ? void 0 : _currentViewOptions$s.mode) === 'virtual';
     var horizontalVirtualScrollingAllowed = isVirtualScrolling && (!(0, _type.isDefined)(scrolling.orientation) || ['horizontal', 'both'].filter(function (item) {
-      var _currentViewOptions$s3;
+      var _currentViewOptions$s2;
 
-      return scrolling.orientation === item || ((_currentViewOptions$s3 = currentViewOptions.scrolling) === null || _currentViewOptions$s3 === void 0 ? void 0 : _currentViewOptions$s3.orientation) === item;
+      return scrolling.orientation === item || ((_currentViewOptions$s2 = currentViewOptions.scrolling) === null || _currentViewOptions$s2 === void 0 ? void 0 : _currentViewOptions$s2.orientation) === item;
     }).length > 0);
     var crossScrollingEnabled = this.option('crossScrollingEnabled') || horizontalVirtualScrollingAllowed;
     var result = (0, _extend.extend)({
@@ -1690,7 +1709,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       allowMultipleCellSelection: this.option('allowMultipleCellSelection'),
       selectedCellData: this.option('selectedCellData'),
       onSelectionChanged: function onSelectionChanged(args) {
-        _this12.option('selectedCellData', args.selectedCellData);
+        _this10.option('selectedCellData', args.selectedCellData);
       },
       groupByDate: this._getCurrentViewOption('groupByDate'),
       scrolling: scrolling,
@@ -1708,7 +1727,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     result.max = new Date(this._dateOption('max'));
     result.currentDate = _date.default.trimTime(new Date(this._dateOption('currentDate')));
     result.hoursInterval = result.cellDuration / 60;
-    result.allDayExpanded = this._isAllDayExpanded((0, _appointmentDataProvider.getAppointmentDataProvider)().filteredItems);
+    result.allDayExpanded = this._isAllDayExpanded(this.getFilteredItems());
     result.dataCellTemplate = result.dataCellTemplate ? this._getTemplate(result.dataCellTemplate) : null;
     result.timeCellTemplate = result.timeCellTemplate ? this._getTemplate(result.timeCellTemplate) : null;
     result.resourceCellTemplate = result.resourceCellTemplate ? this._getTemplate(result.resourceCellTemplate) : null;
@@ -1766,7 +1785,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._refreshWorkSpace = function _refreshWorkSpace(groups) {
-    var _this13 = this;
+    var _this11 = this;
 
     this._cleanWorkspace();
 
@@ -1781,7 +1800,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       });
 
       this._waitAsyncTemplate(function () {
-        return _this13._workSpaceRecalculation.resolve();
+        return _this11._workSpaceRecalculation.resolve();
       });
     }
   };
@@ -1812,6 +1831,10 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     return this._workSpace;
   };
 
+  _proto.getAppointmentModel = function getAppointmentModel() {
+    return this._appointmentModel;
+  };
+
   _proto.getHeader = function getHeader() {
     return this._header;
   };
@@ -1825,7 +1848,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._checkRecurringAppointment = function _checkRecurringAppointment(targetAppointment, singleAppointment, exceptionDate, callback, isDeleted, isPopupEditing, dragEvent) {
-    var _this14 = this;
+    var _this12 = this;
 
     delete this._updatedRecAppointment;
     var recurrenceRule = this.fire('getField', 'recurrenceRule', targetAppointment);
@@ -1854,16 +1877,16 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
 
         this._showRecurrenceChangeConfirm(isDeleted).done(function (editingMode) {
           editingMode === RECURRENCE_EDITING_MODE.SERIES && callback();
-          editingMode === RECURRENCE_EDITING_MODE.OCCURENCE && _this14._excludeAppointmentFromSeries(targetAppointment, singleAppointment, exceptionDate, isDeleted, isPopupEditing, dragEvent);
+          editingMode === RECURRENCE_EDITING_MODE.OCCURENCE && _this12._excludeAppointmentFromSeries(targetAppointment, singleAppointment, exceptionDate, isDeleted, isPopupEditing, dragEvent);
         }).fail(function () {
-          return _this14._appointments.moveAppointmentBack(dragEvent);
+          return _this12._appointments.moveAppointmentBack(dragEvent);
         });
 
     }
   };
 
   _proto._excludeAppointmentFromSeries = function _excludeAppointmentFromSeries(rawAppointment, newRawAppointment, exceptionDate, isDeleted, isPopupEditing, dragEvent) {
-    var _this15 = this;
+    var _this13 = this;
 
     var appointment = this.createAppointmentAdapter(_extends({}, rawAppointment));
     var newAppointment = this.createAppointmentAdapter(newRawAppointment);
@@ -1872,7 +1895,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     var canCreateNewAppointment = !isDeleted && !isPopupEditing;
 
     if (canCreateNewAppointment) {
-      var keyPropertyName = (0, _appointmentDataProvider.getAppointmentDataProvider)().keyName;
+      var keyPropertyName = this._appointmentModel.keyName;
       delete newRawAppointment[keyPropertyName];
       this.addAppointment(newRawAppointment);
     }
@@ -1888,7 +1911,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       this._editAppointmentData = rawAppointment;
     } else {
       this._updateAppointment(rawAppointment, appointment.source(), function () {
-        _this15._appointments.moveAppointmentBack(dragEvent);
+        _this13._appointments.moveAppointmentBack(dragEvent);
       }, dragEvent);
     }
   };
@@ -1941,10 +1964,10 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._getUpdatedData = function _getUpdatedData(rawAppointment) {
-    var _this16 = this;
+    var _this14 = this;
 
     var getConvertedFromGrid = function getConvertedFromGrid(date) {
-      return date ? _this16.timeZoneCalculator.createDate(date, {
+      return date ? _this14.timeZoneCalculator.createDate(date, {
         path: 'fromGrid'
       }) : undefined;
     };
@@ -2011,7 +2034,9 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
 
     result.endDate = new Date(resultedEndDate.getTime() - timeZoneOffset);
     var rawResult = result.source();
-    (0, _resourceManager.getResourceManager)().setResourcesToItem(rawResult, targetCell.groups);
+
+    this._resourcesManager.setResourcesToItem(rawResult, targetCell.groups);
+
     return rawResult;
   };
 
@@ -2087,7 +2112,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     }
 
     return this._processActionResult(updatingOptions, function (canceled) {
-      var _this17 = this;
+      var _this15 = this;
 
       var deferred = new _deferred.Deferred();
 
@@ -2095,10 +2120,10 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
         this._expandAllDayPanel(rawAppointment);
 
         try {
-          deferred = (0, _appointmentDataProvider.getAppointmentDataProvider)().update(target, rawAppointment).done(function () {
+          deferred = this._appointmentModel.update(target, rawAppointment).done(function () {
             dragEvent && dragEvent.cancel.resolve(false);
           }).always(function (storeAppointment) {
-            return _this17._onDataPromiseCompleted(StoreEventNames.UPDATED, storeAppointment);
+            return _this15._onDataPromiseCompleted(StoreEventNames.UPDATED, storeAppointment);
           }).fail(function () {
             return performFailAction();
           });
@@ -2116,7 +2141,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._processActionResult = function _processActionResult(actionOptions, callback) {
-    var _this18 = this;
+    var _this16 = this;
 
     var deferred = new _deferred.Deferred();
 
@@ -2130,7 +2155,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
           cancel = actionOptions.cancel.state() === 'rejected';
         }
 
-        resolveCallback(callback.call(_this18, cancel));
+        resolveCallback(callback.call(_this16, cancel));
       });
     } else {
       resolveCallback(callback.call(this, actionOptions.cancel));
@@ -2140,7 +2165,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._expandAllDayPanel = function _expandAllDayPanel(appointment) {
-    if (!this._isAllDayExpanded((0, _appointmentDataProvider.getAppointmentDataProvider)().filteredItems) && this.appointmentTakesAllDay(appointment)) {
+    if (!this._isAllDayExpanded(this.getFilteredItems()) && this.appointmentTakesAllDay(appointment)) {
       this._workSpace.option('allDayExpanded', true);
     }
   };
@@ -2172,8 +2197,20 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   } ///#ENDDEBUG
   ;
 
+  _proto.getUpdatedAppointment = function getUpdatedAppointment() {
+    return this._appointmentModel.getUpdatedAppointment();
+  };
+
+  _proto.getUpdatedAppointmentKeys = function getUpdatedAppointmentKeys() {
+    return this._appointmentModel.getUpdatedAppointmentKeys();
+  };
+
   _proto.getAppointmentsInstance = function getAppointmentsInstance() {
     return this._appointments;
+  };
+
+  _proto.getResourceManager = function getResourceManager() {
+    return this._resourcesManager;
   };
 
   _proto.getLayoutManager = function getLayoutManager() {
@@ -2184,12 +2221,16 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     return this._layoutManager.getRenderingStrategyInstance();
   };
 
+  _proto.getFilteredItems = function getFilteredItems() {
+    return this._filteredItems;
+  };
+
   _proto.getActions = function getActions() {
     return this._actions;
   };
 
   _proto.appointmentTakesAllDay = function appointmentTakesAllDay(appointment) {
-    return (0, _appointmentDataProvider.getAppointmentDataProvider)().appointmentTakesAllDay(appointment, this._getCurrentViewOption('startDayHour'), this._getCurrentViewOption('endDayHour'));
+    return this._appointmentModel.appointmentTakesAllDay(appointment, this._getCurrentViewOption('startDayHour'), this._getCurrentViewOption('endDayHour'));
   } // TODO: use for appointment model
   ;
 
@@ -2211,12 +2252,12 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto._convertRecurrenceException = function _convertRecurrenceException(exceptionString, startDate) {
-    var _this19 = this;
+    var _this17 = this;
 
     exceptionString = exceptionString.replace(/\s/g, '');
 
     var getConvertedToTimeZone = function getConvertedToTimeZone(date) {
-      return _this19.timeZoneCalculator.createDate(date, {
+      return _this17.timeZoneCalculator.createDate(date, {
         path: 'toGrid'
       });
     };
@@ -2231,10 +2272,10 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto.dayHasAppointment = function dayHasAppointment(day, rawAppointment, trimTime) {
-    var _this20 = this;
+    var _this18 = this;
 
     var getConvertedToTimeZone = function getConvertedToTimeZone(date) {
-      return _this20.timeZoneCalculator.createDate(date, {
+      return _this18.timeZoneCalculator.createDate(date, {
         path: 'toGrid'
       });
     };
@@ -2265,8 +2306,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     var groups = this._getCurrentViewOption('groups');
 
     if (groups !== null && groups !== void 0 && groups.length) {
-      var resourcesSetter = (0, _resourceManager.getResourceManager)()._dataAccessors.setter;
-
+      var resourcesSetter = this._resourcesManager._dataAccessors.setter;
       var workSpace = this._workSpace;
       var getGroups;
       var setResourceCallback;
@@ -2275,7 +2315,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
         getGroups = function getGroups() {
           var apptSettings = this.getLayoutManager()._positionMap[appointmentIndex];
 
-          return (0, _resourceManager.getResourceManager)().getCellGroups(apptSettings[0].groupIndex, this.getWorkSpace().option('groups'));
+          return workSpace._getCellGroups(apptSettings[0].groupIndex);
         };
 
         setResourceCallback = function setResourceCallback(_, group) {
@@ -2309,19 +2349,19 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto.showAppointmentPopup = function showAppointmentPopup(rawAppointment, createNewAppointment, rawTargetedAppointment) {
-    var _this21 = this;
+    var _this19 = this;
 
     var appointment = this.createAppointmentAdapter(rawTargetedAppointment || rawAppointment);
     var newTargetedAppointment = (0, _extend.extend)({}, rawAppointment, rawTargetedAppointment);
 
     this._checkRecurringAppointment(rawAppointment, newTargetedAppointment, appointment.startDate, function () {
       if (createNewAppointment || (0, _type.isEmptyObject)(rawAppointment)) {
-        delete _this21._editAppointmentData;
-        _this21._editing.allowAdding && _this21._appointmentPopup.show(rawAppointment, true);
+        delete _this19._editAppointmentData;
+        _this19._editing.allowAdding && _this19._appointmentPopup.show(rawAppointment, true);
       } else {
-        _this21._editAppointmentData = rawAppointment;
+        _this19._editAppointmentData = rawAppointment;
 
-        _this21._appointmentPopup.show(rawAppointment, _this21._editing.allowUpdating);
+        _this19._appointmentPopup.show(rawAppointment, _this19._editing.allowUpdating);
       }
     }, false, true);
   };
@@ -2338,11 +2378,9 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     if (appointment) {
       var settings = _utils2.default.dataAccessors.getAppointmentSettings(element);
 
-      var deferredColor = (0, _resourceManager.getResourceManager)().getAppointmentColor({
+      var deferredColor = this.fire('getAppointmentColor', {
         itemData: targetedAppointment || appointment,
-        groupIndex: settings === null || settings === void 0 ? void 0 : settings.groupIndex,
-        groups: this.option('groups'),
-        workspaceGroups: this.getWorkSpace().option('groups')
+        groupIndex: settings === null || settings === void 0 ? void 0 : settings.groupIndex
       });
       var info = new _dataStructures.AppointmentTooltipInfo(appointment, targetedAppointment, deferredColor);
       this.showAppointmentTooltipCore(element, [info]);
@@ -2378,7 +2416,7 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto.addAppointment = function addAppointment(rawAppointment) {
-    var _this22 = this;
+    var _this20 = this;
 
     var appointment = this.createAppointmentAdapter(rawAppointment);
     appointment.text = appointment.text || '';
@@ -2395,10 +2433,10 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
         return new _deferred.Deferred().resolve();
       }
 
-      _this22._expandAllDayPanel(serializedAppointment);
+      _this20._expandAllDayPanel(serializedAppointment);
 
-      return (0, _appointmentDataProvider.getAppointmentDataProvider)().add(serializedAppointment).always(function (storeAppointment) {
-        return _this22._onDataPromiseCompleted(StoreEventNames.ADDED, storeAppointment);
+      return _this20._appointmentModel.add(serializedAppointment).always(function (storeAppointment) {
+        return _this20._onDataPromiseCompleted(StoreEventNames.ADDED, storeAppointment);
       });
     });
   };
@@ -2416,11 +2454,11 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
     this._actions[StoreEventNames.DELETING](deletingOptions);
 
     this._processActionResult(deletingOptions, function (canceled) {
-      var _this23 = this;
+      var _this21 = this;
 
       if (!canceled) {
-        (0, _appointmentDataProvider.getAppointmentDataProvider)().remove(rawAppointment).always(function (storeAppointment) {
-          return _this23._onDataPromiseCompleted(StoreEventNames.DELETED, storeAppointment, rawAppointment);
+        this._appointmentModel.remove(rawAppointment).always(function (storeAppointment) {
+          return _this21._onDataPromiseCompleted(StoreEventNames.DELETED, storeAppointment, rawAppointment);
         });
       }
     });
@@ -2439,17 +2477,17 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
   };
 
   _proto.createAppointmentAdapter = function createAppointmentAdapter(rawAppointment) {
-    var _this24 = this;
+    var _this22 = this;
 
     var options = {
       getField: function getField(rawAppointment, property) {
-        return _this24.fire('getField', property, rawAppointment);
+        return _this22.fire('getField', property, rawAppointment);
       },
       setField: function setField(rawAppointment, property, value) {
-        return _this24.fire('setField', property, rawAppointment, value);
+        return _this22.fire('setField', property, rawAppointment, value);
       },
       getTimeZoneCalculator: function getTimeZoneCalculator() {
-        return _this24.timeZoneCalculator;
+        return _this22.timeZoneCalculator;
       }
     };
     return new _appointmentAdapter.default(rawAppointment, options);
@@ -2460,6 +2498,13 @@ var Scheduler = /*#__PURE__*/function (_Widget) {
       * @hidden
       */
   ;
+
+  _createClass(Scheduler, [{
+    key: "appointmentFilter",
+    get: function get() {
+      return new _appointmentFilter.default(this);
+    }
+  }]);
 
   return Scheduler;
 }(_ui2.default);

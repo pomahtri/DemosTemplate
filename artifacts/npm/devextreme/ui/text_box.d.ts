@@ -1,11 +1,15 @@
 /**
 * DevExtreme (ui/text_box.d.ts)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
+import {
+    UserDefinedElement
+} from '../core/element';
+
 import {
     EventInfo,
     NativeEventInfo,
@@ -73,7 +77,7 @@ export type ValueChangedEvent = NativeEventInfo<dxTextBox> & ValueChangedInfo;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxTextBoxOptions<TComponent> extends dxTextEditorOptions<TComponent> {
+export interface dxTextBoxOptions<T = dxTextBox> extends dxTextEditorOptions<T> {
     /**
      * @docid
      * @default null
@@ -103,13 +107,15 @@ export interface dxTextBoxOptions<TComponent> extends dxTextEditorOptions<TCompo
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTextBox<TProperties = Properties> extends dxTextEditor<TProperties> { }
+export default class dxTextBox extends dxTextEditor {
+    constructor(element: UserDefinedElement, options?: dxTextBoxOptions)
+}
 
 /** @public */
-export type Properties = dxTextBoxOptions<dxTextBox<Properties>>;
+export type Properties = dxTextBoxOptions;
 
 /** @deprecated use Properties instead */
-export type Options = Properties;
+export type Options = dxTextBoxOptions;
 
 /** @deprecated use Properties instead */
-export type IOptions = Properties;
+export type IOptions = dxTextBoxOptions;

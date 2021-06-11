@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/pager/pages/small.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -62,6 +62,7 @@ var viewFunction = function viewFunction(_ref) {
       valueChange = _ref.valueChange,
       width = _ref.width;
   return (0, _inferno.createVNode)(1, "div", LIGHT_PAGES_CLASS, [(0, _inferno.createComponentVNode)(2, _number_box.NumberBox, {
+    "rootElementRef": pageIndexRef,
     "className": PAGER_PAGE_INDEX_CLASS,
     "min": 1,
     "max": pageCount,
@@ -73,7 +74,7 @@ var viewFunction = function viewFunction(_ref) {
     "selected": false,
     "index": pageCount - 1,
     "onClick": selectLastPageIndex
-  })], 4, null, null, pageIndexRef);
+  })], 4);
 };
 
 exports.viewFunction = viewFunction;
@@ -89,6 +90,7 @@ var PagesSmall = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
+    _this._currentState = null;
     _this.pageIndexRef = (0, _inferno.createRef)();
     _this.state = {
       minWidth: 10,
@@ -103,23 +105,49 @@ var PagesSmall = /*#__PURE__*/function (_InfernoComponent) {
   var _proto = PagesSmall.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.updateWidth, [this.state.minWidth])];
+    return [new _vdom.InfernoEffect(this.updateWidth, [this.minWidth])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.minWidth]);
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.minWidth]);
+  };
+
+  _proto.set_minWidth = function set_minWidth(value) {
+    var _this2 = this;
+
+    this.setState(function (state) {
+      _this2._currentState = state;
+      var newValue = value();
+      _this2._currentState = null;
+      return {
+        minWidth: newValue
+      };
+    });
+  };
+
+  _proto.set_pageIndex = function set_pageIndex(value) {
+    var _this3 = this;
+
+    this.setState(function (state) {
+      var _this3$props$pageInde, _this3$props;
+
+      _this3._currentState = state;
+      var newValue = value();
+      (_this3$props$pageInde = (_this3$props = _this3.props).pageIndexChange) === null || _this3$props$pageInde === void 0 ? void 0 : _this3$props$pageInde.call(_this3$props, newValue);
+      _this3._currentState = null;
+      return {
+        pageIndex: newValue
+      };
+    });
   };
 
   _proto.updateWidth = function updateWidth() {
-    var _this$pageIndexRef$cu;
+    var _this4 = this;
 
-    var el = (_this$pageIndexRef$cu = this.pageIndexRef.current) === null || _this$pageIndexRef$cu === void 0 ? void 0 : _this$pageIndexRef$cu.querySelector(".".concat(PAGER_PAGE_INDEX_CLASS));
-    this.setState(function (state) {
-      return _extends({}, state, {
-        minWidth: el && (0, _get_element_width.getElementMinWidth)(el) || state.minWidth
-      });
+    this.set_minWidth(function () {
+      return _this4.pageIndexRef.current && (0, _get_element_width.getElementMinWidth)(_this4.pageIndexRef.current) || _this4.minWidth;
     });
   };
 
@@ -131,24 +159,16 @@ var PagesSmall = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _proto.valueChange = function valueChange(value) {
-    {
-      var __newValue;
-
-      this.setState(function (state) {
-        __newValue = value - 1;
-        return {
-          pageIndex: __newValue
-        };
-      });
-      this.props.pageIndexChange(__newValue);
-    }
+    this.set_pageIndex(function () {
+      return value - 1;
+    });
   };
 
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
       pageIndexRef: this.pageIndexRef,
       value: this.value,
@@ -161,15 +181,27 @@ var PagesSmall = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(PagesSmall, [{
+    key: "minWidth",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return state.minWidth;
+    }
+  }, {
+    key: "__state_pageIndex",
+    get: function get() {
+      var state = this._currentState || this.state;
+      return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
+    }
+  }, {
     key: "value",
     get: function get() {
-      return (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + 1;
+      return this.__state_pageIndex + 1;
     }
   }, {
     key: "width",
     get: function get() {
       var pageCount = this.props.pageCount;
-      return (0, _calculate_values_fitted_width.calculateValuesFittedWidth)(this.state.minWidth, [pageCount]);
+      return (0, _calculate_values_fitted_width.calculateValuesFittedWidth)(this.minWidth, [pageCount]);
     }
   }, {
     key: "pagesCountText",
@@ -180,7 +212,7 @@ var PagesSmall = /*#__PURE__*/function (_InfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageIndex2 = _extends({}, this.props, {
-        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
+        pageIndex: this.__state_pageIndex
       }),
           defaultPageIndex = _this$props$pageIndex2.defaultPageIndex,
           pageCount = _this$props$pageIndex2.pageCount,

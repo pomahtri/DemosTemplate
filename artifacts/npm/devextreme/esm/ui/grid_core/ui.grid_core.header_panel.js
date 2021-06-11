@@ -1,16 +1,17 @@
 /**
 * DevExtreme (esm/ui/grid_core/ui.grid_core.header_panel.js)
-* Version: 21.2.0
+* Version: 21.1.3
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import $ from '../../core/renderer';
+import { extend } from 'jquery';
 import Toolbar from '../toolbar';
 import { ColumnsView } from './ui.grid_core.columns_view';
 import { noop } from '../../core/utils/common';
-import { isDefined } from '../../core/utils/type';
+import { isDefined, isString } from '../../core/utils/type';
 import { triggerResizeEvent } from '../../events/visibility_change';
 import messageLocalization from '../../localization/message';
 import '../drop_down_menu';
@@ -41,7 +42,25 @@ var HeaderPanel = ColumnsView.inherit({
         }
       }
     };
+    var defaultButtonsByNames = {};
+    options.toolbarOptions.items.forEach(button => {
+      defaultButtonsByNames[button.name] = button;
+    });
+    var items = this.option('toolbar.items');
+
+    if (isDefined(items)) {
+      options.toolbarOptions.items = items;
+    }
+
     this.executeAction('onToolbarPreparing', options);
+    options.toolbarOptions.items = options.toolbarOptions.items.map(button => {
+      if (isString(button)) button = {
+        name: button
+      };
+      if (!isDefined(button.name)) return button;
+      if (!isDefined(defaultButtonsByNames[button.name])) return button;
+      return extend(defaultButtonsByNames[button.name], button);
+    });
 
     if (options.toolbarOptions && !isDefined(options.toolbarOptions.visible)) {
       var toolbarItems = options.toolbarOptions.items;
@@ -109,7 +128,7 @@ var HeaderPanel = ColumnsView.inherit({
     return this.getElementHeight();
   },
   optionChanged: function optionChanged(args) {
-    if (args.name === 'onToolbarPreparing') {
+    if (args.name === 'onToolbarPreparing' || args.name === 'toolbar') {
       this._invalidate();
 
       args.handled = true;

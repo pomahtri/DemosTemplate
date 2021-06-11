@@ -28,8 +28,6 @@ var _appointment_form = require("./appointment_form");
 
 var _loading = require("./loading");
 
-var _resourceManager = require("./resources/resourceManager");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var toMs = _date.default.dateToMilliseconds;
@@ -176,7 +174,7 @@ var AppointmentPopup = /*#__PURE__*/function () {
     var result = (0, _extend.extend)(true, {
       repeat: !!appointment.recurrenceRule
     }, rawAppointment);
-    (0, _iterator.each)((0, _resourceManager.getResourceManager)().getResourcesFromItem(result, true) || {}, function (name, value) {
+    (0, _iterator.each)(this.scheduler._resourcesManager.getResourcesFromItem(result, true) || {}, function (name, value) {
       return result[name] = value;
     });
     return result;
@@ -197,7 +195,7 @@ var AppointmentPopup = /*#__PURE__*/function () {
     _appointment_form.AppointmentForm.prepareAppointmentFormEditors(expr, this.scheduler, this.triggerResize.bind(this), this.changeSize.bind(this), formData, allowTimeZoneEditing, readOnly);
 
     if (resources && resources.length) {
-      _appointment_form.AppointmentForm.concatResources((0, _resourceManager.getResourceManager)().getEditors());
+      _appointment_form.AppointmentForm.concatResources(this.scheduler._resourcesManager.getEditors());
     }
 
     return _appointment_form.AppointmentForm.create(this.scheduler._createComponent.bind(this.scheduler), element, readOnly, formData);
@@ -205,7 +203,7 @@ var AppointmentPopup = /*#__PURE__*/function () {
 
   _proto._getAllowTimeZoneEditing = function _getAllowTimeZoneEditing() {
     var scheduler = this.scheduler;
-    return scheduler.option('editing.allowTimeZoneEditing');
+    return scheduler.option('editing.allowTimeZoneEditing') || scheduler.option('editing.allowEditingTimeZones');
   };
 
   _proto._isReadOnly = function _isReadOnly(rawAppointment) {
@@ -437,7 +435,7 @@ var AppointmentPopup = /*#__PURE__*/function () {
           var endTime = endDate.getTime();
           var inAllDayRow = allDay || endTime - startTime >= DAY_IN_MS;
 
-          _this5.scheduler._workSpace.updateScrollPosition(startDate, (0, _resourceManager.getResourceManager)().getResourcesFromItem(_this5.state.lastEditData, true), inAllDayRow);
+          _this5.scheduler._workSpace.updateScrollPosition(startDate, _this5.scheduler._resourcesManager.getResourcesFromItem(_this5.state.lastEditData, true), inAllDayRow);
 
           _this5.state.lastEditData = null;
         }

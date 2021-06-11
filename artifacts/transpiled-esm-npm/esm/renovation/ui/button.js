@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["accessKey", "activeStateEnabled", "children", "className", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onKeyDown", "onSubmit", "pressed", "rtlEnabled", "stylingMode", "tabIndex", "template", "templateData", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "visible", "width"];
+var _excluded = ["accessKey", "activeStateEnabled", "children", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onContentReady", "onKeyDown", "onSubmit", "pressed", "rtlEnabled", "stylingMode", "tabIndex", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "visible", "width"];
 import { createVNode, createComponentVNode, normalizeProps } from "inferno";
 import { InfernoEffect, InfernoWrapperComponent } from "@devextreme/vdom";
 import { createDefaultOptionRules, convertRulesToOptions } from "../../core/options/utils";
@@ -23,7 +23,7 @@ var getCssClasses = model => {
     text,
     type
   } = model;
-  var isValidStylingMode = stylingMode && stylingModes.includes(stylingMode);
+  var isValidStylingMode = stylingMode && stylingModes.indexOf(stylingMode) !== -1;
   var classesMap = {
     "dx-button": true,
     ["dx-button-mode-".concat(isValidStylingMode ? stylingMode : "contained")]: true,
@@ -41,7 +41,6 @@ export var viewFunction = viewModel => {
     icon,
     iconPosition,
     template: ButtonTemplate,
-    templateData,
     text
   } = viewModel.props;
   var renderText = !viewModel.props.template && !children && text;
@@ -54,7 +53,6 @@ export var viewFunction = viewModel => {
     "accessKey": viewModel.props.accessKey,
     "activeStateEnabled": viewModel.props.activeStateEnabled,
     "aria": viewModel.aria,
-    "className": viewModel.props.className,
     "classes": viewModel.cssClasses,
     "disabled": viewModel.props.disabled,
     "focusStateEnabled": viewModel.props.focusStateEnabled,
@@ -62,6 +60,7 @@ export var viewFunction = viewModel => {
     "hint": viewModel.props.hint,
     "hoverStateEnabled": viewModel.props.hoverStateEnabled,
     "onActive": viewModel.onActive,
+    "onContentReady": viewModel.props.onContentReady,
     "onClick": viewModel.onWidgetClick,
     "onInactive": viewModel.onInactive,
     "onKeyDown": viewModel.onWidgetKeyDown,
@@ -71,10 +70,10 @@ export var viewFunction = viewModel => {
     "width": viewModel.props.width
   }, viewModel.restAttributes, {
     children: createVNode(1, "div", "dx-button-content", [viewModel.props.template && ButtonTemplate({
-      data: _extends({
+      data: {
         icon,
         text
-      }, templateData)
+      }
     }), !viewModel.props.template && children, isIconLeft && iconComponent, renderText && createVNode(1, "span", "dx-button-text", text, 0), !isIconLeft && iconComponent, viewModel.props.useSubmitBehavior && createVNode(64, "input", "dx-button-submit-input", null, 1, {
       "type": "submit",
       "tabIndex": -1
@@ -89,11 +88,9 @@ export var ButtonProps = _extends({}, BaseWidgetProps, {
   icon: "",
   iconPosition: "left",
   text: "",
-  type: "normal",
   useInkRipple: false,
   useSubmitBehavior: false,
-  validationGroup: undefined,
-  templateData: {}
+  validationGroup: undefined
 });
 export var defaultOptionRules = createDefaultOptionRules([{
   device: () => devices.real().deviceType === "desktop" && !devices.isSimulator(),
@@ -106,7 +103,6 @@ export var defaultOptionRules = createDefaultOptionRules([{
     useInkRipple: true
   }
 }]);
-import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
@@ -119,22 +115,33 @@ export class Button extends InfernoWrapperComponent {
     this.inkRippleRef = infernoCreateRef();
     this.submitInputRef = infernoCreateRef();
     this.widgetRef = infernoCreateRef();
+    this.contentReadyEffect = this.contentReadyEffect.bind(this);
     this.focus = this.focus.bind(this);
-    this.submitEffect = this.submitEffect.bind(this);
     this.onActive = this.onActive.bind(this);
     this.onInactive = this.onInactive.bind(this);
     this.onWidgetClick = this.onWidgetClick.bind(this);
     this.onWidgetKeyDown = this.onWidgetKeyDown.bind(this);
+    this.submitEffect = this.submitEffect.bind(this);
   }
 
   createEffects() {
-    return [new InfernoEffect(this.submitEffect, [this.props.onSubmit, this.props.useSubmitBehavior]), createReRenderEffect()];
+    return [new InfernoEffect(this.contentReadyEffect, [this.props.onContentReady]), new InfernoEffect(this.submitEffect, [this.props.onSubmit, this.props.useSubmitBehavior])];
   }
 
   updateEffects() {
-    var _this$_effects$;
+    var _this$_effects$, _this$_effects$2;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onSubmit, this.props.useSubmitBehavior]);
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.onContentReady]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.onSubmit, this.props.useSubmitBehavior]);
+  }
+
+  contentReadyEffect() {
+    var {
+      onContentReady
+    } = this.props;
+    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({
+      element: this.contentRef.current.parentNode
+    });
   }
 
   submitEffect() {
@@ -223,7 +230,7 @@ export class Button extends InfernoWrapperComponent {
     var label = text || icon;
 
     if (!text && icon && getImageSourceType(icon) === "image") {
-      label = !icon.includes("base64") ? icon.replace(/.+\/([^.]+)\..+$/, "$1") : "Base64";
+      label = icon.indexOf("base64") === -1 ? icon.replace(/.+\/([^.]+)\..+$/, "$1") : "Base64";
     }
 
     return _extends({
