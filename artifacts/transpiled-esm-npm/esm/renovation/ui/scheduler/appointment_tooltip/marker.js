@@ -12,31 +12,14 @@ export var MarkerProps = {
 export class Marker extends BaseInfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.state = {
       appointmentColor: undefined
     };
   }
 
-  get appointmentColor() {
-    var state = this._currentState || this.state;
-    return state.appointmentColor;
-  }
-
-  set_appointmentColor(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        appointmentColor: newValue
-      };
-    });
-  }
-
   get style() {
     return {
-      background: this.appointmentColor
+      background: this.state.appointmentColor
     };
   }
 
@@ -51,7 +34,7 @@ export class Marker extends BaseInfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      appointmentColor: this.appointmentColor,
+      appointmentColor: this.state.appointmentColor,
       style: this.style,
       restAttributes: this.restAttributes
     });

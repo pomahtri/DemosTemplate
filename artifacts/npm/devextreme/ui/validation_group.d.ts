@@ -1,15 +1,11 @@
 /**
 * DevExtreme (ui/validation_group.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import DOMComponent, {
     DOMComponentOptions
 } from '../core/dom_component';
@@ -60,8 +56,7 @@ export interface dxValidationGroupOptions extends DOMComponentOptions<dxValidati
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxValidationGroup extends DOMComponent {
-    constructor(element: UserDefinedElement, options?: dxValidationGroupOptions)
+export default class dxValidationGroup extends DOMComponent<dxValidationGroupOptions> {
     /**
      * @docid
      * @publicName reset()

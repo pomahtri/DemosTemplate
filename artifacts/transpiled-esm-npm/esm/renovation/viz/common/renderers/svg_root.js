@@ -58,8 +58,6 @@ export class RootSvgElement extends InfernoComponent {
     return [new InfernoEffect(this.setRootElementRef, [])];
   }
 
-  updateEffects() {}
-
   setRootElementRef() {
     var {
       rootElementRef

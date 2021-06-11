@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointments/appointment.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,8 +19,9 @@ import DOMComponent from '../../../core/dom_component';
 import Resizable from '../../resizable';
 import messageLocalization from '../../../localization/message';
 import dateLocalization from '../../../localization/date';
-import { EMPTY_APPOINTMENT_CLASS, RECURRENCE_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_CLASS, ALL_DAY_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_ICON, REDUCED_APPOINTMENT_PARTS_CLASSES, DIRECTION_APPOINTMENT_CLASSES, APPOINTMENT_DRAG_SOURCE_CLASS, APPOINTMENT_CONTENT_CLASSES } from '../constants';
+import { EMPTY_APPOINTMENT_CLASS, RECURRENCE_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_CLASS, ALL_DAY_APPOINTMENT_CLASS, REDUCED_APPOINTMENT_ICON, REDUCED_APPOINTMENT_PARTS_CLASSES, DIRECTION_APPOINTMENT_CLASSES, APPOINTMENT_DRAG_SOURCE_CLASS, APPOINTMENT_CONTENT_CLASSES } from '../classes';
 import { Deferred } from '../../../core/utils/deferred';
+import { getResourceManager } from '../resources/resourceManager';
 var DEFAULT_HORIZONTAL_HANDLES = 'left right';
 var DEFAULT_VERTICAL_HANDLES = 'top bottom';
 var REDUCED_APPOINTMENT_POINTERENTER_EVENT_NAME = addNamespace(pointerEvents.enter, 'dxSchedulerAppointment');
@@ -38,6 +39,7 @@ export class Appointment extends DOMComponent {
     return extend(super._getDefaultOptions(), {
       data: {},
       groupIndex: -1,
+      groups: [],
       geometry: {
         top: 0,
         left: 0,
@@ -154,9 +156,10 @@ export class Appointment extends DOMComponent {
   }
 
   _setResourceColor() {
-    var deferredColor = this.invoke('getAppointmentColor', {
+    var deferredColor = getResourceManager().getAppointmentColor({
       itemData: this.rawAppointment,
-      groupIndex: this.option('groupIndex')
+      groupIndex: this.option('groupIndex'),
+      groups: this.option('groups')
     });
     deferredColor.done(color => color && this.coloredElement.css('backgroundColor', color));
   }

@@ -1,16 +1,18 @@
 /**
 * DevExtreme (esm/renovation/component_wrapper/data_grid.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import _extends from "@babel/runtime/helpers/esm/extends";
-import Component from "./component";
+import Component from "./common/component";
 import gridCore from "../../ui/data_grid/ui.data_grid.core";
-import { updatePropsImmutable } from "./utils";
+import { updatePropsImmutable } from "./utils/update-props-immutable";
 export default class DataGridWrapper extends Component {
+  _fireContentReady() {}
+
   beginUpdate() {
     var _this$viewRef;
 

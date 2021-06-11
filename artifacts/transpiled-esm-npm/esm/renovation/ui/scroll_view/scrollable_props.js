@@ -5,7 +5,6 @@ export var ScrollableProps = {
   bounceEnabled: true,
   scrollByContent: true,
   scrollByThumb: false,
-  updateManually: false,
   pullDownEnabled: false,
   reachBottomEnabled: false,
   forceGeneratePockets: false,

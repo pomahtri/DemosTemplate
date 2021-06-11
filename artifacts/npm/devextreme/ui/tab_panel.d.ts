@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/tab_panel.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -203,9 +203,7 @@ export interface dxTabPanelOptions extends dxMultiViewOptions<dxTabPanel> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTabPanel extends dxMultiView {
-    constructor(element: UserDefinedElement, options?: dxTabPanelOptions)
-}
+export default class dxTabPanel extends dxMultiView<dxTabPanelOptions> { }
 
 /**
  * @docid

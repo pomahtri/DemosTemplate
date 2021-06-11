@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/viz/sparklines/bullet.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,13 +8,13 @@
 */
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "color", "defaultCanvas", "disabled", "endScaleValue", "margin", "onContentReady", "onTooltipHidden", "onTooltipShown", "pointerEvents", "rtlEnabled", "showTarget", "showZeroLevel", "size", "startScaleValue", "target", "targetColor", "targetWidth", "tooltip", "value"];
+var _excluded = ["canvas", "canvasChange", "children", "className", "classes", "color", "defaultCanvas", "disabled", "endScaleValue", "margin", "onTooltipHidden", "onTooltipShown", "pointerEvents", "rtlEnabled", "showTarget", "showZeroLevel", "size", "startScaleValue", "target", "targetColor", "targetWidth", "tooltip", "value"];
 import { createFragment, createComponentVNode, normalizeProps } from "inferno";
 import { Fragment } from "inferno";
 import { InfernoEffect, InfernoWrapperComponent } from "@devextreme/vdom";
 import { combineClasses } from "../../utils/combine_classes";
 import { resolveRtlEnabled } from "../../utils/resolve_rtl";
-import getElementOffset from "../../utils/get_element_offset";
+import { getElementOffset } from "../../utils/get_element_offset";
 import { BaseWidgetProps } from "../common/base_props";
 import { BaseWidget } from "../common/base_widget";
 import { createAxis, generateCustomizeTooltipCallback } from "./utils";
@@ -85,7 +85,6 @@ export var viewFunction = viewModel => {
     color,
     disabled,
     margin,
-    onContentReady,
     size,
     targetColor,
     targetWidth
@@ -108,7 +107,6 @@ export var viewFunction = viewModel => {
     "defaultCanvas": viewModel.defaultCanvas,
     "disabled": disabled,
     "rtlEnabled": viewModel.rtlEnabled,
-    "onContentReady": onContentReady,
     "canvasChange": viewModel.onCanvasChange,
     "pointerEvents": "visible"
   }, viewModel.restAttributes, {
@@ -151,11 +149,11 @@ export var BulletProps = _extends({}, BaseWidgetProps, {
   showZeroLevel: true,
   startScaleValue: 0
 });
+import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 export class Bullet extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.widgetRef = infernoCreateRef();
     this.tooltipRef = infernoCreateRef();
     this.widgetRootRef = infernoCreateRef();
@@ -193,111 +191,14 @@ export class Bullet extends InfernoWrapperComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.tooltipEffect, [this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.canvasState, this.offsetState]), new InfernoEffect(this.tooltipOutEffect, [this.tooltipVisible, this.canvasState])];
+    return [new InfernoEffect(this.tooltipEffect, [this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.state.canvasState, this.state.offsetState]), new InfernoEffect(this.tooltipOutEffect, [this.state.tooltipVisible, this.state.canvasState]), createReRenderEffect()];
   }
 
   updateEffects() {
     var _this$_effects$, _this$_effects$2;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.canvasState, this.offsetState]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.tooltipVisible, this.canvasState]);
-  }
-
-  get argumentAxis() {
-    var state = this._currentState || this.state;
-    return state.argumentAxis;
-  }
-
-  set_argumentAxis(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        argumentAxis: newValue
-      };
-    });
-  }
-
-  get valueAxis() {
-    var state = this._currentState || this.state;
-    return state.valueAxis;
-  }
-
-  set_valueAxis(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        valueAxis: newValue
-      };
-    });
-  }
-
-  get canvasState() {
-    var state = this._currentState || this.state;
-    return state.canvasState;
-  }
-
-  set_canvasState(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        canvasState: newValue
-      };
-    });
-  }
-
-  get offsetState() {
-    var state = this._currentState || this.state;
-    return state.offsetState;
-  }
-
-  set_offsetState(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        offsetState: newValue
-      };
-    });
-  }
-
-  get tooltipVisible() {
-    var state = this._currentState || this.state;
-    return state.tooltipVisible;
-  }
-
-  set_tooltipVisible(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        tooltipVisible: newValue
-      };
-    });
-  }
-
-  get __state_canvas() {
-    var state = this._currentState || this.state;
-    return this.props.canvas !== undefined ? this.props.canvas : state.canvas;
-  }
-
-  set_canvas(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this.props.canvasChange(newValue);
-      this._currentState = null;
-      return {
-        canvas: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.disabled, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.tooltip, this.props.value, this.props.target, this.props.rtlEnabled, this.config, this.state.canvasState, this.state.offsetState]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.state.tooltipVisible, this.state.canvasState]);
   }
 
   tooltipEffect() {
@@ -319,7 +220,7 @@ export class Bullet extends InfernoWrapperComponent {
   }
 
   tooltipOutEffect() {
-    if (this.tooltipVisible) {
+    if (this.state.tooltipVisible) {
       var document = domAdapter.getDocument();
       eventsEngine.on(document, POINTER_ACTION, this.pointerOutHandler);
       return () => {
@@ -381,8 +282,8 @@ export class Bullet extends InfernoWrapperComponent {
   }
 
   get tooltipCoords() {
-    var canvas = this.canvasState;
-    var rootOffset = this.offsetState;
+    var canvas = this.state.canvasState;
+    var rootOffset = this.state.offsetState;
     return {
       x: canvas.width / 2 + rootOffset.left,
       y: canvas.height / 2 + rootOffset.top
@@ -429,10 +330,10 @@ export class Bullet extends InfernoWrapperComponent {
 
   get scaleProps() {
     var props = this.prepareScaleProps();
-    var canvas = this.canvasState;
+    var canvas = this.state.canvasState;
     var ranges = this.getRange(props);
-    this.argumentAxis.update(ranges.arg, canvas, undefined);
-    this.valueAxis.update(ranges.val, canvas, undefined);
+    this.state.argumentAxis.update(ranges.arg, canvas, undefined);
+    this.state.valueAxis.update(ranges.val, canvas, undefined);
     return props;
   }
 
@@ -474,12 +375,12 @@ export class Bullet extends InfernoWrapperComponent {
   }
 
   get barValueShape() {
-    var translatorX = this.argumentAxis.getTranslator();
-    var translatorY = this.valueAxis.getTranslator();
+    var translatorX = this.state.argumentAxis.getTranslator();
+    var translatorY = this.state.valueAxis.getTranslator();
     var y2 = translatorY.translate(BAR_VALUE_MIN_Y);
     var y1 = translatorY.translate(BAR_VALUE_MAX_Y);
-    var x1;
-    var x2;
+    var x1 = Number.NaN;
+    var x2 = Number.NaN;
 
     if (this.scaleProps.value > 0) {
       x1 = Math.max(0, this.scaleProps.startScaleValue);
@@ -497,12 +398,16 @@ export class Bullet extends InfernoWrapperComponent {
   onCanvasChange(canvas) {
     var _this$widgetRef$curre2;
 
-    this.set_canvasState(() => canvas);
+    this.setState(state => _extends({}, state, {
+      canvasState: canvas
+    }));
     var svgElement = ((_this$widgetRef$curre2 = this.widgetRef.current) === null || _this$widgetRef$curre2 === void 0 ? void 0 : _this$widgetRef$curre2.svg()) || undefined;
-    this.set_offsetState(() => {
+    this.setState(state => {
       var _getElementOffset;
 
-      return (_getElementOffset = getElementOffset(svgElement)) !== null && _getElementOffset !== void 0 ? _getElementOffset : DEFAULT_OFFSET;
+      return _extends({}, state, {
+        offsetState: (_getElementOffset = getElementOffset(svgElement)) !== null && _getElementOffset !== void 0 ? _getElementOffset : DEFAULT_OFFSET
+      });
     });
   }
 
@@ -555,13 +460,15 @@ export class Bullet extends InfernoWrapperComponent {
   }
 
   getSimpleShape(value) {
-    var translatorY = this.valueAxis.getTranslator();
-    var x = this.argumentAxis.getTranslator().translate(value);
+    var translatorY = this.state.valueAxis.getTranslator();
+    var x = this.state.argumentAxis.getTranslator().translate(value);
     return [x, translatorY.translate(TARGET_MIN_Y), x, translatorY.translate(TARGET_MAX_Y)];
   }
 
   pointerHandler() {
-    this.set_tooltipVisible(() => true);
+    this.setState(state => _extends({}, state, {
+      tooltipVisible: true
+    }));
   }
 
   pointerOutHandler(_ref3) {
@@ -572,18 +479,20 @@ export class Bullet extends InfernoWrapperComponent {
     var {
       left,
       top
-    } = this.offsetState;
+    } = this.state.offsetState;
     var x = Math.floor(pageX - left);
     var y = Math.floor(pageY - top);
 
-    if (!inCanvas(this.canvasState, x, y)) {
-      this.set_tooltipVisible(() => false);
+    if (!inCanvas(this.state.canvasState, x, y)) {
+      this.setState(state => _extends({}, state, {
+        tooltipVisible: false
+      }));
     }
   }
 
   get restAttributes() {
     var _this$props$canvas = _extends({}, this.props, {
-      canvas: this.__state_canvas
+      canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$canvas, _excluded);
 
@@ -594,13 +503,13 @@ export class Bullet extends InfernoWrapperComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        canvas: this.__state_canvas
+        canvas: this.props.canvas !== undefined ? this.props.canvas : this.state.canvas
       }),
-      argumentAxis: this.argumentAxis,
-      valueAxis: this.valueAxis,
-      canvasState: this.canvasState,
-      offsetState: this.offsetState,
-      tooltipVisible: this.tooltipVisible,
+      argumentAxis: this.state.argumentAxis,
+      valueAxis: this.state.valueAxis,
+      canvasState: this.state.canvasState,
+      offsetState: this.state.offsetState,
+      tooltipVisible: this.state.tooltipVisible,
       widgetRootRef: this.widgetRootRef,
       widgetRef: this.widgetRef,
       tooltipRef: this.tooltipRef,

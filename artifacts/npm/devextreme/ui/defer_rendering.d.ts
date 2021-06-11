@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/defer_rendering.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -11,7 +11,6 @@ import {
 } from '../animation/fx';
 
 import {
-    UserDefinedElement,
     DxElement
 } from '../core/element';
 
@@ -96,9 +95,7 @@ export interface dxDeferRenderingOptions extends WidgetOptions<dxDeferRendering>
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxDeferRendering extends Widget {
-    constructor(element: UserDefinedElement, options?: dxDeferRenderingOptions)
-}
+export default class dxDeferRendering extends Widget<dxDeferRenderingOptions> { }
 
 /** @public */
 export type Properties = dxDeferRenderingOptions;

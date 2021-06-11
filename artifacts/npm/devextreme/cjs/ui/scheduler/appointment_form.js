@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/appointment_form.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -35,6 +35,8 @@ require("../switch");
 require("../select_box");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var SCREEN_SIZE_OF_SINGLE_COLUMN = 600;
 var APPOINTMENT_FORM_GROUP_NAMES = {
@@ -165,6 +167,17 @@ var SchedulerAppointmentForm = {
       });
     }), this._createTimezoneEditor(dataExprs.endDateTimeZoneExpr, dataExprs.startDateTimeZoneExpr, 3, colSpan, false, allowTimeZoneEditing)];
   },
+  _changeFormItemDateType: function _changeFormItemDateType(itemPath, isAllDay) {
+    var itemEditorOptions = this._appointmentForm.itemOption(itemPath).editorOptions;
+
+    var type = isAllDay ? 'date' : 'datetime';
+
+    var newEditorOption = _extends({}, itemEditorOptions, {
+      type: type
+    });
+
+    this._appointmentForm.itemOption(itemPath, 'editorOptions', newEditorOption);
+  },
   _createMainItems: function _createMainItems(dataExprs, schedulerInst, triggerResize, changeSize, allowTimeZoneEditing) {
     var _this3 = this;
 
@@ -224,8 +237,12 @@ var SchedulerAppointmentForm = {
               }
             }
 
-            startDateEditor.option('type', value ? 'date' : 'datetime');
-            endDateEditor.option('type', value ? 'date' : 'datetime');
+            var startDateItemPath = "".concat(APPOINTMENT_FORM_GROUP_NAMES.Main, ".").concat(dataExprs.startDateExpr);
+            var endDateItemPath = "".concat(APPOINTMENT_FORM_GROUP_NAMES.Main, ".").concat(dataExprs.endDateExpr);
+
+            _this3._changeFormItemDateType(startDateItemPath, value);
+
+            _this3._changeFormItemDateType(endDateItemPath, value);
           }
         }
       }, {

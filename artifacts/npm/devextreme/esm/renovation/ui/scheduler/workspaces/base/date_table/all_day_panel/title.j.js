@@ -1,14 +1,14 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/base/date_table/all_day_panel/title.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import registerComponent from "../../../../../../../core/component_registrator";
-import BaseComponent from "../../../../../../component_wrapper/component";
-import { AllDayPanelTitle as AllDayPanelTitleComponent } from "./title";
+import BaseComponent from "../../../../../../component_wrapper/common/component";
+import { AllDayPanelTitle as AllDayPanelTitleComponent, defaultOptions } from "./title";
 export default class AllDayPanelTitle extends BaseComponent {
   get _propsInfo() {
     return {
@@ -26,3 +26,4 @@ export default class AllDayPanelTitle extends BaseComponent {
 
 }
 registerComponent("dxAllDayPanelTitle", AllDayPanelTitle);
+AllDayPanelTitle.defaultOptions = defaultOptions;

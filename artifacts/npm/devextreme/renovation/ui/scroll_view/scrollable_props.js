@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/scroll_view/scrollable_props.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -16,7 +16,6 @@ var ScrollableProps = {
   bounceEnabled: true,
   scrollByContent: true,
   scrollByThumb: false,
-  updateManually: false,
   pullDownEnabled: false,
   reachBottomEnabled: false,
   forceGeneratePockets: false,

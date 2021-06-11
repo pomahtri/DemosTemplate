@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/overlay.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -8,28 +8,23 @@
 */
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["rootElementRef"],
-    _excluded2 = ["_checkParentVisibility", "_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "animation", "aria", "children", "className", "classes", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "position", "propagateOutsideClick", "rootElementRef", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
+var _excluded = ["_checkParentVisibility", "accessKey", "activeStateEnabled", "animation", "className", "closeOnOutsideClick", "closeOnTargetScroll", "container", "contentTemplate", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "integrationOptions", "maxWidth", "onClick", "onKeyDown", "position", "propagateOutsideClick", "rtlEnabled", "shading", "tabIndex", "templatesRenderAsynchronously", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
-import { WidgetProps } from "./common/widget";
 import LegacyOverlay from "../../ui/overlay/ui.overlay";
 import { DomComponentWrapper } from "./common/dom_component_wrapper";
+import { BaseWidgetProps } from "./common/base_props";
 export var viewFunction = _ref => {
   var {
-    componentProps,
-    props: {
-      rootElementRef
-    },
+    props,
     restAttributes
   } = _ref;
   return normalizeProps(createComponentVNode(2, DomComponentWrapper, _extends({
-    "rootElementRef": rootElementRef,
     "componentType": LegacyOverlay,
-    "componentProps": componentProps
+    "componentProps": props
   }, restAttributes)));
 };
-export var OverlayProps = _extends({}, WidgetProps, {
+export var OverlayProps = _extends({}, BaseWidgetProps, {
   integrationOptions: {},
   templatesRenderAsynchronously: false,
   shading: true,
@@ -60,16 +55,9 @@ export class Overlay extends BaseInfernoComponent {
     this.state = {};
   }
 
-  get componentProps() {
+  get restAttributes() {
     var _this$props = this.props,
         restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
-
-    return restProps;
-  }
-
-  get restAttributes() {
-    var _this$props2 = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props2, _excluded2);
 
     return restProps;
   }
@@ -78,7 +66,6 @@ export class Overlay extends BaseInfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      componentProps: this.componentProps,
       restAttributes: this.restAttributes
     });
   }

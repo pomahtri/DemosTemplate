@@ -1,24 +1,50 @@
 /**
 * DevExtreme (esm/renovation/component_wrapper/button.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import ValidationEngine from "../../ui/validation_engine";
-import Component from "./component";
-export default class Button extends Component {
+import Component from "./common/component";
+export default class ButtonWrapper extends Component {
   _init() {
     super._init();
 
+    this.defaultKeyHandlers = {
+      enter: (e, opts) => this.viewRef.onWidgetKeyDown(opts),
+      space: (e, opts) => this.viewRef.onWidgetKeyDown(opts)
+    };
+
     this._addAction("onSubmit", this._getSubmitAction());
+  }
+
+  _initMarkup() {
+    super._initMarkup();
+
+    var $content = this.$element().find(".dx-button-content");
+    var $template = $content.children().filter(".dx-template-wrapper");
+
+    if ($template.length) {
+      $template.addClass("dx-button-content");
+      $content.replaceWith($template);
+    }
   }
 
   getProps() {
     var props = super.getProps();
     props.validationGroup = this._validationGroupConfig;
     return props;
+  }
+
+  getDefaultTemplateNames() {
+    return ["content"];
+  }
+
+  _patchOptionValues(options) {
+    options.templateData = options._templateData;
+    return super._patchOptionValues(options);
   }
 
   _getSubmitAction() {

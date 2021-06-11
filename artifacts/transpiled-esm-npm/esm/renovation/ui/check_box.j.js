@@ -1,6 +1,6 @@
 import registerComponent from "../../core/component_registrator";
 import BaseComponent from "../component_wrapper/check_box";
-import { CheckBox as CheckBoxComponent } from "./check_box";
+import { CheckBox as CheckBoxComponent, defaultOptions } from "./check_box";
 export default class CheckBox extends BaseComponent {
   getProps() {
     var props = super.getProps();
@@ -11,26 +11,23 @@ export default class CheckBox extends BaseComponent {
   focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus(...arguments);
   }
 
   _getActionConfigs() {
     return {
       onFocusIn: {},
-      onClick: {},
-      onContentReady: {
-        excludeValidators: ["disabled", "readOnly"]
-      }
+      onClick: {}
     };
   }
 
   get _propsInfo() {
     return {
-      twoWay: [["value", false, "valueChange"]],
+      twoWay: [["value", "defaultValue", "valueChange"]],
       allowNull: ["validationError", "validationErrors", "defaultValue", "value"],
       elements: [],
       templates: [],
-      props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
+      props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "className", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
     };
   }
 
@@ -40,3 +37,4 @@ export default class CheckBox extends BaseComponent {
 
 }
 registerComponent("dxCheckBox", CheckBox);
+CheckBox.defaultOptions = defaultOptions;

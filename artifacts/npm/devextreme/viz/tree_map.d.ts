@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/tree_map.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -572,8 +572,7 @@ export interface dxTreeMapTooltip extends BaseWidgetTooltip {
  * @namespace DevExpress.viz
  * @public
  */
-export default class dxTreeMap extends BaseWidget {
-    constructor(element: UserDefinedElement, options?: dxTreeMapOptions)
+export default class dxTreeMap extends BaseWidget<dxTreeMapOptions> {
     /**
      * @docid
      * @publicName clearSelection()

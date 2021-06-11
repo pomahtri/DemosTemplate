@@ -2,6 +2,8 @@ import dateUtils from '../../../core/utils/date';
 import { each } from '../../../core/utils/iterator';
 import { merge } from '../../../core/utils/array';
 import BaseRenderingStrategy from './ui.scheduler.appointments.strategy.base';
+import { getResourceManager } from '../resources/resourceManager';
+import { getAppointmentDataProvider } from '../appointments/DataProvider/appointmentDataProvider';
 
 class AgendaRenderingStrategy extends BaseRenderingStrategy {
   getAppointmentMinSize() {}
@@ -16,13 +18,17 @@ class AgendaRenderingStrategy extends BaseRenderingStrategy {
     return geometry;
   }
 
+  groupAppointmentByResources(appointments) {
+    return getResourceManager().groupAppointmentsByResources(appointments, this.instance._getCurrentViewOption('groups'));
+  }
+
   createTaskPositionMap(appointments) {
     var height;
     var appointmentsByResources;
 
     if (appointments.length) {
       height = this.instance.fire('getAgendaVerticalStepHeight');
-      appointmentsByResources = this.instance.fire('groupAppointmentsByResources', appointments);
+      appointmentsByResources = this.groupAppointmentByResources(appointments);
       var groupedAppts = [];
       each(appointmentsByResources, function (i, appts) {
         var additionalAppointments = [];
@@ -140,9 +146,9 @@ class AgendaRenderingStrategy extends BaseRenderingStrategy {
 
   calculateRows(appointments, agendaDuration, currentDate, needClearSettings) {
     this._rows = [];
-    var groupedAppointments = this.instance.fire('groupAppointmentsByResources', appointments);
     currentDate = dateUtils.trimTime(new Date(currentDate));
-    each(groupedAppointments, function (groupIndex, currentAppointments) {
+    var groupedAppointments = this.groupAppointmentByResources(appointments);
+    each(groupedAppointments, function (_, currentAppointments) {
       var groupResult = [];
       var appts = {
         indexes: [],
@@ -158,7 +164,7 @@ class AgendaRenderingStrategy extends BaseRenderingStrategy {
       each(currentAppointments, function (index, appointment) {
         var startDate = this.instance.fire('getField', 'startDate', appointment);
         var endDate = this.instance.fire('getField', 'endDate', appointment);
-        this.instance.fire('replaceWrongEndDate', appointment, startDate, endDate);
+        getAppointmentDataProvider().replaceWrongEndDate(appointment, startDate, endDate);
         needClearSettings && delete appointment.settings;
 
         var result = this.instance.getAppointmentsInstance()._processRecurrenceAppointment(appointment, index, false);
@@ -182,7 +188,7 @@ class AgendaRenderingStrategy extends BaseRenderingStrategy {
 
         for (var j = 0; j < appointmentCount; j++) {
           var appointmentData = currentAppointments[j].settings || currentAppointments[j];
-          var appointmentIsLong = this.instance.fire('appointmentTakesSeveralDays', currentAppointments[j]);
+          var appointmentIsLong = getAppointmentDataProvider().appointmentTakesSeveralDays(currentAppointments[j]);
           var appointmentIsRecurrence = this.instance.fire('getField', 'recurrenceRule', currentAppointments[j]);
 
           if (this.instance.fire('dayHasAppointment', day, appointmentData, true) || !appointmentIsRecurrence && appointmentIsLong && this.instance.fire('dayHasAppointment', day, currentAppointments[j], true)) {

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/pager/resizable_container.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -80,7 +80,6 @@ var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? p
 export class ResizableContainer extends InfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.parentRef = infernoCreateRef();
     this.pageSizesRef = infernoCreateRef();
     this.infoTextRef = infernoCreateRef();
@@ -95,46 +94,14 @@ export class ResizableContainer extends InfernoComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.subscribeToResize, [this.infoTextVisible, this.isLargeDisplayMode]), new InfernoEffect(this.effectUpdateChildProps, [this.infoTextVisible, this.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate])];
+    return [new InfernoEffect(this.subscribeToResize, [this.state.infoTextVisible, this.state.isLargeDisplayMode]), new InfernoEffect(this.effectUpdateChildProps, [this.state.infoTextVisible, this.state.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate])];
   }
 
   updateEffects() {
     var _this$_effects$, _this$_effects$2;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.infoTextVisible, this.isLargeDisplayMode]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.infoTextVisible, this.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate]);
-  }
-
-  get infoTextVisible() {
-    var state = this._currentState || this.state;
-    return state.infoTextVisible;
-  }
-
-  set_infoTextVisible(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        infoTextVisible: newValue
-      };
-    });
-  }
-
-  get isLargeDisplayMode() {
-    var state = this._currentState || this.state;
-    return state.isLargeDisplayMode;
-  }
-
-  set_isLargeDisplayMode(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        isLargeDisplayMode: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.infoTextVisible, this.state.isLargeDisplayMode]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.state.infoTextVisible, this.state.isLargeDisplayMode, this.props.pagerProps, this.props.contentTemplate]);
   }
 
   subscribeToResize() {
@@ -164,7 +131,7 @@ export class ResizableContainer extends InfernoComponent {
       pages: this.pagesRef.current
     });
 
-    if (isDefined(this.actualAdaptivityProps) && (this.actualAdaptivityProps.infoTextVisible !== this.infoTextVisible || this.actualAdaptivityProps.isLargeDisplayMode !== this.isLargeDisplayMode)) {
+    if (isDefined(this.actualAdaptivityProps) && (this.actualAdaptivityProps.infoTextVisible !== this.state.infoTextVisible || this.actualAdaptivityProps.isLargeDisplayMode !== this.state.isLargeDisplayMode)) {
       return;
     }
 
@@ -174,20 +141,24 @@ export class ResizableContainer extends InfernoComponent {
       this.elementsWidth = {};
     }
 
-    if (isEmpty || this.isLargeDisplayMode) {
+    if (isEmpty || this.state.isLargeDisplayMode) {
       this.elementsWidth.pageSizes = currentElementsWidth.pageSizes;
       this.elementsWidth.pages = currentElementsWidth.pages;
     }
 
-    if (isEmpty || this.infoTextVisible) {
+    if (isEmpty || this.state.infoTextVisible) {
       this.elementsWidth.info = currentElementsWidth.info;
     }
 
     this.actualAdaptivityProps = calculateAdaptivityProps(_extends({
       parent: currentElementsWidth.parent
     }, this.elementsWidth));
-    this.set_infoTextVisible(() => this.actualAdaptivityProps.infoTextVisible);
-    this.set_isLargeDisplayMode(() => this.actualAdaptivityProps.isLargeDisplayMode);
+    this.setState(state => _extends({}, state, {
+      infoTextVisible: this.actualAdaptivityProps.infoTextVisible
+    }));
+    this.setState(state => _extends({}, state, {
+      isLargeDisplayMode: this.actualAdaptivityProps.isLargeDisplayMode
+    }));
   }
 
   get restAttributes() {
@@ -203,8 +174,8 @@ export class ResizableContainer extends InfernoComponent {
       props: _extends({}, props, {
         contentTemplate: getTemplate(props.contentTemplate)
       }),
-      infoTextVisible: this.infoTextVisible,
-      isLargeDisplayMode: this.isLargeDisplayMode,
+      infoTextVisible: this.state.infoTextVisible,
+      isLargeDisplayMode: this.state.isLargeDisplayMode,
       parentRef: this.parentRef,
       pageSizesRef: this.pageSizesRef,
       infoTextRef: this.infoTextRef,

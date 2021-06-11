@@ -1764,14 +1764,6 @@ var KeyboardNavigationController = core.ViewController.inherit({
 
         setTimeout(() => {
           $input.val(editorValue);
-
-          if (browser.msie) {
-            gridCoreUtils.setSelectionRange($input.get(0), {
-              selectionStart: editorValue.length,
-              selectionEnd: editorValue.length
-            });
-          }
-
           var $widgetContainer = $input.closest(".".concat(WIDGET_CLASS));
           eventsEngine.off($widgetContainer, 'focusout'); // for NumberBox to save entered symbol
 

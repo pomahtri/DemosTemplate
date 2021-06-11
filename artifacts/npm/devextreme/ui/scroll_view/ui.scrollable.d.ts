@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/scroll_view/ui.scrollable.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -23,7 +23,7 @@ import {
     NativeEventInfo
 } from '../../events/index';
 
-export interface ScrollEventInfo<T = dxScrollable> extends NativeEventInfo<T> {
+export interface ScrollEventInfo<T> extends NativeEventInfo<T> {
     readonly scrollOffset?: any;
     readonly reachedLeft?: boolean;
     readonly reachedRight?: boolean;
@@ -32,7 +32,7 @@ export interface ScrollEventInfo<T = dxScrollable> extends NativeEventInfo<T> {
 }
 
 /** @namespace DevExpress.ui */
-export interface dxScrollableOptions<T = dxScrollable> extends DOMComponentOptions<T> {
+export interface dxScrollableOptions<TComponent> extends DOMComponentOptions<TComponent> {
     /**
      * @docid
      * @default false [for](desktop)
@@ -69,7 +69,7 @@ export interface dxScrollableOptions<T = dxScrollable> extends DOMComponentOptio
      * @action
      * @public
      */
-    onScroll?: ((e: ScrollEventInfo<T>) => void);
+    onScroll?: ((e: ScrollEventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -86,7 +86,7 @@ export interface dxScrollableOptions<T = dxScrollable> extends DOMComponentOptio
      * @action
      * @public
      */
-    onUpdated?: ((e: ScrollEventInfo<T>) => void);
+    onUpdated?: ((e: ScrollEventInfo<TComponent>) => void);
     /**
      * @docid
      * @default false [for](non-touch_devices)
@@ -124,8 +124,7 @@ export interface dxScrollableOptions<T = dxScrollable> extends DOMComponentOptio
  * @namespace DevExpress.ui
  * @hidden
  */
-export default class dxScrollable extends DOMComponent {
-    constructor(element: UserDefinedElement, options?: dxScrollableOptions)
+export default class dxScrollable<TProperties = Properties> extends DOMComponent<TProperties> {
     /**
      * @docid
      * @publicName clientHeight()
@@ -211,3 +210,5 @@ export default class dxScrollable extends DOMComponent {
      */
     update(): DxPromise<void>;
 }
+
+type Properties = dxScrollableOptions<dxScrollable<Properties>>;

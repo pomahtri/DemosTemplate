@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/core/base_widget.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -52,7 +52,7 @@ export interface FileSavingEventInfo<T> {
 }
 
 /** @namespace DevExpress.viz */
-export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T> {
+export interface BaseWidgetOptions<TComponent> extends DOMComponentOptions<TComponent> {
     /**
      * @docid
      * @default false
@@ -95,7 +95,7 @@ export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T
      * @action
      * @public
      */
-    onDrawn?: ((e: EventInfo<T>) => void);
+    onDrawn?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -106,7 +106,7 @@ export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T
      * @action
      * @public
      */
-    onExported?: ((e: EventInfo<T>) => void);
+    onExported?: ((e: EventInfo<TComponent>) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -120,7 +120,7 @@ export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T
      * @action
      * @public
      */
-    onExporting?: ((e: EventInfo<T> & ExportInfo) => void);
+    onExporting?: ((e: EventInfo<TComponent> & ExportInfo) => void);
     /**
      * @docid
      * @type_function_param1 e:object
@@ -134,7 +134,7 @@ export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T
      * @action
      * @public
      */
-    onFileSaving?: ((e: FileSavingEventInfo<T>) => void);
+    onFileSaving?: ((e: FileSavingEventInfo<TComponent>) => void);
     /**
      * @docid
      * @default null
@@ -146,7 +146,7 @@ export interface BaseWidgetOptions<T = BaseWidget> extends DOMComponentOptions<T
      * @action
      * @public
      */
-    onIncidentOccurred?: ((e: EventInfo<T> & IncidentInfo) => void);
+    onIncidentOccurred?: ((e: EventInfo<TComponent> & IncidentInfo) => void);
     /**
      * @docid
      * @default false
@@ -587,8 +587,7 @@ export interface BaseWidgetTooltip {
  * @inherits DOMComponent
  * @namespace DevExpress.viz
  */
-export default class BaseWidget extends DOMComponent {
-    constructor(element: UserDefinedElement, options?: BaseWidgetOptions)
+export default class BaseWidget<TProperties> extends DOMComponent<TProperties> {
     /**
      * @docid
      * @static

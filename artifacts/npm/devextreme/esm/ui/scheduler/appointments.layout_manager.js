@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointments.layout_manager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,6 +13,7 @@ import HorizontalAppointmentsStrategy from './rendering_strategies/ui.scheduler.
 import HorizontalMonthLineAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.horizontal_month_line';
 import HorizontalMonthAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.horizontal_month';
 import AgendaAppointmentsStrategy from './rendering_strategies/ui.scheduler.appointments.strategy.agenda';
+import { getAppointmentDataProvider } from './appointments/DataProvider/appointmentDataProvider';
 var RENDERING_STRATEGIES = {
   'horizontal': HorizontalAppointmentsStrategy,
   'horizontalMonth': HorizontalMonthAppointmentsStrategy,
@@ -63,6 +64,11 @@ class AppointmentLayoutManager {
   }
 
   _createAppointmentsMapCore(list, positionMap) {
+    var {
+      virtualScrollingDispatcher
+    } = this.instance.getWorkSpace();
+    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
+    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
     return list.map((data, index) => {
       if (!this._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -76,14 +82,17 @@ class AppointmentLayoutManager {
         itemData: data,
         settings: appointmentSettings,
         needRepaint: true,
-        needRemove: false
+        needRemove: false,
+        virtualCellCount,
+        virtualRowCount
       };
     });
   }
 
   _isDataChanged(data) {
-    var updatedData = this.instance.getUpdatedAppointment();
-    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
+    var appointmentDataProvider = getAppointmentDataProvider();
+    var updatedData = appointmentDataProvider.getUpdatedAppointment();
+    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(item => data[item.key] === item.value);
   }
 
   _isAppointmentShouldAppear(currentAppointment, sourceAppointment) {
@@ -95,17 +104,27 @@ class AppointmentLayoutManager {
       return true;
     }
 
-    for (var i = 0; i < settings.length; i++) {
-      var newSettings = _extends({}, settings[i]);
-
-      var oldSettings = _extends({}, sourceSetting[i], {
-        // exclude properties for comparison in commonUtils.equalByValue
-        sortedIndex: newSettings.sortedIndex,
-        cellIndex: newSettings.cellIndex,
-        rowIndex: newSettings.rowIndex,
-        hMax: newSettings.hMax,
-        vMax: newSettings.vMax
+    var createSettingsToCompare = (settings, index) => {
+      var virtualCellCount = settings.virtualCellCount || 0;
+      var virtualRowCount = settings.virtualRowCount || 0;
+      var cellIndex = settings[index].cellIndex + virtualCellCount;
+      var rowIndex = settings[index].rowIndex + virtualRowCount;
+      return _extends({}, settings[index], {
+        cellIndex: cellIndex,
+        rowIndex: rowIndex,
+        virtualCellCount: -1,
+        virtualRowCount: -1
       });
+    };
+
+    for (var i = 0; i < settings.length; i++) {
+      var newSettings = createSettingsToCompare(settings, i);
+      var oldSettings = createSettingsToCompare(sourceSetting, i);
+
+      if (oldSettings) {
+        // exclude sortedIndex property for comparison in commonUtils.equalByValue
+        oldSettings.sortedIndex = newSettings.sortedIndex;
+      }
 
       if (!equalByValue(newSettings, oldSettings)) {
         return true;

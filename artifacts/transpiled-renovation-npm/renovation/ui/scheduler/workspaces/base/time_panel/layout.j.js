@@ -4,7 +4,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../../../../component_wrapper/component"));
+var _component = _interopRequireDefault(require("../../../../../component_wrapper/common/component"));
 
 var _layout = require("./layout");
 
@@ -48,5 +48,6 @@ var TimePanelTableLayout = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = TimePanelTableLayout;
 (0, _component_registrator.default)("dxTimePanelTableLayout", TimePanelTableLayout);
+TimePanelTableLayout.defaultOptions = _layout.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

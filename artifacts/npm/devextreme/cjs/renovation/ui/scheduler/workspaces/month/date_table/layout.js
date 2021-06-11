@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/scheduler/workspaces/month/date_table/layout.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -72,6 +72,10 @@ var MonthDateTableLayout = /*#__PURE__*/function (_InfernoWrapperCompon) {
   }
 
   var _proto = MonthDateTableLayout.prototype;
+
+  _proto.createEffects = function createEffects() {
+    return [(0, _vdom.createReRenderEffect)()];
+  };
 
   _proto.render = function render() {
     var props = this.props;

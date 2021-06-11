@@ -1,14 +1,14 @@
 /**
 * DevExtreme (esm/renovation/ui/form/form.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import registerComponent from "../../../core/component_registrator";
-import BaseComponent from "../../component_wrapper/component";
-import { Form as FormComponent } from "./form";
+import BaseComponent from "../../component_wrapper/common/component";
+import { Form as FormComponent, defaultOptions } from "./form";
 export default class Form extends BaseComponent {
   get _propsInfo() {
     return {
@@ -16,7 +16,7 @@ export default class Form extends BaseComponent {
       allowNull: [],
       elements: [],
       templates: [],
-      props: ["scrollingEnabled", "useNativeScrolling"]
+      props: ["scrollingEnabled", "useNativeScrolling", "screenByWidth"]
     };
   }
 
@@ -26,3 +26,4 @@ export default class Form extends BaseComponent {
 
 }
 registerComponent("dxForm", Form);
+Form.defaultOptions = defaultOptions;

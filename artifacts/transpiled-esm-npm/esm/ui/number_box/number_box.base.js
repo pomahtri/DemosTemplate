@@ -98,7 +98,7 @@ var NumberBoxBase = TextEditor.inherit({
   },
   _isSupportInputMode: function _isSupportInputMode() {
     var version = parseFloat(browser.version);
-    return browser.chrome && version >= 66 || browser.safari && version >= 12 || browser.msie && version >= 75;
+    return browser.chrome && version >= 66 || browser.safari && version >= 12;
   },
   _defaultOptionsRules: function _defaultOptionsRules() {
     return this.callBase().concat([{
@@ -146,8 +146,7 @@ var NumberBoxBase = TextEditor.inherit({
   _keyPressHandler: function _keyPressHandler(e) {
     this.callBase(e);
     var char = getChar(e);
-    var validCharRegExp = /[\d.,eE\-+]|Subtract/; // Workaround for IE (T592690)
-
+    var validCharRegExp = /[\d.,eE\-+]/;
     var isInputCharValid = validCharRegExp.test(char);
 
     if (!isInputCharValid) {

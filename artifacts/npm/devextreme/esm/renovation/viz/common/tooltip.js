@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/viz/common/tooltip.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -203,7 +203,6 @@ var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? p
 export class Tooltip extends InfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.cloudRef = infernoCreateRef();
     this.textRef = infernoCreateRef();
     this.htmlRef = infernoCreateRef();
@@ -228,113 +227,17 @@ export class Tooltip extends InfernoComponent {
   createEffects() {
     var _this$props$rootWidge;
 
-    return [new InfernoEffect(this.setHtmlText, [this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]), new InfernoEffect(this.calculateSize, [this.props.visible, this.props.x, this.props.y, this.textSize, this.cloudSize]), new InfernoEffect(this.eventsEffect, [this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.textSize, this.currentEventData]), new InfernoEffect(this.checkContainer, [this.props.visible]), new InfernoEffect(this.setCanvas, [this.props.container, (_this$props$rootWidge = this.props.rootWidget) === null || _this$props$rootWidge === void 0 ? void 0 : _this$props$rootWidge.current])];
+    return [new InfernoEffect(this.setHtmlText, [this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]), new InfernoEffect(this.calculateSize, [this.props.visible, this.props.x, this.props.y, this.state.textSize, this.state.cloudSize]), new InfernoEffect(this.eventsEffect, [this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.state.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.state.textSize, this.state.currentEventData]), new InfernoEffect(this.checkContainer, [this.props.visible]), new InfernoEffect(this.setCanvas, [this.props.container, (_this$props$rootWidge = this.props.rootWidget) === null || _this$props$rootWidge === void 0 ? void 0 : _this$props$rootWidge.current])];
   }
 
   updateEffects() {
     var _this$_effects$, _this$_effects$2, _this$_effects$3, _this$_effects$4, _this$_effects$5, _this$props$rootWidge2;
 
     (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.border, this.props.color, this.props.customizeTooltip, this.props.data, this.props.font, this.props.visible]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.visible, this.props.x, this.props.y, this.textSize, this.cloudSize]);
-    (_this$_effects$3 = this._effects[2]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.textSize, this.currentEventData]);
+    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.visible, this.props.x, this.props.y, this.state.textSize, this.state.cloudSize]);
+    (_this$_effects$3 = this._effects[2]) === null || _this$_effects$3 === void 0 ? void 0 : _this$_effects$3.update([this.props.eventData, this.props.onTooltipHidden, this.props.onTooltipShown, this.props.visible, this.props.arrowLength, this.props.offset, this.props.x, this.props.y, this.state.canvas, this.props.paddingLeftRight, this.props.paddingTopBottom, this.state.textSize, this.state.currentEventData]);
     (_this$_effects$4 = this._effects[3]) === null || _this$_effects$4 === void 0 ? void 0 : _this$_effects$4.update([this.props.visible]);
     (_this$_effects$5 = this._effects[4]) === null || _this$_effects$5 === void 0 ? void 0 : _this$_effects$5.update([this.props.container, (_this$props$rootWidge2 = this.props.rootWidget) === null || _this$props$rootWidge2 === void 0 ? void 0 : _this$props$rootWidge2.current]);
-  }
-
-  get filterId() {
-    var state = this._currentState || this.state;
-    return state.filterId;
-  }
-
-  set_filterId(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        filterId: newValue
-      };
-    });
-  }
-
-  get textSize() {
-    var state = this._currentState || this.state;
-    return state.textSize;
-  }
-
-  set_textSize(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        textSize: newValue
-      };
-    });
-  }
-
-  get cloudSize() {
-    var state = this._currentState || this.state;
-    return state.cloudSize;
-  }
-
-  set_cloudSize(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        cloudSize: newValue
-      };
-    });
-  }
-
-  get currentEventData() {
-    var state = this._currentState || this.state;
-    return state.currentEventData;
-  }
-
-  set_currentEventData(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        currentEventData: newValue
-      };
-    });
-  }
-
-  get isEmptyContainer() {
-    var state = this._currentState || this.state;
-    return state.isEmptyContainer;
-  }
-
-  set_isEmptyContainer(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        isEmptyContainer: newValue
-      };
-    });
-  }
-
-  get canvas() {
-    var state = this._currentState || this.state;
-    return state.canvas;
-  }
-
-  set_canvas(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        canvas: newValue
-      };
-    });
   }
 
   setHtmlText() {
@@ -349,12 +252,16 @@ export class Tooltip extends InfernoComponent {
     var contentSize = this.calculateContentSize();
     var cloudSize = this.calculateCloudSize();
 
-    if (isUpdatedFlatObject(this.textSize, contentSize)) {
-      this.set_textSize(() => contentSize);
+    if (isUpdatedFlatObject(this.state.textSize, contentSize)) {
+      this.setState(state => _extends({}, state, {
+        textSize: contentSize
+      }));
     }
 
-    if (isUpdatedFlatObject(this.cloudSize, cloudSize)) {
-      this.set_cloudSize(() => cloudSize);
+    if (isUpdatedFlatObject(this.state.cloudSize, cloudSize)) {
+      this.setState(state => _extends({}, state, {
+        cloudSize: cloudSize
+      }));
     }
   }
 
@@ -374,15 +281,19 @@ export class Tooltip extends InfernoComponent {
       return JSON.stringify(object1.target) === JSON.stringify(object2.target);
     };
 
-    if (visible && this.correctedCoordinates && !isEqual(this.currentEventData, eventData)) {
-      this.currentEventData && (onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.currentEventData));
+    if (visible && this.correctedCoordinates && !isEqual(this.state.currentEventData, eventData)) {
+      this.state.currentEventData && (onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.state.currentEventData));
       onTooltipShown === null || onTooltipShown === void 0 ? void 0 : onTooltipShown(eventData);
-      this.set_currentEventData(() => eventData);
+      this.setState(state => _extends({}, state, {
+        currentEventData: eventData
+      }));
     }
 
-    if (!visible && this.currentEventData) {
-      onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.currentEventData);
-      this.set_currentEventData(() => undefined);
+    if (!visible && this.state.currentEventData) {
+      onTooltipHidden === null || onTooltipHidden === void 0 ? void 0 : onTooltipHidden(this.state.currentEventData);
+      this.setState(state => _extends({}, state, {
+        currentEventData: undefined
+      }));
     }
   }
 
@@ -391,13 +302,17 @@ export class Tooltip extends InfernoComponent {
       var htmlTextSize = this.htmlRef.current.getBoundingClientRect();
 
       if (!htmlTextSize.width && !htmlTextSize.height) {
-        this.set_isEmptyContainer(() => true);
+        this.setState(state => _extends({}, state, {
+          isEmptyContainer: true
+        }));
       }
     }
   }
 
   setCanvas() {
-    this.set_canvas(() => getCanvas(this.container));
+    this.setState(state => _extends({}, state, {
+      canvas: getCanvas(this.container)
+    }));
   }
 
   get textSizeWithPaddings() {
@@ -406,8 +321,8 @@ export class Tooltip extends InfernoComponent {
       paddingTopBottom
     } = this.props;
     return {
-      width: this.textSize.width + paddingLeftRight * 2,
-      height: this.textSize.height + paddingTopBottom * 2
+      width: this.state.textSize.width + paddingLeftRight * 2,
+      height: this.state.textSize.height + paddingTopBottom * 2
     };
   }
 
@@ -507,7 +422,7 @@ export class Tooltip extends InfernoComponent {
       y
     } = this.props;
     return recalculateCoordinates({
-      canvas: this.canvas,
+      canvas: this.state.canvas,
       anchorX: x,
       anchorY: y,
       size: this.textSizeWithPaddings,
@@ -569,12 +484,12 @@ export class Tooltip extends InfernoComponent {
       props: _extends({}, props, {
         contentTemplate: getTemplate(props.contentTemplate)
       }),
-      filterId: this.filterId,
-      textSize: this.textSize,
-      cloudSize: this.cloudSize,
-      currentEventData: this.currentEventData,
-      isEmptyContainer: this.isEmptyContainer,
-      canvas: this.canvas,
+      filterId: this.state.filterId,
+      textSize: this.state.textSize,
+      cloudSize: this.state.cloudSize,
+      currentEventData: this.state.currentEventData,
+      isEmptyContainer: this.state.isEmptyContainer,
+      canvas: this.state.canvas,
       cloudRef: this.cloudRef,
       textRef: this.textRef,
       htmlRef: this.htmlRef,

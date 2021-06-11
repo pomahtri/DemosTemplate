@@ -30,12 +30,12 @@ export class InkRipple extends BaseInfernoComponent {
     return restProps;
   }
 
-  hideWave(event) {
-    hideWave(this.getConfig, event);
+  hideWave(opts) {
+    hideWave(this.getConfig, opts);
   }
 
-  showWave(event) {
-    showWave(this.getConfig, event);
+  showWave(opts) {
+    showWave(this.getConfig, opts);
   }
 
   render() {

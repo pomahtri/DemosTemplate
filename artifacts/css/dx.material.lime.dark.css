@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /**
 * DevExtreme (dx.material.lime.dark.css)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -3250,6 +3250,9 @@
   display: block;
   height: 100%;
   min-height: 0;
+}
+.dx-scrollable:focus {
+  outline: 0;
 }
 .dx-scrollable-native {
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -13182,6 +13185,16 @@
 .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td:not(.dx-validation-pending):not(.dx-datagrid-select-all).dx-command-edit.dx-command-edit-with-icons .dx-link:not(.dx-link-icon) {
   width: auto;
 }
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-edit .dx-link.dx-state-disabled,
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-datagrid-select-all).dx-command-edit .dx-link.dx-state-disabled,
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td:not(.dx-validation-pending):not(.dx-datagrid-select-all).dx-command-edit .dx-link.dx-state-disabled {
+  opacity: .38;
+}
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon,
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-datagrid-select-all).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon,
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td:not(.dx-validation-pending):not(.dx-datagrid-select-all).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon {
+  opacity: .6;
+}
 .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending) .dx-datagrid-group-space,
 .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-expand,
 .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-datagrid-select-all) .dx-datagrid-group-space,
@@ -15529,6 +15542,16 @@ input.dx-hidden {
 .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-treelist-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit.dx-command-edit-with-icons .dx-link:not(.dx-link-icon),
 .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td:not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit.dx-command-edit-with-icons .dx-link:not(.dx-link-icon) {
   width: auto;
+}
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-edit .dx-link.dx-state-disabled,
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-treelist-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit .dx-link.dx-state-disabled,
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td:not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit .dx-link.dx-state-disabled {
+  opacity: .38;
+}
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon,
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-treelist-invalid:not(.dx-field-item-content):not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon,
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td:not(.dx-validation-pending):not(.dx-treelist-select-all).dx-command-edit .dx-link.dx-state-disabled.dx-link-icon {
+  opacity: .6;
 }
 .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending) .dx-treelist-group-space,
 .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content):not(.dx-validation-pending).dx-command-expand,

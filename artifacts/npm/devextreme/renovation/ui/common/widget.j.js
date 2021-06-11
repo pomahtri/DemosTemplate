@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/common/widget.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../component_wrapper/component"));
+var _component = _interopRequireDefault(require("../../component_wrapper/common/component"));
 
 var _widget = require("./widget");
 
@@ -45,7 +45,7 @@ var Widget = /*#__PURE__*/function (_BaseComponent) {
   _proto.focus = function focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus.apply(_this$viewRef, arguments);
   };
 
   _proto._getActionConfigs = function _getActionConfigs() {
@@ -53,16 +53,12 @@ var Widget = /*#__PURE__*/function (_BaseComponent) {
       onActive: {},
       onDimensionChanged: {},
       onInactive: {},
-      onKeyboardHandled: {},
       onVisibilityChange: {},
       onFocusIn: {},
       onFocusOut: {},
       onHoverStart: {},
       onHoverEnd: {},
-      onClick: {},
-      onContentReady: {
-        excludeValidators: ["disabled", "readOnly"]
-      }
+      onClick: {}
     };
   };
 
@@ -74,7 +70,7 @@ var Widget = /*#__PURE__*/function (_BaseComponent) {
         allowNull: [],
         elements: [],
         templates: [],
-        props: ["_feedbackHideTimeout", "_feedbackShowTimeout", "activeStateUnit", "aria", "classes", "className", "name", "onActive", "onDimensionChanged", "onInactive", "onKeyboardHandled", "onVisibilityChange", "onFocusIn", "onFocusOut", "onHoverStart", "onHoverEnd", "accessKey", "activeStateEnabled", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "onClick", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
+        props: ["_feedbackHideTimeout", "_feedbackShowTimeout", "activeStateUnit", "aria", "classes", "name", "addWidgetClass", "onActive", "onDimensionChanged", "onInactive", "onVisibilityChange", "onFocusIn", "onFocusOut", "onHoverStart", "onHoverEnd", "className", "accessKey", "activeStateEnabled", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
       };
     }
   }, {
@@ -89,5 +85,6 @@ var Widget = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = Widget;
 (0, _component_registrator.default)("dxWidget", Widget);
+Widget.defaultOptions = _widget.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

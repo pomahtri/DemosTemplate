@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/grids/grid_base/grid_base_view_wrapper.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -63,8 +63,6 @@ var GridBaseViewWrapper = /*#__PURE__*/function (_InfernoComponent) {
   _proto.createEffects = function createEffects() {
     return [new _vdom.InfernoEffect(this.renderView, [])];
   };
-
-  _proto.updateEffects = function updateEffects() {};
 
   _proto.renderView = function renderView() {
     var $element = (0, _renderer.default)(this.viewRef.current);

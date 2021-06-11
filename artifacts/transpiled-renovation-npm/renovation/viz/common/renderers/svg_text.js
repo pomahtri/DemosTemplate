@@ -213,10 +213,9 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
         stroke = _this$props2.stroke,
         strokeWidth = _this$props2.strokeWidth;
     var strokeOpacity = this.props.strokeOpacity || 1;
-    var tspan;
 
     for (var i = 0, ii = items.length; i < ii; ++i) {
-      tspan = items[i].stroke;
+      var tspan = items[i].stroke;
       tspan.setAttribute(KEY_STROKE, stroke);
       tspan.setAttribute("stroke-width", strokeWidth.toString());
       tspan.setAttribute("stroke-opacity", strokeOpacity.toString());
@@ -263,12 +262,12 @@ var TextSvgElement = /*#__PURE__*/function (_InfernoComponent) {
   }, {
     key: "textItems",
     get: function get() {
-      var items;
-      var parsedHtml;
+      var items = undefined;
+      var parsedHtml = "";
       var text = this.props.text;
       if (!text) return;
 
-      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.indexOf("&") !== -1)) {
+      if (!this.props.encodeHtml && (/<[a-z][\s\S]*>/i.test(text) || text.includes("&"))) {
         parsedHtml = (0, _utils.removeExtraAttrs)(text);
         items = (0, _utils.parseHTML)(parsedHtml);
       } else if (/\n/g.test(text)) {

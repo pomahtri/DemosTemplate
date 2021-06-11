@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/gantt/ui.gantt.view.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -96,16 +96,10 @@ export class GanttView extends Widget {
     this._ganttViewCore.selectTaskById(id);
   }
 
-  _update(keepExpandState) {
-    var core = this._ganttViewCore;
-    var state = keepExpandState && core.getTasksExpandedState();
-    core.loadOptionsFromGanttOwner();
+  _update() {
+    this._ganttViewCore.loadOptionsFromGanttOwner();
 
-    if (keepExpandState) {
-      core.applyTasksExpandedState(state);
-    } else {
-      core.resetAndUpdate();
-    }
+    this._ganttViewCore.resetAndUpdate();
   }
 
   _getCultureInfo() {
@@ -241,7 +235,7 @@ export class GanttView extends Widget {
       case 'validation':
         this._ganttViewCore.setValidationSettings(args.value);
 
-        this._update(true);
+        this._update();
 
         break;
 

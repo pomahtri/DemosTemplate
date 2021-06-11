@@ -37,16 +37,13 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
   _proto.focus = function focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus.apply(_this$viewRef, arguments);
   };
 
   _proto._getActionConfigs = function _getActionConfigs() {
     return {
       onFocusIn: {},
-      onClick: {},
-      onContentReady: {
-        excludeValidators: ["disabled", "readOnly"]
-      }
+      onClick: {}
     };
   };
 
@@ -54,11 +51,11 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
     key: "_propsInfo",
     get: function get() {
       return {
-        twoWay: [["value", false, "valueChange"]],
+        twoWay: [["value", "defaultValue", "valueChange"]],
         allowNull: ["validationError", "validationErrors", "defaultValue", "value"],
         elements: [],
         templates: [],
-        props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
+        props: ["activeStateEnabled", "hoverStateEnabled", "validationError", "validationErrors", "text", "validationMessageMode", "validationStatus", "name", "readOnly", "isValid", "useInkRipple", "onFocusIn", "saveValueChangeEvent", "defaultValue", "valueChange", "className", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width", "value"]
       };
     }
   }, {
@@ -73,5 +70,6 @@ var CheckBox = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = CheckBox;
 (0, _component_registrator.default)("dxCheckBox", CheckBox);
+CheckBox.defaultOptions = _check_box2.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

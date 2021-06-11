@@ -1,5 +1,5 @@
-import _extends from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
+import _extends from "@babel/runtime/helpers/esm/extends";
 var _excluded = ["defaultPageSize", "pageSize", "pageSizeChange", "pageSizes", "parentRef"];
 import { createComponentVNode } from "inferno";
 import { InfernoEffect, InfernoComponent } from "@devextreme/vdom";
@@ -32,7 +32,6 @@ var PageSizeSmallPropsType = {
 export class PageSizeSmall extends InfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.state = {
       minWidth: 10,
       pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.props.defaultPageSize
@@ -41,61 +40,28 @@ export class PageSizeSmall extends InfernoComponent {
   }
 
   createEffects() {
-    return [new InfernoEffect(this.updateWidth, [this.minWidth, this.__state_pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize])];
+    return [new InfernoEffect(this.updateWidth, [this.state.minWidth, this.state.pageSize, this.props.pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize])];
   }
 
   updateEffects() {
     var _this$_effects$;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.minWidth, this.__state_pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize]);
-  }
-
-  get minWidth() {
-    var state = this._currentState || this.state;
-    return state.minWidth;
-  }
-
-  set_minWidth(value) {
-    this.setState(state => {
-      this._currentState = state;
-      var newValue = value();
-      this._currentState = null;
-      return {
-        minWidth: newValue
-      };
-    });
-  }
-
-  get __state_pageSize() {
-    var state = this._currentState || this.state;
-    return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-  }
-
-  set_pageSize(value) {
-    this.setState(state => {
-      var _this$props$pageSizeC, _this$props;
-
-      this._currentState = state;
-      var newValue = value();
-      (_this$props$pageSizeC = (_this$props = this.props).pageSizeChange) === null || _this$props$pageSizeC === void 0 ? void 0 : _this$props$pageSizeC.call(_this$props, newValue);
-      this._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.minWidth, this.state.pageSize, this.props.pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize]);
   }
 
   updateWidth() {
-    this.set_minWidth(() => getElementMinWidth(this.props.parentRef.current) || this.minWidth);
+    this.setState(state => _extends({}, state, {
+      minWidth: getElementMinWidth(this.props.parentRef.current) || state.minWidth
+    }));
   }
 
   get width() {
-    return calculateValuesFittedWidth(this.minWidth, this.props.pageSizes.map(p => p.value));
+    return calculateValuesFittedWidth(this.state.minWidth, this.props.pageSizes.map(p => p.value));
   }
 
   get restAttributes() {
     var _this$props$pageSize = _extends({}, this.props, {
-      pageSize: this.__state_pageSize
+      pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
     }),
         restProps = _objectWithoutPropertiesLoose(_this$props$pageSize, _excluded);
 
@@ -106,7 +72,7 @@ export class PageSizeSmall extends InfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageSize: this.__state_pageSize
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       width: this.width,
       restAttributes: this.restAttributes

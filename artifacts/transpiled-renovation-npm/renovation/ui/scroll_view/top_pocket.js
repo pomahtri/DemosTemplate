@@ -18,7 +18,7 @@ var _combine_classes = require("../../utils/combine_classes");
 
 var _consts = require("./common/consts");
 
-var _excluded = ["pocketState", "pocketTop", "pullDownIconAngle", "pullDownOpacity", "pullDownTop", "pullDownTranslateTop", "pulledDownText", "pullingDownText", "refreshStrategy", "refreshingText", "topPocketRef", "topPocketTranslateTop", "visible"];
+var _excluded = ["pocketState", "pocketTop", "pullDownIconAngle", "pullDownOpacity", "pullDownTranslateTop", "pulledDownText", "pullingDownText", "refreshStrategy", "refreshingText", "topPocketRef", "topPocketTranslateTop", "visible"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,8 +52,9 @@ var viewFunction = function viewFunction(viewModel) {
       refreshVisibleClass = viewModel.refreshVisibleClass,
       refreshingText = viewModel.refreshingText,
       releaseVisibleClass = viewModel.releaseVisibleClass,
+      topPocketClasses = viewModel.topPocketClasses,
       topPocketStyles = viewModel.topPocketStyles;
-  return (0, _inferno.createVNode)(1, "div", _consts.SCROLLVIEW_TOP_POCKET_CLASS, (0, _inferno.createVNode)(1, "div", pullDownClasses, [refreshStrategy !== "swipeDown" && (0, _inferno.createVNode)(1, "div", _consts.SCROLLVIEW_PULLDOWN_IMAGE_CLASS), refreshStrategy === "swipeDown" && (0, _inferno.createVNode)(1, "div", _consts.PULLDOWN_ICON_CLASS, null, 1, {
+  return (0, _inferno.createVNode)(1, "div", topPocketClasses, (0, _inferno.createVNode)(1, "div", pullDownClasses, [refreshStrategy !== "swipeDown" && (0, _inferno.createVNode)(1, "div", _consts.SCROLLVIEW_PULLDOWN_IMAGE_CLASS), refreshStrategy === "swipeDown" && (0, _inferno.createVNode)(1, "div", _consts.PULLDOWN_ICON_CLASS, null, 1, {
     "style": (0, _vdom.normalizeStyles)(pullDownIconStyles)
   }), (0, _inferno.createVNode)(1, "div", _consts.SCROLLVIEW_PULLDOWN_INDICATOR_CLASS, (0, _inferno.createComponentVNode)(2, _load_indicator.LoadIndicator), 2), refreshStrategy !== "swipeDown" && (0, _inferno.createVNode)(1, "div", _consts.SCROLLVIEW_PULLDOWN_TEXT_CLASS, [(0, _inferno.createVNode)(1, "div", releaseVisibleClass, pullingDownText, 0), (0, _inferno.createVNode)(1, "div", readyVisibleClass, pulledDownText, 0), (0, _inferno.createVNode)(1, "div", refreshVisibleClass, refreshingText, 0)], 4)], 0, {
     "style": (0, _vdom.normalizeStyles)(pullDownStyles)
@@ -65,7 +66,6 @@ var viewFunction = function viewFunction(viewModel) {
 exports.viewFunction = viewFunction;
 var TopPocketProps = {
   pocketState: _consts.TopPocketState.STATE_RELEASED,
-  pullDownTop: 0,
   pullDownTranslateTop: 0,
   pullDownIconAngle: 0,
   pullDownOpacity: 0,
@@ -75,7 +75,6 @@ var TopPocketProps = {
 exports.TopPocketProps = TopPocketProps;
 var TopPocketPropsType = {
   pocketState: TopPocketProps.pocketState,
-  pullDownTop: TopPocketProps.pullDownTop,
   pullDownTranslateTop: TopPocketProps.pullDownTranslateTop,
   pullDownIconAngle: TopPocketProps.pullDownIconAngle,
   pullDownOpacity: TopPocketProps.pullDownOpacity,
@@ -111,6 +110,7 @@ var TopPocket = /*#__PURE__*/function (_BaseInfernoComponent) {
       pulledDownText: this.pulledDownText,
       refreshingText: this.refreshingText,
       pullDownClasses: this.pullDownClasses,
+      topPocketClasses: this.topPocketClasses,
       pullDownStyles: this.pullDownStyles,
       topPocketStyles: this.topPocketStyles,
       pullDownIconStyles: this.pullDownIconStyles,
@@ -178,6 +178,14 @@ var TopPocket = /*#__PURE__*/function (_BaseInfernoComponent) {
       return (0, _combine_classes.combineClasses)(classesMap);
     }
   }, {
+    key: "topPocketClasses",
+    get: function get() {
+      var _classesMap2;
+
+      var classesMap = (_classesMap2 = {}, _defineProperty(_classesMap2, _consts.SCROLLVIEW_TOP_POCKET_CLASS, true), _defineProperty(_classesMap2, "dx-state-invisible", !this.props.visible), _classesMap2);
+      return (0, _combine_classes.combineClasses)(classesMap);
+    }
+  }, {
     key: "pullDownStyles",
     get: function get() {
       if (this.props.refreshStrategy === "swipeDown") {
@@ -194,7 +202,7 @@ var TopPocket = /*#__PURE__*/function (_BaseInfernoComponent) {
     get: function get() {
       if (this.props.refreshStrategy === "pullDown") {
         return {
-          top: "".concat(this.props.pocketTop, "px"),
+          top: "".concat(-this.props.pocketTop, "px"),
           transform: "translate(0px, ".concat(this.props.topPocketTranslateTop, "px)")
         };
       }
@@ -216,7 +224,6 @@ var TopPocket = /*#__PURE__*/function (_BaseInfernoComponent) {
           pocketTop = _this$props2.pocketTop,
           pullDownIconAngle = _this$props2.pullDownIconAngle,
           pullDownOpacity = _this$props2.pullDownOpacity,
-          pullDownTop = _this$props2.pullDownTop,
           pullDownTranslateTop = _this$props2.pullDownTranslateTop,
           pulledDownText = _this$props2.pulledDownText,
           pullingDownText = _this$props2.pullingDownText,

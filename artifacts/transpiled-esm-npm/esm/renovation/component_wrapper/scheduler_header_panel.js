@@ -1,5 +1,5 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
-import Component from "./component";
+import Component from "./common/component";
 export default class HeaderPanel extends Component {
   _setOptionsByReference() {
     super._setOptionsByReference();

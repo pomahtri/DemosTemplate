@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/tooltip_strategies/tooltipStrategyBase.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -148,14 +148,12 @@ var TooltipStrategyBase = /*#__PURE__*/function () {
   };
 
   _proto._createFunctionTemplate = function _createFunctionTemplate(template, data, targetData, index) {
-    var isEmptyDropDownAppointmentTemplate = this._isEmptyDropDownAppointmentTemplate();
-
     return new _function_template.FunctionTemplate(function (options) {
       return template.render({
-        model: isEmptyDropDownAppointmentTemplate ? {
+        model: {
           appointmentData: data,
           targetedAppointmentData: targetData
-        } : data,
+        },
         container: options.container,
         index: index
       });
@@ -163,11 +161,7 @@ var TooltipStrategyBase = /*#__PURE__*/function () {
   };
 
   _proto._getItemListTemplateName = function _getItemListTemplateName() {
-    return this._isEmptyDropDownAppointmentTemplate() ? 'appointmentTooltip' : 'dropDownAppointment';
-  };
-
-  _proto._isEmptyDropDownAppointmentTemplate = function _isEmptyDropDownAppointmentTemplate() {
-    return !this._extraOptions.dropDownAppointmentTemplate || this._extraOptions.dropDownAppointmentTemplate === 'dropDownAppointment';
+    return 'appointmentTooltip';
   };
 
   _proto._onListItemClick = function _onListItemClick(e) {

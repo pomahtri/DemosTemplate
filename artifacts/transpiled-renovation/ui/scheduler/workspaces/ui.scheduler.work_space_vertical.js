@@ -2,10 +2,6 @@
 
 exports.default = void 0;
 
-var _renderer = _interopRequireDefault(require("../../../core/renderer"));
-
-var _iterator = require("../../../core/utils/iterator");
-
 var _uiSchedulerWork_space = _interopRequireDefault(require("./ui.scheduler.work_space.indicator"));
 
 var _date = _interopRequireDefault(require("../../../localization/date"));
@@ -27,64 +23,6 @@ var SchedulerWorkspaceVertical = /*#__PURE__*/function (_SchedulerWorkSpaceIn) {
 
   var _proto = SchedulerWorkspaceVertical.prototype;
 
-  _proto._getCellsBetween = function _getCellsBetween($first, $last) {
-    if (this._hasAllDayClass($last)) {
-      return _SchedulerWorkSpaceIn.prototype._getCellsBetween.call(this, $first, $last);
-    }
-
-    var $cells = this._getCells();
-
-    var firstColumn = $first.index();
-    var firstRow = $first.parent().index();
-    var lastColumn = $last.index();
-    var lastRow = $last.parent().index();
-
-    var groupCount = this._getGroupCount();
-
-    var cellCount = groupCount > 0 ? this._getTotalCellCount(groupCount) : this._getCellCount();
-
-    var rowCount = this._getTotalRowCount(groupCount);
-
-    var result = [];
-
-    for (var i = 0; i < cellCount; i++) {
-      for (var j = 0; j < rowCount; j++) {
-        var cell = $cells.get(cellCount * j + i);
-        result.push(cell);
-      }
-    }
-
-    var lastCellGroup = this.getCellData($last).groups;
-    var indexesDifference = this.option('showAllDayPanel') && this._isVerticalGroupedWorkSpace() ? this._getGroupIndexByResourceId(lastCellGroup) + 1 : 0;
-    var newFirstIndex = rowCount * firstColumn + firstRow - indexesDifference;
-    var newLastIndex = rowCount * lastColumn + lastRow - indexesDifference;
-
-    if (newFirstIndex > newLastIndex) {
-      var buffer = newFirstIndex;
-      newFirstIndex = newLastIndex;
-      newLastIndex = buffer;
-    }
-
-    $cells = (0, _renderer.default)(result).slice(newFirstIndex, newLastIndex + 1);
-
-    if (this._getGroupCount()) {
-      var arr = [];
-
-      var focusedGroupIndex = this._getGroupIndexByCell($first);
-
-      (0, _iterator.each)($cells, function (_, cell) {
-        var groupIndex = this._getGroupIndexByCell((0, _renderer.default)(cell));
-
-        if (focusedGroupIndex === groupIndex) {
-          arr.push(cell);
-        }
-      }.bind(this));
-      $cells = (0, _renderer.default)(arr);
-    }
-
-    return $cells;
-  };
-
   _proto._getCellFromNextColumn = function _getCellFromNextColumn(direction, isMultiSelection) {
     var $nextCell = _SchedulerWorkSpaceIn.prototype._getCellFromNextColumn.call(this, direction, isMultiSelection);
 
@@ -99,10 +37,6 @@ var SchedulerWorkspaceVertical = /*#__PURE__*/function (_SchedulerWorkSpaceIn) {
 
   _proto._getFormat = function _getFormat() {
     return this._formatWeekdayAndDay;
-  };
-
-  _proto.renovatedRenderSupported = function renovatedRenderSupported() {
-    return true;
   };
 
   _proto.generateRenderOptions = function generateRenderOptions() {

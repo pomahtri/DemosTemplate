@@ -231,6 +231,20 @@ export var dxScrollCancel = {
     eventsEngine.off($el, addNamespace('dxscrollcancel', namespace));
   }
 };
+export var keyDown = {
+  on: function on($el, onKeyDown) {
+    var {
+      namespace
+    } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    eventsEngine.on($el, addNamespace('keydown', namespace), onKeyDown);
+  },
+  off: function off($el) {
+    var {
+      namespace
+    } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    eventsEngine.off($el, addNamespace('keydown', namespace));
+  }
+};
 export var dxPointerDown = {
   on: function on($el, onPointerDown) {
     var {

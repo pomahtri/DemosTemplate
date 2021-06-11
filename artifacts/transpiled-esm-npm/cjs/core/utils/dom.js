@@ -1,10 +1,12 @@
 "use strict";
 
-exports.createTextElementHiddenCopy = exports.contains = exports.clipboardText = exports.normalizeTemplateElement = exports.extractTemplateMarkup = exports.closestCommonParent = exports.clearSelection = exports.resetActiveElement = void 0;
+exports.replaceWith = exports.insertBefore = exports.createTextElementHiddenCopy = exports.contains = exports.clipboardText = exports.normalizeTemplateElement = exports.extractTemplateMarkup = exports.closestCommonParent = exports.clearSelection = exports.resetActiveElement = void 0;
 
 var _dom_adapter = _interopRequireDefault(require("../../core/dom_adapter"));
 
 var _renderer = _interopRequireDefault(require("../../core/renderer"));
+
+var _iterator = require("./iterator");
 
 var _type = require("./type");
 
@@ -159,3 +161,25 @@ var createTextElementHiddenCopy = function createTextElementHiddenCopy(element, 
 };
 
 exports.createTextElementHiddenCopy = createTextElementHiddenCopy;
+
+var insertBefore = function insertBefore(element, newElement) {
+  if (newElement) {
+    _dom_adapter.default.insertElement(element.parentNode, newElement, element);
+  }
+
+  return element;
+};
+
+exports.insertBefore = insertBefore;
+
+var replaceWith = function replaceWith(element, newElement) {
+  if (!(newElement && newElement[0])) return;
+  if (newElement.is(element)) return element;
+  (0, _iterator.each)(newElement, function (_, currentElement) {
+    insertBefore(element[0], currentElement);
+  });
+  element.remove();
+  return newElement;
+};
+
+exports.replaceWith = replaceWith;

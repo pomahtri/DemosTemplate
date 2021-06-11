@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/workspaces/ui.scheduler.virtual_scrolling.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -35,7 +35,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var DEFAULT_CELL_HEIGHT = 50;
 var MIN_CELL_WIDTH = 1;
 var MIN_SCROLL_OFFSET = 10;
-var VIRTUAL_APPOINTMENTS_RENDER_TIMEOUT = 30;
+var VIRTUAL_APPOINTMENTS_RENDER_TIMEOUT = 15;
 var DOCUMENT_SCROLL_EVENT_NAMESPACE = (0, _index.addNamespace)('scroll', 'dxSchedulerVirtualScrolling');
 var scrollingOrientations = {
   vertical: 'vertical',
@@ -742,7 +742,7 @@ var Renderer = /*#__PURE__*/function () {
   };
 
   _proto5._renderGrid = function _renderGrid() {
-    this.workspace.renderRWorkspace(false);
+    this.workspace.renderWorkSpace(false);
   };
 
   _proto5._renderAppointments = function _renderAppointments() {

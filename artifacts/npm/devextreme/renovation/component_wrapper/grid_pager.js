@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/component_wrapper/grid_pager.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,7 @@
 
 exports.GridPagerWrapper = void 0;
 
-var _component = _interopRequireDefault(require("./component"));
+var _component = _interopRequireDefault(require("./common/component"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

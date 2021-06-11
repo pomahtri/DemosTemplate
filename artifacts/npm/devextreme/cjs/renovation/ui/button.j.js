@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/ui/button.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -45,7 +45,7 @@ var Button = /*#__PURE__*/function (_BaseComponent) {
   _proto.focus = function focus() {
     var _this$viewRef;
 
-    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus();
+    return (_this$viewRef = this.viewRef) === null || _this$viewRef === void 0 ? void 0 : _this$viewRef.focus.apply(_this$viewRef, arguments);
   };
 
   _proto._getActionConfigs = function _getActionConfigs() {
@@ -53,10 +53,7 @@ var Button = /*#__PURE__*/function (_BaseComponent) {
       onClick: {
         excludeValidators: ["readOnly"]
       },
-      onSubmit: {},
-      onContentReady: {
-        excludeValidators: ["disabled", "readOnly"]
-      }
+      onSubmit: {}
     };
   };
 
@@ -68,7 +65,7 @@ var Button = /*#__PURE__*/function (_BaseComponent) {
         allowNull: [],
         elements: ["onSubmit"],
         templates: ["template"],
-        props: ["activeStateEnabled", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onSubmit", "pressed", "stylingMode", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onContentReady", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
+        props: ["activeStateEnabled", "hoverStateEnabled", "icon", "iconPosition", "onClick", "onSubmit", "pressed", "stylingMode", "template", "text", "type", "useInkRipple", "useSubmitBehavior", "validationGroup", "templateData", "className", "accessKey", "disabled", "focusStateEnabled", "height", "hint", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"]
       };
     }
   }, {
@@ -83,5 +80,6 @@ var Button = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = Button;
 (0, _component_registrator.default)("dxButton", Button);
+Button.defaultOptions = _button2.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

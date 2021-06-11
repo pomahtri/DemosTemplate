@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/html_editor/ui/formDialog.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,12 +10,8 @@ import $ from '../../../core/renderer';
 import { extend } from '../../../core/utils/extend';
 import Popup from '../../popup';
 import Form from '../../form';
-import domAdapter from '../../../core/dom_adapter';
-import { resetActiveElement } from '../../../core/utils/dom';
 import { Deferred } from '../../../core/utils/deferred';
 import localizationMessage from '../../../localization/message';
-import browser from '../../../core/utils/browser';
-var getActiveElement = domAdapter.getActiveElement;
 var DIALOG_CLASS = 'dx-formdialog';
 var FORM_CLASS = 'dx-formdialog-form';
 
@@ -87,9 +83,6 @@ class FormDialog {
               dataField,
               event
             } = _ref2;
-
-            this._updateEditorValue(component, dataField);
-
             this.hide(component.option('formData'), event);
           },
           customizeItem: item => {
@@ -128,17 +121,6 @@ class FormDialog {
         }
       }]
     }, this._popupUserConfig);
-  }
-
-  _updateEditorValue(component, dataField) {
-    if (browser.msie && parseInt(browser.version) <= 11) {
-      var editor = component.getEditor(dataField);
-      var activeElement = getActiveElement();
-
-      if (editor.$element().find(activeElement).length) {
-        resetActiveElement();
-      }
-    }
   }
 
   _renderForm($container, options) {

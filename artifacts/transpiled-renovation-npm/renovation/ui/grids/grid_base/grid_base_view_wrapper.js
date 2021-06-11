@@ -56,8 +56,6 @@ var GridBaseViewWrapper = /*#__PURE__*/function (_InfernoComponent) {
     return [new _vdom.InfernoEffect(this.renderView, [])];
   };
 
-  _proto.updateEffects = function updateEffects() {};
-
   _proto.renderView = function renderView() {
     var $element = (0, _renderer.default)(this.viewRef.current);
     this.props.view._$element = $element;

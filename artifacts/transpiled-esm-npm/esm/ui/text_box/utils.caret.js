@@ -1,13 +1,12 @@
 import $ from '../../core/renderer';
 import { isDefined } from '../../core/utils/type';
-import browser from '../../core/utils/browser';
 import devices from '../../core/devices';
 import domAdapter from '../../core/dom_adapter';
 var {
   ios,
   mac
 } = devices.real();
-var isFocusingOnCaretChange = browser.msie || ios || mac;
+var isFocusingOnCaretChange = ios || mac;
 
 var getCaret = function getCaret(input) {
   var range;
@@ -44,7 +43,7 @@ var caret = function caret(input, position) {
 
   if (!isDefined(position)) {
     return getCaret(input);
-  } // NOTE: IE and AppleWebKit-based browsers focuses element input after caret position has changed
+  } // NOTE: AppleWebKit-based browsers focuses element input after caret position has changed
 
 
   if (!force && isFocusingOnCaretChange && domAdapter.getActiveElement() !== input) {

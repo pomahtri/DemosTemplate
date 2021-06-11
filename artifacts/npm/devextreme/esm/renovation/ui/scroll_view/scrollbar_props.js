@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/scroll_view/scrollbar_props.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -19,9 +19,11 @@ export var ScrollbarProps = {
   forceVisibility: false,
   forceUpdateScrollbarLocation: false,
   scrollLocation: 0,
+  pocketState: TopPocketState.STATE_RELEASED,
   onAnimatorCancel: noop,
   onPullDown: noop,
   onReachBottom: noop,
   onRelease: noop,
-  defaultPocketState: TopPocketState.STATE_RELEASED
+  onScroll: noop,
+  onEnd: noop
 };

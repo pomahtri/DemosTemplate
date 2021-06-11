@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/sparklines/bullet.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,7 +12,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../component_wrapper/component"));
+var _component = _interopRequireDefault(require("../../component_wrapper/common/component"));
 
 var _bullet = require("./bullet");
 
@@ -38,10 +38,7 @@ var Bullet = /*#__PURE__*/function (_BaseComponent) {
   _proto._getActionConfigs = function _getActionConfigs() {
     return {
       onTooltipHidden: {},
-      onTooltipShown: {},
-      onContentReady: {
-        excludeValidators: ["disabled"]
-      }
+      onTooltipShown: {}
     };
   };
 
@@ -49,18 +46,11 @@ var Bullet = /*#__PURE__*/function (_BaseComponent) {
     key: "_propsInfo",
     get: function get() {
       return {
-        twoWay: [["canvas", {
-          width: 0,
-          height: 0,
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0
-        }, "canvasChange"]],
+        twoWay: [["canvas", "defaultCanvas", "canvasChange"]],
         allowNull: [],
         elements: [],
         templates: [],
-        props: ["value", "color", "target", "targetColor", "targetWidth", "showTarget", "showZeroLevel", "startScaleValue", "endScaleValue", "tooltip", "onTooltipHidden", "onTooltipShown", "size", "margin", "disabled", "rtlEnabled", "classes", "className", "defaultCanvas", "onContentReady", "pointerEvents", "canvasChange", "canvas"]
+        props: ["value", "color", "target", "targetColor", "targetWidth", "showTarget", "showZeroLevel", "startScaleValue", "endScaleValue", "tooltip", "onTooltipHidden", "onTooltipShown", "size", "margin", "disabled", "rtlEnabled", "classes", "className", "defaultCanvas", "pointerEvents", "canvasChange", "canvas"]
       };
     }
   }, {
@@ -75,5 +65,6 @@ var Bullet = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = Bullet;
 (0, _component_registrator.default)("dxBullet", Bullet);
+Bullet.defaultOptions = _bullet.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

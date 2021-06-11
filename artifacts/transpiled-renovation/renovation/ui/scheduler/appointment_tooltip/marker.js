@@ -41,7 +41,6 @@ var Marker = /*#__PURE__*/function (_BaseInfernoComponent) {
     var _this;
 
     _this = _BaseInfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.state = {
       appointmentColor: undefined
     };
@@ -50,40 +49,21 @@ var Marker = /*#__PURE__*/function (_BaseInfernoComponent) {
 
   var _proto = Marker.prototype;
 
-  _proto.set_appointmentColor = function set_appointmentColor(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        appointmentColor: newValue
-      };
-    });
-  };
-
   _proto.render = function render() {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props),
-      appointmentColor: this.appointmentColor,
+      appointmentColor: this.state.appointmentColor,
       style: this.style,
       restAttributes: this.restAttributes
     });
   };
 
   _createClass(Marker, [{
-    key: "appointmentColor",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.appointmentColor;
-    }
-  }, {
     key: "style",
     get: function get() {
       return {
-        background: this.appointmentColor
+        background: this.state.appointmentColor
       };
     }
   }, {

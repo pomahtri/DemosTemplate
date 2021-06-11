@@ -48,5 +48,6 @@ var TimelineHeaderPanelLayout = /*#__PURE__*/function (_HeaderPanel) {
 
 exports.default = TimelineHeaderPanelLayout;
 (0, _component_registrator.default)("dxTimelineHeaderPanelLayout", TimelineHeaderPanelLayout);
+TimelineHeaderPanelLayout.defaultOptions = _layout.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

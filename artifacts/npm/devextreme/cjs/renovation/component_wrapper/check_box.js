@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/component_wrapper/check_box.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,9 +10,9 @@
 
 exports.default = void 0;
 
-var _editor = _interopRequireDefault(require("./editor"));
+var _editor = _interopRequireDefault(require("./common/editor"));
 
-var _utils = require("./utils");
+var _utils = require("./utils/utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,9 +50,6 @@ var CheckBox = /*#__PURE__*/function (_Editor) {
           event: this._valueChangeEventInstance
         });
         this._valueChangeEventInstance = undefined;
-
-        _Editor.prototype._optionChanged.call(this, option);
-
         break;
 
       case "onValueChanged":
@@ -62,11 +59,10 @@ var CheckBox = /*#__PURE__*/function (_Editor) {
         break;
 
       default:
-        _Editor.prototype._optionChanged.call(this, option);
-
+        break;
     }
 
-    this._invalidate();
+    _Editor.prototype._optionChanged.call(this, option);
   };
 
   _proto.setAria = function setAria(name, value) {

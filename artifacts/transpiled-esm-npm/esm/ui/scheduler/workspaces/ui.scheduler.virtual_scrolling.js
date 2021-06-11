@@ -7,7 +7,7 @@ import { isDefined } from '../../../core/utils/type';
 var DEFAULT_CELL_HEIGHT = 50;
 var MIN_CELL_WIDTH = 1;
 var MIN_SCROLL_OFFSET = 10;
-var VIRTUAL_APPOINTMENTS_RENDER_TIMEOUT = 30;
+var VIRTUAL_APPOINTMENTS_RENDER_TIMEOUT = 15;
 var DOCUMENT_SCROLL_EVENT_NAMESPACE = addNamespace('scroll', 'dxSchedulerVirtualScrolling');
 var scrollingOrientations = {
   vertical: 'vertical',
@@ -675,7 +675,7 @@ class Renderer {
   }
 
   _renderGrid() {
-    this.workspace.renderRWorkspace(false);
+    this.workspace.renderWorkSpace(false);
   }
 
   _renderAppointments() {

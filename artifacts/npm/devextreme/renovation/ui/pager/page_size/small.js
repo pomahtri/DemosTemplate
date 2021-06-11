@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/pager/page_size/small.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -70,7 +70,6 @@ var PageSizeSmall = /*#__PURE__*/function (_InfernoComponent) {
     var _this;
 
     _this = _InfernoComponent.call(this, props) || this;
-    _this._currentState = null;
     _this.state = {
       minWidth: 10,
       pageSize: _this.props.pageSize !== undefined ? _this.props.pageSize : _this.props.defaultPageSize
@@ -82,49 +81,22 @@ var PageSizeSmall = /*#__PURE__*/function (_InfernoComponent) {
   var _proto = PageSizeSmall.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.updateWidth, [this.minWidth, this.__state_pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize])];
+    return [new _vdom.InfernoEffect(this.updateWidth, [this.state.minWidth, this.state.pageSize, this.props.pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize])];
   };
 
   _proto.updateEffects = function updateEffects() {
     var _this$_effects$;
 
-    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.minWidth, this.__state_pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize]);
-  };
-
-  _proto.set_minWidth = function set_minWidth(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        minWidth: newValue
-      };
-    });
-  };
-
-  _proto.set_pageSize = function set_pageSize(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      var _this3$props$pageSize, _this3$props;
-
-      _this3._currentState = state;
-      var newValue = value();
-      (_this3$props$pageSize = (_this3$props = _this3.props).pageSizeChange) === null || _this3$props$pageSize === void 0 ? void 0 : _this3$props$pageSize.call(_this3$props, newValue);
-      _this3._currentState = null;
-      return {
-        pageSize: newValue
-      };
-    });
+    (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.state.minWidth, this.state.pageSize, this.props.pageSize, this.props.pageSizeChange, this.props.pageSizes, this.props.defaultPageSize]);
   };
 
   _proto.updateWidth = function updateWidth() {
-    var _this4 = this;
+    var _this2 = this;
 
-    this.set_minWidth(function () {
-      return (0, _get_element_width.getElementMinWidth)(_this4.props.parentRef.current) || _this4.minWidth;
+    this.setState(function (state) {
+      return _extends({}, state, {
+        minWidth: (0, _get_element_width.getElementMinWidth)(_this2.props.parentRef.current) || state.minWidth
+      });
     });
   };
 
@@ -132,7 +104,7 @@ var PageSizeSmall = /*#__PURE__*/function (_InfernoComponent) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageSize: this.__state_pageSize
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
       width: this.width,
       restAttributes: this.restAttributes
@@ -140,21 +112,9 @@ var PageSizeSmall = /*#__PURE__*/function (_InfernoComponent) {
   };
 
   _createClass(PageSizeSmall, [{
-    key: "minWidth",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.minWidth;
-    }
-  }, {
-    key: "__state_pageSize",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.pageSize !== undefined ? this.props.pageSize : state.pageSize;
-    }
-  }, {
     key: "width",
     get: function get() {
-      return (0, _calculate_values_fitted_width.calculateValuesFittedWidth)(this.minWidth, this.props.pageSizes.map(function (p) {
+      return (0, _calculate_values_fitted_width.calculateValuesFittedWidth)(this.state.minWidth, this.props.pageSizes.map(function (p) {
         return p.value;
       }));
     }
@@ -162,7 +122,7 @@ var PageSizeSmall = /*#__PURE__*/function (_InfernoComponent) {
     key: "restAttributes",
     get: function get() {
       var _this$props$pageSize = _extends({}, this.props, {
-        pageSize: this.__state_pageSize
+        pageSize: this.props.pageSize !== undefined ? this.props.pageSize : this.state.pageSize
       }),
           defaultPageSize = _this$props$pageSize.defaultPageSize,
           pageSize = _this$props$pageSize.pageSize,

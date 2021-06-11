@@ -1,5 +1,5 @@
 import $ from '../../core/renderer';
-import { wrapToArray, inArray } from '../../core/utils/array';
+import { inArray } from '../../core/utils/array';
 import { isDefined, isPlainObject } from '../../core/utils/type';
 import dateUtils from '../../core/utils/date';
 import { each } from '../../core/utils/iterator';
@@ -7,12 +7,10 @@ import errors from '../widget/ui.errors';
 import { locate } from '../../animation/translator';
 import { grep } from '../../core/utils/common';
 import { extend } from '../../core/utils/extend';
-import { Deferred } from '../../core/utils/deferred';
 import dateLocalization from '../../localization/date';
 import timeZoneUtils from './utils.timeZone';
-import { AGENDA_LAST_IN_DATE_APPOINTMENT_CLASS } from './constants';
+import { AGENDA_LAST_IN_DATE_APPOINTMENT_CLASS } from './classes';
 import utils from './utils';
-import { getFieldExpr as getResourceFieldExpr } from './resources/utils';
 var toMs = dateUtils.dateToMilliseconds;
 var subscribes = {
   getTimeZoneCalculator: function getTimeZoneCalculator() {
@@ -29,6 +27,9 @@ var subscribes = {
   },
   getOption: function getOption(name) {
     return this.option(name);
+  },
+  getWorkspaceOption: function getWorkspaceOption(name) {
+    return this.getWorkSpace().option(name);
   },
   isVirtualScrolling: function isVirtualScrolling() {
     return this.isVirtualScrolling();
@@ -113,40 +114,8 @@ var subscribes = {
     this.checkAndDeleteAppointment(options.data, targetedData);
     this.hideAppointmentTooltip();
   },
-  getAppointmentColor: function getAppointmentColor(options) {
-    var resourcesManager = this._resourcesManager;
-    var resourceForPainting = resourcesManager.getResourceForPainting(this._getCurrentViewOption('groups'));
-    var response = new Deferred().resolve().promise();
-
-    if (resourceForPainting) {
-      var field = getResourceFieldExpr(resourceForPainting);
-      var groupIndex = options.groupIndex;
-
-      var groups = this._workSpace._getCellGroups(groupIndex);
-
-      var resourceValues = wrapToArray(resourcesManager.getDataAccessors(field, 'getter')(options.itemData));
-      var groupId = resourceValues.length ? resourceValues[0] : undefined;
-
-      for (var i = 0; i < groups.length; i++) {
-        if (groups[i].name === field) {
-          groupId = groups[i].id;
-          break;
-        }
-      }
-
-      response = resourcesManager.getResourceColor(field, groupId);
-    }
-
-    return response;
-  },
   getHeaderHeight: function getHeaderHeight() {
     return this._header._$element && parseInt(this._header._$element.outerHeight(), 10);
-  },
-  getResourcesFromItem: function getResourcesFromItem(itemData) {
-    return this._resourcesManager.getResourcesFromItem(itemData);
-  },
-  appointmentTakesSeveralDays: function appointmentTakesSeveralDays(appointment) {
-    return this._appointmentModel.appointmentTakesSeveralDays(appointment);
   },
 
   getTextAndFormatDate(appointmentRaw, targetedAppointmentRaw, format) {
@@ -427,49 +396,6 @@ var subscribes = {
   dayHasAppointment: function dayHasAppointment(day, appointment, trimTime) {
     return this.dayHasAppointment(day, appointment, trimTime);
   },
-  createResourcesTree: function createResourcesTree() {
-    return this._resourcesManager.createResourcesTree(this._loadedResources);
-  },
-  getResourceTreeLeaves: function getResourceTreeLeaves(tree, appointmentResources) {
-    return this._resourcesManager.getResourceTreeLeaves(tree, appointmentResources);
-  },
-  createReducedResourcesTree: function createReducedResourcesTree() {
-    var tree = this._resourcesManager.createResourcesTree(this._loadedResources);
-
-    return this._resourcesManager.reduceResourcesTree(tree, this.getFilteredItems());
-  },
-  groupAppointmentsByResources: function groupAppointmentsByResources(appointments) {
-    var result = {
-      '0': appointments
-    };
-
-    var groups = this._getCurrentViewOption('groups');
-
-    if (groups && groups.length && this._resourcesManager.getResourcesData().length) {
-      result = this._resourcesManager.groupAppointmentsByResources(appointments, this._loadedResources);
-    }
-
-    var totalResourceCount = 0;
-    each(this._loadedResources, function (i, resource) {
-      if (!i) {
-        totalResourceCount = resource.items.length;
-      } else {
-        totalResourceCount *= resource.items.length;
-      }
-    });
-
-    for (var j = 0; j < totalResourceCount; j++) {
-      var index = j.toString();
-
-      if (result[index]) {
-        continue;
-      }
-
-      result[index] = [];
-    }
-
-    return result;
-  },
   getLayoutManager: function getLayoutManager() {
     return this._layoutManager;
   },
@@ -557,12 +483,6 @@ var subscribes = {
     }
 
     return result;
-  },
-  replaceWrongEndDate: function replaceWrongEndDate(appointment, startDate, endDate) {
-    this._appointmentModel.replaceWrongEndDate(appointment, startDate, endDate);
-  },
-  calculateAppointmentEndDate: function calculateAppointmentEndDate(isAllDay, startDate) {
-    return this._appointmentModel._calculateAppointmentEndDate(isAllDay, startDate);
   },
   getEndDayHour: function getEndDayHour() {
     return this._workSpace.option('endDayHour') || this.option('endDayHour');

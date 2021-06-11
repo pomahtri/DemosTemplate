@@ -1,13 +1,12 @@
 /**
 * DevExtreme (ui/tree_view.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import {
-    UserDefinedElement,
     DxElement
 } from '../core/element';
 
@@ -120,7 +119,7 @@ export type SelectionChangedEvent = EventInfo<dxTreeView>;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxTreeViewOptions extends HierarchicalCollectionWidgetOptions<dxTreeView>, SearchBoxMixinOptions<dxTreeView> {
+export interface dxTreeViewOptions extends HierarchicalCollectionWidgetOptions<dxTreeView>, SearchBoxMixinOptions {
     /**
      * @docid
      * @default true
@@ -385,8 +384,7 @@ export interface dxTreeViewOptions extends HierarchicalCollectionWidgetOptions<d
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxTreeView extends HierarchicalCollectionWidget {
-    constructor(element: UserDefinedElement, options?: dxTreeViewOptions)
+export default class dxTreeView extends HierarchicalCollectionWidget<dxTreeViewOptions> {
     /**
      * @docid
      * @publicName collapseAll()

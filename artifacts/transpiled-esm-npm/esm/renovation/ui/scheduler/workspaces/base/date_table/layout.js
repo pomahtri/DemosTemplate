@@ -42,6 +42,7 @@ export var viewFunction = _ref => {
   })));
 };
 export var DateTableLayoutBaseProps = _extends({}, DateTableLayoutProps);
+import { createReRenderEffect } from "@devextreme/vdom";
 
 var getTemplate = TemplateProp => TemplateProp && (TemplateProp.defaultProps ? props => normalizeProps(createComponentVNode(2, TemplateProp, _extends({}, props))) : TemplateProp);
 
@@ -49,6 +50,10 @@ export class DateTableLayoutBase extends InfernoWrapperComponent {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  createEffects() {
+    return [createReRenderEffect()];
   }
 
   get classes() {

@@ -1,11 +1,15 @@
 import { getBoundingRect } from '../../../core/utils/position';
-import GroupedStrategy from './ui.scheduler.work_space.grouped.strategy';
 import { cache } from './cache';
+import { FIRST_GROUP_CELL_CLASS, LAST_GROUP_CELL_CLASS } from '../classes';
 var VERTICAL_GROUPED_ATTR = 'dx-group-column-count';
 var DATE_HEADER_OFFSET = 10;
 var WORK_SPACE_BORDER = 1;
 
-class VerticalGroupedStrategy extends GroupedStrategy {
+class VerticalGroupedStrategy {
+  constructor(workSpace) {
+    this._workSpace = workSpace;
+  }
+
   prepareCellIndexes(cellCoordinates, groupIndex, inAllDayRow) {
     var rowIndex = cellCoordinates.rowIndex + groupIndex * this._workSpace._getRowCount();
 
@@ -55,7 +59,7 @@ class VerticalGroupedStrategy extends GroupedStrategy {
 
   _addLastGroupCellClass(cellClass, index) {
     if (index % this._workSpace._getRowCount() === 0) {
-      return cellClass + ' ' + this.getLastGroupCellClass();
+      return "".concat(cellClass, " ").concat(LAST_GROUP_CELL_CLASS);
     }
 
     return cellClass;
@@ -63,18 +67,10 @@ class VerticalGroupedStrategy extends GroupedStrategy {
 
   _addFirstGroupCellClass(cellClass, index) {
     if ((index - 1) % this._workSpace._getRowCount() === 0) {
-      return cellClass + ' ' + this.getFirstGroupCellClass();
+      return "".concat(cellClass, " ").concat(FIRST_GROUP_CELL_CLASS);
     }
 
     return cellClass;
-  }
-
-  getHorizontalMax(groupIndex) {
-    if (this._workSpace.isRenovatedRender()) {
-      return this._workSpace.getMaxAllowedPosition(groupIndex);
-    }
-
-    return this._workSpace.getMaxAllowedPosition(0);
   }
 
   getVerticalMax(groupIndex) {
@@ -160,10 +156,6 @@ class VerticalGroupedStrategy extends GroupedStrategy {
     });
   }
 
-  getVirtualScrollingGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates) {
-    return this.getGroupBoundsOffset(cellCount, $cells, cellWidth, coordinates);
-  }
-
   shiftIndicator($indicator, height, rtlOffset, i) {
     var offset = this._workSpace.getIndicatorOffset(0);
 
@@ -214,14 +206,6 @@ class VerticalGroupedStrategy extends GroupedStrategy {
 
   getScrollableScrollTop() {
     return this._workSpace.getScrollable().scrollTop();
-  }
-
-  getGroupIndexByCell($cell) {
-    var rowIndex = $cell.parent().index();
-
-    var rowCount = this._workSpace._getRowCountWithAllDayRows();
-
-    return Math.ceil((rowIndex + 1) / rowCount);
   }
 
 }

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/toast.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,10 +13,6 @@ import {
 import {
     positionConfig
 } from '../animation/position';
-
-import {
-    UserDefinedElement
-} from '../core/element';
 
 import {
     DxEvent,
@@ -176,9 +172,7 @@ export interface dxToastAnimation extends dxOverlayAnimation {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxToast extends dxOverlay {
-    constructor(element: UserDefinedElement, options?: dxToastOptions)
-}
+export default class dxToast extends dxOverlay<dxToastOptions> { }
 
 /** @public */
 export type Properties = dxToastOptions;

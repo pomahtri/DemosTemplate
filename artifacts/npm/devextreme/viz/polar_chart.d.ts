@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/polar_chart.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -1337,8 +1337,7 @@ export interface dxPolarChartValueAxisTick extends dxPolarChartCommonAxisSetting
  * @namespace DevExpress.viz
  * @public
  */
-export default class dxPolarChart extends BaseChart {
-    constructor(element: UserDefinedElement, options?: dxPolarChartOptions)
+export default class dxPolarChart extends BaseChart<dxPolarChartOptions> {
     /**
      * @docid dxPolarChart.getValueAxis
      * @publicName getValueAxis()

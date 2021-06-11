@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/workspaces/ui.scheduler.work_space.indicator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,7 +13,7 @@ import dateUtils from '../../../core/utils/date';
 import { extend } from '../../../core/utils/extend';
 import { getBoundingRect } from '../../../core/utils/position';
 import { hasWindow } from '../../../core/utils/window';
-import { HEADER_CURRENT_TIME_CELL_CLASS } from '../constants';
+import { HEADER_CURRENT_TIME_CELL_CLASS } from '../classes';
 var toMs = dateUtils.dateToMilliseconds;
 var SCHEDULER_DATE_TIME_INDICATOR_CLASS = 'dx-scheduler-date-time-indicator';
 var TIME_PANEL_CURRENT_TIME_CELL_CLASS = 'dx-scheduler-time-panel-current-time-cell';

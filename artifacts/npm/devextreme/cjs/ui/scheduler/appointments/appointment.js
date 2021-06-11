@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/scheduler/appointments/appointment.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -36,9 +36,11 @@ var _message = _interopRequireDefault(require("../../../localization/message"));
 
 var _date = _interopRequireDefault(require("../../../localization/date"));
 
-var _constants = require("../constants");
+var _classes = require("../classes");
 
 var _deferred = require("../../../core/utils/deferred");
+
+var _resourceManager = require("../resources/resourceManager");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -68,6 +70,7 @@ var Appointment = /*#__PURE__*/function (_DOMComponent) {
     return (0, _extend.extend)(_DOMComponent.prototype._getDefaultOptions.call(this), {
       data: {},
       groupIndex: -1,
+      groups: [],
       geometry: {
         top: 0,
         left: 0,
@@ -186,9 +189,10 @@ var Appointment = /*#__PURE__*/function (_DOMComponent) {
   _proto._setResourceColor = function _setResourceColor() {
     var _this = this;
 
-    var deferredColor = this.invoke('getAppointmentColor', {
+    var deferredColor = (0, _resourceManager.getResourceManager)().getAppointmentColor({
       itemData: this.rawAppointment,
-      groupIndex: this.option('groupIndex')
+      groupIndex: this.option('groupIndex'),
+      groups: this.option('groups')
     });
     deferredColor.done(function (color) {
       return color && _this.coloredElement.css('backgroundColor', color);
@@ -212,7 +216,7 @@ var Appointment = /*#__PURE__*/function (_DOMComponent) {
     var geometry = this.option('geometry');
 
     if (geometry.empty || this.option('isCompact')) {
-      this.$element().addClass(_constants.EMPTY_APPOINTMENT_CLASS);
+      this.$element().addClass(_classes.EMPTY_APPOINTMENT_CLASS);
     }
   };
 
@@ -223,13 +227,13 @@ var Appointment = /*#__PURE__*/function (_DOMComponent) {
       return;
     }
 
-    this.$element().toggleClass(_constants.REDUCED_APPOINTMENT_CLASS, true).toggleClass(_constants.REDUCED_APPOINTMENT_PARTS_CLASSES[reducedPart], true);
+    this.$element().toggleClass(_classes.REDUCED_APPOINTMENT_CLASS, true).toggleClass(_classes.REDUCED_APPOINTMENT_PARTS_CLASSES[reducedPart], true);
 
     this._renderAppointmentReducedIcon();
   };
 
   _proto._renderAppointmentReducedIcon = function _renderAppointmentReducedIcon() {
-    var $icon = (0, _renderer.default)('<div>').addClass(_constants.REDUCED_APPOINTMENT_ICON).appendTo(this.$element());
+    var $icon = (0, _renderer.default)('<div>').addClass(_classes.REDUCED_APPOINTMENT_ICON).appendTo(this.$element());
 
     var endDate = this._getEndDate();
 
@@ -264,23 +268,23 @@ var Appointment = /*#__PURE__*/function (_DOMComponent) {
   };
 
   _proto._renderAllDayClass = function _renderAllDayClass() {
-    this.$element().toggleClass(_constants.ALL_DAY_APPOINTMENT_CLASS, !!this.option('allDay'));
+    this.$element().toggleClass(_classes.ALL_DAY_APPOINTMENT_CLASS, !!this.option('allDay'));
   };
 
   _proto._renderDragSourceClass = function _renderDragSourceClass() {
-    this.$element().toggleClass(_constants.APPOINTMENT_DRAG_SOURCE_CLASS, !!this.option('isDragSource'));
+    this.$element().toggleClass(_classes.APPOINTMENT_DRAG_SOURCE_CLASS, !!this.option('isDragSource'));
   };
 
   _proto._renderRecurrenceClass = function _renderRecurrenceClass() {
     var rule = this.invoke('getField', 'recurrenceRule', this.rawAppointment);
 
     if ((0, _recurrence.getRecurrenceProcessor)().isValidRecurrenceRule(rule)) {
-      this.$element().addClass(_constants.RECURRENCE_APPOINTMENT_CLASS);
+      this.$element().addClass(_classes.RECURRENCE_APPOINTMENT_CLASS);
     }
   };
 
   _proto._renderDirection = function _renderDirection() {
-    this.$element().addClass(_constants.DIRECTION_APPOINTMENT_CLASSES[this.option('direction')]);
+    this.$element().addClass(_classes.DIRECTION_APPOINTMENT_CLASSES[this.option('direction')]);
   };
 
   _proto._createResizingConfig = function _createResizingConfig() {
@@ -338,9 +342,9 @@ var AgendaAppointment = /*#__PURE__*/function (_Appointment) {
 
   _proto2._renderResourceList = function _renderResourceList(container, list) {
     list.forEach(function (item) {
-      var itemContainer = (0, _renderer.default)('<div>').addClass(_constants.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST_ITEM).appendTo(container);
+      var itemContainer = (0, _renderer.default)('<div>').addClass(_classes.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST_ITEM).appendTo(container);
       (0, _renderer.default)('<div>').text("".concat(item.label, ":")).appendTo(itemContainer);
-      (0, _renderer.default)('<div>').addClass(_constants.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST_ITEM_VALUE).text(item.values.join(', ')).appendTo(itemContainer);
+      (0, _renderer.default)('<div>').addClass(_classes.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST_ITEM_VALUE).text(item.values.join(', ')).appendTo(itemContainer);
     });
   };
 
@@ -351,9 +355,9 @@ var AgendaAppointment = /*#__PURE__*/function (_Appointment) {
 
     var createPlainResourceListAsync = this.option('createPlainResourceListAsync');
     createPlainResourceListAsync(this.rawAppointment).done(function (list) {
-      var parent = _this2.$element().find(".".concat(_constants.APPOINTMENT_CONTENT_CLASSES.APPOINTMENT_CONTENT_DETAILS));
+      var parent = _this2.$element().find(".".concat(_classes.APPOINTMENT_CONTENT_CLASSES.APPOINTMENT_CONTENT_DETAILS));
 
-      var container = (0, _renderer.default)('<div>').addClass(_constants.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST).appendTo(parent);
+      var container = (0, _renderer.default)('<div>').addClass(_classes.APPOINTMENT_CONTENT_CLASSES.AGENDA_RESOURCE_LIST).appendTo(parent);
 
       _this2._renderResourceList(container, list);
     });
@@ -362,7 +366,7 @@ var AgendaAppointment = /*#__PURE__*/function (_Appointment) {
   _createClass(AgendaAppointment, [{
     key: "coloredElement",
     get: function get() {
-      return this.$element().find(".".concat(_constants.APPOINTMENT_CONTENT_CLASSES.AGENDA_MARKER));
+      return this.$element().find(".".concat(_classes.APPOINTMENT_CONTENT_CLASSES.AGENDA_MARKER));
     }
   }]);
 

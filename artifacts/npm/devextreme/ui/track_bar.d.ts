@@ -1,21 +1,17 @@
 /**
 * DevExtreme (ui/track_bar.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import Editor, {
     EditorOptions
 } from './editor/editor';
 
 /** @namespace DevExpress.ui */
-export interface dxTrackBarOptions<T = dxTrackBar> extends EditorOptions<T> {
+export interface dxTrackBarOptions<TComponent> extends EditorOptions<TComponent> {
     /**
      * @docid
      * @default 100
@@ -35,6 +31,4 @@ export interface dxTrackBarOptions<T = dxTrackBar> extends EditorOptions<T> {
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxTrackBar extends Editor {
-    constructor(element: UserDefinedElement, options?: dxTrackBarOptions)
-}
+export default class dxTrackBar<TProperties> extends Editor<TProperties> { }

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/scheduler/appointmentSettingsGenerator.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -12,6 +12,7 @@ import { isEmptyObject } from '../../core/utils/type';
 import { extend } from '../../core/utils/extend';
 import { getRecurrenceProcessor } from './recurrence';
 import timeZoneUtils from './utils.timeZone.js';
+import { getResourceManager } from './resources/resourceManager';
 var toMs = dateUtils.dateToMilliseconds;
 export class AppointmentSettingsGenerator {
   constructor(scheduler) {
@@ -46,8 +47,7 @@ export class AppointmentSettingsGeneratorBaseStrategy {
       scheduler
     } = this;
     var appointment = scheduler.createAppointmentAdapter(rawAppointment);
-
-    var itemResources = scheduler._resourcesManager.getResourcesFromItem(rawAppointment);
+    var itemResources = getResourceManager().getResourcesFromItem(rawAppointment);
 
     var isAllDay = this._isAllDayAppointment(rawAppointment);
 
@@ -322,13 +322,16 @@ export class AppointmentSettingsGeneratorBaseStrategy {
   }
 
   _cropAppointmentsByStartDayHour(appointments, rawAppointment, isAllDay) {
-    return appointments.map(appointment => {
-      var startDate = new Date(appointment.startDate);
-
+    return appointments.filter(appointment => {
       var firstViewDate = this._getAppointmentFirstViewDate(appointment, rawAppointment);
+
+      if (!firstViewDate) {
+        return false;
+      }
 
       var startDayHour = this._getViewStartDayHour(firstViewDate);
 
+      var startDate = new Date(appointment.startDate);
       appointment.startDate = this._getAppointmentResultDate({
         appointment,
         rawAppointment,
@@ -336,12 +339,8 @@ export class AppointmentSettingsGeneratorBaseStrategy {
         startDayHour,
         firstViewDate
       });
-      return appointment;
+      return !isAllDay ? appointment.endDate > appointment.startDate : true;
     });
-  }
-
-  _getAppointmentFirstViewDate() {
-    return this.scheduler.getStartViewDate();
   }
 
   _getViewStartDayHour() {
@@ -415,6 +414,21 @@ export class AppointmentSettingsGeneratorBaseStrategy {
     return this.workspace.getCoordinatesByDateInGroup(appointment.startDate, resources, isAllDay);
   }
 
+  _getAppointmentFirstViewDate(appointment, rawAppointment) {
+    var {
+      viewDataProvider
+    } = this.scheduler.getWorkSpace();
+    var groupIndex = appointment.source.groupIndex || 0;
+    var {
+      startDate,
+      endDate
+    } = appointment;
+
+    var isAllDay = this._isAllDayAppointment(rawAppointment);
+
+    return viewDataProvider.findGroupCellStartDate(groupIndex, startDate, endDate, isAllDay);
+  }
+
 }
 export class AppointmentSettingsGeneratorVirtualStrategy extends AppointmentSettingsGeneratorBaseStrategy {
   get viewDataProvider() {
@@ -486,26 +500,6 @@ export class AppointmentSettingsGeneratorVirtualStrategy extends AppointmentSett
     return result;
   }
 
-  _cropAppointmentsByStartDayHour(appointments, rawAppointment, isAllDay) {
-    return appointments.filter(appointment => {
-      var firstViewDate = this._getAppointmentFirstViewDate(appointment, rawAppointment);
-
-      if (!firstViewDate) return false;
-
-      var startDayHour = this._getViewStartDayHour(firstViewDate);
-
-      var startDate = new Date(appointment.startDate);
-      appointment.startDate = this._getAppointmentResultDate({
-        appointment,
-        rawAppointment,
-        startDate,
-        startDayHour,
-        firstViewDate
-      });
-      return !isAllDay ? appointment.endDate > appointment.startDate : true;
-    });
-  }
-
   _createRecurrenceAppointments(appointment, resources) {
     var {
       duration
@@ -534,23 +528,6 @@ export class AppointmentSettingsGeneratorVirtualStrategy extends AppointmentSett
 
   _getViewStartDayHour(firstViewDate) {
     return firstViewDate.getHours();
-  }
-
-  _getAppointmentFirstViewDate(appointment, rawAppointment) {
-    var {
-      viewDataProvider
-    } = this.scheduler.getWorkSpace();
-    var {
-      groupIndex
-    } = appointment.source;
-    var {
-      startDate,
-      endDate
-    } = appointment;
-
-    var isAllDay = this._isAllDayAppointment(rawAppointment);
-
-    return viewDataProvider.findGroupCellStartDate(groupIndex, startDate, endDate, isAllDay);
   }
 
   _updateGroupIndices(appointments, itemResources) {

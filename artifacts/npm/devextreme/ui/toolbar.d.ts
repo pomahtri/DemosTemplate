@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/toolbar.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -102,9 +102,7 @@ export interface dxToolbarOptions extends CollectionWidgetOptions<dxToolbar> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxToolbar extends CollectionWidget {
-    constructor(element: UserDefinedElement, options?: dxToolbarOptions)
-}
+export default class dxToolbar extends CollectionWidget<dxToolbarOptions> { }
 
 /**
  * @docid

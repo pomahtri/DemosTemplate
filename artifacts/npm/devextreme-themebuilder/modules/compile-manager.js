@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const compiler_1 = __importDefault(require("./compiler"));
 const widgets_handler_1 = __importDefault(require("./widgets-handler"));
-const pre_compiler_1 = __importDefault(require("./pre-compiler"));
+const pre_compiler_1 = require("./pre-compiler");
 const bundle_resolver_1 = __importDefault(require("./bundle-resolver"));
-const post_compiler_1 = __importDefault(require("./post-compiler"));
+const post_compiler_1 = require("./post-compiler");
 const bootstrap_extractor_1 = __importDefault(require("./bootstrap-extractor"));
 // eslint-disable-next-line import/extensions
 const dx_theme_builder_metadata_1 = require("../data/metadata/dx-theme-builder-metadata");
@@ -41,22 +41,22 @@ class CompileManager {
                 let css = compileData.result.css.toString();
                 let swatchSelector = null;
                 if (config.makeSwatch) {
-                    const swatchSass = pre_compiler_1.default.createSassForSwatch(config.outColorScheme, css);
+                    const swatchSass = pre_compiler_1.createSassForSwatch(config.outColorScheme, css);
                     const swatchResult = yield this.compiler.compile([], Object.assign({ data: swatchSass.sass }, bundleOptions));
-                    css = post_compiler_1.default.fixSwatchCss(swatchResult.result.css, swatchSass.selector, config.colorScheme);
+                    css = post_compiler_1.fixSwatchCss(swatchResult.result.css, swatchSass.selector, config.colorScheme);
                     swatchSelector = swatchSass.selector;
                 }
                 if (config.assetsBasePath) {
-                    css = post_compiler_1.default.addBasePath(css, config.assetsBasePath);
+                    css = post_compiler_1.addBasePath(css, config.assetsBasePath);
                 }
-                css = yield post_compiler_1.default.autoPrefix(css);
+                css = yield post_compiler_1.autoPrefix(css);
                 if (!config.noClean) {
-                    css = yield post_compiler_1.default.cleanCss(css);
+                    css = yield post_compiler_1.cleanCss(css);
                 }
                 if (config.removeExternalResources) {
-                    css = post_compiler_1.default.removeExternalResources(css);
+                    css = post_compiler_1.removeExternalResources(css);
                 }
-                css = post_compiler_1.default.addInfoHeader(css, dx_theme_builder_metadata_1.version, compileData.result.stats === null);
+                css = post_compiler_1.addInfoHeader(css, dx_theme_builder_metadata_1.version, compileData.result.stats === null);
                 return {
                     compiledMetadata: compileData.changedVariables,
                     css,

@@ -297,10 +297,6 @@ class SchedulerWorkSpaceMonth extends SchedulerWorkSpace {
     return true;
   }
 
-  _getDateTableBorderOffset() {
-    return this._getDateTableBorder();
-  }
-
   _getCellPositionByIndex(index, groupIndex) {
     var position = super._getCellPositionByIndex(index, groupIndex);
 
@@ -337,10 +333,6 @@ class SchedulerWorkSpaceMonth extends SchedulerWorkSpace {
 
   _getRowCountWithAllDayRows() {
     return this._getRowCount();
-  }
-
-  renovatedRenderSupported() {
-    return true;
   }
 
   renderRAllDayPanel() {}

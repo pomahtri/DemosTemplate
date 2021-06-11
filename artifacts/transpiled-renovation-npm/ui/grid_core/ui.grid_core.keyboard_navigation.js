@@ -1823,14 +1823,6 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
 
         setTimeout(function () {
           $input.val(editorValue);
-
-          if (_browser.default.msie) {
-            _uiGrid_core2.default.setSelectionRange($input.get(0), {
-              selectionStart: editorValue.length,
-              selectionEnd: editorValue.length
-            });
-          }
-
           var $widgetContainer = $input.closest(".".concat(WIDGET_CLASS));
 
           _events_engine.default.off($widgetContainer, 'focusout'); // for NumberBox to save entered symbol

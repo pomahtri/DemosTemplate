@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/gauges/base_gauge.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,7 +40,7 @@ export interface TooltipInfo {
 }
 
 /** @namespace DevExpress.viz */
-export interface BaseGaugeOptions<T = BaseGauge> extends BaseWidgetOptions<T> {
+export interface BaseGaugeOptions<TComponent> extends BaseWidgetOptions<TComponent> {
     /**
      * @docid
      * @type object
@@ -71,7 +71,7 @@ export interface BaseGaugeOptions<T = BaseGauge> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onTooltipHidden?: ((e: EventInfo<T> & TooltipInfo) => void);
+    onTooltipHidden?: ((e: EventInfo<TComponent> & TooltipInfo) => void);
     /**
      * @docid
      * @default null
@@ -84,7 +84,7 @@ export interface BaseGaugeOptions<T = BaseGauge> extends BaseWidgetOptions<T> {
      * @action
      * @public
      */
-    onTooltipShown?: ((e: EventInfo<T> & TooltipInfo) => void);
+    onTooltipShown?: ((e: EventInfo<TComponent> & TooltipInfo) => void);
     /**
      * @docid
      * @type object
@@ -404,8 +404,7 @@ export interface BaseGaugeTooltip extends BaseWidgetTooltip {
  * @inherits BaseWidget
  * @namespace DevExpress.viz
  */
-export class BaseGauge extends BaseWidget {
-    constructor(element: UserDefinedElement, options?: BaseGaugeOptions)
+export class BaseGauge<TProperties> extends BaseWidget<TProperties> {
     /**
      * @docid
      * @publicName subvalues()

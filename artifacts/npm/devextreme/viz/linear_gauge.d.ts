@@ -1,15 +1,11 @@
 /**
 * DevExtreme (viz/linear_gauge.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import {
-    UserDefinedElement
-} from '../core/element';
-
 import {
     Cancelable,
     EventInfo,
@@ -184,9 +180,7 @@ export interface dxLinearGaugeScaleLabel extends BaseGaugeScaleLabel {
  * @namespace DevExpress.viz
  * @public
  */
-export default class dxLinearGauge extends BaseGauge {
-    constructor(element: UserDefinedElement, options?: dxLinearGaugeOptions)
-}
+export default class dxLinearGauge extends BaseGauge<dxLinearGaugeOptions> { }
 
 /** @public */
 export type Properties = dxLinearGaugeOptions;

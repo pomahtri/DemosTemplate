@@ -11,6 +11,7 @@ import messageLocalization from '../../localization/message';
 import Popup from '../popup';
 import { AppointmentForm } from './appointment_form';
 import { hide as hideLoading, show as showLoading } from './loading';
+import { getResourceManager } from './resources/resourceManager';
 var toMs = dateUtils.dateToMilliseconds;
 var WIDGET_CLASS = 'dx-scheduler';
 var APPOINTMENT_POPUP_CLASS = "".concat(WIDGET_CLASS, "-appointment-popup");
@@ -138,7 +139,7 @@ export default class AppointmentPopup {
     var result = extend(true, {
       repeat: !!appointment.recurrenceRule
     }, rawAppointment);
-    each(this.scheduler._resourcesManager.getResourcesFromItem(result, true) || {}, (name, value) => result[name] = value);
+    each(getResourceManager().getResourcesFromItem(result, true) || {}, (name, value) => result[name] = value);
     return result;
   }
 
@@ -159,7 +160,7 @@ export default class AppointmentPopup {
     AppointmentForm.prepareAppointmentFormEditors(expr, this.scheduler, this.triggerResize.bind(this), this.changeSize.bind(this), formData, allowTimeZoneEditing, readOnly);
 
     if (resources && resources.length) {
-      AppointmentForm.concatResources(this.scheduler._resourcesManager.getEditors());
+      AppointmentForm.concatResources(getResourceManager().getEditors());
     }
 
     return AppointmentForm.create(this.scheduler._createComponent.bind(this.scheduler), element, readOnly, formData);
@@ -167,7 +168,7 @@ export default class AppointmentPopup {
 
   _getAllowTimeZoneEditing() {
     var scheduler = this.scheduler;
-    return scheduler.option('editing.allowTimeZoneEditing') || scheduler.option('editing.allowEditingTimeZones');
+    return scheduler.option('editing.allowTimeZoneEditing');
   }
 
   _isReadOnly(rawAppointment) {
@@ -392,7 +393,7 @@ export default class AppointmentPopup {
           var endTime = endDate.getTime();
           var inAllDayRow = allDay || endTime - startTime >= DAY_IN_MS;
 
-          this.scheduler._workSpace.updateScrollPosition(startDate, this.scheduler._resourcesManager.getResourcesFromItem(this.state.lastEditData, true), inAllDayRow);
+          this.scheduler._workSpace.updateScrollPosition(startDate, getResourceManager().getResourcesFromItem(this.state.lastEditData, true), inAllDayRow);
 
           this.state.lastEditData = null;
         }

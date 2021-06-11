@@ -1,6 +1,6 @@
 import registerComponent from "../../../../../../core/component_registrator";
-import BaseComponent from "../../../../../component_wrapper/component";
-import { DateTableLayoutBase as DateTableLayoutBaseComponent } from "./layout";
+import BaseComponent from "../../../../../component_wrapper/common/component";
+import { DateTableLayoutBase as DateTableLayoutBaseComponent, defaultOptions } from "./layout";
 export default class DateTableLayoutBase extends BaseComponent {
   get _propsInfo() {
     return {
@@ -18,3 +18,4 @@ export default class DateTableLayoutBase extends BaseComponent {
 
 }
 registerComponent("dxDateTableLayoutBase", DateTableLayoutBase);
+DateTableLayoutBase.defaultOptions = defaultOptions;

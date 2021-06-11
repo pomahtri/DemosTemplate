@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/drop_down_editor/ui.drop_down_list.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -40,7 +40,7 @@ import {
 } from '../collection/ui.collection_widget.base';
 
 /** @namespace DevExpress.ui */
-export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressionMixinOptions<T>, dxDropDownEditorOptions<T> {
+export interface dxDropDownListOptions<TComponent> extends DataExpressionMixinOptions<TComponent>, dxDropDownEditorOptions<TComponent> {
     /**
      * @docid
      * @readonly
@@ -91,7 +91,7 @@ export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressio
      * @action
      * @public
      */
-    onItemClick?: ((e: NativeEventInfo<T> & ItemInfo) => void);
+    onItemClick?: ((e: NativeEventInfo<TComponent> & ItemInfo) => void);
     /**
      * @docid
      * @default null
@@ -103,7 +103,7 @@ export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressio
      * @action
      * @public
      */
-    onSelectionChanged?: ((e: EventInfo<T> & SelectionChangedInfo) => void);
+    onSelectionChanged?: ((e: EventInfo<TComponent> & SelectionChangedInfo) => void);
     /**
      * @docid
      * @default null
@@ -117,7 +117,7 @@ export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressio
      * @action
      * @public
      */
-    onValueChanged?: ((e:  NativeEventInfo<T> & ValueChangedInfo) => void);
+    onValueChanged?: ((e:  NativeEventInfo<TComponent> & ValueChangedInfo) => void);
     /**
      * @docid
      * @default false
@@ -191,7 +191,6 @@ export interface dxDropDownListOptions<T = dxDropDownList> extends DataExpressio
  * @hidden
  * @namespace DevExpress.ui
  */
-export default class dxDropDownList extends dxDropDownEditor {
-    constructor(element: UserDefinedElement, options?: dxDropDownListOptions)
+export default class dxDropDownList<TProperties> extends dxDropDownEditor<TProperties> {
     getDataSource(): DataSource;
 }

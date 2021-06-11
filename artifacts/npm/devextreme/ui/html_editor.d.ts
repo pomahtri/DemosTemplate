@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/html_editor.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -166,8 +166,7 @@ export interface dxHtmlEditorOptions extends EditorOptions<dxHtmlEditor> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxHtmlEditor extends Editor {
-    constructor(element: UserDefinedElement, options?: dxHtmlEditorOptions)
+export default class dxHtmlEditor extends Editor<dxHtmlEditorOptions> {
     /**
      * @docid
      * @publicName blur()

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/grid_core/ui.grid_core.keyboard_navigation.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -1831,14 +1831,6 @@ var KeyboardNavigationController = _uiGrid_core.default.ViewController.inherit({
 
         setTimeout(function () {
           $input.val(editorValue);
-
-          if (_browser.default.msie) {
-            _uiGrid_core2.default.setSelectionRange($input.get(0), {
-              selectionStart: editorValue.length,
-              selectionEnd: editorValue.length
-            });
-          }
-
           var $widgetContainer = $input.closest(".".concat(WIDGET_CLASS));
 
           _events_engine.default.off($widgetContainer, 'focusout'); // for NumberBox to save entered symbol

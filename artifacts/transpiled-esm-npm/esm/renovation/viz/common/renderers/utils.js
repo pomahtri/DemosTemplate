@@ -16,12 +16,10 @@ export var extend = (target, source) => {
 };
 
 function buildSegments(points, buildSimpleSegment, close) {
-  var i;
-  var ii;
   var list = [];
 
   if (Array.isArray(points[0])) {
-    for (i = 0, ii = points.length; i < ii; ++i) {
+    for (var i = 0, ii = points.length; i < ii; ++i) {
       buildSimpleSegment(points[i], close, list);
     }
   } else {
@@ -62,7 +60,6 @@ function buildSimpleLineSegment(points, close, list) {
 }
 
 function buildSimpleCurveSegment(points, close, list) {
-  var i;
   var k = list.length;
   var ii = (points || []).length;
 
@@ -71,15 +68,15 @@ function buildSimpleCurveSegment(points, close, list) {
       var arrPoints = points;
       list[k++] = ["M", arrPoints[0].x, arrPoints[0].y];
 
-      for (i = 1; i < ii;) {
+      for (var i = 1; i < ii;) {
         list[k++] = ["C", arrPoints[i].x, arrPoints[i++].y, arrPoints[i].x, arrPoints[i++].y, arrPoints[i].x, arrPoints[i++].y];
       }
     } else {
       var _arrPoints2 = points;
       list[k++] = ["M", _arrPoints2[0], _arrPoints2[1]];
 
-      for (i = 2; i < ii;) {
-        list[k++] = ["C", _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++], _arrPoints2[i++]];
+      for (var _i = 2; _i < ii;) {
+        list[k++] = ["C", _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++], _arrPoints2[_i++]];
       }
     }
   } else {
@@ -116,10 +113,9 @@ export var buildPathSegments = (points, type) => {
 export var combinePathParam = segments => {
   var d = [];
   var ii = segments.length;
-  var segment;
 
   for (var i = 0; i < ii; ++i) {
-    segment = segments[i];
+    var segment = segments[i];
 
     for (var j = 0, jj = segment.length; j < jj; ++j) {
       d.push(segment[j]);
@@ -157,18 +153,14 @@ function makeEqualLineSegments(short, long, type) {
 }
 
 function makeEqualAreaSegments(short, long, type) {
-  var i;
-  var head;
   var shortLength = short.length;
   var longLength = long.length;
-  var constsSeg1;
-  var constsSeg2;
 
   if ((shortLength - 1) % 2 === 0 && (longLength - 1) % 2 === 0) {
-    i = (shortLength - 1) / 2 - 1;
-    head = short.slice(0, i + 1);
-    constsSeg1 = [...head[head.length - 1]];
-    constsSeg2 = [...short.slice(i + 1)[0]];
+    var i = (shortLength - 1) / 2 - 1;
+    var head = short.slice(0, i + 1);
+    var constsSeg1 = [...head[head.length - 1]];
+    var constsSeg2 = [...short.slice(i + 1)[0]];
     prepareConstSegment(constsSeg1, type);
     prepareConstSegment(constsSeg2, type);
 
@@ -183,7 +175,7 @@ export var compensateSegments = (oldSegments, newSegments, type) => {
   var oldLength = oldSegments.length;
   var newLength = newSegments.length;
   var originalNewSegments = [];
-  var makeEqualSegments = type.indexOf("area") !== -1 ? makeEqualAreaSegments : makeEqualLineSegments;
+  var makeEqualSegments = type.includes("area") ? makeEqualAreaSegments : makeEqualLineSegments;
 
   if (oldLength === 0) {
     for (var i = 0; i < newLength; i++) {
@@ -218,7 +210,6 @@ function maxLengthFontSize(fontSize1, fontSize2) {
 }
 
 function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
-  var style;
   var realStyle = node.style;
 
   if (isDefined(node.wholeText)) {
@@ -232,7 +223,7 @@ function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
   } else if (node.tagName === "BR") {
     ++line;
   } else if (domAdapter.isElementNode(node)) {
-    style = extend(style = {}, parentStyle);
+    var style = extend({}, parentStyle);
 
     switch (node.tagName) {
       case "B":
@@ -269,10 +260,9 @@ function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
 
 function adjustLineHeights(items) {
   var currentItem = items[0];
-  var item;
 
   for (var i = 1, ii = items.length; i < ii; ++i) {
-    item = items[i];
+    var item = items[i];
 
     if (item.line === currentItem.line) {
       currentItem.height = maxLengthFontSize(currentItem.height, item.height);

@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/ui/check_box.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -33,7 +33,7 @@ var _combine_classes = require("../utils/combine_classes");
 
 var _validation_message = require("./validation_message");
 
-var _excluded = ["accessKey", "activeStateEnabled", "defaultValue", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "isValid", "name", "onClick", "onContentReady", "onFocusIn", "onKeyDown", "readOnly", "rtlEnabled", "saveValueChangeEvent", "tabIndex", "text", "useInkRipple", "validationError", "validationErrors", "validationMessageMode", "validationStatus", "value", "valueChange", "visible", "width"];
+var _excluded = ["accessKey", "activeStateEnabled", "className", "defaultValue", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "isValid", "name", "onClick", "onFocusIn", "onKeyDown", "readOnly", "rtlEnabled", "saveValueChangeEvent", "tabIndex", "text", "useInkRipple", "validationError", "validationErrors", "validationMessageMode", "validationStatus", "value", "valueChange", "visible", "width"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,6 +86,7 @@ var viewFunction = function viewFunction(viewModel) {
     "rootElementRef": viewModel.target,
     "accessKey": viewModel.props.accessKey,
     "activeStateEnabled": viewModel.props.activeStateEnabled,
+    "className": viewModel.props.className,
     "classes": viewModel.cssClasses,
     "disabled": viewModel.props.disabled,
     "focusStateEnabled": viewModel.props.focusStateEnabled,
@@ -96,7 +97,6 @@ var viewFunction = function viewFunction(viewModel) {
     "onFocusIn": viewModel.onFocusIn,
     "onFocusOut": viewModel.onFocusOut,
     "aria": viewModel.aria,
-    "onContentReady": viewModel.props.onContentReady,
     "onClick": viewModel.onWidgetClick,
     "onInactive": viewModel.onInactive,
     "onKeyDown": viewModel.onWidgetKeyDown,
@@ -167,7 +167,6 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var _this;
 
     _this = _InfernoWrapperCompon.call(this, props) || this;
-    _this._currentState = null;
     _this.iconRef = (0, _inferno.createRef)();
     _this.inkRippleRef = (0, _inferno.createRef)();
     _this.inputRef = (0, _inferno.createRef)();
@@ -179,7 +178,6 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
     };
     _this.updateValidationMessageVisibility = _this.updateValidationMessageVisibility.bind(_assertThisInitialized(_this));
     _this.focus = _this.focus.bind(_assertThisInitialized(_this));
-    _this.contentReadyEffect = _this.contentReadyEffect.bind(_assertThisInitialized(_this));
     _this.onActive = _this.onActive.bind(_assertThisInitialized(_this));
     _this.onInactive = _this.onInactive.bind(_assertThisInitialized(_this));
     _this.onFocusIn = _this.onFocusIn.bind(_assertThisInitialized(_this));
@@ -193,56 +191,24 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
   var _proto = CheckBox.prototype;
 
   _proto.createEffects = function createEffects() {
-    return [new _vdom.InfernoEffect(this.updateValidationMessageVisibility, [this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]), new _vdom.InfernoEffect(this.contentReadyEffect, [this.props.onContentReady])];
+    return [new _vdom.InfernoEffect(this.updateValidationMessageVisibility, [this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]), (0, _vdom.createReRenderEffect)()];
   };
 
   _proto.updateEffects = function updateEffects() {
-    var _this$_effects$, _this$_effects$2;
+    var _this$_effects$;
 
     (_this$_effects$ = this._effects[0]) === null || _this$_effects$ === void 0 ? void 0 : _this$_effects$.update([this.props.isValid, this.props.validationStatus, this.props.validationError, this.props.validationErrors]);
-    (_this$_effects$2 = this._effects[1]) === null || _this$_effects$2 === void 0 ? void 0 : _this$_effects$2.update([this.props.onContentReady]);
-  };
-
-  _proto.set_showValidationMessage = function set_showValidationMessage(value) {
-    var _this2 = this;
-
-    this.setState(function (state) {
-      _this2._currentState = state;
-      var newValue = value();
-      _this2._currentState = null;
-      return {
-        showValidationMessage: newValue
-      };
-    });
-  };
-
-  _proto.set_value = function set_value(value) {
-    var _this3 = this;
-
-    this.setState(function (state) {
-      _this3._currentState = state;
-      var newValue = value();
-
-      _this3.props.valueChange(newValue);
-
-      _this3._currentState = null;
-      return {
-        value: newValue
-      };
-    });
   };
 
   _proto.updateValidationMessageVisibility = function updateValidationMessageVisibility() {
-    var _this4 = this;
+    var _this2 = this;
 
-    this.set_showValidationMessage(function () {
-      return _this4.shouldShowValidationMessage;
+    this.setState(function (state) {
+      return _extends({}, state, {
+        showValidationMessage: _this2.shouldShowValidationMessage
+      });
     });
-  };
-
-  _proto.contentReadyEffect = function contentReadyEffect() {
-    var onContentReady = this.props.onContentReady;
-    onContentReady === null || onContentReady === void 0 ? void 0 : onContentReady({});
+    return undefined;
   };
 
   _proto.onActive = function onActive(event) {
@@ -264,7 +230,7 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _proto.onWidgetClick = function onWidgetClick(event) {
-    var _this5 = this;
+    var _this3 = this;
 
     var _this$props = this.props,
         readOnly = _this$props.readOnly,
@@ -272,9 +238,17 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
 
     if (!readOnly) {
       saveValueChangeEvent === null || saveValueChangeEvent === void 0 ? void 0 : saveValueChangeEvent(event);
-      this.set_value(function () {
-        return !_this5.__state_value;
-      });
+      {
+        var __newValue;
+
+        this.setState(function (state) {
+          __newValue = !(_this3.props.value !== undefined ? _this3.props.value : state.value);
+          return {
+            value: __newValue
+          };
+        });
+        this.props.valueChange(__newValue);
+      }
     }
   };
 
@@ -314,9 +288,9 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        value: this.__state_value
+        value: this.props.value !== undefined ? this.props.value : this.state.value
       }),
-      showValidationMessage: this.showValidationMessage,
+      showValidationMessage: this.state.showValidationMessage,
       iconRef: this.iconRef,
       inputRef: this.inputRef,
       target: this.target,
@@ -339,22 +313,10 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
   };
 
   _createClass(CheckBox, [{
-    key: "showValidationMessage",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return state.showValidationMessage;
-    }
-  }, {
-    key: "__state_value",
-    get: function get() {
-      var state = this._currentState || this.state;
-      return this.props.value !== undefined ? this.props.value : state.value;
-    }
-  }, {
     key: "cssClasses",
     get: function get() {
       return getCssClasses(_extends({}, this.props, {
-        value: this.__state_value
+        value: this.props.value !== undefined ? this.props.value : this.state.value
       }));
     }
   }, {
@@ -373,8 +335,8 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
       var _this$props3 = this.props,
           isValid = _this$props3.isValid,
           readOnly = _this$props3.readOnly;
-      var checked = !!this.__state_value;
-      var indeterminate = this.__state_value === null;
+      var checked = !!(this.props.value !== undefined ? this.props.value : this.state.value);
+      var indeterminate = (this.props.value !== undefined ? this.props.value : this.state.value) === null;
       var result = {
         role: "checkbox",
         checked: indeterminate ? "mixed" : "".concat(checked),
@@ -413,10 +375,11 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
     key: "restAttributes",
     get: function get() {
       var _this$props$value = _extends({}, this.props, {
-        value: this.__state_value
+        value: this.props.value !== undefined ? this.props.value : this.state.value
       }),
           accessKey = _this$props$value.accessKey,
           activeStateEnabled = _this$props$value.activeStateEnabled,
+          className = _this$props$value.className,
           defaultValue = _this$props$value.defaultValue,
           disabled = _this$props$value.disabled,
           focusStateEnabled = _this$props$value.focusStateEnabled,
@@ -426,7 +389,6 @@ var CheckBox = /*#__PURE__*/function (_InfernoWrapperCompon) {
           isValid = _this$props$value.isValid,
           name = _this$props$value.name,
           onClick = _this$props$value.onClick,
-          onContentReady = _this$props$value.onContentReady,
           onFocusIn = _this$props$value.onFocusIn,
           onKeyDown = _this$props$value.onKeyDown,
           readOnly = _this$props$value.readOnly,

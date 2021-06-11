@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/popup.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -79,7 +79,6 @@ var BUTTON_DEFAULT_TYPE = 'default';
 var BUTTON_NORMAL_TYPE = 'normal';
 var BUTTON_TEXT_MODE = 'text';
 var BUTTON_CONTAINED_MODE = 'contained';
-var IS_IE11 = _browser.default.msie && parseInt(_browser.default.version) === 11;
 var IS_OLD_SAFARI = _browser.default.safari && (0, _version.compare)(_browser.default.version, [11]) < 0;
 var HEIGHT_STRATEGIES = {
   static: '',
@@ -581,9 +580,7 @@ var Popup = _overlay.Overlay.inherit({
 
     if (this._isAutoHeight() && this.option('autoResizeEnabled')) {
       if (isAutoWidth || IS_OLD_SAFARI) {
-        if (!IS_IE11) {
-          currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
-        }
+        currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
       } else {
         currentHeightStrategyClass = HEIGHT_STRATEGIES.flex;
       }

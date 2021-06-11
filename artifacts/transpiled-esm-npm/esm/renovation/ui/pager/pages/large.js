@@ -90,7 +90,6 @@ var PagesLargePropsType = {
 export class PagesLarge extends BaseInfernoComponent {
   constructor(props) {
     super(props);
-    this._currentState = null;
     this.state = {
       pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.props.defaultPageIndex
     };
@@ -106,25 +105,6 @@ export class PagesLarge extends BaseInfernoComponent {
     }
 
     return ConfigContext;
-  }
-
-  get __state_pageIndex() {
-    var state = this._currentState || this.state;
-    return this.props.pageIndex !== undefined ? this.props.pageIndex : state.pageIndex;
-  }
-
-  set_pageIndex(value) {
-    this.setState(state => {
-      var _this$props$pageIndex, _this$props;
-
-      this._currentState = state;
-      var newValue = value();
-      (_this$props$pageIndex = (_this$props = this.props).pageIndexChange) === null || _this$props$pageIndex === void 0 ? void 0 : _this$props$pageIndex.call(_this$props, newValue);
-      this._currentState = null;
-      return {
-        pageIndex: newValue
-      };
-    });
   }
 
   get slidingWindowState() {
@@ -144,8 +124,8 @@ export class PagesLarge extends BaseInfernoComponent {
     var {
       indexesForReuse
     } = this.slidingWindowState;
-    var currentPageNotExistInIndexes = indexesForReuse.indexOf(currentPageCount) === -1;
-    var pageIndexExistInIndexes = indexesForReuse.indexOf(pageIndex) !== -1;
+    var currentPageNotExistInIndexes = !indexesForReuse.includes(currentPageCount);
+    var pageIndexExistInIndexes = indexesForReuse.includes(pageIndex);
     return currentPageNotExistInIndexes && pageIndexExistInIndexes;
   }
 
@@ -158,16 +138,16 @@ export class PagesLarge extends BaseInfernoComponent {
       slidingWindowIndexes
     } = this.slidingWindowState;
 
-    if (this.__state_pageIndex === slidingWindowIndexes[0]) {
-      startIndex = this.__state_pageIndex - 1;
-    } else if (this.__state_pageIndex === slidingWindowIndexes[slidingWindowIndexes.length - 1]) {
-      startIndex = this.__state_pageIndex + 2 - PAGES_LIMITER;
-    } else if (this.__state_pageIndex < PAGES_LIMITER) {
+    if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) === slidingWindowIndexes[0]) {
+      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
+    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) === slidingWindowIndexes[slidingWindowIndexes.length - 1]) {
+      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) + 2 - PAGES_LIMITER;
+    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) < PAGES_LIMITER) {
       startIndex = 1;
-    } else if (this.__state_pageIndex >= pageCount - PAGES_LIMITER) {
+    } else if ((this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) >= pageCount - PAGES_LIMITER) {
       startIndex = pageCount - PAGES_LIMITER - 1;
     } else {
-      startIndex = this.__state_pageIndex - 1;
+      startIndex = (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) - 1;
     }
 
     var slidingWindowSize = PAGES_LIMITER;
@@ -192,9 +172,9 @@ export class PagesLarge extends BaseInfernoComponent {
   }
 
   onPageClick(pageIndex) {
-    var _this$props$pageIndex2, _this$props2;
+    var _this$props$pageIndex, _this$props;
 
-    (_this$props$pageIndex2 = (_this$props2 = this.props).pageIndexChange) === null || _this$props$pageIndex2 === void 0 ? void 0 : _this$props$pageIndex2.call(_this$props2, pageIndex);
+    (_this$props$pageIndex = (_this$props = this.props).pageIndexChange) === null || _this$props$pageIndex === void 0 ? void 0 : _this$props$pageIndex.call(_this$props, pageIndex);
   }
 
   get pageIndexes() {
@@ -206,7 +186,7 @@ export class PagesLarge extends BaseInfernoComponent {
       return createPageIndexes(0, pageCount, pageCount, "none").pageIndexes;
     }
 
-    if (this.canReuseSlidingWindow(pageCount, this.__state_pageIndex)) {
+    if (this.canReuseSlidingWindow(pageCount, this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex)) {
       var {
         slidingWindowIndexes
       } = this.slidingWindowState;
@@ -224,7 +204,7 @@ export class PagesLarge extends BaseInfernoComponent {
       var pagerProps = index === "low" || index === "high" ? null : {
         index,
         onClick: () => this.onPageClick(index),
-        selected: this.__state_pageIndex === index
+        selected: (this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex) === index
       };
       return {
         key: index.toString(),
@@ -237,10 +217,10 @@ export class PagesLarge extends BaseInfernoComponent {
   }
 
   get restAttributes() {
-    var _this$props$pageIndex3 = _extends({}, this.props, {
-      pageIndex: this.__state_pageIndex
+    var _this$props$pageIndex2 = _extends({}, this.props, {
+      pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
     }),
-        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex3, _excluded2);
+        restProps = _objectWithoutPropertiesLoose(_this$props$pageIndex2, _excluded2);
 
     return restProps;
   }
@@ -249,7 +229,7 @@ export class PagesLarge extends BaseInfernoComponent {
     var props = this.props;
     return viewFunction({
       props: _extends({}, props, {
-        pageIndex: this.__state_pageIndex
+        pageIndex: this.props.pageIndex !== undefined ? this.props.pageIndex : this.state.pageIndex
       }),
       config: this.config,
       pageIndexes: this.pageIndexes,

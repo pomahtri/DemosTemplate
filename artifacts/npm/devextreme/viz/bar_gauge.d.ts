@@ -1,6 +1,6 @@
 /**
 * DevExtreme (viz/bar_gauge.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -401,8 +401,7 @@ export interface dxBarGaugeTooltip extends BaseWidgetTooltip {
  * @namespace DevExpress.viz
  * @public
  */
-export default class dxBarGauge extends BaseWidget {
-    constructor(element: UserDefinedElement, options?: dxBarGaugeOptions)
+export default class dxBarGauge extends BaseWidget<dxBarGaugeOptions> {
     /**
      * @docid
      * @publicName values()

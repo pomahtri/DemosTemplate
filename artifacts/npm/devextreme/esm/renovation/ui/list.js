@@ -1,36 +1,30 @@
 /**
 * DevExtreme (esm/renovation/ui/list.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import _extends from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-var _excluded = ["rootElementRef"],
-    _excluded2 = ["_feedbackHideTimeout", "_feedbackShowTimeout", "accessKey", "activeStateEnabled", "activeStateUnit", "aria", "children", "className", "classes", "dataSource", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "itemTemplate", "name", "onActive", "onClick", "onContentReady", "onDimensionChanged", "onFocusIn", "onFocusOut", "onHoverEnd", "onHoverStart", "onInactive", "onItemClick", "onKeyDown", "onKeyboardHandled", "onVisibilityChange", "rootElementRef", "rtlEnabled", "tabIndex", "visible", "width"];
+import _extends from "@babel/runtime/helpers/esm/extends";
+var _excluded = ["accessKey", "activeStateEnabled", "className", "dataSource", "disabled", "focusStateEnabled", "height", "hint", "hoverStateEnabled", "itemTemplate", "onClick", "onItemClick", "onKeyDown", "rtlEnabled", "tabIndex", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
-import { WidgetProps } from "./common/widget";
 import LegacyList from "../../ui/list";
 import { DomComponentWrapper } from "./common/dom_component_wrapper";
+import { BaseWidgetProps } from "./common/base_props";
 export var viewFunction = _ref => {
   var {
-    props: {
-      rootElementRef
-    },
+    props,
     restAttributes
-  } = _ref,
-      componentProps = _objectWithoutPropertiesLoose(_ref.props, _excluded);
-
+  } = _ref;
   return normalizeProps(createComponentVNode(2, DomComponentWrapper, _extends({
-    "rootElementRef": rootElementRef,
     "componentType": LegacyList,
-    "componentProps": componentProps
+    "componentProps": props
   }, restAttributes)));
 };
-export var ListProps = _extends({}, WidgetProps);
+export var ListProps = _extends({}, BaseWidgetProps);
 export class List extends BaseInfernoComponent {
   constructor(props) {
     super(props);
@@ -39,7 +33,7 @@ export class List extends BaseInfernoComponent {
 
   get restAttributes() {
     var _this$props = this.props,
-        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded2);
+        restProps = _objectWithoutPropertiesLoose(_this$props, _excluded);
 
     return restProps;
   }

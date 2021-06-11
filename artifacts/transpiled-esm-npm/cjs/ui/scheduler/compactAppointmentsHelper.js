@@ -93,8 +93,6 @@ var CompactAppointmentsHelper = /*#__PURE__*/function () {
     return {
       clickEvent: this._clickEvent(options.onAppointmentClick).bind(this),
       dragBehavior: options.allowDrag && this._createTooltipDragBehavior().bind(this),
-      dropDownAppointmentTemplate: this.instance.option().dropDownAppointmentTemplate,
-      // deprecated option
       isButtonClick: true
     };
   };

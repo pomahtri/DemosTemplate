@@ -1,6 +1,6 @@
 import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends from "@babel/runtime/helpers/esm/extends";
-var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "forceGeneratePockets", "height", "inertiaEnabled", "needScrollViewContentWrapper", "needScrollViewLoadPanel", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onStop", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "updateManually", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
+var _excluded = ["aria", "bounceEnabled", "children", "classes", "direction", "disabled", "forceGeneratePockets", "height", "inertiaEnabled", "needScrollViewContentWrapper", "needScrollViewLoadPanel", "onBounce", "onEnd", "onPullDown", "onReachBottom", "onScroll", "onStart", "onUpdated", "pullDownEnabled", "pulledDownText", "pullingDownText", "reachBottomEnabled", "reachBottomText", "refreshingText", "rtlEnabled", "scrollByContent", "scrollByThumb", "showScrollbar", "useKeyboard", "useNative", "useSimulatedScrollbar", "visible", "width"];
 import { createComponentVNode, normalizeProps } from "inferno";
 import { InfernoWrapperComponent } from "@devextreme/vdom";
 import { BaseWidgetProps } from "../common/base_props";
@@ -18,6 +18,7 @@ export var viewFunction = viewModel => {
       aria,
       bounceEnabled,
       children,
+      classes,
       direction,
       disabled,
       forceGeneratePockets,
@@ -31,7 +32,6 @@ export var viewFunction = viewModel => {
       onReachBottom,
       onScroll,
       onStart,
-      onStop,
       onUpdated,
       pullDownEnabled,
       pulledDownText,
@@ -43,7 +43,6 @@ export var viewFunction = viewModel => {
       scrollByContent,
       scrollByThumb,
       showScrollbar,
-      updateManually,
       useKeyboard,
       useNative,
       useSimulatedScrollbar,
@@ -56,6 +55,7 @@ export var viewFunction = viewModel => {
   } = viewModel;
   return useNative ? normalizeProps(createComponentVNode(2, ScrollableNative, _extends({
     "aria": aria,
+    "classes": classes,
     "width": width,
     "height": height,
     "disabled": disabled,
@@ -63,8 +63,6 @@ export var viewFunction = viewModel => {
     "rtlEnabled": rtlEnabled,
     "direction": direction,
     "showScrollbar": showScrollbar,
-    "scrollByThumb": scrollByThumb,
-    "updateManually": updateManually,
     "pullDownEnabled": pullDownEnabled,
     "reachBottomEnabled": reachBottomEnabled,
     "forceGeneratePockets": forceGeneratePockets,
@@ -83,6 +81,7 @@ export var viewFunction = viewModel => {
     children: children
   }), null, scrollableNativeRef)) : normalizeProps(createComponentVNode(2, ScrollableSimulated, _extends({
     "aria": aria,
+    "classes": classes,
     "width": width,
     "height": height,
     "disabled": disabled,
@@ -91,7 +90,6 @@ export var viewFunction = viewModel => {
     "direction": direction,
     "showScrollbar": showScrollbar,
     "scrollByThumb": scrollByThumb,
-    "updateManually": updateManually,
     "pullDownEnabled": pullDownEnabled,
     "reachBottomEnabled": reachBottomEnabled,
     "forceGeneratePockets": forceGeneratePockets,
@@ -111,20 +109,18 @@ export var viewFunction = viewModel => {
     "useKeyboard": useKeyboard,
     "onStart": onStart,
     "onEnd": onEnd,
-    "onBounce": onBounce,
-    "onStop": onStop
+    "onBounce": onBounce
   }, restAttributes, {
     children: children
   }), null, scrollableSimulatedRef));
 };
-export var ScrollablePropsType = {
+var ScrollablePropsType = {
   useNative: ScrollableProps.useNative,
   direction: ScrollableProps.direction,
   showScrollbar: ScrollableProps.showScrollbar,
   bounceEnabled: ScrollableProps.bounceEnabled,
   scrollByContent: ScrollableProps.scrollByContent,
   scrollByThumb: ScrollableProps.scrollByThumb,
-  updateManually: ScrollableProps.updateManually,
   pullDownEnabled: ScrollableProps.pullDownEnabled,
   reachBottomEnabled: ScrollableProps.reachBottomEnabled,
   forceGeneratePockets: ScrollableProps.forceGeneratePockets,
@@ -150,6 +146,7 @@ export var defaultOptionRules = createDefaultOptionRules([{
     useNative: false
   }
 }]);
+import { createReRenderEffect } from "@devextreme/vdom";
 import { createRef as infernoCreateRef } from "inferno";
 export class Scrollable extends InfernoWrapperComponent {
   constructor(props) {
@@ -171,12 +168,17 @@ export class Scrollable extends InfernoWrapperComponent {
     this.scrollLeft = this.scrollLeft.bind(this);
     this.clientHeight = this.clientHeight.bind(this);
     this.clientWidth = this.clientWidth.bind(this);
-    this.validate = this.validate.bind(this);
     this.getScrollElementPosition = this.getScrollElementPosition.bind(this);
+    this.scrollToElementTopLeft = this.scrollToElementTopLeft.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
-  validate(e) {
-    return this.scrollableRef.validate(e);
+  createEffects() {
+    return [createReRenderEffect()];
+  }
+
+  validate(event) {
+    return this.scrollableRef.validate(event);
   }
 
   get scrollableRef() {
@@ -252,6 +254,13 @@ export class Scrollable extends InfernoWrapperComponent {
 
   getScrollElementPosition(element, direction) {
     return this.scrollableRef.getElementLocation(element, direction);
+  }
+
+  scrollToElementTopLeft(element) {
+    this.scrollableRef.scrollToElement(element, {
+      block: "start",
+      inline: "start"
+    });
   }
 
   render() {

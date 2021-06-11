@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/calendar/ui.calendar.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -10,7 +10,7 @@ import $ from '../../core/renderer';
 import Guid from '../../core/guid';
 import registerComponent from '../../core/component_registrator';
 import { noop } from '../../core/utils/common';
-import { isNumeric, isString, isFunction, isDefined, isDate } from '../../core/utils/type';
+import { isNumeric, isString, isFunction, isDefined } from '../../core/utils/type';
 import { inRange } from '../../core/utils/math';
 import { extend } from '../../core/utils/extend';
 import Button from '../button';
@@ -19,7 +19,6 @@ import Swipeable from '../../events/gesture/swipeable';
 import Navigator from './ui.calendar.navigator';
 import Views from './ui.calendar.views';
 import { move } from '../../animation/translator';
-import browser from '../../core/utils/browser';
 import dateUtils from '../../core/utils/date';
 import dateSerialization from '../../core/utils/date_serialization';
 import devices from '../../core/devices';
@@ -55,7 +54,6 @@ var ZOOM_LEVEL = {
   DECADE: 'decade',
   CENTURY: 'century'
 };
-var isIE11 = browser.msie && parseInt(browser.version) <= 11;
 var Calendar = Editor.inherit({
   _activeStateUnit: '.' + CALENDAR_CELL_CLASS,
   _getDefaultOptions: function _getDefaultOptions() {
@@ -665,7 +663,7 @@ var Calendar = Editor.inherit({
     });
   },
   _getViewPosition: function _getViewPosition(coefficient) {
-    var rtlCorrection = this.option('rtlEnabled') && !browser.msie ? -1 : 1;
+    var rtlCorrection = this.option('rtlEnabled') ? -1 : 1;
     return coefficient * 100 * rtlCorrection + '%';
   },
   _cellClickHandler: function _cellClickHandler(e) {
@@ -969,13 +967,7 @@ var Calendar = Editor.inherit({
   },
 
   _getDate(value) {
-    var result = dateUtils.createDate(value);
-
-    if (isIE11 && isDate(value)) {
-      result.setMilliseconds(0);
-    }
-
-    return result;
+    return dateUtils.createDate(value);
   },
 
   _toTodayView: function _toTodayView(args) {

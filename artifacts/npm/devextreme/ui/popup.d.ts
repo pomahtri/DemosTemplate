@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/popup.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -84,7 +84,7 @@ export type TitleRenderedEvent = EventInfo<dxPopup> & TitleRenderedInfo;
  * @deprecated use Properties instead
  * @namespace DevExpress.ui
  */
-export interface dxPopupOptions<T = dxPopup> extends dxOverlayOptions<T> {
+export interface dxPopupOptions<TComponent> extends dxOverlayOptions<TComponent> {
     /**
      * @docid
      * @default { show: { type: 'slide', duration: 400, from: { position: { my: 'top', at: 'bottom', of: window } }, to: { position: { my: 'center', at: 'center', of: window } } }, hide: { type: 'slide', duration: 400, from: { position: { my: 'center', at: 'center', of: window } }, to: { position: { my: 'top', at: 'bottom', of: window } } }} [for](iOS)
@@ -301,16 +301,14 @@ export interface dxPopupToolbarItem {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxPopup extends dxOverlay {
-    constructor(element: UserDefinedElement, options?: dxPopupOptions)
-}
+export default class dxPopup<TProperties = Properties> extends dxOverlay<TProperties> {}
 
 /** @public */
-export type Properties = dxPopupOptions;
+export type Properties = dxPopupOptions<dxPopup<Properties>>;
 
 /** @deprecated use Properties instead */
-export type Options = dxPopupOptions;
+export type Options = Properties;
 
 /** @deprecated use Properties instead */
-export type IOptions = dxPopupOptions;
+export type IOptions = Properties;
 export type ToolbarItem = dxPopupToolbarItem;

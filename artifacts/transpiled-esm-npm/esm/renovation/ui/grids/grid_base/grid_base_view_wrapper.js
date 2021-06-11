@@ -24,8 +24,6 @@ export class GridBaseViewWrapper extends InfernoComponent {
     return [new InfernoEffect(this.renderView, [])];
   }
 
-  updateEffects() {}
-
   renderView() {
     var $element = $(this.viewRef.current);
     this.props.view._$element = $element;

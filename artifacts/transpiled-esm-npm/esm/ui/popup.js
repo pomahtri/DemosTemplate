@@ -42,7 +42,6 @@ var BUTTON_DEFAULT_TYPE = 'default';
 var BUTTON_NORMAL_TYPE = 'normal';
 var BUTTON_TEXT_MODE = 'text';
 var BUTTON_CONTAINED_MODE = 'contained';
-var IS_IE11 = browser.msie && parseInt(browser.version) === 11;
 var IS_OLD_SAFARI = browser.safari && compareVersions(browser.version, [11]) < 0;
 var HEIGHT_STRATEGIES = {
   static: '',
@@ -537,9 +536,7 @@ var Popup = Overlay.inherit({
 
     if (this._isAutoHeight() && this.option('autoResizeEnabled')) {
       if (isAutoWidth || IS_OLD_SAFARI) {
-        if (!IS_IE11) {
-          currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
-        }
+        currentHeightStrategyClass = HEIGHT_STRATEGIES.inherit;
       } else {
         currentHeightStrategyClass = HEIGHT_STRATEGIES.flex;
       }

@@ -1,14 +1,14 @@
 /**
 * DevExtreme (esm/renovation/ui/scheduler/workspaces/base/time_panel/layout.j.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import registerComponent from "../../../../../../core/component_registrator";
-import BaseComponent from "../../../../../component_wrapper/component";
-import { TimePanelTableLayout as TimePanelTableLayoutComponent } from "./layout";
+import BaseComponent from "../../../../../component_wrapper/common/component";
+import { TimePanelTableLayout as TimePanelTableLayoutComponent, defaultOptions } from "./layout";
 export default class TimePanelTableLayout extends BaseComponent {
   get _propsInfo() {
     return {
@@ -26,3 +26,4 @@ export default class TimePanelTableLayout extends BaseComponent {
 
 }
 registerComponent("dxTimePanelTableLayout", TimePanelTableLayout);
+TimePanelTableLayout.defaultOptions = defaultOptions;

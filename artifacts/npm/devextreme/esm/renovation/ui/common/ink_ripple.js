@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/renovation/ui/common/ink_ripple.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -38,12 +38,12 @@ export class InkRipple extends BaseInfernoComponent {
     return restProps;
   }
 
-  hideWave(event) {
-    hideWave(this.getConfig, event);
+  hideWave(opts) {
+    hideWave(this.getConfig, opts);
   }
 
-  showWave(event) {
-    showWave(this.getConfig, event);
+  showWave(opts) {
+    showWave(this.getConfig, opts);
   }
 
   render() {

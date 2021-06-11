@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/renovation/viz/common/renderers/svg_rect.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -103,10 +103,10 @@ var RectSvgElement = /*#__PURE__*/function (_BaseInfernoComponent) {
   _createClass(RectSvgElement, [{
     key: "parsedProps",
     get: function get() {
-      var tmpX;
-      var tmpY;
-      var tmpWidth;
-      var tmpHeight;
+      var tmpX = Number.NaN;
+      var tmpY = Number.NaN;
+      var tmpWidth = Number.NaN;
+      var tmpHeight = Number.NaN;
 
       var tmpProps = _extends({}, this.props);
 
@@ -115,14 +115,13 @@ var RectSvgElement = /*#__PURE__*/function (_BaseInfernoComponent) {
           width = tmpProps.width,
           x = tmpProps.x,
           y = tmpProps.y;
-      var sw;
 
       if (x !== undefined || y !== undefined || width !== undefined || height !== undefined || strokeWidth !== undefined) {
         tmpX = x !== undefined ? x : 0;
         tmpY = y !== undefined ? y : 0;
         tmpWidth = width !== undefined ? width : 0;
         tmpHeight = height !== undefined ? height : 0;
-        sw = strokeWidth !== undefined ? strokeWidth : 0;
+        var sw = strokeWidth !== undefined ? strokeWidth : 0;
         var maxSW = ~~((tmpWidth < tmpHeight ? tmpWidth : tmpHeight) / 2);
         var newSW = Math.min(sw, maxSW);
         tmpProps.x = tmpX + newSW / 2;

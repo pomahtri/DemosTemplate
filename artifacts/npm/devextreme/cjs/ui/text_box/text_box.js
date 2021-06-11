@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/text_box/text_box.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -13,12 +13,6 @@ exports.default = void 0;
 var _renderer = _interopRequireDefault(require("../../core/renderer"));
 
 var _window = require("../../core/utils/window");
-
-var _browser = _interopRequireDefault(require("../../core/utils/browser"));
-
-var _events_engine = _interopRequireDefault(require("../../events/core/events_engine"));
-
-var _devices = _interopRequireDefault(require("../../core/devices"));
 
 var _array = require("../../core/utils/array");
 
@@ -33,9 +27,7 @@ var _index = require("../../events/utils/index");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var window = (0, _window.getWindow)();
-var navigator = (0, _window.getNavigator)();
 // STYLE textBox
-var ua = navigator.userAgent;
 var ignoreKeys = ['backspace', 'tab', 'enter', 'pageUp', 'pageDown', 'end', 'home', 'leftArrow', 'rightArrow', 'downArrow', 'upArrow', 'del'];
 var TEXTBOX_CLASS = 'dx-textbox';
 var SEARCHBOX_CLASS = 'dx-searchbox';
@@ -62,22 +54,10 @@ var TextBox = _ui.default.inherit({
     this.callBase();
     this.setAria('role', 'textbox');
   },
-  _renderContentImpl: function _renderContentImpl() {
-    this._renderMaxLengthHandlers();
-
-    this.callBase();
-  },
   _renderInputType: function _renderInputType() {
     this.callBase();
 
     this._renderSearchMode();
-  },
-  _renderMaxLengthHandlers: function _renderMaxLengthHandlers() {
-    if (this._isAndroidOrIE()) {
-      _events_engine.default.on(this._input(), (0, _index.addNamespace)('keydown', this.NAME), this._onKeyDownCutOffHandler.bind(this));
-
-      _events_engine.default.on(this._input(), (0, _index.addNamespace)('change', this.NAME), this._onChangeCutOffHandler.bind(this));
-    }
   },
   _useTemplates: function _useTemplates() {
     return false;
@@ -125,8 +105,6 @@ var TextBox = _ui.default.inherit({
       case 'maxLength':
         this._toggleMaxLengthProp();
 
-        this._renderMaxLengthHandlers();
-
         break;
 
       case 'mask':
@@ -173,12 +151,6 @@ var TextBox = _ui.default.inherit({
   _getMaxLength: function _getMaxLength() {
     var isMaskSpecified = !!this.option('mask');
     return isMaskSpecified ? null : this.option('maxLength');
-  },
-  _isAndroidOrIE: function _isAndroidOrIE() {
-    var realDevice = _devices.default.real();
-
-    var version = realDevice.version.join('.');
-    return _browser.default.msie || realDevice.platform === 'android' && version && /^(2\.|4\.1)/.test(version) && !/chrome/i.test(ua);
   }
 });
 

@@ -14,6 +14,8 @@ var _uiSchedulerAppointmentsStrategy4 = _interopRequireDefault(require("./render
 
 var _uiSchedulerAppointmentsStrategy5 = _interopRequireDefault(require("./rendering_strategies/ui.scheduler.appointments.strategy.agenda"));
 
+var _appointmentDataProvider = require("./appointments/DataProvider/appointmentDataProvider");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -76,6 +78,11 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
   _proto._createAppointmentsMapCore = function _createAppointmentsMapCore(list, positionMap) {
     var _this2 = this;
 
+    var _this$instance$getWor = this.instance.getWorkSpace(),
+        virtualScrollingDispatcher = _this$instance$getWor.virtualScrollingDispatcher;
+
+    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
+    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
     return list.map(function (data, index) {
       if (!_this2._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -89,14 +96,17 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
         itemData: data,
         settings: appointmentSettings,
         needRepaint: true,
-        needRemove: false
+        needRemove: false,
+        virtualCellCount: virtualCellCount,
+        virtualRowCount: virtualRowCount
       };
     });
   };
 
   _proto._isDataChanged = function _isDataChanged(data) {
-    var updatedData = this.instance.getUpdatedAppointment();
-    return updatedData === data || this.instance.getUpdatedAppointmentKeys().some(function (item) {
+    var appointmentDataProvider = (0, _appointmentDataProvider.getAppointmentDataProvider)();
+    var updatedData = appointmentDataProvider.getUpdatedAppointment();
+    return updatedData === data || appointmentDataProvider.getUpdatedAppointmentKeys().some(function (item) {
       return data[item.key] === item.value;
     });
   };
@@ -110,17 +120,27 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
       return true;
     }
 
-    for (var i = 0; i < settings.length; i++) {
-      var newSettings = _extends({}, settings[i]);
-
-      var oldSettings = _extends({}, sourceSetting[i], {
-        // exclude properties for comparison in commonUtils.equalByValue
-        sortedIndex: newSettings.sortedIndex,
-        cellIndex: newSettings.cellIndex,
-        rowIndex: newSettings.rowIndex,
-        hMax: newSettings.hMax,
-        vMax: newSettings.vMax
+    var createSettingsToCompare = function createSettingsToCompare(settings, index) {
+      var virtualCellCount = settings.virtualCellCount || 0;
+      var virtualRowCount = settings.virtualRowCount || 0;
+      var cellIndex = settings[index].cellIndex + virtualCellCount;
+      var rowIndex = settings[index].rowIndex + virtualRowCount;
+      return _extends({}, settings[index], {
+        cellIndex: cellIndex,
+        rowIndex: rowIndex,
+        virtualCellCount: -1,
+        virtualRowCount: -1
       });
+    };
+
+    for (var i = 0; i < settings.length; i++) {
+      var newSettings = createSettingsToCompare(settings, i);
+      var oldSettings = createSettingsToCompare(sourceSetting, i);
+
+      if (oldSettings) {
+        // exclude sortedIndex property for comparison in commonUtils.equalByValue
+        oldSettings.sortedIndex = newSettings.sortedIndex;
+      }
 
       if (!(0, _common.equalByValue)(newSettings, oldSettings)) {
         return true;

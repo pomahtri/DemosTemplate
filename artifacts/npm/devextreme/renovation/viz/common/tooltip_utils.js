@@ -1,6 +1,6 @@
 /**
 * DevExtreme (renovation/viz/common/tooltip_utils.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -123,8 +123,8 @@ function getCloudPoints(size, coordinates, rotationAngle, options, bounded) {
   var arrowBaseTop = max(arrowY - halfArrowWidth, yt);
   var arrowBaseLeft = max(arrowX - halfArrowWidth, xl);
   var cornerRadius = Math.min(halfWidth, halfHeight, options.cornerRadius);
-  var points;
-  var arrowArc;
+  var points = "";
+  var arrowArc = "";
   leftTopCorner[1] += cornerRadius;
   rightTopCorner[0] -= cornerRadius;
   rightBottomCorner[1] -= cornerRadius;
@@ -268,8 +268,8 @@ function recalculateCoordinates(_ref4) {
     return false;
   }
 
-  var x;
-  var y;
+  var x = Number.NaN;
+  var y = Number.NaN;
   var correctedAnchorY = anchorY;
 
   if (bounds.width < size.width) {

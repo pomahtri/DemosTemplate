@@ -1,6 +1,6 @@
 /**
 * DevExtreme (cjs/ui/widget/ui.errors.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -347,7 +347,12 @@ var _default = (0, _error.default)(_errors.default.ERROR_MESSAGES, {
   /**
   * @name ErrorsUIWidgets.W1019
   */
-  W1019: 'Filter query string exceeds maximum length limit of {0} characters.'
+  W1019: 'Filter query string exceeds maximum length limit of {0} characters.',
+
+  /**
+  * @name ErrorsUIWidgets.W1020
+  */
+  W1020: 'hideEvent is ignored when the shading property is true'
 });
 
 exports.default = _default;

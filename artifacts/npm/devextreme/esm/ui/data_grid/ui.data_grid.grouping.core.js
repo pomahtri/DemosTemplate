@@ -1,6 +1,6 @@
 /**
 * DevExtreme (esm/ui/data_grid/ui.data_grid.grouping.core.js)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED

@@ -4,7 +4,7 @@ exports.default = void 0;
 
 var _component_registrator = _interopRequireDefault(require("../../../core/component_registrator"));
 
-var _component = _interopRequireDefault(require("../../component_wrapper/component"));
+var _component = _interopRequireDefault(require("../../component_wrapper/common/component"));
 
 var _form = require("./form");
 
@@ -33,7 +33,7 @@ var Form = /*#__PURE__*/function (_BaseComponent) {
         allowNull: [],
         elements: [],
         templates: [],
-        props: ["scrollingEnabled", "useNativeScrolling"]
+        props: ["scrollingEnabled", "useNativeScrolling", "screenByWidth"]
       };
     }
   }, {
@@ -48,5 +48,6 @@ var Form = /*#__PURE__*/function (_BaseComponent) {
 
 exports.default = Form;
 (0, _component_registrator.default)("dxForm", Form);
+Form.defaultOptions = _form.defaultOptions;
 module.exports = exports.default;
 module.exports.default = exports.default;

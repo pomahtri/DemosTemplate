@@ -2,9 +2,9 @@
 
 exports.default = void 0;
 
-var _editor = _interopRequireDefault(require("./editor"));
+var _editor = _interopRequireDefault(require("./common/editor"));
 
-var _utils = require("./utils");
+var _utils = require("./utils/utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,9 +42,6 @@ var CheckBox = /*#__PURE__*/function (_Editor) {
           event: this._valueChangeEventInstance
         });
         this._valueChangeEventInstance = undefined;
-
-        _Editor.prototype._optionChanged.call(this, option);
-
         break;
 
       case "onValueChanged":
@@ -54,11 +51,10 @@ var CheckBox = /*#__PURE__*/function (_Editor) {
         break;
 
       default:
-        _Editor.prototype._optionChanged.call(this, option);
-
+        break;
     }
 
-    this._invalidate();
+    _Editor.prototype._optionChanged.call(this, option);
   };
 
   _proto.setAria = function setAria(name, value) {

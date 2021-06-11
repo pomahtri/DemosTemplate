@@ -92,7 +92,6 @@ var Form = _ui.default.inherit({
       formID: 'dx-' + new _guid.default(),
       formData: {},
       colCount: 1,
-      screenByWidth: _window.defaultScreenFactorFunc,
 
       /**
       * _pseudo ColCountResponsibleType
@@ -450,7 +449,6 @@ var Form = _ui.default.inherit({
       isRoot: true,
       colCount: that.option('colCount'),
       alignItemLabels: that.option('alignItemLabels'),
-      screenByWidth: this.option('screenByWidth'),
       colCountByScreen: this.option('colCountByScreen'),
       onLayoutChanged: function onLayoutChanged(inOneColumn) {
         that._alignLabels.bind(that)(that._rootLayoutManager, inOneColumn);

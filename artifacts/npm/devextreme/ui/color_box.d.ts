@@ -1,6 +1,6 @@
 /**
 * DevExtreme (ui/color_box.d.ts)
-* Version: 21.1.3
+* Version: 21.2.0
 * Build date: Fri Jun 11 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
@@ -30,6 +30,10 @@ import dxDropDownEditor, {
 import {
     ValueChangedInfo
 } from './editor/editor';
+
+import {
+    Properties as PopupProperties
+} from './popup';
 
 /** @public */
 export type ChangeEvent = NativeEventInfo<dxColorBox>;
@@ -135,6 +139,12 @@ export interface dxColorBoxOptions extends dxDropDownEditorOptions<dxColorBox> {
      * @public
      */
     value?: string;
+
+    /**
+     * @docid
+     * @type dxPopupOptions
+     */
+    dropDownOptions?: PopupProperties;
 }
 /**
  * @docid
@@ -145,9 +155,7 @@ export interface dxColorBoxOptions extends dxDropDownEditorOptions<dxColorBox> {
  * @namespace DevExpress.ui
  * @public
  */
-export default class dxColorBox extends dxDropDownEditor {
-    constructor(element: UserDefinedElement, options?: dxColorBoxOptions)
-}
+export default class dxColorBox extends dxDropDownEditor<dxColorBoxOptions> { }
 
 /** @public */
 export type Properties = dxColorBoxOptions;
