@@ -8,6 +8,13 @@ jobs:
         uses: actions/checkout@v2.3.1
         with:
           submodules: true
+      
+      - name: download DevExtreme
+        run: |
+          git clone $(cat _repo) DevExtreme
+          cd DevExtreme
+          git checkout $(cat _branch)
+          cd ..
 
       - name: Install and Build
         run: |

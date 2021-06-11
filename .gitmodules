@@ -1,4 +1,0 @@
-[submodule "DevExtreme"]
-	path = DevExtreme
-	url = https://github.com/pomahtri/DevExtreme
-	branch = DataGrid_add_template_for_toolbar_21_1
