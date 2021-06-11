@@ -527,6 +527,12 @@ var onCmUpdate = null;
 var cm;
 
 function updatePreview(content) {
+    previewWrapper.removeChild(preview);
+
+    preview = document.createElement("iframe");
+    preview.id = "preview";
+    previewWrapper.appendChild(preview);
+
     preview.contentWindow.document.open();
     preview.contentWindow.document.write(content);
     preview.contentWindow.document.close();
