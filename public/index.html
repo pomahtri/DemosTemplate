@@ -546,8 +546,9 @@ window.addEventListener('DOMContentLoaded', async(e) => {
       theme: 'monokai',
   });
 
-  let content = await fetch('demo/index.html');
-  cm.setValue(content);
+  let request = await fetch('demo/index.html');
+  let text = await request.text();
+  cm.setValue(text);
 
   onCmUpdate = function() {
     updatePreview(cm.getValue());
