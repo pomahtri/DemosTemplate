@@ -76,11 +76,6 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
   _proto._createAppointmentsMapCore = function _createAppointmentsMapCore(list, positionMap) {
     var _this2 = this;
 
-    var _this$instance$getWor = this.instance.getWorkSpace(),
-        virtualScrollingDispatcher = _this$instance$getWor.virtualScrollingDispatcher;
-
-    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
-    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
     return list.map(function (data, index) {
       if (!_this2._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -94,9 +89,7 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
         itemData: data,
         settings: appointmentSettings,
         needRepaint: true,
-        needRemove: false,
-        virtualCellCount: virtualCellCount,
-        virtualRowCount: virtualRowCount
+        needRemove: false
       };
     });
   };
@@ -117,27 +110,17 @@ var AppointmentLayoutManager = /*#__PURE__*/function () {
       return true;
     }
 
-    var createSettingsToCompare = function createSettingsToCompare(settings, index) {
-      var virtualCellCount = settings.virtualCellCount || 0;
-      var virtualRowCount = settings.virtualRowCount || 0;
-      var cellIndex = settings[index].cellIndex + virtualCellCount;
-      var rowIndex = settings[index].rowIndex + virtualRowCount;
-      return _extends({}, settings[index], {
-        cellIndex: cellIndex,
-        rowIndex: rowIndex,
-        virtualCellCount: -1,
-        virtualRowCount: -1
-      });
-    };
-
     for (var i = 0; i < settings.length; i++) {
-      var newSettings = createSettingsToCompare(settings, i);
-      var oldSettings = createSettingsToCompare(sourceSetting, i);
+      var newSettings = _extends({}, settings[i]);
 
-      if (oldSettings) {
-        // exclude sortedIndex property for comparison in commonUtils.equalByValue
-        oldSettings.sortedIndex = newSettings.sortedIndex;
-      }
+      var oldSettings = _extends({}, sourceSetting[i], {
+        // exclude properties for comparison in commonUtils.equalByValue
+        sortedIndex: newSettings.sortedIndex,
+        cellIndex: newSettings.cellIndex,
+        rowIndex: newSettings.rowIndex,
+        hMax: newSettings.hMax,
+        vMax: newSettings.vMax
+      });
 
       if (!(0, _common.equalByValue)(newSettings, oldSettings)) {
         return true;

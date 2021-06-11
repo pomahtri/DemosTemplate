@@ -3017,7 +3017,11 @@ var SchedulerWorkSpace = /*#__PURE__*/function (_WidgetObserver) {
   };
 
   _proto2._getHorizontalMax = function _getHorizontalMax(groupIndex) {
-    groupIndex = this.isGroupedByDate() ? this._getGroupCount() - 1 : groupIndex;
+    if (this.isGroupedByDate()) {
+      var correctedGroupIndex = this._getGroupCount() - 1;
+      return Math.max(this._groupedStrategy.getHorizontalMax(groupIndex), this._groupedStrategy.getHorizontalMax(correctedGroupIndex));
+    }
+
     return this._groupedStrategy.getHorizontalMax(groupIndex);
   };
 
@@ -3287,7 +3291,7 @@ var SchedulerWorkSpace = /*#__PURE__*/function (_WidgetObserver) {
     };
 
     if (!this._maxAllowedPosition[groupIndex]) {
-      var _this$viewDataProvide = this.viewDataProvider.getLasGroupCellPosition(groupIndex),
+      var _this$viewDataProvide = this.viewDataProvider.getLastGroupCellPosition(groupIndex),
           cellIndex = _this$viewDataProvide.cellIndex;
 
       getMaxPosition(cellIndex);
@@ -3338,7 +3342,7 @@ var SchedulerWorkSpace = /*#__PURE__*/function (_WidgetObserver) {
     };
 
     if (!this._maxAllowedVerticalPosition[groupIndex]) {
-      var _this$viewDataProvide2 = this.viewDataProvider.getLasGroupCellPosition(groupIndex),
+      var _this$viewDataProvide2 = this.viewDataProvider.getLastGroupCellPosition(groupIndex),
           rowIndex = _this$viewDataProvide2.rowIndex;
 
       getMaxPosition(rowIndex);

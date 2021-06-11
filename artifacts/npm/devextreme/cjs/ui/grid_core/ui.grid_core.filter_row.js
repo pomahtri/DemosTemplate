@@ -30,7 +30,7 @@ var _message = _interopRequireDefault(require("../../localization/message"));
 
 var _editor = _interopRequireDefault(require("../editor/editor"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _overlay = require("../overlay");
 
 var _menu = _interopRequireDefault(require("../menu"));
 
@@ -273,7 +273,7 @@ var ColumnHeadersViewFilterRowExtender = function () {
       var sharedData = {};
       var $editorContainer = $cell.find('.dx-editor-container');
       var $overlay = (0, _renderer.default)('<div>').addClass(that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)).appendTo($cell);
-      return that._createComponent($overlay, _overlay.default, {
+      return that._createComponent($overlay, _overlay.Overlay, {
         height: 'auto',
         shading: false,
         showTitle: false,

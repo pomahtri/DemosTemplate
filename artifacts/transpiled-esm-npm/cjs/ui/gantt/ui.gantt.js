@@ -798,9 +798,9 @@ var Gantt = /*#__PURE__*/function (_Widget) {
           setTimeout(function () {
             _this9._updateGanttRowHeights();
           }, 300);
-
-          dataOption._reloadDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         _this9._raiseInsertedAction(optionName, data, insertedId);
       });
@@ -816,9 +816,9 @@ var Gantt = /*#__PURE__*/function (_Widget) {
       dataOption.remove(key, function () {
         if (optionName === GANTT_TASKS) {
           _this10._updateTreeListDataSource();
-
-          dataOption._reloadDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         _this10._raiseDeletedAction(optionName, key, _this10._convertCoreToMappedData(optionName, data));
       });
@@ -844,12 +844,10 @@ var Gantt = /*#__PURE__*/function (_Widget) {
 
       dataOption.update(key, data, function () {
         if (isTaskUpdated) {
-          if (hasCustomFieldsData) {
-            dataOption._refreshDataSource();
-          }
-
           _this11._updateTreeListDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         _this11._raiseUpdatedAction(optionName, data, key);
       });
@@ -1102,7 +1100,9 @@ var Gantt = /*#__PURE__*/function (_Widget) {
       coreArgs.newValues = this._convertMappedToCoreData(optionName, args.newValues);
 
       if (optionName === GANTT_TASKS) {
-        this._saveCustomFieldsDataToCache(args.key, args.newValues);
+        var forceUpdateOnKeyExpire = !Object.keys(coreArgs.newValues).length;
+
+        this._saveCustomFieldsDataToCache(args.key, args.newValues, forceUpdateOnKeyExpire);
       }
     }
   };

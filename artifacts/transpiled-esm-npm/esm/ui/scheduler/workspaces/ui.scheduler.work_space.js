@@ -2952,7 +2952,11 @@ class SchedulerWorkSpace extends WidgetObserver {
   }
 
   _getHorizontalMax(groupIndex) {
-    groupIndex = this.isGroupedByDate() ? this._getGroupCount() - 1 : groupIndex;
+    if (this.isGroupedByDate()) {
+      var correctedGroupIndex = this._getGroupCount() - 1;
+      return Math.max(this._groupedStrategy.getHorizontalMax(groupIndex), this._groupedStrategy.getHorizontalMax(correctedGroupIndex));
+    }
+
     return this._groupedStrategy.getHorizontalMax(groupIndex);
   }
 
@@ -3214,7 +3218,7 @@ class SchedulerWorkSpace extends WidgetObserver {
     if (!this._maxAllowedPosition[groupIndex]) {
       var {
         cellIndex
-      } = this.viewDataProvider.getLasGroupCellPosition(groupIndex);
+      } = this.viewDataProvider.getLastGroupCellPosition(groupIndex);
       getMaxPosition(cellIndex);
     }
 
@@ -3261,7 +3265,7 @@ class SchedulerWorkSpace extends WidgetObserver {
     if (!this._maxAllowedVerticalPosition[groupIndex]) {
       var {
         rowIndex
-      } = this.viewDataProvider.getLasGroupCellPosition(groupIndex);
+      } = this.viewDataProvider.getLastGroupCellPosition(groupIndex);
       getMaxPosition(rowIndex);
     }
 

@@ -302,6 +302,9 @@ var FileUploader = /*#__PURE__*/function (_Editor) {
 
       _events_engine.default.on(this._$fileInput, 'click', function (e) {
         e.stopPropagation();
+
+        _this2._resetInputValue();
+
         return _this2.option('useNativeInputClick') || _this2._isCustomClickEvent;
       });
     }
@@ -341,37 +344,8 @@ var FileUploader = /*#__PURE__*/function (_Editor) {
     return this.option('uploadMode') !== 'useForm' && this.option('extendSelection') && this.option('multiple');
   };
 
-  _proto._removeDuplicates = function _removeDuplicates(files, value) {
-    var result = [];
-
-    for (var i = 0; i < value.length; i++) {
-      if (!this._isFileInArray(files, value[i])) {
-        result.push(value[i]);
-      }
-    }
-
-    return result;
-  };
-
-  _proto._isFileInArray = function _isFileInArray(files, file) {
-    for (var i = 0; i < files.length; i++) {
-      var item = files[i];
-
-      if (item.size === file.size && item.name === file.name) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
   _proto._changeValue = function _changeValue(value) {
     var files = this._shouldFileListBeExtended() ? this.option('value').slice() : [];
-
-    if (this.option('uploadMode') !== 'instantly') {
-      value = this._removeDuplicates(files, value);
-    }
-
     this.option('value', files.concat(value));
   };
 
@@ -775,11 +749,7 @@ var FileUploader = /*#__PURE__*/function (_Editor) {
 
     this._toggleFileUploaderEmptyClassName();
 
-    this._doPreventInputChange = true;
-
-    this._$fileInput.val('');
-
-    this._doPreventInputChange = false;
+    this._resetInputValue(true);
   };
 
   _proto.removeFile = function removeFile(fileData) {
@@ -1525,6 +1495,18 @@ var FileUploader = /*#__PURE__*/function (_Editor) {
         _Editor.prototype._optionChanged.call(this, args);
 
     }
+  };
+
+  _proto._resetInputValue = function _resetInputValue(force) {
+    if (this.option('uploadMode') === 'useForm' && !force) {
+      return;
+    }
+
+    this._doPreventInputChange = true;
+
+    this._$fileInput.val('');
+
+    this._doPreventInputChange = false;
   };
 
   _proto.reset = function reset() {

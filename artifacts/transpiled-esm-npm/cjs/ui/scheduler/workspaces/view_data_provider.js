@@ -855,9 +855,33 @@ var GroupedDataMapProvider = /*#__PURE__*/function () {
     }
   };
 
-  _proto2.getLasGroupCellPosition = function getLasGroupCellPosition(groupIndex) {
-    var groupRow = this.getLastGroupRow(groupIndex);
-    return groupRow[groupRow.length - 1].position;
+  _proto2.getLastGroupCell = function getLastGroupCell(groupIndex) {
+    var dateTableGroupedMap = this.groupedDataMap.dateTableGroupedMap;
+    var groupedRows = dateTableGroupedMap[groupIndex];
+    var lastRow = groupedRows[groupedRows.length - 1];
+    var result;
+
+    if (lastRow) {
+      var cellCount = lastRow.length;
+      result = lastRow[cellCount - 1];
+    }
+
+    return result;
+  };
+
+  _proto2.getLastGroupCellPosition = function getLastGroupCellPosition(groupIndex) {
+    var _groupCell;
+
+    var groupCell;
+
+    if (this.isVerticalGroupedWorkspace) {
+      var groupRow = this.getLastGroupRow(groupIndex);
+      groupCell = groupRow[groupRow.length - 1];
+    } else {
+      groupCell = this.getLastGroupCell(groupIndex);
+    }
+
+    return (_groupCell = groupCell) === null || _groupCell === void 0 ? void 0 : _groupCell.position;
   };
 
   _proto2.getRowCountInGroup = function getRowCountInGroup(groupIndex) {
@@ -867,6 +891,13 @@ var GroupedDataMapProvider = /*#__PURE__*/function () {
     var lastCellIndex = lastCellData.index;
     return (lastCellIndex + 1) / groupRow.length;
   };
+
+  _createClass(GroupedDataMapProvider, [{
+    key: "isVerticalGroupedWorkspace",
+    get: function get() {
+      return this._workspace._isVerticalGroupedWorkSpace();
+    }
+  }]);
 
   return GroupedDataMapProvider;
 }();
@@ -941,8 +972,8 @@ var ViewDataProvider = /*#__PURE__*/function () {
     return this._groupedDataMapProvider.getGroupIndices();
   };
 
-  _proto3.getLasGroupCellPosition = function getLasGroupCellPosition(groupIndex) {
-    return this._groupedDataMapProvider.getLasGroupCellPosition(groupIndex);
+  _proto3.getLastGroupCellPosition = function getLastGroupCellPosition(groupIndex) {
+    return this._groupedDataMapProvider.getLastGroupCellPosition(groupIndex);
   };
 
   _proto3.getRowCountInGroup = function getRowCountInGroup(groupIndex) {

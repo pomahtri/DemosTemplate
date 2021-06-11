@@ -740,9 +740,9 @@ class Gantt extends Widget {
           setTimeout(() => {
             this._updateGanttRowHeights();
           }, 300);
-
-          dataOption._reloadDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         this._raiseInsertedAction(optionName, data, insertedId);
       });
@@ -756,9 +756,9 @@ class Gantt extends Widget {
       dataOption.remove(key, () => {
         if (optionName === GANTT_TASKS) {
           this._updateTreeListDataSource();
-
-          dataOption._reloadDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         this._raiseDeletedAction(optionName, key, this._convertCoreToMappedData(optionName, data));
       });
@@ -782,12 +782,10 @@ class Gantt extends Widget {
 
       dataOption.update(key, data, () => {
         if (isTaskUpdated) {
-          if (hasCustomFieldsData) {
-            dataOption._refreshDataSource();
-          }
-
           this._updateTreeListDataSource();
         }
+
+        dataOption._reloadDataSource();
 
         this._raiseUpdatedAction(optionName, data, key);
       });
@@ -1038,7 +1036,9 @@ class Gantt extends Widget {
       coreArgs.newValues = this._convertMappedToCoreData(optionName, args.newValues);
 
       if (optionName === GANTT_TASKS) {
-        this._saveCustomFieldsDataToCache(args.key, args.newValues);
+        var forceUpdateOnKeyExpire = !Object.keys(coreArgs.newValues).length;
+
+        this._saveCustomFieldsDataToCache(args.key, args.newValues, forceUpdateOnKeyExpire);
       }
     }
   }

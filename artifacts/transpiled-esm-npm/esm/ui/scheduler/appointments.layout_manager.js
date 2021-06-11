@@ -55,11 +55,6 @@ class AppointmentLayoutManager {
   }
 
   _createAppointmentsMapCore(list, positionMap) {
-    var {
-      virtualScrollingDispatcher
-    } = this.instance.getWorkSpace();
-    var virtualCellCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.leftVirtualCellsCount : 0;
-    var virtualRowCount = virtualScrollingDispatcher ? virtualScrollingDispatcher.topVirtualRowsCount : 0;
     return list.map((data, index) => {
       if (!this._renderingStrategyInstance.keepAppointmentSettings()) {
         delete data.settings;
@@ -73,9 +68,7 @@ class AppointmentLayoutManager {
         itemData: data,
         settings: appointmentSettings,
         needRepaint: true,
-        needRemove: false,
-        virtualCellCount,
-        virtualRowCount
+        needRemove: false
       };
     });
   }
@@ -94,27 +87,17 @@ class AppointmentLayoutManager {
       return true;
     }
 
-    var createSettingsToCompare = (settings, index) => {
-      var virtualCellCount = settings.virtualCellCount || 0;
-      var virtualRowCount = settings.virtualRowCount || 0;
-      var cellIndex = settings[index].cellIndex + virtualCellCount;
-      var rowIndex = settings[index].rowIndex + virtualRowCount;
-      return _extends({}, settings[index], {
-        cellIndex: cellIndex,
-        rowIndex: rowIndex,
-        virtualCellCount: -1,
-        virtualRowCount: -1
-      });
-    };
-
     for (var i = 0; i < settings.length; i++) {
-      var newSettings = createSettingsToCompare(settings, i);
-      var oldSettings = createSettingsToCompare(sourceSetting, i);
+      var newSettings = _extends({}, settings[i]);
 
-      if (oldSettings) {
-        // exclude sortedIndex property for comparison in commonUtils.equalByValue
-        oldSettings.sortedIndex = newSettings.sortedIndex;
-      }
+      var oldSettings = _extends({}, sourceSetting[i], {
+        // exclude properties for comparison in commonUtils.equalByValue
+        sortedIndex: newSettings.sortedIndex,
+        cellIndex: newSettings.cellIndex,
+        rowIndex: newSettings.rowIndex,
+        hMax: newSettings.hMax,
+        vMax: newSettings.vMax
+      });
 
       if (!equalByValue(newSettings, oldSettings)) {
         return true;

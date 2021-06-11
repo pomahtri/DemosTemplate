@@ -50,7 +50,7 @@ var _message = _interopRequireDefault(require("../localization/message"));
 
 var _button = _interopRequireDefault(require("./button"));
 
-var _overlay = _interopRequireDefault(require("./overlay"));
+var _overlay = require("./overlay");
 
 var _themes = require("./themes");
 
@@ -127,7 +127,7 @@ var getButtonPlace = function getButtonPlace(name) {
   };
 };
 
-var Popup = _overlay.default.inherit({
+var Popup = _overlay.Overlay.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       fullScreen: false,

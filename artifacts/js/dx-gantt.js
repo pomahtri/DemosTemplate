@@ -1,7 +1,7 @@
 /*!
  * DevExpress Gantt (dx-gantt)
- * Version: 2.1.35
- * Build date: Fri May 28 2021
+ * Version: 2.1.37
+ * Build date: Wed Jun 02 2021
  * 
  * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
@@ -2282,10 +2282,12 @@ var GridLayoutCalculator = (function () {
         var autoCalculatedParent = this.viewModel.parentAutoCalc && this.viewModel.taskHasChildrenByIndex(index);
         if (viewItem.task.isMilestone() && !viewItem.isCustom)
             result += " " + GridLayoutCalculator.milestoneClassName;
-        else if (taskWidth <= this.elementSizeValues.smallTaskWidth)
-            result += " " + GridLayoutCalculator.smallTaskClassName;
-        if (autoCalculatedParent)
-            result += this.getAutoCalcParentTaskClassName(viewItem.task);
+        else {
+            if (taskWidth <= this.elementSizeValues.smallTaskWidth)
+                result += " " + GridLayoutCalculator.smallTaskClassName;
+            if (autoCalculatedParent)
+                result += this.getAutoCalcParentTaskClassName(viewItem.task);
+        }
         return result;
     };
     GridLayoutCalculator.prototype.getAutoCalcParentTaskClassName = function (task) {
@@ -8430,6 +8432,8 @@ var GanttView = (function () {
     GanttView.prototype.getVisibleDependencyKeys = function () { return this.viewModel.getVisibleDependencies().map(function (d) { return d.id; }); };
     GanttView.prototype.getVisibleResourceKeys = function () { return this.viewModel.getVisibleResources().map(function (r) { return r.id; }); };
     GanttView.prototype.getVisibleResourceAssignmentKeys = function () { return this.viewModel.getVisibleResourceAssignments().map(function (a) { return a.id; }); };
+    GanttView.prototype.getTasksExpandedState = function () { return this.viewModel.getTasksExpandedState(); };
+    GanttView.prototype.applyTasksExpandedState = function (state) { this.viewModel.applyTasksExpandedState(state); };
     GanttView.prototype.setTaskValue = function (id, fieldName, newValue) {
         var manager = this.commandManager;
         var task = this.getTaskByPublicId(id);
@@ -8837,6 +8841,21 @@ var ViewVisualModel = (function () {
             if (task)
                 task.internalId = hash[id];
         }
+    };
+    ViewVisualModel.prototype.getTasksExpandedState = function () {
+        var items = this.tasks.items;
+        var state = {};
+        items.forEach(function (t) { return state[t.id] = t.expanded; });
+        return state;
+    };
+    ViewVisualModel.prototype.applyTasksExpandedState = function (state) {
+        if (!state)
+            return;
+        this.beginUpdate();
+        for (var key in state)
+            if (Object.prototype.hasOwnProperty.call(state, key))
+                this.changeTaskExpanded(key, state[key]);
+        this.endUpdate();
     };
     ViewVisualModel.prototype.changed = function () {
         if (this._fLockCount !== 0)
@@ -14320,7 +14339,7 @@ var ValidationController = (function () {
                 data["end"] = end;
             data["oldStart"] = parent.task.start;
             data["oldEnd"] = parent.task.end;
-            progress = Math.ceil(progress / totalDuration);
+            progress = totalDuration > 0 ? Math.ceil(progress / totalDuration) : 0;
             if (progress !== parent.task.progress)
                 data["progress"] = progress;
             calcStepCallback(data);

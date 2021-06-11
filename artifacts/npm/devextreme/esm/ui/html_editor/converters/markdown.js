@@ -39,11 +39,14 @@ class MarkdownConverter {
           return '<br>';
         }
       });
+
+      this._html2Markdown.keep(['table']);
     }
 
     this._markdown2Html = new showdown.Converter({
       simpleLineBreaks: true,
-      strikethrough: true
+      strikethrough: true,
+      tables: true
     });
   }
 

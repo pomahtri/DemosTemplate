@@ -127,10 +127,16 @@ var GanttView = /*#__PURE__*/function (_Widget) {
     this._ganttViewCore.selectTaskById(id);
   };
 
-  _proto._update = function _update() {
-    this._ganttViewCore.loadOptionsFromGanttOwner();
+  _proto._update = function _update(keepExpandState) {
+    var core = this._ganttViewCore;
+    var state = keepExpandState && core.getTasksExpandedState();
+    core.loadOptionsFromGanttOwner();
 
-    this._ganttViewCore.resetAndUpdate();
+    if (keepExpandState) {
+      core.applyTasksExpandedState(state);
+    } else {
+      core.resetAndUpdate();
+    }
   };
 
   _proto._getCultureInfo = function _getCultureInfo() {
@@ -266,7 +272,7 @@ var GanttView = /*#__PURE__*/function (_Widget) {
       case 'validation':
         this._ganttViewCore.setValidationSettings(args.value);
 
-        this._update();
+        this._update(true);
 
         break;
 

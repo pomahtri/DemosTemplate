@@ -10,7 +10,7 @@ var _renderer = _interopRequireDefault(require("../../core/renderer"));
 
 var _translator = require("../../animation/translator");
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _overlay = require("../overlay");
 
 var _common = require("../../core/utils/common");
 
@@ -41,7 +41,7 @@ var OverlapStrategy = /*#__PURE__*/function (_DrawerStrategy) {
         opened = _drawer$option.opened,
         minSize = _drawer$option.minSize;
 
-    drawer._overlay = drawer._createComponent(drawer.content(), _overlay.default, {
+    drawer._overlay = drawer._createComponent(drawer.content(), _overlay.Overlay, {
       shading: false,
       container: drawer.getOverlayTarget(),
       position: this._getOverlayPosition(),

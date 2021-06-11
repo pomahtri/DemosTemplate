@@ -788,8 +788,9 @@ export var rowsModule = {
         _getHeightCorrection: function _getHeightCorrection() {
           var isZoomedWebkit = browser.webkit && this._getDevicePixelRatio() >= 2; // T606935
 
+          var isChromeLatest = browser.chrome && browser.version >= 91;
           var hasExtraBorderTop = browser.mozilla && browser.version >= 70 && !this.option('showRowLines');
-          return isZoomedWebkit || hasExtraBorderTop ? 1 : 0;
+          return isZoomedWebkit || hasExtraBorderTop || isChromeLatest ? 1 : 0;
         },
         _columnOptionChanged: function _columnOptionChanged(e) {
           var optionNames = e.optionNames;

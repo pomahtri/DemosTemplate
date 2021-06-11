@@ -15,7 +15,7 @@ import EditStrategy from '../collection/ui.collection_widget.edit.strategy.plain
 var LIST_ITEM_CLASS = 'dx-list-item';
 var LIST_GROUP_CLASS = 'dx-list-group';
 var SELECTION_SHIFT = 20;
-var SELECTION_MASK = 0x8FF;
+var SELECTION_MASK = (1 << SELECTION_SHIFT) - 1;
 
 var combineIndex = function combineIndex(indices) {
   return (indices.group << SELECTION_SHIFT) + indices.item;

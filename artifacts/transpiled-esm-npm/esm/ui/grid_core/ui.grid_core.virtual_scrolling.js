@@ -801,7 +801,8 @@ export var virtualScrollingModule = {
                   var rowElement = component.getRowElement(rowIndex);
                   var $rowElement = rowElement && rowElement[0] && $(rowElement[0]);
                   var top = $rowElement && $rowElement.position().top;
-                  var allowedTopOffset = browser.mozilla || browser.msie ? 1 : 0; // T884308
+                  var isChromeLatest = browser.chrome && browser.version >= 91;
+                  var allowedTopOffset = browser.mozilla || browser.msie || isChromeLatest ? 1 : 0; // T884308
 
                   if (top > allowedTopOffset) {
                     top = Math.round(top + $rowElement.outerHeight() * (itemIndex % 1));

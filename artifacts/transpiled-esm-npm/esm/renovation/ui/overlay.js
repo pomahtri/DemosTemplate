@@ -5,7 +5,7 @@ var _excluded = ["rootElementRef"],
 import { createComponentVNode, normalizeProps } from "inferno";
 import { BaseInfernoComponent } from "@devextreme/vdom";
 import { WidgetProps } from "./common/widget";
-import LegacyOverlay from "../../ui/overlay";
+import LegacyOverlay from "../../ui/overlay/ui.overlay";
 import { DomComponentWrapper } from "./common/dom_component_wrapper";
 export var viewFunction = _ref => {
   var {

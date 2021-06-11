@@ -8,7 +8,7 @@ var _vdom = require("@devextreme/vdom");
 
 var _widget = require("./common/widget");
 
-var _overlay = _interopRequireDefault(require("../../ui/overlay"));
+var _ui = _interopRequireDefault(require("../../ui/overlay/ui.overlay"));
 
 var _dom_component_wrapper = require("./common/dom_component_wrapper");
 
@@ -37,7 +37,7 @@ var viewFunction = function viewFunction(_ref) {
       restAttributes = _ref.restAttributes;
   return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, _dom_component_wrapper.DomComponentWrapper, _extends({
     "rootElementRef": rootElementRef,
-    "componentType": _overlay.default,
+    "componentType": _ui.default,
     "componentProps": componentProps
   }, restAttributes)));
 };

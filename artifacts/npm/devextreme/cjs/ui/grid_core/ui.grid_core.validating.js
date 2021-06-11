@@ -40,7 +40,7 @@ var _validation_engine = _interopRequireDefault(require("../validation_engine"))
 
 var _validator = _interopRequireDefault(require("../validator"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _overlay = require("../overlay");
 
 var _ui = _interopRequireDefault(require("../widget/ui.errors"));
 
@@ -1163,7 +1163,7 @@ var validatingModule = {
               },
               onPositioned: this._positionedHandler.bind(this)
             };
-            return new _overlay.default($tooltipElement, tooltipOptions);
+            return new _overlay.Overlay($tooltipElement, tooltipOptions);
           },
           _hideFixedGroupCell: function _hideFixedGroupCell($cell, overlayOptions) {
             var $nextFixedRowElement;
@@ -1252,7 +1252,7 @@ var validatingModule = {
 
             this._hideFixedGroupCell($cell, overlayOptions);
 
-            new _overlay.default($overlayElement, overlayOptions);
+            new _overlay.Overlay($overlayElement, overlayOptions);
           },
           _normalizeValidationMessagePositionAndMaxWidth: function _normalizeValidationMessagePositionAndMaxWidth(options, isRevertButton, isOverlayVisible) {
             var fixedColumns = this._columnsController.getFixedColumns();

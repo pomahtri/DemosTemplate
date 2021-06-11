@@ -6,7 +6,7 @@
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
-import Overlay from '../../overlay';
+import { Overlay } from '../../overlay';
 import { TooltipStrategyBase } from './tooltipStrategyBase';
 import { getWindow } from '../../../core/utils/window';
 import $ from '../../../core/renderer';

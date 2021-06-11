@@ -6,7 +6,7 @@ var _renderer = _interopRequireDefault(require("../core/renderer"));
 
 var _component_registrator = _interopRequireDefault(require("../core/component_registrator"));
 
-var _overlay = _interopRequireDefault(require("./overlay"));
+var _overlay = require("./overlay");
 
 var _extend = require("../core/utils/extend");
 
@@ -22,7 +22,7 @@ var INVALID_MESSAGE_ALWAYS = 'dx-invalid-message-always';
 var INVALID_MESSAGE_CONTENT = 'dx-invalid-message-content';
 var VALIDATION_MESSAGE_MIN_WIDTH = 100;
 
-var ValidationMessage = _overlay.default.inherit({
+var ValidationMessage = _overlay.Overlay.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       integrationOptions: {},

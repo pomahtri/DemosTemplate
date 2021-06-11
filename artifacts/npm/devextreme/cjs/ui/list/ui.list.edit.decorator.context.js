@@ -18,7 +18,7 @@ var _uiListEdit2 = require("./ui.list.edit.decorator_registry");
 
 var _uiListEdit3 = _interopRequireDefault(require("./ui.list.edit.decorator"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _overlay = require("../overlay");
 
 var _uiList = require("./ui.list.base");
 
@@ -35,7 +35,7 @@ var CONTEXTMENU_MENUCONTENT_CLASS = 'dx-list-context-menucontent';
     this._menu = this._renderOverlay($menu);
   },
   _renderOverlay: function _renderOverlay($element) {
-    return this._list._createComponent($element, _overlay.default, {
+    return this._list._createComponent($element, _overlay.Overlay, {
       shading: false,
       deferRendering: true,
       closeOnTargetScroll: true,

@@ -7,4 +7,5 @@
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 import Overlay from './overlay/ui.overlay';
-export default Overlay;
+var baseZIndex = Overlay.baseZIndex;
+export { Overlay, baseZIndex };

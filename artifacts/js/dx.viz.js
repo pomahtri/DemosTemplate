@@ -757,7 +757,7 @@ var _dom_adapter = _interopRequireDefault(__webpack_require__(11));
 
 var _window = __webpack_require__(7);
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _type = __webpack_require__(1);
 
@@ -2062,7 +2062,7 @@ exports.default = void 0;
 
 var _renderer = _interopRequireDefault(__webpack_require__(2));
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _extend = __webpack_require__(0);
 
@@ -2192,7 +2192,7 @@ module.exports.default = exports.default;
 
 exports.default = void 0;
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _common = __webpack_require__(4);
 
@@ -4660,11 +4660,6 @@ var _default = (0, _error.default)(_errors.default.ERROR_MESSAGES, {
   * @name ErrorsUIWidgets.E1026
   */
   E1026: 'The "calculateCustomSummary" function is missing from a field whose "summaryType" option is set to "custom"',
-
-  /**
-  * @name ErrorsUIWidgets.E1030
-  */
-  E1030: 'Unknown ScrollView refresh strategy: \'{0}\'',
 
   /**
   * @name ErrorsUIWidgets.E1031
@@ -7301,7 +7296,7 @@ exports.parseTranslate = parseTranslate;
 
 exports.default = void 0;
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _type = __webpack_require__(1);
 
@@ -9963,7 +9958,7 @@ module.exports.default = exports.default;
 
 exports.default = void 0;
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _array = __webpack_require__(12);
 
@@ -10515,7 +10510,7 @@ exports.default = void 0;
 
 var _dom_adapter = _interopRequireDefault(__webpack_require__(11));
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _window = __webpack_require__(7);
 
@@ -11075,12 +11070,6 @@ module.exports.default = exports.default;
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports) {
-
-module.exports = window.jQuery;
-
-/***/ }),
-/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11142,6 +11131,12 @@ function _default(object) {
 
 module.exports = exports.default;
 module.exports.default = exports.default;
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+module.exports = window.jQuery;
 
 /***/ }),
 /* 56 */
@@ -13586,16 +13581,20 @@ function compare(x, y, maxLevel) {
 "use strict";
 
 
-exports.default = void 0;
+Object.defineProperty(exports, "Overlay", {
+  enumerable: true,
+  get: function get() {
+    return _ui.default;
+  }
+});
+exports.baseZIndex = void 0;
 
 var _ui = _interopRequireDefault(__webpack_require__(276));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = _ui.default;
-exports.default = _default;
-module.exports = exports.default;
-module.exports.default = exports.default;
+var baseZIndex = _ui.default.baseZIndex;
+exports.baseZIndex = baseZIndex;
 
 /***/ }),
 /* 70 */
@@ -14495,7 +14494,7 @@ var _type = __webpack_require__(1);
 
 var _promise = _interopRequireDefault(__webpack_require__(77));
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14957,7 +14956,7 @@ var _number = _interopRequireDefault(__webpack_require__(46));
 
 var _date2 = _interopRequireDefault(__webpack_require__(34));
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 __webpack_require__(111);
 
@@ -15662,7 +15661,7 @@ module.exports.default = exports.default;
 
 exports.default = void 0;
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 var _parent_locales = _interopRequireDefault(__webpack_require__(349));
 
@@ -16220,7 +16219,7 @@ module.exports.default = exports.default;
 
 exports.default = _default;
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _config = _interopRequireDefault(__webpack_require__(30));
 
@@ -20162,7 +20161,7 @@ exports.default = void 0;
 
 var _console = __webpack_require__(110);
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45000,7 +44999,7 @@ function getEasing(name) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _version = __webpack_require__(68);
 
@@ -60249,7 +60248,7 @@ exports.default = void 0;
 
 var _window = __webpack_require__(7);
 
-var _dependency_injector = _interopRequireDefault(__webpack_require__(55));
+var _dependency_injector = _interopRequireDefault(__webpack_require__(54));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66074,7 +66073,7 @@ function disableIntl() {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _renderer_base = _interopRequireDefault(__webpack_require__(240));
 
@@ -66096,7 +66095,7 @@ if (useJQuery) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _use_jquery = _interopRequireDefault(__webpack_require__(85));
 
@@ -66186,7 +66185,7 @@ if (useJQuery) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _deferred = __webpack_require__(6);
 
@@ -66223,7 +66222,7 @@ if (useJQuery) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _themes_callback = __webpack_require__(262);
 
@@ -66250,7 +66249,7 @@ if (_jquery.default && !_themes_callback.themeReadyCallback.fired()) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _events_engine = _interopRequireDefault(__webpack_require__(5));
 
@@ -66309,7 +66308,7 @@ if (useJQuery) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _easing = __webpack_require__(260);
 
@@ -66327,7 +66326,7 @@ if (_jquery.default) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _element_data = __webpack_require__(42);
 
@@ -66372,7 +66371,7 @@ if (useJQuery) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _component_registrator_callbacks = _interopRequireDefault(__webpack_require__(162));
 
@@ -66431,7 +66430,7 @@ if (_jquery.default) {
 "use strict";
 
 
-var _jquery = _interopRequireDefault(__webpack_require__(54));
+var _jquery = _interopRequireDefault(__webpack_require__(55));
 
 var _ajax = _interopRequireDefault(__webpack_require__(76));
 
@@ -67163,7 +67162,7 @@ var _renderer = _interopRequireDefault(__webpack_require__(2));
 
 var _component_registrator = _interopRequireDefault(__webpack_require__(9));
 
-var _overlay = _interopRequireDefault(__webpack_require__(69));
+var _overlay = __webpack_require__(69);
 
 var _extend = __webpack_require__(0);
 
@@ -67179,7 +67178,7 @@ var INVALID_MESSAGE_ALWAYS = 'dx-invalid-message-always';
 var INVALID_MESSAGE_CONTENT = 'dx-invalid-message-content';
 var VALIDATION_MESSAGE_MIN_WIDTH = 100;
 
-var ValidationMessage = _overlay.default.inherit({
+var ValidationMessage = _overlay.Overlay.inherit({
   _getDefaultOptions: function _getDefaultOptions() {
     return (0, _extend.extend)(this.callBase(), {
       integrationOptions: {},

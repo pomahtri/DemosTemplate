@@ -36,7 +36,7 @@ var _hover = require("../../events/hover");
 
 var _ui = _interopRequireDefault(require("../context_menu/ui.menu_base"));
 
-var _overlay = _interopRequireDefault(require("../overlay"));
+var _overlay = require("../overlay");
 
 var _ui2 = _interopRequireDefault(require("./ui.submenu"));
 
@@ -441,7 +441,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     var $hamburger = this._renderHamburgerButton();
 
     this._treeView = this._createComponent((0, _renderer.default)('<div>'), _tree_view.default, this._getTreeViewOptions());
-    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _overlay.default, this._getAdaptiveOverlayOptions());
+    this._overlay = this._createComponent((0, _renderer.default)('<div>'), _overlay.Overlay, this._getAdaptiveOverlayOptions());
 
     this._overlay.$content().append(this._treeView.$element()).addClass(DX_ADAPTIVE_MODE_CLASS).addClass(this.option('cssClass'));
 

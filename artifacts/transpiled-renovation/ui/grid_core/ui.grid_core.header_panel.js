@@ -4,8 +4,6 @@ exports.headerPanelModule = void 0;
 
 var _renderer = _interopRequireDefault(require("../../core/renderer"));
 
-var _jquery = require("jquery");
-
 var _toolbar = _interopRequireDefault(require("../toolbar"));
 
 var _uiGrid_core = require("./ui.grid_core.columns_view");
@@ -50,25 +48,7 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
         }
       }
     };
-    var defaultButtonsByNames = {};
-    options.toolbarOptions.items.forEach(function (button) {
-      defaultButtonsByNames[button.name] = button;
-    });
-    var items = this.option('toolbar.items');
-
-    if ((0, _type.isDefined)(items)) {
-      options.toolbarOptions.items = items;
-    }
-
     this.executeAction('onToolbarPreparing', options);
-    options.toolbarOptions.items = options.toolbarOptions.items.map(function (button) {
-      if ((0, _type.isString)(button)) button = {
-        name: button
-      };
-      if (!(0, _type.isDefined)(button.name)) return button;
-      if (!(0, _type.isDefined)(defaultButtonsByNames[button.name])) return button;
-      return (0, _jquery.extend)(defaultButtonsByNames[button.name], button);
-    });
 
     if (options.toolbarOptions && !(0, _type.isDefined)(options.toolbarOptions.visible)) {
       var toolbarItems = options.toolbarOptions.items;
@@ -138,7 +118,7 @@ var HeaderPanel = _uiGrid_core.ColumnsView.inherit({
     return this.getElementHeight();
   },
   optionChanged: function optionChanged(args) {
-    if (args.name === 'onToolbarPreparing' || args.name === 'toolbar') {
+    if (args.name === 'onToolbarPreparing') {
       this._invalidate();
 
       args.handled = true;

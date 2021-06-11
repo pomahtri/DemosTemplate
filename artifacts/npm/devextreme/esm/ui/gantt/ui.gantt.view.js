@@ -96,10 +96,16 @@ export class GanttView extends Widget {
     this._ganttViewCore.selectTaskById(id);
   }
 
-  _update() {
-    this._ganttViewCore.loadOptionsFromGanttOwner();
+  _update(keepExpandState) {
+    var core = this._ganttViewCore;
+    var state = keepExpandState && core.getTasksExpandedState();
+    core.loadOptionsFromGanttOwner();
 
-    this._ganttViewCore.resetAndUpdate();
+    if (keepExpandState) {
+      core.applyTasksExpandedState(state);
+    } else {
+      core.resetAndUpdate();
+    }
   }
 
   _getCultureInfo() {
@@ -235,7 +241,7 @@ export class GanttView extends Widget {
       case 'validation':
         this._ganttViewCore.setValidationSettings(args.value);
 
-        this._update();
+        this._update(true);
 
         break;
 
