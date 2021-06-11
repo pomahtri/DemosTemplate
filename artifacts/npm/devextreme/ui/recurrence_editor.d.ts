@@ -1,0 +1,41 @@
+/**
+* DevExtreme (ui/recurrence_editor.d.ts)
+* Version: 21.1.3
+* Build date: Fri Jun 11 2021
+*
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
+* Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
+*/
+import {
+    UserDefinedElement
+} from '../core/element';
+
+import Editor, {
+    EditorOptions
+} from './editor/editor';
+
+/** @namespace DevExpress.ui */
+export interface dxRecurrenceEditorOptions extends EditorOptions<dxRecurrenceEditor> {
+    /**
+     * @docid
+     * @default null
+     * @fires dxRecurrenceEditorOptions.onValueChanged
+     * @public
+     */
+    value?: string;
+}
+/**
+ * @docid
+ * @isEditor
+ * @inherits Editor
+ * @module ui/recurrence_editor
+ * @export default
+ * @namespace DevExpress.ui
+ * @public
+ */
+export default class dxRecurrenceEditor extends Editor {
+    constructor(element: UserDefinedElement, options?: dxRecurrenceEditorOptions)
+}
+
+export type Options = dxRecurrenceEditorOptions;
+export type IOptions = dxRecurrenceEditorOptions;
