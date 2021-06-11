@@ -13,7 +13,7 @@ jobs:
         run: |
           git clone $(cat _repo) DevExtreme
           cd DevExtreme
-          git checkout $(cat _branch)
+          git checkout $(cat ../_branch)
           cd ..
 
       - name: Install and Build
